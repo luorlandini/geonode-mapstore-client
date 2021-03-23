@@ -17,6 +17,10 @@
         align-items: center;
         margin-bottom: 0.5rem;
     }
+    .gn-filter-form-body {
+        display: flex;
+        flex-direction: column;
+    }
     .gn-filter-form-title {
         flex: 1;
     }
@@ -38,7 +42,7 @@
         width: 985px;
         left: 50%;
         transform: translateX(-50%);
-        
+
     }
     @media screen and (max-width: 1128px) {
         .gn-filter-form {
