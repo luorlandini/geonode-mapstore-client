@@ -368,7 +368,7 @@ function Home({
             />
             <div className="gn-main-home container-fluid">
             <div className="row">
-            <div className={`col-md-3 m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
+            <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
                 <FilterForm
                     id="gn-filter-form"
                     query={query}
