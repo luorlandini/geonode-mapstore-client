@@ -222,6 +222,9 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(false);
+    const handleShowFilterForm = () => {
+        return setShowFilterForm(!showFilterForm)
+    }
 
     function handleUpdate(newParams, pathname) {
         const { query } = url.parse(location.search, true);
@@ -272,6 +275,7 @@ function Home({
     state.current = {
         query
     };
+
     useEffect(() => {
         const suggestionsRequestTypesArray = Object.keys(suggestionsRequestTypes)
             .map((key) => suggestionsRequestTypes[key]);
@@ -299,7 +303,7 @@ function Home({
         <ConnectedSearchBar
             key="search"
             value={params.q || ''}
-            disableSuggestions={showFilterForm}
+            //disableSuggestions={showFilterForm}
             style={{
                 width: '100%',
                 maxWidth: 716,
@@ -309,25 +313,7 @@ function Home({
                 handleUpdate({
                     q: value
                 }, '/search/')}
-            append={
-                pageSize !== 'sm' && <Button
-                    variant="default"
-                    onClick={() => setShowFilterForm(!showFilterForm)}
-                >
-                    <FaIcon name="filter"/>
-                </Button>
-            }
         >
-            {pageSize !== 'sm' && <FilterForm
-                id="gn-filter-form"
-                query={query}
-                show={showFilterForm}
-                onClose={() => setShowFilterForm(false)}
-                fields={filters?.fields?.options}
-                extentProps={filters?.extent}
-                onChange={handleUpdate}
-                suggestionsRequestTypes={suggestionsRequestTypes}
-            />}
         </ConnectedSearchBar>
     );
 
@@ -380,6 +366,29 @@ function Home({
                     style={theme?.languageSelector?.style}
                 />}
             />
+            <div className="gn-main-home row">
+            <div className={`col-md-3 col m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
+                <FilterForm
+                    id="gn-filter-form"
+                    query={query}
+                    show={true}
+                    onClose={handleShowFilterForm}
+                    //onClick={handleShowFilterForm}
+                    fields={filters?.fields?.options}
+                    extentProps={filters?.extent}
+                    onChange={handleUpdate}
+                    suggestionsRequestTypes={suggestionsRequestTypes}
+                />
+            </div>
+
+            <div className="col px-5 pl-md-2 pt-2">
+            {!showFilterForm && <Button
+                    variant="default"
+                    onClick={handleShowFilterForm}
+                >
+                    <FaIcon name="filter"/>
+                </Button>
+            }
             <ConnectedCardGrid
                 user={user}
                 query={query}
@@ -422,6 +431,7 @@ function Home({
                     });
                 }}
             >
+
                 <FiltersMenu
                     ref={filtersMenuNode}
                     style={{
@@ -434,7 +444,10 @@ function Home({
                     orderOptions={filters?.order?.options}
                     defaultLabelId={filters?.order?.defaultLabelId}
                 />
+
             </ConnectedCardGrid>
+            </div>
+            </div>
             <Footer
                 ref={footerNode}
                 footerItems={footer.items}

@@ -96,11 +96,12 @@ function FilterForm({
                     <FaIcon name="times"/>
                 </Button>
             </div>
+            <div className="gn-filter-form-body">
             <Form
                 style={style}
             >
                 <Form.Row>
-                    {fields.length > 0 && <Col ref={leftColumnNode}>
+                <Col>
                         {fields.map(({
                             id: formId,
                             labelId,
@@ -146,10 +147,7 @@ function FilterForm({
                                 </Form.Group>
                             );
                         })}
-                    </Col>}
-                    <Col style={{
-                        height: leftColumnNode.current?.clientHeight || 400
-                    }}>
+
                         <FilterByExtent
                             id={id}
                             extent={values.extent}
@@ -166,6 +164,7 @@ function FilterForm({
                     </Col>
                 </Form.Row>
             </Form>
+            </div>
             <div className="gn-filter-form-footer">
                 <Button
                     variant="default"
