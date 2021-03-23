@@ -221,7 +221,7 @@ function Home({
         footerNodeHeight
     };
 
-    const [showFilterForm, setShowFilterForm] = useState(true);
+    const [showFilterForm, setShowFilterForm] = useState(false);
     const handleShowFilterForm = () => {
         return setShowFilterForm(!showFilterForm)
     }
