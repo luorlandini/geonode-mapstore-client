@@ -221,7 +221,7 @@ function Home({
         footerNodeHeight
     };
 
-    const [showFilterForm, setShowFilterForm] = useState(false);
+    const [showFilterForm, setShowFilterForm] = useState(true);
     const handleShowFilterForm = () => {
         return setShowFilterForm(!showFilterForm)
     }
@@ -366,8 +366,9 @@ function Home({
                     style={theme?.languageSelector?.style}
                 />}
             />
-            <div className="gn-main-home row">
-            <div className={`col-md-3 col m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
+            <div className="gn-main-home container-fluid">
+            <div className="row">
+            <div className={`col-md-3 m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
                 <FilterForm
                     id="gn-filter-form"
                     query={query}
@@ -446,6 +447,7 @@ function Home({
                 />
 
             </ConnectedCardGrid>
+            </div>
             </div>
             </div>
             <Footer
