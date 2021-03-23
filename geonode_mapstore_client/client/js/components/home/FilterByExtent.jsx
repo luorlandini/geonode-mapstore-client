@@ -83,10 +83,9 @@ function FilterByExtent({
             controlId={id + '-extent'}
             className="gn-filter-by-extent"
             style={{
-                //display: 'flex',
-                //flexDirection: 'column',
+                display: 'flex',
+                flexDirection: 'column',
                 width: '100%',
-                height: '330px',
                 margin: 0
             }}
         >
