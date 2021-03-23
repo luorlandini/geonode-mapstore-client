@@ -167,7 +167,7 @@ function FilterForm({
             </div>
             <div className="gn-filter-form-footer">
                 <Button
-                    variant="default"
+                    variant="primary"
                     onClick={handleApply}
                 >
                     <Message msgId="gnhome.apply"/>
