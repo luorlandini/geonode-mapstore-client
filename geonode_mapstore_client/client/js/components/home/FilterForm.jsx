@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import castArray from 'lodash/castArray';
 import { Form, Col, Button } from 'react-bootstrap-v1';
 import ReactSelect from 'react-select';
@@ -32,7 +32,6 @@ function FilterForm({
 }) {
 
     const [values, setValues] = useState({});
-    const leftColumnNode = useRef();
     const state = useRef({});
     state.current = {
         query,
@@ -146,7 +145,6 @@ function FilterForm({
                                 </Form.Group>
                             );
                         })}
-                        { /*
                         <FilterByExtent
                           id={id}
                             extent={values.extent}
@@ -160,7 +158,6 @@ function FilterForm({
                                 })
                             }
                         />
-                        */}
                     </Col>
                 </Form.Row>
             </Form>
@@ -189,4 +186,9 @@ FilterForm.defaultProps = {
     suggestionsRequestTypes: {}
 };
 
-export default FilterForm;
+const arePropsEqual = (prevProps, nextProps) => {
+    return prevProps.key === nextProps.key;
+}
+
+
+export default memo(FilterForm, arePropsEqual);
