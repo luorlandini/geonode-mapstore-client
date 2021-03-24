@@ -43,25 +43,24 @@ function FilterForm({
     useEffect(() => {
         const newValues = state.current.fields.reduce((acc, { id: formId, suggestionsRequestKey }) => {
             const filterKey = suggestionsRequestKey
-                ? suggestionsRequestTypes[suggestionsRequestKey].filterKey
+                ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
                 : `filter{${formId}.in}`;
-            if (!state.current.query[filterKey]) {
+            if (filterKey && !state.current.query[filterKey]) {
                 return acc;
             }
             return {
                 ...acc,
-                [filterKey]: castArray(state.current.query[filterKey])
+                [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
             };
         }, {});
         setValues({
             ...newValues,
-            ...(query.extent && { extent: query.extent })
+            ...(query?.extent && { extent: query.extent })
         });
     }, [show, query]);
 
     function handleApply() {
         onChange(values);
-        onClose();
     }
 
     function handleClear() {
@@ -113,13 +112,13 @@ function FilterForm({
                         }) => {
                             const key = `${id}-${formId || suggestionsRequestKey}`;
                             const filterKey = suggestionsRequestKey
-                                ? suggestionsRequestTypes[suggestionsRequestKey].filterKey
+                                ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
                                 : `filter{${formId}.in}`;
                             const currentValues = suggestionsRequestKey
-                                ? values[suggestionsRequestTypes[suggestionsRequestKey].filterKey] || []
+                                ? values[suggestionsRequestTypes[suggestionsRequestKey]?.filterKey] || []
                                 : values[filterKey] || [];
                             const optionsProp = suggestionsRequestKey
-                                ? { loadOptions: suggestionsRequestTypes[suggestionsRequestKey].loadOptions }
+                                ? { loadOptions: suggestionsRequestTypes[suggestionsRequestKey]?.loadOptions }
                                 : { options: options.map(option => ({ value: option, label: option })) };
                             const Select = suggestionsRequestKey ? SelectAsync : SelectSync;
                             return (
@@ -147,9 +146,9 @@ function FilterForm({
                                 </Form.Group>
                             );
                         })}
-
+                        { /*
                         <FilterByExtent
-                            id={id}
+                          id={id}
                             extent={values.extent}
                             queryExtent={query.extent}
                             layers={extentProps?.layers}
@@ -161,6 +160,7 @@ function FilterForm({
                                 })
                             }
                         />
+                        */}
                     </Col>
                 </Form.Row>
             </Form>
