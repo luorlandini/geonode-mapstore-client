@@ -100,7 +100,7 @@ function FilterForm({
 
             {
 
-                links.map((types) => (
+            (links) &&   links.map((types) => (
                     <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} ></FilterLinks>
                 ))
             }
