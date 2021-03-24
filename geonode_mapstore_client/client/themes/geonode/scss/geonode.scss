@@ -21,6 +21,7 @@
 'filter-by-extent',
 'filter-form',
 'filter-menu',
+'filter-links',
 'footer',
 'hero',
 'loader',
@@ -192,6 +193,16 @@
 
             @include hover() {
                 @include border-color-var(map.get($theme-vars, 'focus-color'), --gn-focus-color);
+            }
+        }
+
+        .gn-filter-link {
+            a {
+                @include color-var(map.get($theme-vars, 'body-color'), --gn-body-color);
+
+                @include hover() {
+                    text-decoration: underline;
+                }
             }
         }
 

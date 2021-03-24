@@ -50,6 +50,7 @@ import { getResourceTypes } from '@js/api/geonode/v2';
 import StickyBox from "react-sticky-box";
 import filterReducer from '@js/reducers/filters';
 
+
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
 
@@ -370,11 +371,13 @@ function Home({
             <div className="gn-main-home container-fluid">
             <div className="row">
             <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm.onToggle ? 'collapse' : ''}`}>
+
                 <FilterForm
                 key="gn-filter-form"
                 id="gn-filter-form"
                 show={true}
                 fields={filters?.fields?.options}
+                links={filters?.fields?.links}
                 extentProps={filters?.extent}
                 suggestionsRequestTypes={suggestionsRequestTypes}
                 query={query}

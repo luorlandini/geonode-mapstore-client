@@ -15,6 +15,7 @@ import localizedProps from '@mapstore/framework/components/misc/enhancers/locali
 import FaIcon from '@js/components/home/FaIcon';
 import FilterByExtent from '@js/components/home/FilterByExtent';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
+import FilterLinks from '@js/components/home/FilterLinks';
 
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
@@ -25,6 +26,7 @@ function FilterForm({
     style,
     query,
     fields,
+    links,
     onChange,
     onClose,
     extentProps,
@@ -95,6 +97,14 @@ function FilterForm({
                 </Button>
             </div>
             <div className="gn-filter-form-body">
+
+            {
+
+                links.map((types) => (
+                    <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} ></FilterLinks>
+                ))
+            }
+
             <Form
                 style={style}
             >
@@ -113,9 +123,11 @@ function FilterForm({
                             const filterKey = suggestionsRequestKey
                                 ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
                                 : `filter{${formId}.in}`;
+
                             const currentValues = suggestionsRequestKey
                                 ? values[suggestionsRequestTypes[suggestionsRequestKey]?.filterKey] || []
                                 : values[filterKey] || [];
+
                             const optionsProp = suggestionsRequestKey
                                 ? { loadOptions: suggestionsRequestTypes[suggestionsRequestKey]?.loadOptions }
                                 : { options: options.map(option => ({ value: option, label: option })) };
@@ -145,6 +157,7 @@ function FilterForm({
                                 </Form.Group>
                             );
                         })}
+
                         <FilterByExtent
                           id={id}
                             extent={values.extent}
@@ -158,6 +171,7 @@ function FilterForm({
                                 })
                             }
                         />
+
                     </Col>
                 </Form.Row>
             </Form>
