@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
 */
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import url from 'url';
@@ -48,6 +48,7 @@ import {
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
 import StickyBox from "react-sticky-box";
+import filterReducer from '@js/reducers/filters';
 
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
@@ -76,20 +77,6 @@ const ConnectedSearchBar = connect(
         onClearSuggestions: updateSuggestions.bind(null, [])
     }
 )(SearchBar);
-
-const ConnectedFilterForm = connect(
-    createSelector([
-        state => state?.gnsearch?.suggestions || DEFAULT_SUGGESTIONS,
-        state => state?.gnsearch?.loading || false
-    ], (suggestions, loading) => ({
-        suggestions,
-        loading
-    })),
-    {
-        onFetchSuggestions: fetchSuggestions,
-        onClearSuggestions: updateSuggestions.bind(null, [])
-    }
-)(FilterForm);
 
 
 const CardGridWithMessageId = ({ query, user, isFirstRequest, ...props }) => {
@@ -201,7 +188,6 @@ function Home({
     width,
     resource
 }) {
-
     const pageSize = getPageSize(width);
     const isMounted = useRef();
     useEffect(() => {
@@ -237,9 +223,9 @@ function Home({
         footerNodeHeight
     };
 
-    const [showFilterForm, setShowFilterForm] = useState(false);
+    const [showFilterForm, setShowFilterForm] = useReducer(filterReducer, false);
     const handleShowFilterForm = () => {
-        return setShowFilterForm(!showFilterForm)
+        setShowFilterForm({ type: "ON_TOGGLE_FILTER"})
     }
 
     function handleUpdate(newParams, pathname) {
@@ -319,7 +305,6 @@ function Home({
         <ConnectedSearchBar
             key="search"
             value={params.q || ''}
-            //disableSuggestions={showFilterForm}
             style={{
                 width: '100%',
                 maxWidth: 716,
@@ -384,25 +369,22 @@ function Home({
             />
             <div className="gn-main-home container-fluid">
             <div className="row">
-            <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
-            <StickyBox offsetTop={190} >
-            <ConnectedFilterForm
-                 id="gn-filter-form"
-                 show={true}
-                 fields={filters?.fields?.options}
-                 extentProps={filters?.extent}
-                 suggestionsRequestTypes={suggestionsRequestTypes}
-                 query={query}
-                 onChange={handleUpdate}
-                 onClose={handleShowFilterForm}
-            >
-                <FilterForm />
-            </ConnectedFilterForm>
-            </StickyBox>
+            <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm.onToggle ? 'collapse' : ''}`}>
+                <FilterForm
+                key="gn-filter-form"
+                id="gn-filter-form"
+                show={true}
+                fields={filters?.fields?.options}
+                extentProps={filters?.extent}
+                suggestionsRequestTypes={suggestionsRequestTypes}
+                query={query}
+                onChange={handleUpdate}
+                onClose={handleShowFilterForm}
+                />
             </div>
 
             <div className="col px-5 pl-md-2 pt-2">
-            {!showFilterForm && <Button
+            {!showFilterForm.onToggle && <Button
                     variant="default"
                     onClick={handleShowFilterForm}
                 >
