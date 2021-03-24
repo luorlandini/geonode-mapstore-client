@@ -47,6 +47,7 @@ import {
     getOwners
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
+import StickyBox from "react-sticky-box";
 
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
@@ -75,6 +76,21 @@ const ConnectedSearchBar = connect(
         onClearSuggestions: updateSuggestions.bind(null, [])
     }
 )(SearchBar);
+
+const ConnectedFilterForm = connect(
+    createSelector([
+        state => state?.gnsearch?.suggestions || DEFAULT_SUGGESTIONS,
+        state => state?.gnsearch?.loading || false
+    ], (suggestions, loading) => ({
+        suggestions,
+        loading
+    })),
+    {
+        onFetchSuggestions: fetchSuggestions,
+        onClearSuggestions: updateSuggestions.bind(null, [])
+    }
+)(FilterForm);
+
 
 const CardGridWithMessageId = ({ query, user, isFirstRequest, ...props }) => {
     const hasResources = props.resources?.length > 0;
@@ -369,17 +385,20 @@ function Home({
             <div className="gn-main-home container-fluid">
             <div className="row">
             <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
-                <FilterForm
-                    id="gn-filter-form"
-                    query={query}
-                    show={true}
-                    onClose={handleShowFilterForm}
-                    //onClick={handleShowFilterForm}
-                    fields={filters?.fields?.options}
-                    extentProps={filters?.extent}
-                    onChange={handleUpdate}
-                    suggestionsRequestTypes={suggestionsRequestTypes}
-                />
+            <StickyBox offsetTop={190} >
+            <ConnectedFilterForm
+                 id="gn-filter-form"
+                 show={true}
+                 fields={filters?.fields?.options}
+                 extentProps={filters?.extent}
+                 suggestionsRequestTypes={suggestionsRequestTypes}
+                 query={query}
+                 onChange={handleUpdate}
+                 onClose={handleShowFilterForm}
+            >
+                <FilterForm />
+            </ConnectedFilterForm>
+            </StickyBox>
             </div>
 
             <div className="col px-5 pl-md-2 pt-2">
