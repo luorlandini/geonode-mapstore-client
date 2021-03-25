@@ -7,7 +7,7 @@ import FaIcon from '@js/components/home/FaIcon';
 
 const FilterLink = ({className, blockName, items}) => (
     <div className={className}>
-        <strong>{blockName}</strong>
+        <strong>{<Message msgId={`gnhome.${blockName}`} />}</strong>
         <LinkList>
             {
                 items.map((item, index) => (
