@@ -56,7 +56,7 @@ const FiltersMenu = forwardRef(({
             ref={ref}
         >
             <div className="gn-filters-menu-container">
-                <a href="#" onClick={ onClick }  ><Message msgId="gnhome.filters"/> { (filters.length) } </a>
+                <a onClick={ onClick }  ><Message msgId="gnhome.filters"/> { (filters.length) } </a>
                 <ReactResizeDetector handleHeight>
                     {({ height }) => (
                         <div
