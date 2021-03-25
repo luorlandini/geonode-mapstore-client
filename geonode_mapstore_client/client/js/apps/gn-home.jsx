@@ -17,6 +17,7 @@ import Home from '@js/routes/Home';
 
 import gnsearch from '@js/reducers/gnsearch';
 import gnresource from '@js/reducers/gnresource';
+import gnfilters from '@js/reducers/gnfilters';
 import gnsearchEpics from '@js/epics/gnsearch';
 import gnlocaleEpics from '@js/epics/gnlocale';
 
@@ -93,6 +94,7 @@ Promise.all([
             appReducers: {
                 gnsearch,
                 gnresource,
+                gnfilters,
                 security
             },
             appEpics: {

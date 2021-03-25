@@ -11,13 +11,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import url from 'url';
 import { createSelector } from 'reselect';
-import { Button } from 'react-bootstrap-v1';
 import castArray from 'lodash/castArray';
 import { loadLocale } from '@mapstore/framework/actions/locale';
 import { currentLocaleSelector } from '@mapstore/framework/selectors/locale';
-
-import FaIcon from '@js/components/home/FaIcon';
-
 import SearchBar from '@js/components/home/SearchBar';
 import BrandNavbar from '@js/components/home/BrandNavbar';
 import Hero from '@js/components/home/Hero';
@@ -33,6 +29,7 @@ import {
     requestResource,
     updateSuggestions
 } from '@js/actions/gnsearch';
+
 import {
     hashLocationToHref,
     getFilterById
@@ -47,9 +44,7 @@ import {
     getOwners
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
-import StickyBox from "react-sticky-box";
-import filterReducer from '@js/reducers/filters';
-
+import  { toggleFilter }  from '@js/actions/gnfilters';
 
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
@@ -79,6 +74,16 @@ const ConnectedSearchBar = connect(
     }
 )(SearchBar);
 
+const ConnectedFilterForm = connect(
+    createSelector([
+        state => state?.gnfilters?.isToggle || false
+    ], (isToggle) => ({
+        isToggle
+    })),
+    {
+        onToggleFilter: toggleFilter,
+    }
+)(FilterForm);
 
 const CardGridWithMessageId = ({ query, user, isFirstRequest, ...props }) => {
     const hasResources = props.resources?.length > 0;
@@ -178,6 +183,8 @@ function Home({
     theme,
     params,
     onSearch,
+    onToggleFilter,
+    isToggle,
     menu,
     navbar,
     footer,
@@ -197,6 +204,7 @@ function Home({
             isMounted.current = false;
         };
     }, []);
+
 
     const brandNavbarNode = useRef();
     const menuIndexNode = useRef();
@@ -224,9 +232,11 @@ function Home({
         footerNodeHeight
     };
 
-    const [showFilterForm, setShowFilterForm] = useReducer(filterReducer, false);
+    const [showFilterForm, setShowFilterForm] = useState(isToggle);
     const handleShowFilterForm = () => {
-        setShowFilterForm({ type: "ON_TOGGLE_FILTER"})
+        onToggleFilter()
+        setShowFilterForm(!isToggle)
+
     }
 
     function handleUpdate(newParams, pathname) {
@@ -370,9 +380,9 @@ function Home({
             />
             <div className="gn-main-home container-fluid">
             <div className="row">
-            <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm.onToggle ? 'collapse' : ''}`}>
+            <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
 
-              {showFilterForm.onToggle && <FilterForm
+              {showFilterForm && <ConnectedFilterForm
                 key="gn-filter-form"
                 id="gn-filter-form"
                 show={true}
@@ -444,7 +454,6 @@ function Home({
                     orderOptions={filters?.order?.options}
                     defaultLabelId={filters?.order?.defaultLabelId}
                 />
-
             </ConnectedCardGrid>
             </div>
             </div>
@@ -482,15 +491,18 @@ const ConnectedHome = connect(
     createSelector([
         state => state?.gnsearch?.params || DEFAULT_PARAMS,
         state => state?.security?.user || null,
-        state => state?.gnresource?.data || null
-    ], (params, user, resource) => ({
+        state => state?.gnresource?.data || null,
+        state => state?.gnfilters?.isToggle || false
+    ], (params, user, resource, isToggle) => ({
         params,
         user,
-        resource
+        resource,
+        isToggle
     })),
     {
         onSearch: searchResources,
-        onSelect: requestResource
+        onSelect: requestResource,
+        onToggleFilter: toggleFilter
     }
 )(withResizeDetector(Home));
 
