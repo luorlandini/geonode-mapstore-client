@@ -38,7 +38,7 @@ import {
 // this will ensure more control on override or custom css
 import '../../themes/geonode/scss/geonode.scss';
 
-const SearchRoute = connect(() => ({ hideHero: true }))(Home);
+const SearchRoute = connect(() => ({ hideHero: false, isToggle: false }))(Home);
 const DEFAULT_LOCALE = {};
 const ConnectedRouter = connect((state) => ({
     locale: state?.locale || DEFAULT_LOCALE
