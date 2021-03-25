@@ -222,13 +222,13 @@
                         {
                             "labelId": "gnhome.myresources",
                             "type": "link",
-                            "href": "/account/signup/?next=/",
+                            "href": "#",
                             "authenticated": false
                         },
                         {
                             "labelId": "gnhome.signIn",
                             "type": "link",
-                            "href": "/account/login/?next=/",
+                            "href": "#",
                             "authenticated": false
                         }
                     ]
