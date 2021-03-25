@@ -372,7 +372,7 @@ function Home({
             <div className="row">
             <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm.onToggle ? 'collapse' : ''}`}>
 
-                <FilterForm
+              {showFilterForm.onToggle && <FilterForm
                 key="gn-filter-form"
                 id="gn-filter-form"
                 show={true}
@@ -384,16 +384,10 @@ function Home({
                 onChange={handleUpdate}
                 onClose={handleShowFilterForm}
                 />
+            }
             </div>
 
             <div className="col px-5 pl-md-2 pt-2">
-            {!showFilterForm.onToggle && <Button
-                    variant="default"
-                    onClick={handleShowFilterForm}
-                >
-                    <FaIcon name="filter"/>
-                </Button>
-            }
             <ConnectedCardGrid
                 user={user}
                 query={query}
@@ -446,6 +440,7 @@ function Home({
                     order={query?.sort}
                     filters={queryFilters}
                     onClear={handleClear}
+                    onClick={handleShowFilterForm}
                     orderOptions={filters?.order?.options}
                     defaultLabelId={filters?.order?.defaultLabelId}
                 />
