@@ -48,6 +48,7 @@ const FiltersMenu = forwardRef(({
 }, ref) => {
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
+
     return (
         <div
             className="gn-filters-menu"
@@ -55,7 +56,16 @@ const FiltersMenu = forwardRef(({
             ref={ref}
         >
             <div className="gn-filters-menu-container">
-                <a href="#" onClick={onClick}  ><Message msgId="gnhome.filters"/> { (filters.length) } </a>
+                <a href="#" onClick={ onClick }  ><Message msgId="gnhome.filters"/> { (filters.length) } </a>
+                <ReactResizeDetector handleHeight>
+                    {({ height }) => (
+                        <div
+                            className="gn-filters-menu-content"
+                            style={{ height }}
+                        >
+                        </div>
+                    )}
+                </ReactResizeDetector>
                 <div
                     className="gn-filters-menu-tools"
                 >
