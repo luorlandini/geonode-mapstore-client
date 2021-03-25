@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
 */
 
-import React, { useRef, useEffect, useState, useReducer } from 'react';
+import React, { useRef, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import url from 'url';
@@ -74,16 +74,6 @@ const ConnectedSearchBar = connect(
     }
 )(SearchBar);
 
-const ConnectedFilterForm = connect(
-    createSelector([
-        state => state?.gnfilters?.isToggle || false
-    ], (isToggle) => ({
-        isToggle
-    })),
-    {
-        onToggleFilter: toggleFilter,
-    }
-)(FilterForm);
 
 const CardGridWithMessageId = ({ query, user, isFirstRequest, ...props }) => {
     const hasResources = props.resources?.length > 0;
@@ -268,11 +258,16 @@ function Home({
         });
     }
 
+
     const { query } = url.parse(location.search, true);
+
 
     const queryFilters = Object.keys(query).reduce((acc, key) => key.indexOf('filter') === 0
         ? [...acc, ...castArray(query[key]).map((value) => ({ key, value }))]
         : acc, []);
+
+
+
 
     const pk = match.params.pk;
     const ctype = match.params.ctype;
@@ -310,6 +305,10 @@ function Home({
                     setReRender(reRender + 1);
                 }
             });
+
+
+
+
     }, []);
 
     const search = (
@@ -382,7 +381,7 @@ function Home({
             <div className="row">
             <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
 
-              {showFilterForm && <ConnectedFilterForm
+              {showFilterForm && <FilterForm
                 key="gn-filter-form"
                 id="gn-filter-form"
                 show={true}
