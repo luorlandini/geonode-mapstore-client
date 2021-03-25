@@ -43,6 +43,7 @@ const FiltersMenu = forwardRef(({
     filters,
     style,
     onClear,
+    onClick,
     defaultLabelId
 }, ref) => {
 
@@ -54,30 +55,7 @@ const FiltersMenu = forwardRef(({
             ref={ref}
         >
             <div className="gn-filters-menu-container">
-                {filters?.length > 0
-                    && <Button
-                        variant="default"
-                        size="sm"
-                        onClick={() => onClear()}
-                    >
-                        <Message msgId="gnhome.clearFilters"/>
-                    </Button>}
-                <ReactResizeDetector handleHeight>
-                    {({ height }) => (
-                        <div
-                            className="gn-filters-menu-content"
-                            style={{ height }}
-                        >
-                            <SwipeMenu
-                                items={filters}
-                                menuItemComponent={MenuItem}
-                                menuItemsProps={{
-                                    formatHref
-                                }}
-                            />
-                        </div>
-                    )}
-                </ReactResizeDetector>
+                <a href="#" onClick={onClick}  ><Message msgId="gnhome.filters"/> { (filters.length) } </a>
                 <div
                     className="gn-filters-menu-tools"
                 >
