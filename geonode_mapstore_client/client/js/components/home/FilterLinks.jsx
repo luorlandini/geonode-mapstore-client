@@ -11,16 +11,16 @@ const FilterLink = ({className, blockName, items}) => (
         <LinkList>
             {
                 items.map((item, index) => (
-                        <LinkItem
+                    <LinkItem
                         key={index}
                         name={<Message msgId={item.labelId} />}
                         linkTo={item.href} >
-                            <FaIcon name="database"/>
-                        </LinkItem>
+                        <FaIcon name="database"/>
+                    </LinkItem>
                 ))
             }
         </LinkList>
-      </div>
+    </div>
 );
 
 export default FilterLink;

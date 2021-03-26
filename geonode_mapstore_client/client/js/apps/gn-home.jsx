@@ -39,7 +39,6 @@ import {
 import '../../themes/geonode/scss/geonode.scss';
 
 
-
 const DEFAULT_LOCALE = {};
 const ConnectedRouter = connect((state) => ({
     locale: state?.locale || DEFAULT_LOCALE

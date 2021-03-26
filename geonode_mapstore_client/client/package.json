@@ -22,7 +22,7 @@
     "test": "mapstore-project test geonode",
     "test:watch": "mapstore-project test:watch geonode",
     "update-project": "mapstore-project update geonode",
-    "lint": "eslint js --ext .jsx,.js"
+    "lint": "eslint js --ext .jsx,.js --fix"
   },
   "author": "GeoSolutions",
   "license": "BSD-2-Clause",
@@ -39,7 +39,7 @@
   },
   "geonode": {
     "devServer": {
-      "host": "localhost",
+      "host": "192.168.8.165",
       "proxyTargetHost": "localhost:8000",
       "protocol": "http"
     }

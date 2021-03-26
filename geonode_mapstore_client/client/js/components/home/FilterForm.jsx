@@ -98,83 +98,83 @@ function FilterForm({
             </div>
             <div className="gn-filter-form-body">
 
-            {
+                {
 
-            (links) &&   links.map((types) => (
-                    <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} ></FilterLinks>
-                ))
-            }
+                    (links) &&   links.map((types) => (
+                        <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} ></FilterLinks>
+                    ))
+                }
 
-            <Form
-                style={style}
-            >
-                <Form.Row>
-                <Col>
-                        {fields.map(({
-                            id: formId,
-                            labelId,
-                            label,
-                            placeholderId,
-                            description,
-                            options,
-                            suggestionsRequestKey
-                        }) => {
-                            const key = `${id}-${formId || suggestionsRequestKey}`;
-                            const filterKey = suggestionsRequestKey
-                                ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
-                                : `filter{${formId}.in}`;
+                <Form
+                    style={style}
+                >
+                    <Form.Row>
+                        <Col>
+                            {fields.map(({
+                                id: formId,
+                                labelId,
+                                label,
+                                placeholderId,
+                                description,
+                                options,
+                                suggestionsRequestKey
+                            }) => {
+                                const key = `${id}-${formId || suggestionsRequestKey}`;
+                                const filterKey = suggestionsRequestKey
+                                    ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
+                                    : `filter{${formId}.in}`;
 
-                            const currentValues = suggestionsRequestKey
-                                ? values[suggestionsRequestTypes[suggestionsRequestKey]?.filterKey] || []
-                                : values[filterKey] || [];
+                                const currentValues = suggestionsRequestKey
+                                    ? values[suggestionsRequestTypes[suggestionsRequestKey]?.filterKey] || []
+                                    : values[filterKey] || [];
 
-                            const optionsProp = suggestionsRequestKey
-                                ? { loadOptions: suggestionsRequestTypes[suggestionsRequestKey]?.loadOptions }
-                                : { options: options.map(option => ({ value: option, label: option })) };
-                            const Select = suggestionsRequestKey ? SelectAsync : SelectSync;
-                            return (
-                                <Form.Group
-                                    key={key}
-                                    controlId={key}
-                                >
-                                    <Form.Label><strong>{labelId ? <Message msgId={labelId}/> : label}</strong></Form.Label>
-                                    <Select
-                                        value={currentValues.map((value) => ({ value, label: getFilterLabelById(filterKey, value) || value }))}
-                                        multi
-                                        placeholder={placeholderId}
-                                        onChange={(selected) => {
-                                            setValues({
-                                                ...state.current.values,
-                                                [filterKey]: selected.map(({ value }) => value)
-                                            });
-                                        }}
-                                        { ...optionsProp }
-                                    />
-                                    {description &&
+                                const optionsProp = suggestionsRequestKey
+                                    ? { loadOptions: suggestionsRequestTypes[suggestionsRequestKey]?.loadOptions }
+                                    : { options: options.map(option => ({ value: option, label: option })) };
+                                const Select = suggestionsRequestKey ? SelectAsync : SelectSync;
+                                return (
+                                    <Form.Group
+                                        key={key}
+                                        controlId={key}
+                                    >
+                                        <Form.Label><strong>{labelId ? <Message msgId={labelId}/> : label}</strong></Form.Label>
+                                        <Select
+                                            value={currentValues.map((value) => ({ value, label: getFilterLabelById(filterKey, value) || value }))}
+                                            multi
+                                            placeholder={placeholderId}
+                                            onChange={(selected) => {
+                                                setValues({
+                                                    ...state.current.values,
+                                                    [filterKey]: selected.map(({ value }) => value)
+                                                });
+                                            }}
+                                            { ...optionsProp }
+                                        />
+                                        {description &&
                                         <Form.Text className="text-muted">
                                             {description}
                                         </Form.Text>}
-                                </Form.Group>
-                            );
-                        })}
+                                    </Form.Group>
+                                );
+                            })}
 
-                        <FilterByExtent
-                          id={id}
-                            extent={values.extent}
-                            queryExtent={query.extent}
-                            layers={extentProps?.layers}
-                            vectorLayerStyle={extentProps?.style}
-                            onChange={({extent}) =>
-                                setValues({
-                                    ...values,
-                                    extent
-                                })
-                            }
-                        />
+                            <FilterByExtent
+                                id={id}
+                                extent={values.extent}
+                                queryExtent={query.extent}
+                                layers={extentProps?.layers}
+                                vectorLayerStyle={extentProps?.style}
+                                onChange={({extent}) =>
+                                    setValues({
+                                        ...values,
+                                        extent
+                                    })
+                                }
+                            />
 
-                    </Col>
-                </Form.Row>
-            </Form>
+                        </Col>
+                    </Form.Row>
+                </Form>
             </div>
             <div className="gn-filter-form-footer">
                 <Button
@@ -202,7 +202,7 @@ FilterForm.defaultProps = {
 
 const arePropsEqual = (prevProps, nextProps) => {
     return prevProps.key === nextProps.key;
-}
+};
 
 
 export default memo(FilterForm, arePropsEqual);
