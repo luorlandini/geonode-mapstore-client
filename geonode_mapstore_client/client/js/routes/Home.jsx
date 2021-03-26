@@ -44,7 +44,6 @@ import {
     getOwners
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
-import  { toggleFilter }  from '@js/actions/gnfilters';
 
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
@@ -173,8 +172,6 @@ function Home({
     theme,
     params,
     onSearch,
-    onToggleFilter,
-    isToggle,
     menu,
     navbar,
     footer,
@@ -223,9 +220,11 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(false);
+    const [disableHero, setDisableHero] = useState(hideHero || false);
+
     const handleShowFilterForm = () => {
-        onToggleFilter()
-        setShowFilterForm(!isToggle)
+        setShowFilterForm(!showFilterForm)
+        setDisableHero(false)
 
     }
 
@@ -261,11 +260,9 @@ function Home({
 
     const { query } = url.parse(location.search, true);
 
-
     const queryFilters = Object.keys(query).reduce((acc, key) => key.indexOf('filter') === 0
         ? [...acc, ...castArray(query[key]).map((value) => ({ key, value }))]
         : acc, []);
-
 
 
 
@@ -328,7 +325,7 @@ function Home({
         </ConnectedSearchBar>
     );
 
-    const isHeroVisible = !hideHero && inView;
+    const isHeroVisible = !disableHero && inView;
 
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
@@ -350,7 +347,7 @@ function Home({
             >
                 {!isHeroVisible && search}
             </BrandNavbar>
-            {!hideHero && <Hero
+            {!disableHero && <Hero
                 style={{
                     marginTop: dimensions.brandNavbarHeight,
                     ...theme?.hero?.style
@@ -409,7 +406,7 @@ function Home({
                         paddingBottom: dimensions.footerNodeHeight
                     }
                     : undefined}
-                column={
+                column={ disableHero &&
                     <ConnectedDetailsPanel
                         resource={resource}
                         filters={queryFilters}
@@ -491,7 +488,6 @@ const ConnectedHome = connect(
         state => state?.gnsearch?.params || DEFAULT_PARAMS,
         state => state?.security?.user || null,
         state => state?.gnresource?.data || null,
-        state => state?.gnfilters?.isToggle || false
     ], (params, user, resource, isToggle) => ({
         params,
         user,
@@ -501,7 +497,6 @@ const ConnectedHome = connect(
     {
         onSearch: searchResources,
         onSelect: requestResource,
-        onToggleFilter: toggleFilter
     }
 )(withResizeDetector(Home));
 
