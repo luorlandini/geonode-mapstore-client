@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import security from '@mapstore/framework/reducers/security';
 
 import Home from '@js/routes/Home';
+import SearchRoute from '@js/routes/Search';
 
 import gnsearch from '@js/reducers/gnsearch';
 import gnresource from '@js/reducers/gnresource';
@@ -38,7 +39,8 @@ import {
 // this will ensure more control on override or custom css
 import '../../themes/geonode/scss/geonode.scss';
 
-const SearchRoute = connect(() => ({ hideHero: false, isToggle: false }))(Home);
+
+
 const DEFAULT_LOCALE = {};
 const ConnectedRouter = connect((state) => ({
     locale: state?.locale || DEFAULT_LOCALE
