@@ -222,7 +222,7 @@ function Home({
         footerNodeHeight
     };
 
-    const [showFilterForm, setShowFilterForm] = useState(isToggle);
+    const [showFilterForm, setShowFilterForm] = useState(false);
     const handleShowFilterForm = () => {
         onToggleFilter()
         setShowFilterForm(!isToggle)
