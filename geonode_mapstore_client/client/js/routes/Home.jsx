@@ -396,7 +396,7 @@ function Home({
                         }
                     </div>
 
-                    <div className="col px-5 pl-md-2 pt-2">
+                    <div className="col pl-md-2 pt-2">
                         <ConnectedCardGrid
                             user={user}
                             query={query}
