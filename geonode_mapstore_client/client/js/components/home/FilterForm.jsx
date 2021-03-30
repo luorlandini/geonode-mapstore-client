@@ -24,6 +24,7 @@ function FilterForm({
     id,
     show,
     style,
+    styleContanierForm,
     query,
     fields,
     links,
@@ -86,7 +87,7 @@ function FilterForm({
     }
 
     return (
-        <div className="gn-filter-form">
+        <div className="gn-filter-form" style={styleContanierForm} >
             <div className="gn-filter-form-header">
                 <div className="gn-filter-form-title"><Message msgId="gnhome.advancedSearch"/></div>
                 <Button
