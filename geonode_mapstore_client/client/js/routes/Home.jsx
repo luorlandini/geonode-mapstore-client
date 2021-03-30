@@ -44,7 +44,7 @@ import {
     getOwners
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
-
+import { Container, Col, Row } from 'react-bootstrap-v1';
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
 
@@ -377,9 +377,9 @@ function Home({
                     style={theme?.languageSelector?.style}
                 />}
             />
-            <div className="gn-main-home container-fluid">
+            <Container className="gn-main-home " fluid>
                 <div className="row">
-                    <div className={`col-md-3 col-sm-12 m-3 ${ !showFilterForm ? 'collapse' : ''}`}>
+                    <div className={`col-md-3 col-sm-12 mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
 
                         {showFilterForm && <FilterForm
                             key="gn-filter-form"
@@ -404,7 +404,7 @@ function Home({
                             isColumnActive={!!resource}
                             containerStyle={!isHeroVisible
                                 ? {
-                                    marginTop: dimensions.brandNavbarHeight,
+                                    marginTop: disableHero && dimensions.brandNavbarHeight,
                                     minHeight: `calc(100vh - ${dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight + dimensions.footerNodeHeight}px )`,
                                     paddingBottom: dimensions.footerNodeHeight
                                 }
@@ -456,7 +456,7 @@ function Home({
                         </ConnectedCardGrid>
                     </div>
                 </div>
-            </div>
+            </Container>
             <Footer
                 ref={footerNode}
                 footerItems={footer.items}
