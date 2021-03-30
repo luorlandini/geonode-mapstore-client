@@ -377,12 +377,11 @@ function Home({
             <Container className="gn-main-home " fluid>
                 <Row>
                     <Col md={3} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
-
                         {showFilterForm && <FilterForm
 
                             key="gn-filter-form"
                             id="gn-filter-form"
-                            styleContanierForm={ !isHeroVisible ? { marginTop: dimensions.brandNavbarHeight } : undefined}
+                            styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight } : undefined}
                             show={true}
                             fields={filters?.fields?.options}
                             links={filters?.fields?.links}
