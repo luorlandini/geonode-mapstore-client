@@ -382,7 +382,7 @@ function Home({
 
                             key="gn-filter-form"
                             id="gn-filter-form"
-                            styleContanierForm={{ marginTop: disableHero && `${64}px` }}
+                            styleContanierForm={ !isHeroVisible ? { marginTop: dimensions.brandNavbarHeight } : undefined}
                             show={true}
                             fields={filters?.fields?.options}
                             links={filters?.fields?.links}
