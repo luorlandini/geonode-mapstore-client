@@ -45,7 +45,6 @@ import {
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
 
-
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
 
@@ -170,7 +169,6 @@ function getPageSize(width) {
 
 function Home({
     location,
-    router,
     theme,
     params,
     onSearch,
@@ -178,6 +176,7 @@ function Home({
     navbar,
     footer,
     hideHero,
+    isFilterForm,
     onSelect,
     match,
     filters,
@@ -221,16 +220,16 @@ function Home({
         footerNodeHeight
     };
 
-    const [showFilterForm, setShowFilterForm] = useState(false);
-    const [disableHero, setDisableHero] = useState(hideHero || false);
+
+    const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
+    const [disableHero, setDisableHero] = useState( hideHero );
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
-        setDisableHero(false);
         console.log('00handleShowFilterForm');
         console.log(location.pathname);
         if(location.pathname !== "/" && location.pathname !== "/search/"){
-            window.location = `#/${location.search}`
+            window.location = `#/search/${location.search}`
             console.log('2handleShowFilterForm');
         }
 
@@ -492,16 +491,17 @@ const ConnectedHome = connect(
         state => state?.gnsearch?.params || DEFAULT_PARAMS,
         state => state?.security?.user || null,
         state => state?.gnresource?.data || null
-    ], (params, user, resource, isToggle) => ({
+    ], (params, user, resource) => ({
         params,
         user,
-        resource,
-        isToggle
+        resource
+
     })),
-    {
+    ({
         onSearch: searchResources,
         onSelect: requestResource
-    }
+    })
+
 )(withResizeDetector((Home)));
 
 export default ConnectedHome;
