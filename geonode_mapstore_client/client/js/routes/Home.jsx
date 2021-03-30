@@ -45,6 +45,7 @@ import {
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
 
+
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
 
@@ -169,6 +170,7 @@ function getPageSize(width) {
 
 function Home({
     location,
+    router,
     theme,
     params,
     onSearch,
@@ -225,6 +227,12 @@ function Home({
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
         setDisableHero(false);
+        console.log('00handleShowFilterForm');
+        console.log(location.pathname);
+        if(location.pathname !== "/" && location.pathname !== "/search/"){
+            window.location = `#/${location.search}`
+            console.log('2handleShowFilterForm');
+        }
 
     };
 
@@ -323,7 +331,6 @@ function Home({
     );
 
     const isHeroVisible = !disableHero && inView;
-
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
             <BrandNavbar
@@ -495,6 +502,6 @@ const ConnectedHome = connect(
         onSearch: searchResources,
         onSelect: requestResource
     }
-)(withResizeDetector(Home));
+)(withResizeDetector((Home)));
 
 export default ConnectedHome;
