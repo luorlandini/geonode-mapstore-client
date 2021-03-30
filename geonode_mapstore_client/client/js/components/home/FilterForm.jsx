@@ -16,6 +16,7 @@ import FaIcon from '@js/components/home/FaIcon';
 import FilterByExtent from '@js/components/home/FilterByExtent';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
 import FilterLinks from '@js/components/home/FilterLinks';
+import _ from 'lodash';
 
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
@@ -202,7 +203,7 @@ FilterForm.defaultProps = {
 };
 
 const arePropsEqual = (prevProps, nextProps) => {
-    return prevProps.key === nextProps.key;
+    return prevProps.styleContanierForm === nextProps.styleContanierForm;
 };
 
 
