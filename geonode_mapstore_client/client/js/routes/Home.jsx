@@ -226,11 +226,8 @@ function Home({
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
-        console.log('00handleShowFilterForm');
-        console.log(location.pathname);
         if(location.pathname !== "/" && location.pathname !== "/search/"){
             window.location = `#/search/${location.search}`
-            console.log('2handleShowFilterForm');
         }
 
     };
@@ -378,12 +375,14 @@ function Home({
                 />}
             />
             <Container className="gn-main-home " fluid>
-                <div className="row">
-                    <div className={`col-md-3 col-sm-12 mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
+                <Row>
+                    <Col md={3} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
 
                         {showFilterForm && <FilterForm
+
                             key="gn-filter-form"
                             id="gn-filter-form"
+                            styleContanierForm={{ marginTop: disableHero && `${64}px` }}
                             show={true}
                             fields={filters?.fields?.options}
                             links={filters?.fields?.links}
@@ -394,9 +393,9 @@ function Home({
                             onClose={handleShowFilterForm}
                         />
                         }
-                    </div>
+                    </Col>
 
-                    <div className="col pl-md-2 pt-2">
+                    <Col className="pl-md-2 pt-2">
                         <ConnectedCardGrid
                             user={user}
                             query={query}
@@ -454,8 +453,8 @@ function Home({
                                 defaultLabelId={filters?.order?.defaultLabelId}
                             />
                         </ConnectedCardGrid>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             </Container>
             <Footer
                 ref={footerNode}
