@@ -494,11 +494,10 @@ const ConnectedHome = connect(
         resource
 
     })),
-    ({
+    {
         onSearch: searchResources,
         onSelect: requestResource
-    })
-
+    }
 )(withResizeDetector((Home)));
 
 export default ConnectedHome;
