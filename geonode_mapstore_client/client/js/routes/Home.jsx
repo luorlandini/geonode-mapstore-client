@@ -45,9 +45,10 @@ import {
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
 import { Container, Col, Row } from 'react-bootstrap-v1';
+import { Redirect } from "react-router-dom";
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
-
+const REDIRECT_NOT_ALLOWED = ['/', '/search/'];
 const ConnectedLanguageSelector = connect(
     createSelector([
         currentLocaleSelector
@@ -226,10 +227,9 @@ function Home({
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
-        if(location.pathname !== "/" && location.pathname !== "/search/"){
+        if(!REDIRECT_NOT_ALLOWED.includes(location.pathname)){
             window.location = `#/search/${location.search}`
         }
-
     };
 
     function handleUpdate(newParams, pathname) {
