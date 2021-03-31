@@ -375,7 +375,7 @@ function Home({
             />
             <Container className="gn-main-home " fluid>
                 <Row>
-                    <Col md={3} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
+                    <Col md={4} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
                         {showFilterForm && <FilterForm
 
                             key="gn-filter-form"
