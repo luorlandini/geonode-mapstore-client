@@ -54,7 +54,7 @@ const routes = [
     {
         name: 'resources',
         path: [
-            '/search/',
+            '/search/'
         ],
         component: SearchRoute
     },
@@ -65,7 +65,7 @@ const routes = [
             '/detail/:ctype/:pk'
         ],
         component: DetailRoute
-    },
+    }
 
 ];
 

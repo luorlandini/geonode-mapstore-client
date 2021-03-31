@@ -16,7 +16,6 @@ import FaIcon from '@js/components/home/FaIcon';
 import FilterByExtent from '@js/components/home/FilterByExtent';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
 import FilterLinks from '@js/components/home/FilterLinks';
-import _ from 'lodash';
 
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
@@ -103,7 +102,7 @@ function FilterForm({
                 {
 
                     (links) &&   links.map((types) => (
-                        <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} ></FilterLinks>
+                        <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} />
                     ))
                 }
 

@@ -45,7 +45,6 @@ import {
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
 import { Container, Col, Row } from 'react-bootstrap-v1';
-import { Redirect } from "react-router-dom";
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
 const REDIRECT_NOT_ALLOWED = ['/', '/search/'];
@@ -227,8 +226,8 @@ function Home({
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
-        if(!REDIRECT_NOT_ALLOWED.includes(location.pathname)){
-            window.location = `#/search/${location.search}`
+        if (!REDIRECT_NOT_ALLOWED.includes(location.pathname)) {
+            window.location = `#/search/${location.search}`;
         }
     };
 

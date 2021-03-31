@@ -2,7 +2,6 @@ import React from 'react';
 import LinkList from '../LinkList';
 import LinkItem from '../LinkItem';
 import Message from '@mapstore/framework/components/I18N/Message';
-import { Glyphicon } from 'react-bootstrap';
 import FaIcon from '@js/components/home/FaIcon';
 
 const FilterLink = ({className, blockName, items}) => (
