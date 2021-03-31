@@ -97,7 +97,7 @@ function FilterByExtent({
                 onChange={handleOnSwitch}
             />
             <div
-                // className="gn-filter-by-extent-map"
+                className="gn-filter-by-extent-map"
                 style={{
                     minHeight: 300,
                     opacity: enabled ? 1 : 0.4,
