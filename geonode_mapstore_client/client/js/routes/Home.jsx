@@ -373,7 +373,7 @@ function Home({
                     style={theme?.languageSelector?.style}
                 />}
             />
-            <Container className="gn-main-home " fluid>
+            <div className="gn-main-home">
                 <Row>
                     <Col md={4} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
                         {showFilterForm && <FilterForm
@@ -453,7 +453,7 @@ function Home({
                         </ConnectedCardGrid>
                     </Col>
                 </Row>
-            </Container>
+            </div>
             <Footer
                 ref={footerNode}
                 footerItems={footer.items}
