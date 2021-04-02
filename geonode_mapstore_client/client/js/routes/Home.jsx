@@ -391,7 +391,6 @@ function Home({
                 <Row>
                     <Col ref={filterFormNode} id="gn-filter-form-container" lg={3} md={4} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
                         {showFilterForm && <FilterForm
-                            ref={filterFormNode}
                             key="gn-filter-form"
                             id="gn-filter-form"
                             styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight) } : { top: (filterFormOffset - dimensions.heroNodeHeight) }}
