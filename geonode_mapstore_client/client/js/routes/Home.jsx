@@ -389,7 +389,7 @@ function Home({
             />
             <div className="gn-main-home">
                 <Row>
-                    <Col ref={filterFormNode} id="gn-filter-form-container" lg={3} md={4} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
+                    <Col ref={filterFormNode} id="gn-filter-form-container" lg={3} md={4} sm={12} className={`mt-4  ${ !showFilterForm ? 'collapse' : ''}`}>
                         {showFilterForm && <FilterForm
                             key="gn-filter-form"
                             id="gn-filter-form"
