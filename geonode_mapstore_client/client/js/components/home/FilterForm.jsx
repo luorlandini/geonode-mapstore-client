@@ -99,9 +99,9 @@ function FilterForm({
             </div>
             <div className="gn-filter-form-body">
                 {
-                (links) &&   links.map((types) => (
-                    <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} />
-                ))
+                    (links) &&   links.map((types) => (
+                        <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} />
+                    ))
                 }
                 <Form
                     style={style}
