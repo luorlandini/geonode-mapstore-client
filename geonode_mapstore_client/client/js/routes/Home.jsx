@@ -198,11 +198,15 @@ function Home({
     const menuIndexNode = useRef();
     const filtersMenuNode = useRef();
     const footerNode = useRef();
+    const filterFormNode = useRef();
+    const heroNode = useRef();
+
     const [inViewRef, inView] = useInView();
 
     const brandNavbarHeight = brandNavbarNode.current
         ? brandNavbarNode.current.getBoundingClientRect().height
         : 0;
+
     const menuIndexNodeHeight = menuIndexNode.current
         ? menuIndexNode.current.getBoundingClientRect().height
         : 0;
@@ -213,13 +217,22 @@ function Home({
         ? footerNode.current.getBoundingClientRect().height
         : 0;
 
+    const heroNodeHeight = heroNode.current
+        ? heroNode.current.getBoundingClientRect().height
+        : 0;
+
+    const filterFormOffset = filterFormNode.current
+        ? filterFormNode?.current?.offsetTop
+        : 0;
+
+
     const dimensions = {
         brandNavbarHeight,
         menuIndexNodeHeight,
         filtersMenuNodeHeight,
-        footerNodeHeight
+        footerNodeHeight,
+        heroNodeHeight
     };
-
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
     const [disableHero, setDisableHero] = useState( hideHero );
@@ -347,6 +360,7 @@ function Home({
                 {!isHeroVisible && search}
             </BrandNavbar>
             {!disableHero && <Hero
+                ref={heroNode}
                 style={{
                     marginTop: dimensions.brandNavbarHeight,
                     ...theme?.hero?.style
@@ -375,12 +389,12 @@ function Home({
             />
             <div className="gn-main-home">
                 <Row>
-                    <Col md={4} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
+                    <Col ref={filterFormNode} id="gn-filter-form-container" lg={3} md={4} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
                         {showFilterForm && <FilterForm
-
+                            ref={filterFormNode}
                             key="gn-filter-form"
                             id="gn-filter-form"
-                            styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight } : undefined}
+                            styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight) } : { top: (filterFormOffset - dimensions.heroNodeHeight) }}
                             show={true}
                             fields={filters?.fields?.options}
                             links={filters?.fields?.links}
