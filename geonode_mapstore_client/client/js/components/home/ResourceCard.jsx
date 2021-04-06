@@ -6,11 +6,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import { Card, Dropdown } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
 import Tag from '@js/components/home/Tag';
+
+
 import {
     getUserName,
     getResourceTypesInfo
@@ -21,12 +23,14 @@ const ResourceCard = forwardRef(({
     active,
     links,
     formatHref,
-    getTypesInfo
+    getTypesInfo,
+    layoutCardsStyle
 }, ref) => {
 
     const res = data;
     const types = getTypesInfo();
     const { icon } = types[res.doc_type] || types[res.resource_type] || {};
+
     return (
         <Card
             ref={ref}
@@ -38,10 +42,13 @@ const ResourceCard = forwardRef(({
                     pathname: `/detail/${res.resource_type}/${res.pk}`
                 })}
             />
+            <div className={`card-resource-${layoutCardsStyle}`}>
+            <div className="img-square-wrapper">
             <Card.Img
                 variant="top"
                 src={res.thumbnail_url}
             />
+            </div>
             <Card.Body>
                 <Card.Title>
                     {icon &&
@@ -98,6 +105,7 @@ const ResourceCard = forwardRef(({
                     </Dropdown.Menu>
                 </Dropdown>}
             </Card.Body>
+            </div>
         </Card>
     );
 });
