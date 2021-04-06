@@ -45,6 +45,9 @@ import {
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
 import { Container, Col, Row } from 'react-bootstrap-v1';
+import useLocalStorage from '@js/hooks/useLocalStorage';
+
+
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
 const REDIRECT_NOT_ALLOWED = ['/', '/search/'];
@@ -236,6 +239,7 @@ function Home({
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
     const [disableHero, setDisableHero] = useState( hideHero );
+    const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
@@ -243,6 +247,12 @@ function Home({
             window.location = `#/search/${location.search}`;
         }
     };
+
+    const handleStoredLayoutStyle = () => {
+        let styleCard = cardLayoutStyle === 'grid' ? 'list' : 'grid'
+        setCardLayoutStyle(styleCard);
+    }
+
 
     function handleUpdate(newParams, pathname) {
         const { query } = url.parse(location.search, true);
@@ -460,6 +470,7 @@ function Home({
                                 filters={queryFilters}
                                 onClear={handleClear}
                                 onClick={handleShowFilterForm}
+                                layoutSwitcher={handleStoredLayoutStyle}
                                 orderOptions={filters?.order?.options}
                                 defaultLabelId={filters?.order?.defaultLabelId}
                             />
