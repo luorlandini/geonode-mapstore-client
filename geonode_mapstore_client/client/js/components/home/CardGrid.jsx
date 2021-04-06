@@ -12,6 +12,7 @@ import HTML from '@mapstore/framework/components/I18N/HTML';
 import FaIcon from '@js/components/home/FaIcon';
 import ResourceCard from '@js/components/home/ResourceCard';
 import { withResizeDetector } from 'react-resize-detector';
+import useLocalStorage from '@js/hooks/useLocalStorage';
 
 const Cards = withResizeDetector(({
     resources,
@@ -31,6 +32,9 @@ const Cards = withResizeDetector(({
         : '100%';
     const ulPadding = Math.floor(margin / 2);
     const isSingleCard = count === 0 || count === 1;
+    const [cardLayoutStyle, setCardLayoutStyle, getCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
+    const layoutStyleCard = getCardLayoutStyle('layoutCardsStyle');
+
     return (
         <ul
             style={isSingleCard
@@ -48,11 +52,11 @@ const Cards = withResizeDetector(({
                         key={resource.pk}
                         style={isSingleCard
                             ? {
-                                width: width - margin,
+                                width: (layoutStyleCard === 'grid') ? width - margin : '100%',
                                 margin: ulPadding
                             }
                             : {
-                                width: cardWidth,
+                                width: (layoutStyleCard === 'grid') ? cardWidth: '100%' ,
                                 marginRight: (idx + 1) % count === 0 ? 0 : margin,
                                 marginTop: margin
                             }}
@@ -62,6 +66,7 @@ const Cards = withResizeDetector(({
                             data={resource}
                             formatHref={formatHref}
                             links={links}
+                            layoutCardsStyle={layoutStyleCard}
                         />
                     </li>
                 );
