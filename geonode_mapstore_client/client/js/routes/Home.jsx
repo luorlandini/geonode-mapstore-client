@@ -399,7 +399,7 @@ function Home({
                         {showFilterForm && <FilterForm
                             key="gn-filter-form"
                             id="gn-filter-form"
-                            styleContanierForm={ disableHero ? { top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight:  stickyFiltersMaxHeightDisableHero } :
+                            styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight:  stickyFiltersMaxHeightDisableHero } :
                                                 { top: (filterFormOffset - dimensions.heroNodeHeight), maxHeight:  stickyFiltersMaxHeight }}
                             show={true}
                             fields={filters?.fields?.options}
