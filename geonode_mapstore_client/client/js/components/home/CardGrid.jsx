@@ -30,10 +30,46 @@ const Cards = withResizeDetector(({
     const cardWidth = width >= size + margin * 2
         ? Math.floor((width - margin * count) / count)
         : '100%';
+
     const ulPadding = Math.floor(margin / 2);
     const isSingleCard = count === 0 || count === 1;
-    const [cardLayoutStyle, setCardLayoutStyle, getCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
-    const layoutStyleCard = getCardLayoutStyle('layoutCardsStyle');
+    const [cardLayoutStyle] = useLocalStorage('layoutCardsStyle');
+
+    const gridLayoutSpace = (idx) => {
+
+        const gridSpace = isSingleCard
+        ? {
+            width: width - margin,
+            margin: ulPadding
+        }
+        : {
+            width: cardWidth,
+            marginRight: (idx + 1) % count === 0 ? 0 : margin,
+            marginTop: margin
+        }
+
+        return gridSpace;
+    }
+
+    const listLayoutSpace = {
+            width: '100%',
+            margin: ulPadding
+        }
+
+
+    const layoutSpace = (cardLayoutStyle, idx) => {
+        let cardContainerSpace;
+        switch(cardLayoutStyle){
+            case 'list':
+                cardContainerSpace = listLayoutSpace;
+                break;
+            default:
+                cardContainerSpace = gridLayoutSpace(idx);
+        }
+        return cardContainerSpace
+    }
+
+
 
     return (
         <ul
@@ -50,23 +86,14 @@ const Cards = withResizeDetector(({
                 return (
                     <li
                         key={resource.pk}
-                        style={isSingleCard
-                            ? {
-                                width: (layoutStyleCard === 'grid') ? width - margin : '100%',
-                                margin: ulPadding
-                            }
-                            : {
-                                width: (layoutStyleCard === 'grid') ? cardWidth: '100%' ,
-                                marginRight: (idx + 1) % count === 0 ? 0 : margin,
-                                marginTop: margin
-                            }}
+                        style={(layoutSpace(cardLayoutStyle, idx))}
                     >
                         <ResourceCard
                             active={isCardActive(resource)}
                             data={resource}
                             formatHref={formatHref}
                             links={links}
-                            layoutCardsStyle={layoutStyleCard}
+                            layoutCardsStyle={cardLayoutStyle}
                         />
                     </li>
                 );
