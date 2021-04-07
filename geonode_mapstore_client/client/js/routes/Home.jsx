@@ -203,6 +203,7 @@ function Home({
 
     const [inViewRef, inView] = useInView();
 
+
     const brandNavbarHeight = brandNavbarNode.current
         ? brandNavbarNode.current.getBoundingClientRect().height
         : 0;
@@ -235,7 +236,7 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
-    const [disableHero/* , setDisableHero */] = useState( hideHero );
+    const [disableHero] = useState( hideHero );
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
@@ -388,12 +389,15 @@ function Home({
                 />}
             />
             <div className="gn-main-home">
+                <Container fluid>
                 <Row>
                     <Col ref={filterFormNode} id="gn-filter-form-container" lg={3} md={4} sm={12} className={`mt-4  ${ !showFilterForm ? 'collapse' : ''}`}>
                         {showFilterForm && <FilterForm
                             key="gn-filter-form"
                             id="gn-filter-form"
-                            styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight) } : { top: (filterFormOffset - dimensions.heroNodeHeight) }}
+                            styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight) } :
+                                                { top: (filterFormOffset - dimensions.heroNodeHeight),
+                                                    maxHeight: (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight - (filterFormOffset - dimensions.heroNodeHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight )) }}
                             show={true}
                             fields={filters?.fields?.options}
                             links={filters?.fields?.links}
@@ -466,6 +470,7 @@ function Home({
                         </ConnectedCardGrid>
                     </Col>
                 </Row>
+                </Container>
             </div>
             <Footer
                 ref={footerNode}
