@@ -25,9 +25,7 @@ const FiltersMenu = forwardRef(({
 }, ref) => {
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
-    const [cardLayoutStyle, setCardLayoutStyle, getCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
-    const layoutStyleCard = getCardLayoutStyle('layoutCardsStyle');
-
+    const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
     return (
         <div
             className="gn-filters-menu"
@@ -46,7 +44,7 @@ const FiltersMenu = forwardRef(({
                     )}
                 </ReactResizeDetector>
                 <Button variant="default" onClick={layoutSwitcher} >
-                    <FaIcon name={layoutStyleCard === 'grid' ? 'th': layoutStyleCard } />
+                    <FaIcon name={cardLayoutStyle === 'grid' ? 'th': cardLayoutStyle } />
                 </Button>
 
                 <div
