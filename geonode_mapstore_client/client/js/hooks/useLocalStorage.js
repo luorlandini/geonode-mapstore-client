@@ -1,19 +1,52 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react'
 
-export default function useLocalStorage(key, initialValue) {
+export default (key, initialValue) => {
 
-  const [storedValue, setStoredValue] = useState(() => {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-  });
+    const getValue = () => {
+        if (typeof window === 'undefined') {
+          return initialValue
+        }
 
-  const getValue = key => (JSON.parse(window.localStorage.getItem(key)));
+        try {
+          const item = window.localStorage.getItem(key)
+          return item ? JSON.parse(item) : initialValue
+        } catch (error) {
+          // Todo log error in persistent solution
+          console.log(`Error to get item key “${key}”:`, error)
+          return initialValue
+        }
+      }
 
-  const setValue = value => {
-        const valueToStore = value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
-  };
+      const [storedValue, setStoredValue] = useState(getValue)
 
-  return [storedValue, setValue, getValue];
+      const setValue = (value) => {
+
+        try {
+          const newValue = value instanceof Function ? value(storedValue) : value
+          window.localStorage.setItem(key, JSON.stringify(newValue))
+          setStoredValue(newValue)
+          window.dispatchEvent(new Event('localStorage'))
+        } catch (error) {
+          // Todo log error in persistent solution
+          console.log(`Error “${key}”:`, error)
+        }
+      }
+
+      useEffect(() => {
+        setStoredValue(getValue())
+      }, [])
+
+      useEffect(() => {
+        const handleStoreChange = () => {
+          setStoredValue(getValue())
+        }
+        window.addEventListener('localStorage', handleStoreChange)
+
+        return () => {
+          window.removeEventListener('localStorage', handleStoreChange)
+        }
+      }, [])
+
+
+  return [storedValue, setValue];
 }
