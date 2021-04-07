@@ -235,7 +235,7 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
-    const [disableHero, setDisableHero] = useState( hideHero );
+    const [disableHero/* , setDisableHero */] = useState( hideHero );
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
