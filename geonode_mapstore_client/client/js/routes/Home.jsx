@@ -236,7 +236,7 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
-    const [disableHero , setDisableHero ] = useState( hideHero );
+    const [disableHero, setDisableHero ] = useState( hideHero );
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
@@ -340,8 +340,8 @@ function Home({
     );
 
     const isHeroVisible = !disableHero && inView;
-    const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight - ( (filterFormOffset ) - dimensions.heroNodeHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight ))
-    const stickyFiltersMaxHeightDisableHero = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight -  (filterFormOffset   - dimensions.menuIndexNodeHeight ))
+    const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight - ( (filterFormOffset ) - dimensions.heroNodeHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight ));
+    const stickyFiltersMaxHeightDisableHero = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight -  (filterFormOffset   - dimensions.menuIndexNodeHeight ));
 
 
     return (
@@ -394,39 +394,39 @@ function Home({
             />
             <div className="gn-main-home">
                 <Container fluid>
-                <Row>
-                    <Col ref={filterFormNode} id="gn-filter-form-container" lg={3} md={4} sm={12} className={`mt-4  ${ !showFilterForm ? 'collapse' : ''}`}>
-                        {showFilterForm && <FilterForm
-                            key="gn-filter-form"
-                            id="gn-filter-form"
-                            styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight:  stickyFiltersMaxHeightDisableHero } :
-                                                { top: (filterFormOffset - dimensions.heroNodeHeight), maxHeight:  stickyFiltersMaxHeight }}
-                            show={true}
-                            fields={filters?.fields?.options}
-                            links={filters?.fields?.links}
-                            extentProps={filters?.extent}
-                            suggestionsRequestTypes={suggestionsRequestTypes}
-                            query={query}
-                            onChange={handleUpdate}
-                            onClose={handleShowFilterForm}
-                        />
-                        }
-                    </Col>
+                    <Row>
+                        <Col ref={filterFormNode} id="gn-filter-form-container" lg={3} md={4} sm={12} className={`mt-4  ${ !showFilterForm ? 'collapse' : ''}`}>
+                            {showFilterForm && <FilterForm
+                                key="gn-filter-form"
+                                id="gn-filter-form"
+                                styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeightDisableHero } :
+                                    { top: (filterFormOffset - dimensions.heroNodeHeight), maxHeight: stickyFiltersMaxHeight }}
+                                show={true}
+                                fields={filters?.fields?.options}
+                                links={filters?.fields?.links}
+                                extentProps={filters?.extent}
+                                suggestionsRequestTypes={suggestionsRequestTypes}
+                                query={query}
+                                onChange={handleUpdate}
+                                onClose={handleShowFilterForm}
+                            />
+                            }
+                        </Col>
 
-                    <Col className="pl-md-2 pt-2">
-                        <ConnectedCardGrid
-                            user={user}
-                            query={query}
-                            pageSize={pageSize}
-                            isColumnActive={!!resource}
-                            containerStyle={!isHeroVisible
-                                ? {
-                                    marginTop: disableHero && dimensions.brandNavbarHeight,
-                                    minHeight: `calc(100vh - ${dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight + dimensions.footerNodeHeight}px )`,
-                                    paddingBottom: dimensions.footerNodeHeight
-                                }
-                                : undefined}
-                            column={ disableHero &&
+                        <Col className="pl-md-2 pt-2">
+                            <ConnectedCardGrid
+                                user={user}
+                                query={query}
+                                pageSize={pageSize}
+                                isColumnActive={!!resource}
+                                containerStyle={!isHeroVisible
+                                    ? {
+                                        marginTop: disableHero && dimensions.brandNavbarHeight,
+                                        minHeight: `calc(100vh - ${dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight + dimensions.footerNodeHeight}px )`,
+                                        paddingBottom: dimensions.footerNodeHeight
+                                    }
+                                    : undefined}
+                                column={ disableHero &&
                     <ConnectedDetailsPanel
                         resource={resource}
                         filters={queryFilters}
@@ -446,33 +446,33 @@ function Home({
                             })
                         }}
                     />
-                            }
-                            isCardActive={res => res.pk === pk}
-                            page={params.page ? parseFloat(params.page) : 1}
-                            formatHref={handleFormatHref}
-                            onLoad={(value) => {
-                                handleUpdate({
-                                    page: value
-                                });
-                            }}
-                        >
-
-                            <FiltersMenu
-                                ref={filtersMenuNode}
-                                style={{
-                                    top: dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
-                                }}
+                                }
+                                isCardActive={res => res.pk === pk}
+                                page={params.page ? parseFloat(params.page) : 1}
                                 formatHref={handleFormatHref}
-                                order={query?.sort}
-                                filters={queryFilters}
-                                onClear={handleClear}
-                                onClick={handleShowFilterForm}
-                                orderOptions={filters?.order?.options}
-                                defaultLabelId={filters?.order?.defaultLabelId}
-                            />
-                        </ConnectedCardGrid>
-                    </Col>
-                </Row>
+                                onLoad={(value) => {
+                                    handleUpdate({
+                                        page: value
+                                    });
+                                }}
+                            >
+
+                                <FiltersMenu
+                                    ref={filtersMenuNode}
+                                    style={{
+                                        top: dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
+                                    }}
+                                    formatHref={handleFormatHref}
+                                    order={query?.sort}
+                                    filters={queryFilters}
+                                    onClear={handleClear}
+                                    onClick={handleShowFilterForm}
+                                    orderOptions={filters?.order?.options}
+                                    defaultLabelId={filters?.order?.defaultLabelId}
+                                />
+                            </ConnectedCardGrid>
+                        </Col>
+                    </Row>
                 </Container>
             </div>
             <Footer
