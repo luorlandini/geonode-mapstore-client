@@ -340,10 +340,7 @@ function Home({
     );
 
     const isHeroVisible = !disableHero && inView;
-    const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight - ( (filterFormOffset ) - dimensions.heroNodeHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight ));
-    const stickyFiltersMaxHeightDisableHero = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight -  (filterFormOffset   - dimensions.menuIndexNodeHeight ));
-
-
+    const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight);
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
             <BrandNavbar
@@ -400,7 +397,7 @@ function Home({
                             {showFilterForm && <FilterForm
                                 key="gn-filter-form"
                                 id="gn-filter-form"
-                                styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeightDisableHero } :
+                                styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeight } :
                                     { top: (filterFormOffset - dimensions.heroNodeHeight), maxHeight: stickyFiltersMaxHeight }}
                                 show={true}
                                 fields={filters?.fields?.options}
