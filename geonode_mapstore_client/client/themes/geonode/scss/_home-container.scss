@@ -6,6 +6,12 @@
         margin-left: auto;
         display: flex;
         flex-wrap: wrap;
+        .gn-row{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+        }
     }
 
     .gn-grid-container{
@@ -21,12 +27,6 @@
             padding-left: 0.5rem !important;
         }
 
-    }
-    .gn-container .gn-row{
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0;
     }
 
     .gn-filter-form-container{
