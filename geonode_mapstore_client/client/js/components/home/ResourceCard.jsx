@@ -34,7 +34,7 @@ const ResourceCard = forwardRef(({
     return (
         <Card
             ref={ref}
-            className={`gn-resource-card${active ? ' active' : ''}`}
+            className={`gn-resource-card${active ? ' active' : ''} ${layoutCardsStyle === 'list' ? 'rounded-0' : ''}`}
         >
             <a
                 className="gn-resource-card-link"
@@ -43,12 +43,11 @@ const ResourceCard = forwardRef(({
                 })}
             />
             <div className={`card-resource-${layoutCardsStyle}`}>
-            <div className="img-square-wrapper">
             <Card.Img
-                variant="top"
+                variant={`${(layoutCardsStyle === 'list') ? 'left' : 'top'}`}
+                //style={ (layoutCardsStyle === 'list') ? { width: '160px' } : { undefined } }
                 src={res.thumbnail_url}
             />
-            </div>
             <Card.Body>
                 <Card.Title>
                     {icon &&
