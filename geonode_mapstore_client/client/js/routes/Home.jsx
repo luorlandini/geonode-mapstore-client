@@ -238,8 +238,11 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
+    /*
     const [disableHero, setDisableHero] = useState( hideHero );
     const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
+    */
+    const [disableHero/* , setDisableHero */] = useState( hideHero );
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
@@ -403,8 +406,12 @@ function Home({
                         {showFilterForm && <FilterForm
                             key="gn-filter-form"
                             id="gn-filter-form"
+                            /*
                             styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight) } : { top: (filterFormOffset - dimensions.heroNodeHeight) }}
                             show={true}
+                            */
+                            styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight } : undefined}
+                            show
                             fields={filters?.fields?.options}
                             links={filters?.fields?.links}
                             extentProps={filters?.extent}
