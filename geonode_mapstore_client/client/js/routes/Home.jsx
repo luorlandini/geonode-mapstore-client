@@ -393,9 +393,10 @@ function Home({
                 />}
             />
             <div className="gn-main-home">
-                <Container fluid>
-                    <Row>
-                        <Col ref={filterFormNode} id="gn-filter-form-container" lg={3} md={4} sm={12} className={`mt-4  ${ !showFilterForm ? 'collapse' : ''}`}>
+
+                <div className="gn-container">
+                    <div className="gn-row">
+                        <div ref={filterFormNode} id="gn-filter-form-container" className={`gn-filter-form-container  ${ !showFilterForm ? 'collapse' : ''}`}>
                             {showFilterForm && <FilterForm
                                 key="gn-filter-form"
                                 id="gn-filter-form"
@@ -411,9 +412,9 @@ function Home({
                                 onClose={handleShowFilterForm}
                             />
                             }
-                        </Col>
+                        </div>
 
-                        <Col className="pl-md-2 pt-2">
+                        <div className="gn-grid-container">
                             <ConnectedCardGrid
                                 user={user}
                                 query={query}
@@ -471,9 +472,11 @@ function Home({
                                     defaultLabelId={filters?.order?.defaultLabelId}
                                 />
                             </ConnectedCardGrid>
-                        </Col>
-                    </Row>
-                </Container>
+                        </div>
+                    </div>
+                    </div>
+
+
             </div>
             <Footer
                 ref={footerNode}
