@@ -53,7 +53,7 @@ const Cards = withResizeDetector(({
 
     const listLayoutSpace = {
             width: '100%',
-            margin: ulPadding
+            margin: ulPadding / 2
         }
 
 
