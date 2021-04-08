@@ -44,7 +44,6 @@ import {
     getOwners
 } from '@js/api/geonode/v1';
 import { getResourceTypes } from '@js/api/geonode/v2';
-import { Container, Col, Row } from 'react-bootstrap-v1';
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
 const REDIRECT_NOT_ALLOWED = ['/', '/search/'];
@@ -236,7 +235,7 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
-    const [disableHero, setDisableHero ] = useState( hideHero );
+    const [disableHero ] = useState( hideHero );
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
@@ -399,7 +398,7 @@ function Home({
                                 id="gn-filter-form"
                                 styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeight } :
                                     { top: (filterFormOffset - dimensions.heroNodeHeight), maxHeight: stickyFiltersMaxHeight }}
-                                show={true}
+                                show
                                 fields={filters?.fields?.options}
                                 links={filters?.fields?.links}
                                 extentProps={filters?.extent}
@@ -471,7 +470,7 @@ function Home({
                             </ConnectedCardGrid>
                         </div>
                     </div>
-                    </div>
+                </div>
 
 
             </div>
