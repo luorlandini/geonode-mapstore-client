@@ -53,5 +53,14 @@
     .card-resource-list {
         display: flex;
         flex: 1 1 auto;
+        .card-img-left{
+            width: 160px;
+            height: auto;
+            object-fit: cover;
+        }
+
     }
+
+
+
 }
