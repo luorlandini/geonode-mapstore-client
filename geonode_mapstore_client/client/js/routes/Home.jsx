@@ -238,11 +238,9 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
-    /*
+
     const [disableHero, setDisableHero] = useState( hideHero );
     const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
-    */
-    const [disableHero/* , setDisableHero */] = useState( hideHero );
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
