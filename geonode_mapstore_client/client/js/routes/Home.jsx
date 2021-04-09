@@ -231,6 +231,12 @@ function Home({
         }
     };
 
+    const handleUpdateMobile = (newParams, pathname) => {
+        handleUpdate(newParams, pathname)
+        handleShowFilterForm()
+        document.body.classList.add('noscroll');
+    }
+
     function handleUpdate(newParams, pathname) {
         const { query } = url.parse(location.search, true);
         onSearch({
@@ -375,7 +381,7 @@ function Home({
             />
             <Container className="gn-main-home " fluid>
                 <Row>
-                    <Col md={4} sm={12} className={` mx-2 mt-3  ${ !showFilterForm ? 'collapse' : ''}`}>
+                    <Col lg={3} md={12} sm={12} className={` ${ !showFilterForm ? 'collapse' : ''}  ${ pageSize === 'sm' ? 'overlay-filters' : ''}`}>
                         {showFilterForm && <FilterForm
 
                             key="gn-filter-form"
@@ -387,7 +393,7 @@ function Home({
                             extentProps={filters?.extent}
                             suggestionsRequestTypes={suggestionsRequestTypes}
                             query={query}
-                            onChange={handleUpdate}
+                            onChange={(pageSize === 'sm') && handleUpdateMobile || handleUpdate}
                             onClose={handleShowFilterForm}
                         />
                         }
