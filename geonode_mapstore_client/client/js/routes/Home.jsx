@@ -225,7 +225,7 @@ function Home({
     const [disableHero/* , setDisableHero */] = useState( hideHero );
 
     useEffect(() => {
-        setIsMobileDevice((pageSize === 'sm') ? true : false)
+        setIsMobileDevice((pageSize === 'sm') ? true : false);
     }, [pageSize]);
 
     const handleShowFilterForm = () => {
@@ -235,11 +235,6 @@ function Home({
         }
     };
 
-    const handleUpdateMobile = (newParams, pathname) => {
-        handleUpdate(newParams, pathname)
-        handleShowFilterForm()
-        document.body.classList.add('noscroll');
-    }
 
     function handleUpdate(newParams, pathname) {
         const { query } = url.parse(location.search, true);
@@ -269,6 +264,12 @@ function Home({
             ...options
         });
     }
+
+    const handleUpdateMobile = (newParams, pathname) => {
+        handleUpdate(newParams, pathname);
+        handleShowFilterForm();
+        document.body.classList.add('noscroll');
+    };
 
 
     const { query } = url.parse(location.search, true);
