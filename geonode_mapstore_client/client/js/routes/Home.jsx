@@ -235,7 +235,6 @@ function Home({
     };
 
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
-    const [disableHero ] = useState( hideHero );
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
@@ -338,7 +337,7 @@ function Home({
         </ConnectedSearchBar>
     );
 
-    const isHeroVisible = !disableHero && inView;
+    const isHeroVisible = !hideHero && inView;
     const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight);
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
@@ -360,7 +359,7 @@ function Home({
             >
                 {!isHeroVisible && search}
             </BrandNavbar>
-            {!disableHero && <Hero
+            {!hideHero && <Hero
                 ref={heroNode}
                 style={{
                     marginTop: dimensions.brandNavbarHeight,
@@ -396,7 +395,7 @@ function Home({
                              <FilterForm
                                 key="gn-filter-form"
                                 id="gn-filter-form"
-                                styleContanierForm={ disableHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeight } :
+                                styleContanierForm={ hideHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeight } :
                                     { top: (filterFormOffset - dimensions.heroNodeHeight), maxHeight: stickyFiltersMaxHeight }}
                                 show
                                 fields={filters?.fields?.options}
@@ -419,12 +418,12 @@ function Home({
                                 isColumnActive={!!resource}
                                 containerStyle={!isHeroVisible
                                     ? {
-                                        marginTop: disableHero && dimensions.brandNavbarHeight,
+                                        marginTop: hideHero && dimensions.brandNavbarHeight,
                                         minHeight: `calc(100vh - ${dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight + dimensions.footerNodeHeight}px )`,
                                         paddingBottom: dimensions.footerNodeHeight
                                     }
                                     : undefined}
-                                column={ disableHero &&
+                                column={ hideHero &&
                     <ConnectedDetailsPanel
                         resource={resource}
                         filters={queryFilters}
@@ -519,6 +518,6 @@ const ConnectedHome = connect(
         onSearch: searchResources,
         onSelect: requestResource
     }
-)(withResizeDetector((Home)));
+)(withResizeDetector(Home));
 
 export default ConnectedHome;
