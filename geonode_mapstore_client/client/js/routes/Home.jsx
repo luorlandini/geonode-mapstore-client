@@ -274,7 +274,6 @@ function Home({
     const handleUpdateMobile = (newParams, pathname) => {
         handleUpdate(newParams, pathname);
         handleShowFilterForm();
-
     };
 
 
