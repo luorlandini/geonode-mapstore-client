@@ -187,7 +187,7 @@ function Home({
     params,
     onSearch,
     onToggleFilters,
-    isToggleFilters,
+    isToggle,
     menu,
     navbar,
     footer,
@@ -251,7 +251,7 @@ function Home({
         heroNodeHeight
     };
 
-    const [showFilterForm, setShowFilterForm] = useState(isToggleFilters || false);
+    const [showFilterForm, setShowFilterForm] = useState( (isFilterForm && isToggle) || false);
 
     const handleShowFilterForm = () => {
         if (!REDIRECT_NOT_ALLOWED.includes(location.pathname)) {
