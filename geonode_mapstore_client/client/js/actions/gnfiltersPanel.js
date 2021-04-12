@@ -5,9 +5,10 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
-export const SHOW = "FILTER_PANEL:SHOW";
-export const HIDE = "FILTER_PANEL:HIDE";
+export const ON_TOGGLE_FILTER = 'GEONODE:ON_TOGGLE_FILTER';
 
-export const show = () => ({ type: SHOW });
-
-export const hide = () => ({ type: HIDE });
+export function toggleFiltersPanel() {
+    return {
+        type: ON_TOGGLE_FILTER,
+    };
+}
