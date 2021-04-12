@@ -220,9 +220,13 @@ function Home({
         footerNodeHeight
     };
 
-
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
     const [showFilterForm, setShowFilterForm] = useState(isFilterForm || false);
     const [disableHero/* , setDisableHero */] = useState( hideHero );
+
+    useEffect(() => {
+        setIsMobileDevice((pageSize === 'sm') ? true : false)
+    }, [pageSize]);
 
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
@@ -381,7 +385,7 @@ function Home({
             />
             <Container className="gn-main-home " fluid>
                 <Row>
-                    <Col lg={3} md={12} sm={12} className={` ${ !showFilterForm ? 'collapse' : ''}  ${ pageSize === 'sm' ? 'overlay-filters' : ''}`}>
+                    <Col lg={3} md={12} sm={12} className={` ${ !showFilterForm ? 'collapse' : ''}  ${ isMobileDevice ? 'overlay-filters' : ''}`}>
                         {showFilterForm && <FilterForm
 
                             key="gn-filter-form"
@@ -393,7 +397,7 @@ function Home({
                             extentProps={filters?.extent}
                             suggestionsRequestTypes={suggestionsRequestTypes}
                             query={query}
-                            onChange={(pageSize === 'sm') && handleUpdateMobile || handleUpdate}
+                            onChange={isMobileDevice && handleUpdateMobile || handleUpdate}
                             onClose={handleShowFilterForm}
                         />
                         }
