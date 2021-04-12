@@ -228,6 +228,12 @@ function Home({
         setIsMobileDevice((pageSize === 'sm') ? true : false);
     }, [pageSize]);
 
+    useEffect(() => {
+        (isMobileDevice && showFilterForm)
+            ? document.body.classList.add('noscroll')
+            : document.body.classList.remove('noscroll');
+    }, [isMobileDevice, showFilterForm]);
+
     const handleShowFilterForm = () => {
         setShowFilterForm(!showFilterForm);
         if (!REDIRECT_NOT_ALLOWED.includes(location.pathname)) {
@@ -268,7 +274,7 @@ function Home({
     const handleUpdateMobile = (newParams, pathname) => {
         handleUpdate(newParams, pathname);
         handleShowFilterForm();
-        document.body.classList.add('noscroll');
+
     };
 
 
