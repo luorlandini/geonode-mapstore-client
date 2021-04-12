@@ -6,23 +6,18 @@
  * LICENSE file in the root directory of this source tree.
 */
 
-import { SHOW, HIDE } from '@js/actions/gnfilters';
+import { ON_TOGGLE_FILTER } from '@js/actions/gnfiltersPanel';
 
-export const DEFAULT_STATE = {};
-
-export default (state = DEFAULT_STATE, action) => {
+const gnfiltersPanel =  (state = {isToggle: false}, action) => {
     switch (action.type) {
-    case SHOW:
-        return {
+        case ON_TOGGLE_FILTER:
+          return {
             ...state,
-            isToggle: true
+            isToggle: !state.isToggle
         };
-    case HIDE:
-        return {
-            ...state,
-            isToggle: false
-        };
-    default:
-        return state;
-    }
+        default:
+          return state
+      }
 };
+
+export default gnfiltersPanel
