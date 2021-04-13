@@ -26,7 +26,7 @@ function MockApp({ key, value }) {
 export default MockApp;
 
 
-describe('Test useLocalStorege', () => {
+describe('Test useLocalStorage', () => {
     beforeEach((done) => {
         document.body.innerHTML = '<div id="container"></div>';
         setTimeout(done);
