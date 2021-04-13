@@ -10,14 +10,14 @@ import { ON_TOGGLE_FILTER } from '@js/actions/gnfiltersPanel';
 
 const gnfiltersPanel =  (state = {isToggle: false}, action) => {
     switch (action.type) {
-        case ON_TOGGLE_FILTER:
-          return {
+    case ON_TOGGLE_FILTER:
+        return {
             ...state,
             isToggle: !state.isToggle
         };
-        default:
-          return state
-      }
+    default:
+        return state;
+    }
 };
 
-export default gnfiltersPanel
+export default gnfiltersPanel;
