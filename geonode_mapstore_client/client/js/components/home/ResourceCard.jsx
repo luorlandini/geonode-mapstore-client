@@ -45,7 +45,6 @@ const ResourceCard = forwardRef(({
             <div className={`card-resource-${layoutCardsStyle}`}>
                 <Card.Img
                     variant={`${(layoutCardsStyle === 'list') ? 'left' : 'top'}`}
-                    // style={ (layoutCardsStyle === 'list') ? { width: '160px' } : { undefined } }
                     src={res.thumbnail_url}
                 />
                 <Card.Body>
