@@ -23,8 +23,8 @@ export default (key, initialValue) => {
 
         try {
           const newValue = value instanceof Function ? value(storedValue) : value
-          window.localStorage.setItem(key, JSON.stringify(newValue))
           setStoredValue(newValue)
+          window.localStorage.setItem(key, JSON.stringify(newValue))
           window.dispatchEvent(new Event('localStorage'))
         } catch (error) {
           // Todo log error in persistent solution
