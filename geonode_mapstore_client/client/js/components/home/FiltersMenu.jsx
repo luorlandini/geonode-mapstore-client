@@ -7,7 +7,7 @@
  */
 
 import React, { forwardRef } from 'react';
-import { Dropdown } from 'react-bootstrap-v1';
+import { Dropdown, Button } from 'react-bootstrap-v1';
 import ReactResizeDetector from 'react-resize-detector';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
