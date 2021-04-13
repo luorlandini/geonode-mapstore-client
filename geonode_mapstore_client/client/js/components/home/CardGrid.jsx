@@ -38,37 +38,36 @@ const Cards = withResizeDetector(({
     const gridLayoutSpace = (idx) => {
 
         const gridSpace = isSingleCard
-        ? {
-            width: width - margin,
-            margin: ulPadding
-        }
-        : {
-            width: cardWidth,
-            marginRight: (idx + 1) % count === 0 ? 0 : margin,
-            marginTop: margin
-        }
+            ? {
+                width: width - margin,
+                margin: ulPadding
+            }
+            : {
+                width: cardWidth,
+                marginRight: (idx + 1) % count === 0 ? 0 : margin,
+                marginTop: margin
+            };
 
         return gridSpace;
-    }
+    };
 
     const listLayoutSpace = {
-            width: '100%',
-            margin: ulPadding / 2
-        }
+        width: '100%',
+        margin: ulPadding / 2
+    };
 
 
     const layoutSpace = (cardLayoutStyle, idx) => {
         let cardContainerSpace;
-        switch(cardLayoutStyle){
-            case 'list':
-                cardContainerSpace = listLayoutSpace;
-                break;
-            default:
-                cardContainerSpace = gridLayoutSpace(idx);
+        switch (cardLayoutStyle) {
+        case 'list':
+            cardContainerSpace = listLayoutSpace;
+            break;
+        default:
+            cardContainerSpace = gridLayoutSpace(idx);
         }
-        return cardContainerSpace
-    }
-
+        return cardContainerSpace;
+    };
 
 
     return (

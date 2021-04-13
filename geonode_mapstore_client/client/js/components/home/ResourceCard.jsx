@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import { Card, Dropdown } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
@@ -43,14 +43,14 @@ const ResourceCard = forwardRef(({
                 })}
             />
             <div className={`card-resource-${layoutCardsStyle}`}>
-            <Card.Img
-                variant={`${(layoutCardsStyle === 'list') ? 'left' : 'top'}`}
-                //style={ (layoutCardsStyle === 'list') ? { width: '160px' } : { undefined } }
-                src={res.thumbnail_url}
-            />
-            <Card.Body>
-                <Card.Title>
-                    {icon &&
+                <Card.Img
+                    variant={`${(layoutCardsStyle === 'list') ? 'left' : 'top'}`}
+                    // style={ (layoutCardsStyle === 'list') ? { width: '160px' } : { undefined } }
+                    src={res.thumbnail_url}
+                />
+                <Card.Body>
+                    <Card.Title>
+                        {icon &&
                         <>
                             <Tag
                                 href={formatHref({
@@ -61,49 +61,49 @@ const ResourceCard = forwardRef(({
                                 <FaIcon name={icon} />
                             </Tag>
                         </>}
-                    <a href={res.detail_url}>
-                        {res.title}
-                    </a>
-                </Card.Title>
-                <Card.Text
-                    className="gn-card-description"
-                >
-                    {res.raw_abstract ? res.raw_abstract : '...'}
-                </Card.Text>
-                <Card.Text
-                    lassName="gn-card-user"
-                >
-                    <Message msgId="gnhome.author"/>: <a href={formatHref({
-                        query: {
-                            'filter{owner.username.in}': res.owner.username
-                        }
-                    })}>{getUserName(res.owner)}</a>
-                </Card.Text>
-                {links && links.length > 0 && <Dropdown
-                    className="gn-card-options"
-                    alignRight
-                >
-                    <Dropdown.Toggle
-                        id={`gn-card-options-${res.pk}`}
-                        variant="default"
-                        size="sm"
+                        <a href={res.detail_url}>
+                            {res.title}
+                        </a>
+                    </Card.Title>
+                    <Card.Text
+                        className="gn-card-description"
                     >
-                        <FaIcon name="ellipsis-v" />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {links.map(({ label, href }) => {
-                            return (
-                                <Dropdown.Item
-                                    key={href}
-                                    href={href}
-                                >
-                                    {label}
-                                </Dropdown.Item>
-                            );
-                        })}
-                    </Dropdown.Menu>
-                </Dropdown>}
-            </Card.Body>
+                        {res.raw_abstract ? res.raw_abstract : '...'}
+                    </Card.Text>
+                    <Card.Text
+                        lassName="gn-card-user"
+                    >
+                        <Message msgId="gnhome.author"/>: <a href={formatHref({
+                            query: {
+                                'filter{owner.username.in}': res.owner.username
+                            }
+                        })}>{getUserName(res.owner)}</a>
+                    </Card.Text>
+                    {links && links.length > 0 && <Dropdown
+                        className="gn-card-options"
+                        alignRight
+                    >
+                        <Dropdown.Toggle
+                            id={`gn-card-options-${res.pk}`}
+                            variant="default"
+                            size="sm"
+                        >
+                            <FaIcon name="ellipsis-v" />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            {links.map(({ label, href }) => {
+                                return (
+                                    <Dropdown.Item
+                                        key={href}
+                                        href={href}
+                                    >
+                                        {label}
+                                    </Dropdown.Item>
+                                );
+                            })}
+                        </Dropdown.Menu>
+                    </Dropdown>}
+                </Card.Body>
             </div>
         </Card>
     );

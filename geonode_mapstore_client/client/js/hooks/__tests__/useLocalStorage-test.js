@@ -38,7 +38,7 @@ describe('Test useLocalStorege', () => {
     });
 
     it('Test componet is rendered', () => {
-        ReactDOM.render(<MockApp key='test_key' value='test_value' />
+        ReactDOM.render(<MockApp key="test_key" value="test_value" />
             , document.getElementById("container"));
         const container = document.getElementById('container');
         const el = container.querySelector('.MockApp');
@@ -46,7 +46,7 @@ describe('Test useLocalStorege', () => {
     });
 
     it('Test component localStorage props', () => {
-        ReactDOM.render(<MockApp key='test_key' value='test_value' />, document.getElementById("container"));
+        ReactDOM.render(<MockApp key="test_key" value="test_value" />, document.getElementById("container"));
         const el = document.getElementsByClassName('MockApp');
         expect(el).toExist();
         const element = el[0].childNodes[0];
