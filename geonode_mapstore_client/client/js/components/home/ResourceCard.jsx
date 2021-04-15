@@ -7,6 +7,8 @@
  */
 
 import React, { forwardRef } from 'react';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import { Card, Dropdown } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
@@ -15,15 +17,22 @@ import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
+import {
+    filterMenuItems
+} from '@js/utils/MenuUtils';
 
 const ResourceCard = forwardRef(({
     data,
     active,
     options,
     formatHref,
-    getTypesInfo
+    getTypesInfo,
+    user
 }, ref) => {
 
+    const state = {
+        user
+    };
     const res = data;
     const types = getTypesInfo();
     const { icon } = types[res.doc_type] || types[res.resource_type] || {};
@@ -94,14 +103,16 @@ const ResourceCard = forwardRef(({
                         <FaIcon name="ellipsis-h" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {options.map(({ labelId, href, icon, action }) => {
+                        {options
+                        .filter((opt) => filterMenuItems(state, opt))
+                        .map((opt) => {
                             return (
                                 <Dropdown.Item
-                                    key={href}
-                                    href={href}
-                                    onClick={cardOptionsActions[action]}
+                                    key={opt.href}
+                                    href={opt.href}
+                                    onClick={cardOptionsActions[opt.action]}
                                 >
-                                    <FaIcon name={icon} /> <Message msgId={labelId}/>
+                                    <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
                                 </Dropdown.Item>
                             );
                         })}
@@ -118,4 +129,14 @@ ResourceCard.defaultProps = {
     getTypesInfo: getResourceTypesInfo
 };
 
-export default ResourceCard;
+const ConnectedResourceCard = connect(
+    createSelector(
+        [
+            state => state?.security?.user || null,
+
+        ], (user) => ({
+            user
+        }))
+)(ResourceCard)
+
+export default ConnectedResourceCard;

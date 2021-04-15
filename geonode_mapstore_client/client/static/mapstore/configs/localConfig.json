@@ -530,7 +530,6 @@
             ]
         },
         "cardOptions": {
-            "authenticated": false,
             "items":[
                 {
                     "type": "action",
@@ -542,20 +541,27 @@
                     "type": "action",
                     "labelId": "gnhome.share",
                     "icon": "share-alt",
-                    "authenticated": false,
                     "action": "share"
                 },
                 {
                     "type": "action",
                     "labelId": "gnhome.update",
                     "icon": "paste",
-                    "action": "update"
+                    "action": "update",
+                    "authenticated": true,
+                    "allowedGroups": [
+                        "admin"
+                    ]
                 },
                 {
                     "type": "action",
                     "labelId": "gnhome.delete",
                     "icon": "trash",
-                    "action": "delete"
+                    "action": "delete",
+                    "authenticated": true,
+                    "allowedGroups": [
+                        "admin"
+                    ]
                 }
             ]
         },
