@@ -391,8 +391,8 @@ function Home({
 
                 <div className="gn-container">
                     <div className="gn-row">
-                    {showFilterForm && <div ref={filterFormNode} id="gn-filter-form-container" className={`gn-filter-form-container`}>
-                             <FilterForm
+                        {showFilterForm && <div ref={filterFormNode} id="gn-filter-form-container" className={`gn-filter-form-container`}>
+                            <FilterForm
                                 key="gn-filter-form"
                                 id="gn-filter-form"
                                 styleContanierForm={ hideHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeight } :

@@ -38,12 +38,12 @@ const ResourceCard = forwardRef(({
     const { icon } = types[res.doc_type] || types[res.resource_type] || {};
 
     const cardOptionsActions = {
-        edit : () => { console.log('clickOpen') },
-        share : () => { console.log('clickShare') },
-        update : () => { console.log('clickUpdate') },
-        delete : () => { console.log('clickDelete') }
+        edit: () => { console.log('clickOpen'); },
+        share: () => { console.log('clickShare'); },
+        update: () => { console.log('clickUpdate'); },
+        "delete": () => { console.log('clickDelete'); }
 
-    }
+    };
 
     return (
         <Card
@@ -104,18 +104,18 @@ const ResourceCard = forwardRef(({
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {options
-                        .filter((opt) => filterMenuItems(state, opt))
-                        .map((opt) => {
-                            return (
-                                <Dropdown.Item
-                                    key={opt.href}
-                                    href={(opt.type === 'link' && opt.href ) ? opt.href: undefined }
-                                    onClick={(opt.type === 'action' && opt.action ) ? cardOptionsActions[opt.action]: undefined }
-                                >
-                                    <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
-                                </Dropdown.Item>
-                            );
-                        })}
+                            .filter((opt) => filterMenuItems(state, opt))
+                            .map((opt) => {
+                                return (
+                                    <Dropdown.Item
+                                        key={opt.href}
+                                        href={(opt.type === 'link' && opt.href ) ? opt.href : undefined }
+                                        onClick={(opt.type === 'action' && opt.action ) ? cardOptionsActions[opt.action] : undefined }
+                                    >
+                                        <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
+                                    </Dropdown.Item>
+                                );
+                            })}
                     </Dropdown.Menu>
                 </Dropdown>}
             </Card.Body>
@@ -132,11 +132,11 @@ ResourceCard.defaultProps = {
 const ConnectedResourceCard = connect(
     createSelector(
         [
-            state => state?.security?.user || null,
+            state => state?.security?.user || null
 
         ], (user) => ({
             user
         }))
-)(ResourceCard)
+)(ResourceCard);
 
 export default ConnectedResourceCard;
