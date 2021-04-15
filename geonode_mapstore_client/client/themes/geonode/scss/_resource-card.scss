@@ -21,12 +21,16 @@
         margin: 0.25rem;
         background-color: $gn-body-bg;
         .dropdown-menu {
+            min-width: 8rem;
             a {
                 color: $gn-body-color;
             }
         }
         .btn-default:hover{
             opacity: 0.5
+        }
+        .dropdown-item {
+            padding: 0.25rem 1.0rem;
         }
 
     }
