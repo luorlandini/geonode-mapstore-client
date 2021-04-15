@@ -82,7 +82,7 @@ const CardGridWithMessageId = ({ query, user, isFirstRequest, ...props }) => {
             || isLoggedIn && 'noContentYet'
             || 'noPublicContent'
         : undefined;
-    return <CardGrid { ...props } messageId={messageId}/>;
+    return <CardGrid { ...props } messageId={messageId}  />;
 };
 
 const ConnectedCardGrid = connect(
@@ -172,6 +172,7 @@ function Home({
     params,
     onSearch,
     menu,
+    cardOptions,
     navbar,
     footer,
     hideHero,
@@ -191,7 +192,6 @@ function Home({
             isMounted.current = false;
         };
     }, []);
-
 
     const brandNavbarNode = useRef();
     const menuIndexNode = useRef();
@@ -415,6 +415,7 @@ function Home({
                                 user={user}
                                 query={query}
                                 pageSize={pageSize}
+                                cardOptions={cardOptions}
                                 isColumnActive={!!resource}
                                 containerStyle={!isHeroVisible
                                     ? {
