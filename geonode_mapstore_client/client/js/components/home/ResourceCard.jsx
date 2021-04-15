@@ -19,7 +19,7 @@ import {
 const ResourceCard = forwardRef(({
     data,
     active,
-    links,
+    options,
     formatHref,
     getTypesInfo
 }, ref) => {
@@ -27,6 +27,15 @@ const ResourceCard = forwardRef(({
     const res = data;
     const types = getTypesInfo();
     const { icon } = types[res.doc_type] || types[res.resource_type] || {};
+
+    const cardOptionsActions = {
+        edit : () => { console.log('clickOpen') },
+        share : () => { console.log('clickShare') },
+        update : () => { console.log('clickUpdate') },
+        delete : () => { console.log('clickDelete') }
+
+    }
+
     return (
         <Card
             ref={ref}
@@ -73,7 +82,7 @@ const ResourceCard = forwardRef(({
                         }
                     })}>{getUserName(res.owner)}</a>
                 </Card.Text>
-                {links && links.length > 0 && <Dropdown
+                {options && options.length > 0 && <Dropdown
                     className="gn-card-options"
                     alignRight
                 >
@@ -82,16 +91,17 @@ const ResourceCard = forwardRef(({
                         variant="default"
                         size="sm"
                     >
-                        <FaIcon name="ellipsis-v" />
+                        <FaIcon name="ellipsis-h" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {links.map(({ label, href }) => {
+                        {options.map(({ labelId, href, icon, action }) => {
                             return (
                                 <Dropdown.Item
                                     key={href}
                                     href={href}
+                                    onClick={cardOptionsActions[action]}
                                 >
-                                    {label}
+                                    <FaIcon name={icon} /> <Message msgId={labelId}/>
                                 </Dropdown.Item>
                             );
                         })}
