@@ -532,7 +532,8 @@
         "cardOptions": {
             "items":[
                 {
-                    "type": "action",
+                    "type": "link",
+                    "href": "/layers/upload",
                     "labelId": "gnhome.open",
                     "icon": "edit",
                     "action": "edit"

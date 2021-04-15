@@ -109,8 +109,8 @@ const ResourceCard = forwardRef(({
                             return (
                                 <Dropdown.Item
                                     key={opt.href}
-                                    href={opt.href}
-                                    onClick={cardOptionsActions[opt.action]}
+                                    href={(opt.type === 'link' && opt.href ) ? opt.href: undefined }
+                                    onClick={(opt.type === 'action' && opt.actio ) ? cardOptionsActions[opt.action]: undefined }
                                 >
                                     <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
                                 </Dropdown.Item>
