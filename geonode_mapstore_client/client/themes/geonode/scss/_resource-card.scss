@@ -17,11 +17,20 @@
     .gn-card-options {
         position: absolute;
         right: 0;
-        top: 0;
+        bottom: 0;
         margin: 0.25rem;
         background-color: $gn-body-bg;
-        @extend .shadow-sm;
+        .dropdown-menu {
+            a {
+                color: $gn-body-color;
+            }
+        }
+        .btn-default:hover{
+            opacity: 0.5
+        }
+
     }
+
     .gn-card-options .dropdown-toggle::after {
         display: none;
     }
@@ -64,7 +73,7 @@
     .card-text {
         font-size: 0.69rem;
     }
-    
+
     .gn-tag {
         color: $gn-body-color;
         padding: 0;
