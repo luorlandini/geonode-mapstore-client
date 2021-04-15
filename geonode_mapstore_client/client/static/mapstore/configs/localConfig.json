@@ -529,6 +529,36 @@
                 }
             ]
         },
+        "cardOptions": {
+            "authenticated": false,
+            "items":[
+                {
+                    "type": "action",
+                    "labelId": "gnhome.open",
+                    "icon": "edit",
+                    "action": "edit"
+                },
+                {
+                    "type": "action",
+                    "labelId": "gnhome.share",
+                    "icon": "share-alt",
+                    "authenticated": false,
+                    "action": "share"
+                },
+                {
+                    "type": "action",
+                    "labelId": "gnhome.update",
+                    "icon": "paste",
+                    "action": "update"
+                },
+                {
+                    "type": "action",
+                    "labelId": "gnhome.delete",
+                    "icon": "trash",
+                    "action": "delete"
+                }
+            ]
+        },
         "footer": {
             "items": [
                 {
