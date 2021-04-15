@@ -19,7 +19,7 @@ const Cards = withResizeDetector(({
     isCardActive,
     containerWidth,
     width: detectedWidth,
-    links
+    options
 }) => {
 
     const width = containerWidth || detectedWidth;
@@ -61,7 +61,7 @@ const Cards = withResizeDetector(({
                             active={isCardActive(resource)}
                             data={resource}
                             formatHref={formatHref}
-                            links={links}
+                            options={options}
                         />
                     </li>
                 );
@@ -80,7 +80,7 @@ const CardGrid = withResizeDetector(({
     isCardActive,
     containerStyle,
     header,
-    cardLinks,
+    cardOptions,
     column,
     isColumnActive,
     messageId,
@@ -144,7 +144,7 @@ const CardGrid = withResizeDetector(({
                             resources={resources}
                             formatHref={formatHref}
                             isCardActive={isCardActive}
-                            links={cardLinks}
+                            options={cardOptions.items}
                             containerWidth={pageSize === 'md' && isColumnActive ? width - columnWidth : undefined}
                         />
                         <div className="gn-card-grid-pagination">
