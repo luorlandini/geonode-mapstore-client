@@ -16,7 +16,7 @@ import FaIcon from '@js/components/home/FaIcon';
 import FilterByExtent from '@js/components/home/FilterByExtent';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
 import FilterLinks from '@js/components/home/FilterLinks';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
