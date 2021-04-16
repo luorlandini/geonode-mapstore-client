@@ -488,6 +488,7 @@ function Home({
                                         top: dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
                                     }}
                                     formatHref={handleFormatHref}
+                                    actions={filters?.actions}
                                     order={query?.sort}
                                     filters={queryFilters}
                                     onClear={handleClear}

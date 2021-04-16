@@ -17,6 +17,7 @@ const FiltersMenu = forwardRef(({
     formatHref,
     orderOptions,
     order,
+    actions,
     filters,
     style,
     onClick,
@@ -43,6 +44,28 @@ const FiltersMenu = forwardRef(({
                         </div>
                     )}
                 </ReactResizeDetector>
+
+                {actions?.options.length > 0 && <Dropdown alignRight>
+                        <Dropdown.Toggle
+                            id="actions-dropdown"
+                            variant="default"
+                            size="sm"
+                        >
+                            <Message msgId={actions?.defaultLabelId} />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            {actions.options.map(({ labelId, value }) => {
+                                return (
+                                    <Dropdown.Item
+                                        key={value}
+                                    >
+                                        <Message msgId={labelId} />
+                                    </Dropdown.Item>
+                                );
+                            })}
+                        </Dropdown.Menu>
+                    </Dropdown>}
+
                 <Button variant="default" onClick={layoutSwitcher} >
                     <FaIcon name={cardLayoutStyle === 'grid' ? 'th' : cardLayoutStyle } />
                 </Button>
