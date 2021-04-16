@@ -16,6 +16,7 @@ import FaIcon from '@js/components/home/FaIcon';
 import FilterByExtent from '@js/components/home/FilterByExtent';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
 import FilterLinks from '@js/components/home/FilterLinks';
+import isEqual from 'lodash/isEqual';
 
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
@@ -98,14 +99,11 @@ function FilterForm({
                 </Button>
             </div>
             <div className="gn-filter-form-body">
-
                 {
-
                     (links) &&   links.map((types) => (
                         <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} />
                     ))
                 }
-
                 <Form
                     style={style}
                 >
@@ -202,7 +200,7 @@ FilterForm.defaultProps = {
 };
 
 const arePropsEqual = (prevProps, nextProps) => {
-    return prevProps.styleContanierForm === nextProps.styleContanierForm;
+    return isEqual( prevProps.styleContanierForm, nextProps.styleContanierForm)
 };
 
 
