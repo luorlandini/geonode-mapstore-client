@@ -8,12 +8,11 @@
 
 import React, { forwardRef } from 'react';
 import { Dropdown, Button } from 'react-bootstrap-v1';
-import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import ReactResizeDetector from 'react-resize-detector';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
 import useLocalStorage from '@js/hooks/useLocalStorage';
+import { filterMenuItems } from '@js/utils/MenuUtils';
 
 const FiltersMenu = forwardRef(({
     formatHref,
@@ -30,6 +29,35 @@ const FiltersMenu = forwardRef(({
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
     const [cardLayoutStyle] = useLocalStorage('layoutCardsStyle');
+    const state = {
+        user
+    };
+
+    const createNewElement = (actions?.authenticated && state.user) && (actions?.options.length > 0 && <Dropdown alignRight>
+        <Dropdown.Toggle
+            id="actions-dropdown"
+            variant="default"
+            size="sm"
+        >
+            <Message msgId={actions?.defaultLabelId} />
+        </Dropdown.Toggle>
+        {<Dropdown.Menu>
+            {actions.options
+                .filter((opt) => filterMenuItems(state, opt, actions.options))
+                .map((opt) => {
+                    return (
+                        <Dropdown.Item
+                            key={opt.value}
+                        >
+                            <Message msgId={opt.labelId}/>
+                        </Dropdown.Item>
+                    );
+                })}
+        </Dropdown.Menu>
+        }
+    </Dropdown>
+)
+
     return (
         <div
             className="gn-filters-menu"
@@ -47,28 +75,7 @@ const FiltersMenu = forwardRef(({
                         </div>
                     )}
                 </ReactResizeDetector>
-
-                {actions?.options.length > 0 && <Dropdown alignRight>
-                        <Dropdown.Toggle
-                            id="actions-dropdown"
-                            variant="default"
-                            size="sm"
-                        >
-                            <Message msgId={actions?.defaultLabelId} />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            {actions.options.map(({ labelId, value }) => {
-                                return (
-                                    <Dropdown.Item
-                                        key={value}
-                                    >
-                                        <Message msgId={labelId} />
-                                    </Dropdown.Item>
-                                );
-                            })}
-                        </Dropdown.Menu>
-                    </Dropdown>}
-
+                { createNewElement }
                 <Button variant="default" onClick={layoutSwitcher} >
                     <FaIcon name={cardLayoutStyle === 'grid' ? 'th' : cardLayoutStyle } />
                 </Button>
@@ -143,15 +150,5 @@ FiltersMenu.defaultProps = {
     formatHref: () => '#',
     onClear: () => {}
 };
-
-const ConnectedFiltersMenu = connect(
-    createSelector(
-        [
-            state => state?.security?.user || null
-
-        ], (user) => ({
-            user
-        }))
-)(FiltersMenu);
 
 export default FiltersMenu;

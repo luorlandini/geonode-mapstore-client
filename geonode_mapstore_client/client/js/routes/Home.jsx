@@ -496,6 +496,7 @@ function Home({
                                     layoutSwitcher={handleStoredLayoutStyle}
                                     orderOptions={filters?.order?.options}
                                     defaultLabelId={filters?.order?.defaultLabelId}
+                                    user={user}
                                 />
 
                             </ConnectedCardGrid>
