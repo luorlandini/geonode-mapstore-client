@@ -8,6 +8,8 @@
 
 import React, { forwardRef } from 'react';
 import { Dropdown, Button } from 'react-bootstrap-v1';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import ReactResizeDetector from 'react-resize-detector';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
@@ -22,7 +24,8 @@ const FiltersMenu = forwardRef(({
     style,
     onClick,
     layoutSwitcher,
-    defaultLabelId
+    defaultLabelId,
+    user
 }, ref) => {
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
@@ -140,5 +143,15 @@ FiltersMenu.defaultProps = {
     formatHref: () => '#',
     onClear: () => {}
 };
+
+const ConnectedFiltersMenu = connect(
+    createSelector(
+        [
+            state => state?.security?.user || null
+
+        ], (user) => ({
+            user
+        }))
+)(FiltersMenu);
 
 export default FiltersMenu;
