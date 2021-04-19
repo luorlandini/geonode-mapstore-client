@@ -35,7 +35,7 @@ const FiltersMenu = forwardRef(({
 
     const createNewElement = (actions?.authenticated && state.user) && (actions?.options.length > 0 && <Dropdown alignRight>
         <Dropdown.Toggle
-            id="actions-dropdown"
+            id="create-new-dropdown"
             variant="default"
             size="sm"
         >
@@ -58,7 +58,7 @@ const FiltersMenu = forwardRef(({
         </Dropdown.Menu>
         }
     </Dropdown>
-)
+    );
 
     return (
         <div
@@ -77,7 +77,11 @@ const FiltersMenu = forwardRef(({
                         </div>
                     )}
                 </ReactResizeDetector>
+                <div
+                    className="gn-filters-create-new"
+                >
                 { createNewElement }
+                </div>
                 <Button variant="default" onClick={layoutSwitcher} >
                     <FaIcon name={cardLayoutStyle === 'grid' ? 'th' : cardLayoutStyle } />
                 </Button>

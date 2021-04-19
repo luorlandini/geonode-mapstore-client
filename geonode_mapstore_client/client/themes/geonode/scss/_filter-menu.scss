@@ -40,6 +40,9 @@
         .gn-filters-menu-tools > * {
             margin: 0 0 0 0.8rem;
         }
+        .gn-filters-create-new{
+            border-right: 1px solid $gn-body-color
+        }
         .gn-filters-menu-tools {
             /* remove this inline style of dropdown because they cause issue with overflow x*/
             .dropdown-menu {
