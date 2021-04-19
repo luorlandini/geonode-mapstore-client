@@ -289,11 +289,15 @@
                 "options":[
                     {
                         "labelId": "gnhome.map",
-                        "value": "map"
+                        "value": "map",
+                        "type": "link",
+                        "href": "/maps/new"
                     },
                     {
                         "labelId": "gnhome.geostory",
-                        "value": "geostory"
+                        "value": "geostory",
+                        "type": "link",
+                         "href": "/apps/new?appType=GeoStory"
                     }
                 ]
             },

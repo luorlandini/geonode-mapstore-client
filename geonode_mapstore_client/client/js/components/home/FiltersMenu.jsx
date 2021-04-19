@@ -48,6 +48,8 @@ const FiltersMenu = forwardRef(({
                     return (
                         <Dropdown.Item
                             key={opt.value}
+                            href={(opt.type === 'link' && opt.href ) ? opt.href : undefined }
+                            onClick={(opt.type === 'action' && opt.action ) ? cardOptionsActions[opt.action] : undefined }
                         >
                             <Message msgId={opt.labelId}/>
                         </Dropdown.Item>
