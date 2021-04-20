@@ -14,11 +14,57 @@ import FaIcon from '@js/components/home/FaIcon';
 import useLocalStorage from '@js/hooks/useLocalStorage';
 import { filterMenuItems } from '@js/utils/MenuUtils';
 
+
+const CardsMenu = ({ item, menuItemsProps }) => {
+    const { type, labelId = '', items = [], href } = item;
+    const { state } = menuItemsProps;
+
+    if (type === 'dropdown') {
+
+            const dropdownItems = items
+                .filter((opt) => filterMenuItems(state, opt))
+                .map((opt) => {
+                    return (
+                        <Dropdown.Item
+                            key={opt.value}
+                            href={(opt.type === 'link' && opt.href) ? opt.href : undefined}
+                        >
+                            <Message msgId={opt.labelId} />
+                        </Dropdown.Item>
+                    );
+                })
+
+        return (
+        <Dropdown alignRight>
+            <Dropdown.Toggle
+                id="create-new-dropdown"
+                variant="default"
+                size="sm"
+            >
+                <Message msgId={labelId} />
+            </Dropdown.Toggle>
+            {<Dropdown.Menu>
+                {dropdownItems}
+            </Dropdown.Menu>
+            }
+        </Dropdown>
+        );
+    }
+
+    if (type === 'divider') {
+        return <div className="gn-menu-index-divider" ></div>;
+    }
+
+    return null;
+    //return (<div>{createNewElement}</div>);
+
+}
+
 const FiltersMenu = forwardRef(({
     formatHref,
     orderOptions,
     order,
-    actions,
+    cardsMenu,
     filters,
     style,
     onClick,
@@ -33,33 +79,6 @@ const FiltersMenu = forwardRef(({
         user
     };
 
-    const createNewElement = (actions?.authenticated && state.user) && (actions?.options.length > 0 && <Dropdown alignRight>
-        <Dropdown.Toggle
-            id="create-new-dropdown"
-            variant="default"
-            size="sm"
-        >
-            <Message msgId={actions?.defaultLabelId} />
-        </Dropdown.Toggle>
-        {<Dropdown.Menu>
-            {actions.options
-                .filter((opt) => filterMenuItems(state, opt, actions.options))
-                .map((opt) => {
-                    return (
-                        <Dropdown.Item
-                            key={opt.value}
-                            href={(opt.type === 'link' && opt.href ) ? opt.href : undefined }
-                            onClick={(opt.type === 'action' && opt.action ) ? cardOptionsActions[opt.action] : undefined }
-                        >
-                            <Message msgId={opt.labelId}/>
-                        </Dropdown.Item>
-                    );
-                })}
-        </Dropdown.Menu>
-        }
-    </Dropdown>
-    );
-
     return (
         <div
             className="gn-filters-menu"
@@ -67,7 +86,7 @@ const FiltersMenu = forwardRef(({
             ref={ref}
         >
             <div className="gn-filters-menu-container">
-                <a className="gn-toogle-filter" onClick={ onClick } > <Message msgId="gnhome.filters"/> {`(${filters.length})`}</a>
+                <a className="gn-toogle-filter" onClick={onClick} > <Message msgId="gnhome.filters" /> {`(${filters.length})`}</a>
                 <ReactResizeDetector handleHeight>
                     {({ height }) => (
                         <div
@@ -77,13 +96,25 @@ const FiltersMenu = forwardRef(({
                         </div>
                     )}
                 </ReactResizeDetector>
-                <div
-                    className="gn-filters-create-new"
-                >
-                { createNewElement }
-                </div>
+                <ul className="gn-cards-menu">
+                    {cardsMenu
+                        .filter((item) => filterMenuItems(state, item))
+                        .map((item, idx) => {
+                            return (
+                                <li key={idx}>
+                                    <CardsMenu
+                                        item={{ ...item, id: item.id || idx }}
+                                        menuItemsProps={{
+                                            state
+                                        }}
+                                    />
+                                </li>
+                            );
+                        })}
+                </ul>
+
                 <Button variant="default" onClick={layoutSwitcher} >
-                    <FaIcon name={cardLayoutStyle === 'grid' ? 'th' : cardLayoutStyle } />
+                    <FaIcon name={cardLayoutStyle === 'grid' ? 'th' : cardLayoutStyle} />
                 </Button>
 
                 <div
@@ -154,7 +185,7 @@ FiltersMenu.defaultProps = {
     ],
     defaultLabelId: 'gnhome.orderBy',
     formatHref: () => '#',
-    onClear: () => {}
+    onClear: () => { }
 };
 
 export default FiltersMenu;
