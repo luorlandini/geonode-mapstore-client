@@ -14,7 +14,20 @@ import {
     filterMenuItems
 } from '@js/utils/MenuUtils';
 import MenuItem from '@js/components/Menu/MenuItem'
-
+/*
+function FooterItem({
+    state,
+    item
+}) {
+    const { type, label, labelId = '', href } = item;
+    if (type === 'link') {
+        return (
+            <Nav.Link href={readProperty(state, href)}>{labelId && <Message msgId={labelId}/> || label}</Nav.Link>
+        );
+    }
+    return null;
+}
+*/
 const Footer = forwardRef(({
     footerItems,
     user,
