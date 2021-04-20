@@ -13,10 +13,10 @@ import {
 
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
 
-const MenuItem = ({item, menuItemsProps, containerNode, tabIndex, draggable}) => {
+const MenuItem = ({item, menuItemsProps, containerNode, tabIndex, draggable, dropdownClass}) => {
 
     const { formatHref, query, state } = menuItemsProps;
-    const { type, label, labelId = '', items = [], href, style, badge = '' } = item;
+    const { type, label, labelId = '', items = [], href, style, badge = '', image } = item;
     const badgeValue = readProperty(state, badge);
     if (type === 'dropdown') {
         const dropdownItems = items
@@ -38,13 +38,19 @@ const MenuItem = ({item, menuItemsProps, containerNode, tabIndex, draggable}) =>
                 );
             });
         return (
-            <Dropdown>
+            <Dropdown
+                className={`${dropdownClass}`}
+            >
                 <Dropdown.Toggle
                     id={'gn-menu-index-' + item.id}
                     variant="default"
                     tabIndex={tabIndex}
                     style={style}
                 >
+                    {image
+                        ? <img src={readProperty(state, image)} />
+                        : null
+                    }
                     {labelId && <Message msgId={labelId}/> || label}
                     {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
                 </Dropdown.Toggle>
