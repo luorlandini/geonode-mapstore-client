@@ -14,11 +14,16 @@ import {
     readProperty,
     filterMenuItems
 } from '@js/utils/MenuUtils';
-
+import MenuItem from '@js/components/Menu/MenuItem'
+/*
 function NavItem({
     state,
     item
 }) {
+
+    console.log('NavItem');
+    console.log(item);
+
     const { type, label, labelId = '', items = [], image, href } = item;
     if (type === 'dropdown') {
         return (
@@ -64,7 +69,7 @@ function NavItem({
     }
     return null;
 }
-
+*/
 const BrandNavbar = forwardRef(({
     style,
     logo,
@@ -116,9 +121,12 @@ const BrandNavbar = forwardRef(({
                         .map((item, idx) => {
                             return (
                                 <li key={idx}>
-                                    <NavItem
+                                    <MenuItem
                                         item={{ ...item, id: item.id || idx }}
-                                        state={state}
+                                        menuItemsProps={{
+                                            state
+                                        }}
+                                        dropdownClass="gn-user-dropdown"
                                     />
                                 </li>
                             );
