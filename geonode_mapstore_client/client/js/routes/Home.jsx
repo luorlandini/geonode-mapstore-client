@@ -191,6 +191,7 @@ function Home({
     isToggle,
     menu,
     navbar,
+    cardsMenu,
     footer,
     hideHero,
     isFilterForm,
@@ -209,7 +210,6 @@ function Home({
             isMounted.current = false;
         };
     }, []);
-
 
     const brandNavbarNode = useRef();
     const menuIndexNode = useRef();
@@ -488,7 +488,7 @@ function Home({
                                         top: dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
                                     }}
                                     formatHref={handleFormatHref}
-                                    actions={filters?.actions}
+                                    cardsMenu={cardsMenu?.items}
                                     order={query?.sort}
                                     filters={queryFilters}
                                     onClear={handleClear}
