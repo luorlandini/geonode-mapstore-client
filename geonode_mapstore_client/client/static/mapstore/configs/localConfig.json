@@ -305,26 +305,29 @@
             "items": [
                 {
                     "labelId": "gnhome.createNew",
-                    "authenticated": false,
+                    "authenticated": true,
                     "type": "dropdown",
                     "items": [
                         {
                             "labelId": "gnhome.map",
                             "value": "map",
                             "type": "link",
-                            "href": "/maps/new"
+                            "href": "/maps/new",
+                            "authenticated": true
                         },
                         {
                             "labelId": "gnhome.geostory",
                             "value": "geostory",
                             "type": "link",
-                            "href": "/apps/new?appType=GeoStory"
+                            "href": "/apps/new?appType=GeoStory",
+                            "authenticated": true
                         }
 
                     ]
                 },
                 {
-                    "type": "divider"
+                    "type": "divider",
+                    "authenticated": true
                 }
             ]
         },
