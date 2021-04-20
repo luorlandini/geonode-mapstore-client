@@ -21,9 +21,11 @@ import {
     filterMenuItems
 } from '@js/utils/MenuUtils';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
+import MenuItem from '@js/components/Menu/MenuItem'
 
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
 
+/*
 function MenuItem({
     tabIndex,
     draggable,
@@ -111,7 +113,7 @@ function MenuItem({
 
     return null;
 }
-
+*/
 const MenuIndex = forwardRef(({
     style,
     leftItems,
@@ -127,6 +129,8 @@ const MenuIndex = forwardRef(({
         ...(getConfigProp('geoNodeResourcesInfo') || {})
     };
 
+    console.log('user');
+    console.log(user);
     return (
         <nav
             ref={ref}
