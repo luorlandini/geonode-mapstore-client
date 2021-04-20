@@ -13,19 +13,7 @@ import {
     readProperty,
     filterMenuItems
 } from '@js/utils/MenuUtils';
-
-function FooterItem({
-    state,
-    item
-}) {
-    const { type, label, labelId = '', href } = item;
-    if (type === 'link') {
-        return (
-            <Nav.Link href={readProperty(state, href)}>{labelId && <Message msgId={labelId}/> || label}</Nav.Link>
-        );
-    }
-    return null;
-}
+import MenuItem from '@js/components/Menu/MenuItem'
 
 const Footer = forwardRef(({
     footerItems,
@@ -48,9 +36,11 @@ const Footer = forwardRef(({
                         .map((item, idx) => {
                             return (
                                 <li key={idx}>
-                                    <FooterItem
+                                    <MenuItem
                                         item={{ ...item, id: item.id || idx }}
-                                        state={state}
+                                        menuItemsProps={{
+                                            state
+                                        }}
                                     />
                                 </li>
                             );
