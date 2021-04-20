@@ -16,38 +16,38 @@ import { filterMenuItems } from '@js/utils/MenuUtils';
 
 
 const CardsMenu = ({ item, menuItemsProps }) => {
-    const { type, labelId = '', items = [], href } = item;
+    const { type, labelId = '', items = [] } = item;
     const { state } = menuItemsProps;
 
     if (type === 'dropdown') {
 
-            const dropdownItems = items
-                .filter((opt) => filterMenuItems(state, opt))
-                .map((opt) => {
-                    return (
-                        <Dropdown.Item
-                            key={opt.value}
-                            href={(opt.type === 'link' && opt.href) ? opt.href : undefined}
-                        >
-                            <Message msgId={opt.labelId} />
-                        </Dropdown.Item>
-                    );
-                })
+        const dropdownItems = items
+            .filter((opt) => filterMenuItems(state, opt))
+            .map((opt) => {
+                return (
+                    <Dropdown.Item
+                        key={opt.value}
+                        href={(opt.type === 'link' && opt.href) ? opt.href : undefined}
+                    >
+                        <Message msgId={opt.labelId} />
+                    </Dropdown.Item>
+                );
+            });
 
         return (
-        <Dropdown alignRight>
-            <Dropdown.Toggle
-                id="create-new-dropdown"
-                variant="default"
-                size="sm"
-            >
-                <Message msgId={labelId} />
-            </Dropdown.Toggle>
-            {<Dropdown.Menu>
-                {dropdownItems}
-            </Dropdown.Menu>
-            }
-        </Dropdown>
+            <Dropdown alignRight>
+                <Dropdown.Toggle
+                    id="create-new-dropdown"
+                    variant="default"
+                    size="sm"
+                >
+                    <Message msgId={labelId} />
+                </Dropdown.Toggle>
+                {<Dropdown.Menu>
+                    {dropdownItems}
+                </Dropdown.Menu>
+                }
+            </Dropdown>
         );
     }
 
@@ -57,7 +57,7 @@ const CardsMenu = ({ item, menuItemsProps }) => {
 
     return null;
 
-}
+};
 
 const FiltersMenu = forwardRef(({
     formatHref,
