@@ -56,7 +56,6 @@ const CardsMenu = ({ item, menuItemsProps }) => {
     }
 
     return null;
-    //return (<div>{createNewElement}</div>);
 
 }
 
