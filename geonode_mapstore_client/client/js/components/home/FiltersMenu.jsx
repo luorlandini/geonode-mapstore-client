@@ -14,7 +14,51 @@ import FaIcon from '@js/components/home/FaIcon';
 import useLocalStorage from '@js/hooks/useLocalStorage';
 import { filterMenuItems } from '@js/utils/MenuUtils';
 import MenuItem from '@js/components/Menu/MenuItem'
+/*
+const CardsMenu = ({ item, menuItemsProps }) => {
+    const { type, labelId = '', items = [] } = item;
+    const { state } = menuItemsProps;
 
+    if (type === 'dropdown') {
+
+        const dropdownItems = items
+            .filter((opt) => filterMenuItems(state, opt))
+            .map((opt) => {
+                return (
+                    <Dropdown.Item
+                        key={opt.value}
+                        href={(opt.type === 'link' && opt.href) ? opt.href : undefined}
+                    >
+                        <Message msgId={opt.labelId} />
+                    </Dropdown.Item>
+                );
+            });
+
+        return (
+            <Dropdown alignRight>
+                <Dropdown.Toggle
+                    id="create-new-dropdown"
+                    variant="default"
+                    size="sm"
+                >
+                    <Message msgId={labelId} />
+                </Dropdown.Toggle>
+                {<Dropdown.Menu>
+                    {dropdownItems}
+                </Dropdown.Menu>
+                }
+            </Dropdown>
+        );
+    }
+
+    if (type === 'divider') {
+        return <div className="gn-menu-index-divider" ></div>;
+    }
+
+    return null;
+
+};
+*/
 const FiltersMenu = forwardRef(({
     formatHref,
     orderOptions,

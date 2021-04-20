@@ -25,6 +25,95 @@ import MenuItem from '@js/components/Menu/MenuItem'
 
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
 
+/*
+function MenuItem({
+    tabIndex,
+    draggable,
+    item,
+    menuItemsProps,
+    containerNode
+}) {
+    const { formatHref, query, state } = menuItemsProps;
+    const { type, label, labelId = '', items = [], href, style, badge = '' } = item;
+    const badgeValue = readProperty(state, badge);
+    if (type === 'dropdown') {
+        const dropdownItems = items
+            .filter((itm) => filterMenuItems(state, itm, item))
+            .map((itm, idx) => {
+                if (itm.type === 'divider') {
+                    return <Dropdown.Divider key={idx} />;
+                }
+                const itmBadgeValue = readProperty(state, itm.badge || '');
+                return (
+                    <Dropdown.Item
+                        key={idx}
+                        href={readProperty(state, itm.href)}
+                        style={itm.style}
+                    >
+                        {itm.labelId && <Message msgId={itm.labelId}/> || itm.label}
+                        {isValidBadgeValue(itmBadgeValue) && <Badge>{itmBadgeValue}</Badge>}
+                    </Dropdown.Item>
+                );
+            });
+        return (
+            <Dropdown>
+                <Dropdown.Toggle
+                    id={'gn-menu-index-' + item.id}
+                    variant="default"
+                    tabIndex={tabIndex}
+                    style={style}
+                >
+                    {labelId && <Message msgId={labelId}/> || label}
+                    {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
+                </Dropdown.Toggle>
+                {containerNode
+                    ? createPortal(<Dropdown.Menu>
+                        {dropdownItems}
+                    </Dropdown.Menu>, containerNode.parentNode)
+                    : <Dropdown.Menu>
+                        {dropdownItems}
+                    </Dropdown.Menu>}
+            </Dropdown>
+        );
+    }
+    if (type === 'link') {
+        return (
+            <Tag
+                tabIndex={tabIndex}
+                draggable={draggable}
+                href={readProperty(state, href)}
+                style={style}
+            >
+                {labelId && <Message msgId={labelId}/> || label}
+                {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
+            </Tag>
+        );
+    }
+    if (type === 'divider') {
+        return <div className="gn-menu-index-divider" style={style}></div>;
+    }
+    if (type === 'filter') {
+        const active = castArray(query.f || []).find(value => value === item.id);
+        return (
+            <Tag
+                tabIndex={tabIndex}
+                draggable={draggable}
+                active={active}
+                style={style}
+                href={formatHref({
+                    query: { f: item.id },
+                    replaceQuery: active ? false : true
+                })}
+            >
+                {labelId && <Message msgId={labelId}/> || label}
+                {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
+            </Tag>
+        );
+    }
+
+    return null;
+}
+*/
 const MenuIndex = forwardRef(({
     style,
     leftItems,
