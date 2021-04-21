@@ -7,7 +7,7 @@
  */
 
 
-import React, { forwardRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@mapstore/framework/components/I18N/Message';
 import { Dropdown, Badge } from 'react-bootstrap-v1';
@@ -32,7 +32,7 @@ const DropdownList = ({
     dropdownClass,
     tabIndex,
     badgeValue,
-    containerNode,
+    containerNode
 }) => {
 
 
@@ -57,18 +57,18 @@ const DropdownList = ({
 
     const DropdownToogle = (
         <Dropdown.Toggle
-                id={'gn-toggle-dropdown-' + id}
-                variant="default"
-                tabIndex={tabIndex}
-                style={toogleStyle}
-            >
-                {toogleImage
-                    ? <img src={readProperty(state, toogleImage)} />
-                    : null
-                }
-                {labelId && <Message msgId={labelId} /> || label}
-                {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
-            </Dropdown.Toggle>
+            id={'gn-toggle-dropdown-' + id}
+            variant="default"
+            tabIndex={tabIndex}
+            style={toogleStyle}
+        >
+            {toogleImage
+                ? <img src={readProperty(state, toogleImage)} />
+                : null
+            }
+            {labelId && <Message msgId={labelId} /> || label}
+            {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
+        </Dropdown.Toggle>
 
     );
 
@@ -88,13 +88,13 @@ const DropdownList = ({
         </Dropdown>
     );
 
-}
+};
 
 DropdownList.propTypes = {
     id: PropTypes.number,
     items: PropTypes.array.isRequired,
-    label:PropTypes.string,
-    labelId:PropTypes.string,
+    label: PropTypes.string,
+    labelId: PropTypes.string,
     toogleStyle: PropTypes.object,
     toogleImage: PropTypes.string,
     state: PropTypes.object,

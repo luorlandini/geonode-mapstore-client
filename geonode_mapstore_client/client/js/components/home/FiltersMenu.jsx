@@ -29,9 +29,6 @@ const FiltersMenu = forwardRef(({
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
     const [cardLayoutStyle] = useLocalStorage('layoutCardsStyle');
-    const state = {
-        user
-    };
 
     return (
         <div

@@ -44,7 +44,7 @@ const MenuConf = {
         }
 
     ]
-}
+};
 
 const user = {
     "pk": 1000,
@@ -66,7 +66,7 @@ const user = {
         "access_token": "uaLxsJ0lBWNYtU2fRKIM4tMp5jsELW"
     },
     "hrefProfile": "/people/profile/admin/"
-}
+};
 
 describe('Test GeoNode Menu', () => {
 
@@ -81,17 +81,17 @@ describe('Test GeoNode Menu', () => {
     });
 
     it('Test componet is rendered', () => {
-        ReactDOM.render( <Menu containerClass={'containerClass'} /> , document.getElementById("container"));
+        ReactDOM.render( <Menu containerClass={'containerClass'} />, document.getElementById("container"));
         const container = document.getElementById('container');
         const el = container.querySelector('.containerClass');
         expect(el).toExist();
     });
 
     it('Test componet is rendered with conf', () => {
-        ReactDOM.render( <Menu items={MenuConf.items} containerClass={'containerClass'} user={user} /> , document.getElementById("container"));
+        ReactDOM.render( <Menu items={MenuConf.items} containerClass={'containerClass'} user={user} />, document.getElementById("container"));
         const container = document.getElementById('container');
         const el = container.querySelector('.containerClass');
         expect(el.getElementsByTagName("li").length).toBe(2);
     });
 
-})
+});

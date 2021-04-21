@@ -51,7 +51,7 @@ const item = {
             ]
         }
     ]
-}
+};
 const user = {
     "pk": 1000,
     "username": "admin",
@@ -72,7 +72,7 @@ const user = {
         "access_token": "uaLxsJ0lBWNYtU2fRKIM4tMp5jsELW"
     },
     "hrefProfile": "/people/profile/admin/"
-}
+};
 
 const state = {
     user
@@ -105,7 +105,7 @@ describe('Test GeoNode Dropdownlist', () => {
             dropdownClass={'dropdownClass'}
             badgeValue={badgeValue}
 
-        /> ,
+        />,
 
         document.getElementById("container"));
         const container = document.getElementById('container');
@@ -114,6 +114,4 @@ describe('Test GeoNode Dropdownlist', () => {
     });
 
 
-
-
-})
+});

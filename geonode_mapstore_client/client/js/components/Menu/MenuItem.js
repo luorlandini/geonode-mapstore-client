@@ -7,18 +7,14 @@
  */
 
 
-import React, { forwardRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { createPortal } from 'react-dom';
 import castArray from 'lodash/castArray';
 import isNil from 'lodash/isNil';
 import Tag from '@js/components/home/Tag';
-import { Dropdown, Badge } from 'react-bootstrap-v1';
+import { Badge } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
-import {
-    readProperty,
-    filterMenuItems
-} from '@js/utils/MenuUtils';
+import { readProperty } from '@js/utils/MenuUtils';
 import { Nav } from 'react-bootstrap-v1';
 import DropdownList from './DropdownList';
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
@@ -41,11 +37,11 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
             tabIndex={tabIndex}
             badgeValue={badgeValue}
             containerNode={containerNode}
-        />)
+        />);
     }
 
     if (type === 'link') {
-         if (subType === 'tag')
+        if (subType === 'tag') {
             return (
                 <Tag
                     tabIndex={tabIndex}
@@ -57,7 +53,8 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
                     {labelId && <Message msgId={labelId} /> || label}
                     {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
                 </Tag>
-            )
+            );
+        }
 
         return (
             <Nav.Link href={readProperty(state, href)}>{labelId && <Message msgId={labelId} /> || label}</Nav.Link>
@@ -89,7 +86,7 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
     return null;
 
 
-}
+};
 
 MenuItem.propTypes = {
     item: PropTypes.object.isRequired,
@@ -97,8 +94,8 @@ MenuItem.propTypes = {
     containerNode: PropTypes.element,
     tabIndex: PropTypes.number,
     draggable: PropTypes.bool,
-    classItem: PropTypes.string,
+    classItem: PropTypes.string
 
-}
+};
 
 export default MenuItem;

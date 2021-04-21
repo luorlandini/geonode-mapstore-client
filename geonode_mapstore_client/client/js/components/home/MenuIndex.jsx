@@ -13,9 +13,8 @@ import ReactResizeDetector from 'react-resize-detector';
 import SwipeMenu from '@js/components/home/SwipeMenu';
 import { filterMenuItems } from '@js/utils/MenuUtils';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
-import MenuItem from '@js/components/Menu/MenuItem'
+import MenuItem from '@js/components/Menu/MenuItem';
 import Menu from '@js/components/Menu';
-const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
 
 const MenuIndex = forwardRef(({
     style,
