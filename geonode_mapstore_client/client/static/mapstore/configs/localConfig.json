@@ -472,7 +472,6 @@
                     "labelId": "gnhome.maps",
                     "type": "link",
                     "href": "/maps/?limit=5",
-                    "authenticated": false,
                     "badge": "${mapsTotalCount}"
                 },
                 {
