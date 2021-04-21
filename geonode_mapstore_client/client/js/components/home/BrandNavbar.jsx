@@ -73,30 +73,6 @@ const BrandNavbar = forwardRef(({
     );
 });
 
-/*
-<ul
-                    className="gn-brand-navbar-right-side"
-                >
-                    {[...navItems]
-                        .reverse()
-                        .filter((item) => filterMenuItems(state, item))
-                        .map((item, idx) => {
-                            return (
-                                <li key={idx}>
-                                    <MenuItem
-                                        item={{ ...item, id: item.id || idx }}
-                                        menuItemsProps={{
-                                            state
-                                        }}
-                                        dropdownClass="gn-user-dropdown"
-                                    />
-                                </li>
-                            );
-                        })}
-
-                </ul>
-*/
-
 BrandNavbar.defaultProps = {
     logo: [],
     links: [],
