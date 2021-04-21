@@ -471,6 +471,7 @@
                 {
                     "labelId": "gnhome.maps",
                     "type": "link",
+                    "subType": "tag",
                     "href": "/maps/?limit=5",
                     "badge": "${mapsTotalCount}"
                 },
@@ -494,6 +495,7 @@
                 },
                 {
                     "type": "link",
+                    "subType": "tag",
                     "href": "/apps/?limit=5",
                     "labelId": "gnhome.apps",
                     "badge": "${geoappsTotalCount}"
