@@ -21,9 +21,6 @@ function NavItem({
     item
 }) {
 
-    console.log('NavItem');
-    console.log(item);
-
     const { type, label, labelId = '', items = [], image, href } = item;
     if (type === 'dropdown') {
         return (
