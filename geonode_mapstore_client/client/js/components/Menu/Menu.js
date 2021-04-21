@@ -11,6 +11,22 @@ import PropTypes from 'prop-types';
 import { filterMenuItems } from '@js/utils/MenuUtils';
 import MenuItem from './MenuItem';
 
+/**
+ * Menu component
+ * @name Menu
+ * @memberof components.Menu
+ * @prop {array} items list of menu item
+ * @prop {string} containerClass css class of list container
+ * @prop {string} childrenClass css class of item in list
+ * @prop {object} user to check auth and rule on item
+ * @prop {string} query string to build the query url in case of link item
+ * @prop {function} formatHref function to format the href in case of link item
+ * @example
+ *  <Menu items={items} user={user} />
+ *
+ */
+
+
 const Menu = ({
     items,
     containerClass,
