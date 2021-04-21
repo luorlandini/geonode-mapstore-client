@@ -7,66 +7,8 @@
  */
 
 import React, { forwardRef, useRef, cloneElement, Children } from 'react';
-import { Dropdown, Nav } from 'react-bootstrap-v1';
-import Message from '@mapstore/framework/components/I18N/Message';
-import FaIcon from '@js/components/home/FaIcon';
-import {
-    readProperty,
-    filterMenuItems
-} from '@js/utils/MenuUtils';
-import MenuItem from '@js/components/Menu/MenuItem'
-/*
-function NavItem({
-    state,
-    item
-}) {
+import Menu from '@js/components/Menu';
 
-    const { type, label, labelId = '', items = [], image, href } = item;
-    if (type === 'dropdown') {
-        return (
-            <Dropdown
-                alignRight
-                className="gn-user-dropdown"
-            >
-                <Dropdown.Toggle
-                    id={'gn-brand-navbar-item-' + item.id}
-                    variant="default"
-                >
-                    {image
-                        ? <img src={readProperty(state, image)} />
-                        : null
-                    }
-                    {labelId && <Message msgId={labelId}/> || label}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                    {items
-                        .filter((itm) => filterMenuItems(state, itm, item))
-                        .map((itm, idx) => {
-                            if (itm.type === 'divider') {
-                                return <Dropdown.Divider key={idx} />;
-                            }
-                            return (
-                                <Dropdown.Item
-                                    key={idx}
-                                    href={readProperty(state, itm.href)}
-                                >
-                                    {itm.faIcon && <><FaIcon name={itm.faIcon}/></>}
-                                    {itm.labelId && <Message msgId={itm.labelId}/> || itm.label}
-                                </Dropdown.Item>
-                            );
-                        })}
-                </Dropdown.Menu>
-            </Dropdown>
-        );
-    }
-    if (type === 'link') {
-        return (
-            <Nav.Link href={readProperty(state, href)}>{labelId && <Message msgId={labelId}/> || label}</Nav.Link>
-        );
-    }
-    return null;
-}
-*/
 const BrandNavbar = forwardRef(({
     style,
     logo,
@@ -81,7 +23,7 @@ const BrandNavbar = forwardRef(({
     const centerWidth = centerNode.current
         ? centerNode.current.getBoundingClientRect().width
         : Infinity;
-    const state = { user };
+
     return (
         <nav
             ref={ref}
@@ -109,7 +51,30 @@ const BrandNavbar = forwardRef(({
                 >
                     {centerWidth >= centerMinWidth && children}
                 </div>}
-                <ul
+                <Menu
+                    items={[...navItems].reverse()}
+                    containerClass={`gn-brand-navbar-right-side`}
+                    childrenClass={`gn-user-dropdown`}
+                    user={user}
+                />
+
+            </div>
+            {children && (inline && centerWidth < centerMinWidth
+            || !inline) &&
+                Children.map(children, child =>
+                    cloneElement(child, {
+                        style: {
+                            ...child.props.style,
+                            margin: '0.5rem auto 0 auto',
+                            width: 'calc(100% - 1rem)'
+                        }
+                    }))}
+        </nav>
+    );
+});
+
+/*
+<ul
                     className="gn-brand-navbar-right-side"
                 >
                     {[...navItems]
@@ -128,21 +93,9 @@ const BrandNavbar = forwardRef(({
                                 </li>
                             );
                         })}
+
                 </ul>
-            </div>
-            {children && (inline && centerWidth < centerMinWidth
-            || !inline) &&
-                Children.map(children, child =>
-                    cloneElement(child, {
-                        style: {
-                            ...child.props.style,
-                            margin: '0.5rem auto 0 auto',
-                            width: 'calc(100% - 1rem)'
-                        }
-                    }))}
-        </nav>
-    );
-});
+*/
 
 BrandNavbar.defaultProps = {
     logo: [],
