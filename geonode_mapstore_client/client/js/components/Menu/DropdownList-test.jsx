@@ -5,53 +5,24 @@ import DropdownList from './DropdownList';
 
 
 const item = {
-    "labelId": "gnhome.data",
+    "labelId": "gnhome.maps",
     "type": "dropdown",
+    "authenticated": true,
+    "badge": "${mapsTotalCount}",
     "items": [
         {
             "type": "link",
-            "href": "/layers/?limit=5",
-            "labelId": "gnhome.layers",
-            "badge": "${layersTotalCount}"
+            "href": "/maps/?limit=5",
+            "labelId": "gnhome.exploreMaps"
         },
         {
             "type": "link",
-            "href": "/documents/?limit=5",
-            "labelId": "gnhome.documents",
-            "badge": "${documentsTotalCount}"
-        },
-        {
-            "type": "link",
-            "href": "/services/?limit=5",
-            "labelId": "gnhome.remoteServices"
-        },
-        {
-            "type": "divider",
-            "authenticated": true
-        },
-        {
-            "type": "link",
-            "href": "/layers/upload",
-            "labelId": "gnhome.uploadLayer",
-            "authenticated": true
-        },
-        {
-            "type": "link",
-            "href": "/documents/upload",
-            "labelId": "gnhome.uploadDocument",
-            "authenticated": true
-        },
-        {
-            "type": "link",
-            "href": "/services/register/",
-            "labelId": "gnhome.addRemoteService",
-            "authenticated": true,
-            "allowedGroups": [
-                "admin"
-            ]
+            "href": "/maps/new",
+            "labelId": "gnhome.createMap"
         }
     ]
 };
+
 const user = {
     "pk": 1000,
     "username": "admin",
@@ -111,6 +82,9 @@ describe('Test GeoNode Dropdownlist', () => {
         const container = document.getElementById('container');
         const el = container.querySelector('.dropdownClass');
         expect(el).toExist();
+        const badge = el.querySelector('.badge');
+        expect(badge.innerHTML).toBe( '' + badgeValue);
+
     });
 
 
