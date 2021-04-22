@@ -8,9 +8,9 @@
 
 import get from 'lodash/get';
 
-function inAllowedGroups(user, allowedGroups) {
+function inAllowedGroups(user, allowedRoles) {
     const groups = user?.info?.groups || [];
-    return !allowedGroups || !!groups.find(group => allowedGroups.indexOf(group) !== -1);
+    return !allowedRoles || !!groups.find(group => allowedRoles.indexOf(group) !== -1);
 }
 
 export function readProperty(state, value) {

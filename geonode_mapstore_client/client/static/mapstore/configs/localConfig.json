@@ -383,7 +383,7 @@
                             "type": "link",
                             "href": "/admin/",
                             "labelId": "gnhome.admin",
-                            "allowedGroups": [
+                            "allowedRoles": [
                                 "admin"
                             ]
                         },
@@ -391,13 +391,13 @@
                             "type": "link",
                             "href": "/geoserver/",
                             "labelId": "gnhome.geoServer",
-                            "allowedGroups": [
+                            "allowedRoles": [
                                 "admin"
                             ]
                         },
                         {
                             "type": "divider",
-                            "allowedGroups": [
+                            "allowedRoles": [
                                 "admin"
                             ]
                         },
@@ -428,41 +428,53 @@
                             "type": "link",
                             "href": "/layers/?limit=5",
                             "labelId": "gnhome.layers",
-                            "badge": "{state.layersTotalCount}"
+                            "badge": "{state.layersTotalCount}",
+                            "permissions": [],
+                            "allowedRoles": []
                         },
                         {
                             "type": "link",
                             "href": "/documents/?limit=5",
                             "labelId": "gnhome.documents",
-                            "badge": "{state.documentsTotalCount}"
+                            "badge": "{state.documentsTotalCount}",
+                            "permissions": [],
+                            "allowedRoles": []
                         },
                         {
                             "type": "link",
                             "href": "/services/?limit=5",
-                            "labelId": "gnhome.remoteServices"
+                            "labelId": "gnhome.remoteServices",
+                            "permissions": [],
+                            "allowedRoles": []
                         },
                         {
                             "type": "divider",
-                            "authenticated": true
+                            "authenticated": true,
+                            "permissions": [],
+                            "allowedRoles": []
                         },
                         {
                             "type": "link",
                             "href": "/layers/upload",
                             "labelId": "gnhome.uploadLayer",
-                            "authenticated": true
+                            "authenticated": true,
+                            "permissions": [],
+                            "allowedRoles": []
                         },
                         {
                             "type": "link",
                             "href": "/documents/upload",
                             "labelId": "gnhome.uploadDocument",
-                            "authenticated": true
+                            "authenticated": true,
+                            "permissions": [],
+                            "allowedRoles": []
                         },
                         {
                             "type": "link",
                             "href": "/services/register/",
                             "labelId": "gnhome.addRemoteService",
                             "authenticated": true,
-                            "allowedGroups": [
+                            "allowedRoles": [
                                 "admin"
                             ]
                         }
@@ -470,6 +482,7 @@
                 },
                 {
                     "labelId": "gnhome.maps",
+                    "authenticated": false,
                     "type": "link",
                     "subType": "tag",
                     "href": "/maps/?limit=5",
@@ -524,7 +537,7 @@
                             "href": "/announcements/",
                             "labelId": "gnhome.announcements",
                             "authenticated": true,
-                            "allowedGroups": [
+                            "allowedRoles": [
                                 "admin"
                             ]
                         },
@@ -543,7 +556,7 @@
                             "href": "/admin/people/profile/add/",
                             "labelId": "gnhome.addUser",
                             "authenticated": true,
-                            "allowedGroups": [
+                            "allowedRoles": [
                                 "admin"
                             ]
                         },
@@ -552,7 +565,7 @@
                             "href": "/groups/create/",
                             "labelId": "gnhome.createGroup",
                             "authenticated": true,
-                            "allowedGroups": [
+                            "allowedRoles": [
                                 "admin"
                             ]
                         }
@@ -563,7 +576,7 @@
         "footer": {
             "items": [
                 {
-                    "label": "geonode.org",
+                    "labelId": "geonode.org",
                     "type": "link",
                     "href": "https://geonode.org/"
                 },

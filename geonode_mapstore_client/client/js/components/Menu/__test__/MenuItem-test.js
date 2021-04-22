@@ -53,7 +53,7 @@ const Item = {
             "href": "/services/register/",
             "labelId": "gnhome.addRemoteService",
             "authenticated": true,
-            "allowedGroups": [
+            "allowedRoles": [
                 "admin"
             ]
         }
