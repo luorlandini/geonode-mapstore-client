@@ -18,6 +18,27 @@ import { readProperty } from '@js/utils/MenuUtils';
 import { Nav } from 'react-bootstrap-v1';
 import DropdownList from './DropdownList';
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
+/**
+ * Menu item component
+ * @name MenuItem
+ * @memberof components.Menu.MenuItem
+ * @prop {object} item the item menu
+ * @prop {object} menuItemsProps contains pros to apply to items, to manage single permissions, build href and query url
+ * @prop {node} containerNode the node to append the child element into a DOM
+ * @prop {number} tabIndex define navigation order
+ * @prop {boolean} draggable is element is draggable
+ * @prop {function} classItem class to apply to the Item
+ * @example
+ *  <MenuItem
+ *            tabIndex={tabindex}
+ *            item={{ ...item, id: item.id || idx }}
+ *            draggable={false}
+ *            menuItemsProps={menuItemsProps}
+ *            containerNode={containerNode.current}
+ *  />
+ *
+ */
+
 const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, classItem }) => {
 
     const { formatHref, query, state } = menuItemsProps;
