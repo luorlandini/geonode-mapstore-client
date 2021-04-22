@@ -352,13 +352,13 @@
                     "authenticated": false
                 },
                 {
-                    "image": "${user.avatar}",
+                    "image": "{state.user.avatar}",
                     "type": "dropdown",
                     "authenticated": true,
                     "items": [
                         {
                             "type": "link",
-                            "href": "${user.hrefProfile}",
+                            "href": "{state.user.hrefProfile}",
                             "labelId": "gnhome.profile"
                         },
                         {
@@ -428,13 +428,13 @@
                             "type": "link",
                             "href": "/layers/?limit=5",
                             "labelId": "gnhome.layers",
-                            "badge": "${layersTotalCount}"
+                            "badge": "{state.layersTotalCount}"
                         },
                         {
                             "type": "link",
                             "href": "/documents/?limit=5",
                             "labelId": "gnhome.documents",
-                            "badge": "${documentsTotalCount}"
+                            "badge": "{state.documentsTotalCount}"
                         },
                         {
                             "type": "link",
@@ -473,13 +473,13 @@
                     "type": "link",
                     "subType": "tag",
                     "href": "/maps/?limit=5",
-                    "badge": "${mapsTotalCount}"
+                    "badge": "{state.mapsTotalCount}"
                 },
                 {
                     "labelId": "gnhome.maps",
                     "type": "dropdown",
                     "authenticated": true,
-                    "badge": "${mapsTotalCount}",
+                    "badge": "{state.mapsTotalCount}",
                     "items": [
                         {
                             "type": "link",
@@ -498,7 +498,7 @@
                     "subType": "tag",
                     "href": "/apps/?limit=5",
                     "labelId": "gnhome.apps",
-                    "badge": "${geoappsTotalCount}"
+                    "badge": "{state.geoappsTotalCount}"
                 },
                 {
                     "labelId": "gnhome.about",

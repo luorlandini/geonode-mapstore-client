@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import Message from '@mapstore/framework/components/I18N/Message';
 import { Dropdown, Badge } from 'react-bootstrap-v1';
 import isNil from 'lodash/isNil';
+import { handleExpression } from '@mapstore/framework/utils/PluginsUtils';
 import {
     readProperty,
     filterMenuItems
@@ -74,11 +75,11 @@ const DropdownList = ({
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
             }
-            const itmBadgeValue = readProperty(state, itm.badge || '');
+            const itmBadgeValue = handleExpression(state,{}, itm.badge || '');
             return (
                 <Dropdown.Item
                     key={idx}
-                    href={readProperty(state, itm.href)}
+                    href={handleExpression(state, {}, itm.href)}
                     style={itm.style}
                 >
                     {itm.labelId && <Message msgId={itm.labelId} /> || itm.label}
@@ -95,7 +96,7 @@ const DropdownList = ({
             style={toogleStyle}
         >
             {toogleImage
-                ? <img src={readProperty(state, toogleImage)} />
+                ? <img src={handleExpression(state, {}, toogleImage)} />
                 : null
             }
             {labelId && <Message msgId={labelId} /> || label}

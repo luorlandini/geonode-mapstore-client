@@ -16,6 +16,7 @@ import { Badge, Nav } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
 import { readProperty } from '@js/utils/MenuUtils';
 import DropdownList from './DropdownList';
+import { handleExpression } from '@mapstore/framework/utils/PluginsUtils';
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
 /**
  * Menu item component
@@ -42,7 +43,8 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
 
     const { formatHref, query, state } = menuItemsProps;
     const { id, type, label, labelId = '', items = [], href, style, badge = '', image, subType } = item;
-    const badgeValue = readProperty(state, badge);
+    //const badgeValue = readProperty(state, badge);
+    const badgeValue = handleExpression(state, {}, badge);
 
     if (type === 'dropdown') {
         return (<DropdownList
@@ -66,7 +68,7 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
                 <Tag
                     tabIndex={tabIndex}
                     draggable={draggable}
-                    href={readProperty(state, href)}
+                    href={handleExpression(state, {}, href)}
                     style={style}
 
                 >
@@ -77,7 +79,7 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
         }
 
         return (
-            <Nav.Link href={readProperty(state, href)}>{labelId && <Message msgId={labelId} /> || label}</Nav.Link>
+            <Nav.Link href={handleExpression(state, {}, href)}>{labelId && <Message msgId={labelId} /> || label}</Nav.Link>
         );
 
     }
