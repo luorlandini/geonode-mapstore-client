@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import expect from 'expect';
-import DropdownList from './DropdownList';
+import DropdownList from '../DropdownList';
 
 
 const item = {

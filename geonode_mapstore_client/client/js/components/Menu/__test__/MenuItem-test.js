@@ -9,40 +9,54 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import expect from 'expect';
-import Menu from './Menu';
+import MenuItem from '../MenuItem';
 
-const MenuConf = {
+const Item = {
+    "labelId": "gnhome.data",
+    "type": "dropdown",
     "items": [
         {
-            "labelId": "gnhome.data",
-            "type": "dropdown",
-            "items": [
-                {
-                    "type": "link",
-                    "href": "/layers/?limit=5",
-                    "labelId": "gnhome.layers",
-                    "badge": "${layersTotalCount}"
-                },
-                {
-                    "type": "link",
-                    "href": "/documents/?limit=5",
-                    "labelId": "gnhome.documents",
-                    "badge": "${documentsTotalCount}"
-                }
-            ]
+            "type": "link",
+            "href": "/layers/?limit=5",
+            "labelId": "gnhome.layers",
+            "badge": "${layersTotalCount}"
         },
         {
-            "labelId": "gnhome.maps",
             "type": "link",
-            "href": "/maps/?limit=5",
-            "authenticated": false,
-            "badge": "${mapsTotalCount}"
+            "href": "/documents/?limit=5",
+            "labelId": "gnhome.documents",
+            "badge": "${documentsTotalCount}"
+        },
+        {
+            "type": "link",
+            "href": "/services/?limit=5",
+            "labelId": "gnhome.remoteServices"
         },
         {
             "type": "divider",
             "authenticated": true
+        },
+        {
+            "type": "link",
+            "href": "/layers/upload",
+            "labelId": "gnhome.uploadLayer",
+            "authenticated": true
+        },
+        {
+            "type": "link",
+            "href": "/documents/upload",
+            "labelId": "gnhome.uploadDocument",
+            "authenticated": true
+        },
+        {
+            "type": "link",
+            "href": "/services/register/",
+            "labelId": "gnhome.addRemoteService",
+            "authenticated": true,
+            "allowedGroups": [
+                "admin"
+            ]
         }
-
     ]
 };
 
@@ -67,8 +81,11 @@ const user = {
     },
     "hrefProfile": "/people/profile/admin/"
 };
+const state = {
+    user
+};
 
-describe('Test GeoNode Menu', () => {
+describe('Test GeoNode MenuItem', () => {
 
     beforeEach((done) => {
         document.body.innerHTML = '<div id="container"></div>';
@@ -81,17 +98,13 @@ describe('Test GeoNode Menu', () => {
     });
 
     it('Test componet is rendered', () => {
-        ReactDOM.render( <Menu containerClass={'containerClass'} />, document.getElementById("container"));
+        ReactDOM.render(<MenuItem item={Item}
+            menuItemsProps={state}
+            classItem={'classItem'} />,
+        document.getElementById("container"));
         const container = document.getElementById('container');
-        const el = container.querySelector('.containerClass');
+        const el = container.querySelector('.classItem');
         expect(el).toExist();
-    });
-
-    it('Test componet is rendered with conf', () => {
-        ReactDOM.render( <Menu items={MenuConf.items} containerClass={'containerClass'} user={user} />, document.getElementById("container"));
-        const container = document.getElementById('container');
-        const el = container.querySelector('.containerClass');
-        expect(el.getElementsByTagName("li").length).toBe(2);
     });
 
 });
