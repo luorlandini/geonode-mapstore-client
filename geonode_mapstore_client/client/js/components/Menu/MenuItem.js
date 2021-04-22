@@ -12,10 +12,9 @@ import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import isNil from 'lodash/isNil';
 import Tag from '@js/components/home/Tag';
-import { Badge } from 'react-bootstrap-v1';
+import { Badge, Nav } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
 import { readProperty } from '@js/utils/MenuUtils';
-import { Nav } from 'react-bootstrap-v1';
 import DropdownList from './DropdownList';
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
 /**

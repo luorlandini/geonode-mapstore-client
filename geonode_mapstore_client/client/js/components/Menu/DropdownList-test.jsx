@@ -78,7 +78,7 @@ const state = {
     user
 };
 
-const { id, label, labelId = '', items = [], style, badge = '', image } = item;
+const { id, label, labelId = '', items = [], style, image } = item;
 const badgeValue = 3;
 
 describe('Test GeoNode Dropdownlist', () => {

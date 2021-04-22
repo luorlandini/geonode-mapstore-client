@@ -58,7 +58,7 @@ const Item = {
             ]
         }
     ]
-}
+};
 
 const user = {
     "pk": 1000,
@@ -101,7 +101,7 @@ describe('Test GeoNode MenuItem', () => {
         ReactDOM.render(<MenuItem item={Item}
             menuItemsProps={state}
             classItem={'classItem'} />,
-            document.getElementById("container"));
+        document.getElementById("container"));
         const container = document.getElementById('container');
         const el = container.querySelector('.classItem');
         expect(el).toExist();
