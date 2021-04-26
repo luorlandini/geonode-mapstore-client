@@ -47,7 +47,7 @@ export const reduceArrayRecursive = (arr, func) => {
         const newItem = item;
         Object.entries(item).forEach(([key,value])=>{
           if(Array.isArray(value)){
-              newItem[key] = filterArrayProp(item[key], func)
+              newItem[key] = reduceArrayRecursive(item[key], func)
           }
         })
          func(newItem) ? acc.push(newItem) : undefined
