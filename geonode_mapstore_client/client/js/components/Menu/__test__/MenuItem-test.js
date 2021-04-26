@@ -60,30 +60,7 @@ const Item = {
     ]
 };
 
-const user = {
-    "pk": 1000,
-    "username": "admin",
-    "first_name": "",
-    "last_name": "",
-    "avatar": "https://www.gravatar.com/avatar/7a68c67c8d409ff07e42aa5d5ab7b765/?s=240",
-    "info": {
-        "sub": "1000",
-        "name": " ",
-        "given_name": "",
-        "family_name": "",
-        "email": "ad@m.in",
-        "preferred_username": "admin",
-        "groups": [
-            "anonymous",
-            "admin"
-        ],
-        "access_token": "uaLxsJ0lBWNYtU2fRKIM4tMp5jsELW"
-    },
-    "hrefProfile": "/people/profile/admin/"
-};
-const state = {
-    user
-};
+const state = {};
 
 describe('Test GeoNode MenuItem', () => {
 

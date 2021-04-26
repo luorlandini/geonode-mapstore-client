@@ -46,28 +46,6 @@ const MenuConf = {
     ]
 };
 
-const user = {
-    "pk": 1000,
-    "username": "admin",
-    "first_name": "",
-    "last_name": "",
-    "avatar": "https://www.gravatar.com/avatar/7a68c67c8d409ff07e42aa5d5ab7b765/?s=240",
-    "info": {
-        "sub": "1000",
-        "name": " ",
-        "given_name": "",
-        "family_name": "",
-        "email": "ad@m.in",
-        "preferred_username": "admin",
-        "groups": [
-            "anonymous",
-            "admin"
-        ],
-        "access_token": "uaLxsJ0lBWNYtU2fRKIM4tMp5jsELW"
-    },
-    "hrefProfile": "/people/profile/admin/"
-};
-
 describe('Test GeoNode Menu', () => {
 
     beforeEach((done) => {
@@ -88,10 +66,10 @@ describe('Test GeoNode Menu', () => {
     });
 
     it('Test componet is rendered with conf', () => {
-        ReactDOM.render( <Menu items={MenuConf.items} containerClass={'containerClass'} user={user} />, document.getElementById("container"));
+        ReactDOM.render( <Menu items={MenuConf.items} containerClass={'containerClass'} />, document.getElementById("container"));
         const container = document.getElementById('container');
         const el = container.querySelector('.containerClass');
-        expect(el.getElementsByTagName("li").length).toBe(2);
+        expect(el.getElementsByTagName("li").length).toBe(3);
     });
 
 });
