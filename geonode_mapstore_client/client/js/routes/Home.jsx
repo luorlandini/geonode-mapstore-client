@@ -369,15 +369,11 @@ function Home({
         user
     }
     const confWithHandleExpression = mapObjectFunc(v => handleExpression(getMonitorState, {}, v))(geoNodeConfiguration)
-    const menuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.items, (item) => filterMenuItems(userState, item))
+    const menuItemsLeftAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.items, (item) => filterMenuItems(userState, item))
+    const menuItemsRightAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.rightItems, (item) => filterMenuItems(userState, item))
     const navebarItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.navbar?.items, (item) => filterMenuItems(userState, item))
     const filterMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.cardsMenu?.items, (item) => filterMenuItems(userState, item))
     const footerMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.footer?.items, (item) => filterMenuItems(userState, item))
-
-    console.log('menuItemsAllowed');
-    console.log(menuItemsAllowed);
-    console.log(confWithHandleExpression?.menu?.items);
-
 
     const search = (
         <ConnectedSearchBar
@@ -410,7 +406,6 @@ function Home({
                 navItems={navebarItemsAllowed}
                 inline={pageSize !== 'sm'}
                 pageSize={pageSize}
-                user={user}
                 style={{
                     ...theme?.navbar?.style,
                     width
@@ -436,11 +431,10 @@ function Home({
                     top: dimensions.brandNavbarHeight,
                     width
                 }}
-                user={user}
                 getMonitorState={getMonitorState}
                 query={query}
-                leftItems={menuItemsAllowed || menu?.leftItems}
-                rightItems={confWithHandleExpression?.menu?.rightItems}
+                leftItems={menuItemsLeftAllowed || []}
+                rightItems={menuItemsRightAllowed || []}
                 formatHref={handleFormatHref}
                 tools={<ConnectedLanguageSelector
                     inline={theme?.languageSelector?.inline}
@@ -520,7 +514,7 @@ function Home({
                                         top: dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
                                     }}
                                     formatHref={handleFormatHref}
-                                    cardsMenu={filterMenuItemsAllowed}
+                                    cardsMenu={filterMenuItemsAllowed || []}
                                     order={query?.sort}
                                     filters={queryFilters}
                                     onClear={handleClear}
@@ -528,7 +522,6 @@ function Home({
                                     layoutSwitcher={handleStoredLayoutStyle}
                                     orderOptions={filters?.order?.options}
                                     defaultLabelId={filters?.order?.defaultLabelId}
-                                    user={user}
                                 />
 
                             </ConnectedCardGrid>
@@ -540,7 +533,7 @@ function Home({
             </div>
             <Footer
                 ref={footerNode}
-                footerItems={footerMenuItemsAllowed}
+                footerItems={footerMenuItemsAllowed || []}
                 style={theme?.footer?.style}
             />
         </div>
