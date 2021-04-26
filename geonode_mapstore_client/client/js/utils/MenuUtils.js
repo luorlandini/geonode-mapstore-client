@@ -31,3 +31,29 @@ export function filterMenuItems(state, item, parent) {
         || isAuthenticated === true && state?.user && inAllowedGroups(state.user, item.allowedGroups)
         || isAuthenticated === false && !state?.user;
 }
+
+export const mapObjectFunc = Func => {
+    const iter = value => value && typeof value === 'object'
+        ? Array.isArray(value)
+            ? value.map(iter)
+            : Object.fromEntries(Object.entries(value).map(([key, value]) => [key, iter(value, Func)]))
+        : Func(value);
+    return iter;
+};
+
+export const reduceArrayRecursive = (arr, func) => {
+    return arr.reduce(
+      (acc, item) => {
+        const newItem = item;
+        Object.entries(item).forEach(([key,value])=>{
+          if(Array.isArray(value)){
+              newItem[key] = filterArrayProp(item[key], func)
+          }
+        })
+         func(newItem) ? acc.push(newItem) : undefined
+
+        return acc;
+      },
+      []
+    );
+  };
