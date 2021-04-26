@@ -70,7 +70,7 @@ const DropdownList = ({
 
 
     const dropdownItems = items
-        .filter((itm) => filterMenuItems(state, itm))
+        //.filter((itm) => filterMenuItems(state, itm))
         .map((itm, idx) => {
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;

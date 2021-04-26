@@ -43,7 +43,7 @@ const Menu = ({
     return (
         <ul className={`${containerClass}`}>
             {items
-                .filter((item) => filterMenuItems(state, item))
+                //.filter((item) => filterMenuItems(state, item))
                 .map((item, idx) => {
                     return (
                         <li key={idx}>
