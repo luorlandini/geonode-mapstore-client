@@ -267,10 +267,6 @@ function Home({
     }
 
 
-    const withExpression = mapObjectFunc(v => handleExpression(getMonitorState, {}, v))
-    const confWithHandleExpression = withExpression(geoNodeConfiguration);
-
-
     const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
     const [showFilterForm, setShowFilterForm] = useState( (isFilterForm && isToggle) || false);
 
@@ -337,9 +333,11 @@ function Home({
     // update all the information of filter in use on mount
     // to display the correct labels
     const [reRender, setReRender] = useState(0);
+
     const state = useRef(false);
     state.current = {
         query
+
     };
 
     useEffect(() => {
@@ -366,6 +364,20 @@ function Home({
 
 
     }, []);
+
+    const userState = {
+        user
+    }
+    const confWithHandleExpression = mapObjectFunc(v => handleExpression(getMonitorState, {}, v))(geoNodeConfiguration)
+    const menuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.items, (item) => filterMenuItems(userState, item))
+    const navebarItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.navbar?.items, (item) => filterMenuItems(userState, item))
+    const filterMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.cardsMenu?.items, (item) => filterMenuItems(userState, item))
+    const footerMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.footer?.items, (item) => filterMenuItems(userState, item))
+
+    console.log('menuItemsAllowed');
+    console.log(menuItemsAllowed);
+    console.log(confWithHandleExpression?.menu?.items);
+
 
     const search = (
         <ConnectedSearchBar
@@ -395,7 +407,7 @@ function Home({
                         ...logo,
                         ...logo[pageSize]
                     }))}
-                navItems={confWithHandleExpression?.navbar?.items}
+                navItems={navebarItemsAllowed}
                 inline={pageSize !== 'sm'}
                 pageSize={pageSize}
                 user={user}
@@ -427,7 +439,7 @@ function Home({
                 user={user}
                 getMonitorState={getMonitorState}
                 query={query}
-                leftItems={confWithHandleExpression?.menu?.items || menu?.leftItems}
+                leftItems={menuItemsAllowed || menu?.leftItems}
                 rightItems={confWithHandleExpression?.menu?.rightItems}
                 formatHref={handleFormatHref}
                 tools={<ConnectedLanguageSelector
@@ -508,7 +520,7 @@ function Home({
                                         top: dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
                                     }}
                                     formatHref={handleFormatHref}
-                                    cardsMenu={cardsMenu?.items}
+                                    cardsMenu={filterMenuItemsAllowed}
                                     order={query?.sort}
                                     filters={queryFilters}
                                     onClear={handleClear}
@@ -528,7 +540,7 @@ function Home({
             </div>
             <Footer
                 ref={footerNode}
-                footerItems={footer.items}
+                footerItems={footerMenuItemsAllowed}
                 style={theme?.footer?.style}
             />
         </div>
