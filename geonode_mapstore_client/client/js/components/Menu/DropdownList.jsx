@@ -61,7 +61,6 @@ const DropdownList = ({
     labelId,
     toogleStyle,
     toogleImage,
-    state,
     dropdownClass,
     tabIndex,
     badgeValue,
@@ -70,7 +69,6 @@ const DropdownList = ({
 
 
     const dropdownItems = items
-        //.filter((itm) => filterMenuItems(state, itm))
         .map((itm, idx) => {
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
@@ -95,7 +93,7 @@ const DropdownList = ({
             style={toogleStyle}
         >
             {toogleImage
-                ? <img src={handleExpression(state, {}, toogleImage)} />
+                ? <img src={toogleImage} />
                 : null
             }
             {labelId && <Message msgId={labelId} /> || label}

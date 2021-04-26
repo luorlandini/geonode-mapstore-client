@@ -31,19 +31,13 @@ const Menu = ({
     items,
     containerClass,
     childrenClass,
-    user,
     query,
     formatHref
 }) => {
 
-    const state = {
-        user
-    };
-
     return (
         <ul className={`${containerClass}`}>
             {items
-                //.filter((item) => filterMenuItems(state, item))
                 .map((item, idx) => {
                     return (
                         <li key={idx}>
@@ -51,8 +45,7 @@ const Menu = ({
                                 item={{ ...item, id: item.id || idx }}
                                 menuItemsProps={{
                                     query,
-                                    formatHref,
-                                    state
+                                    formatHref
                                 }}
                                 classItem={childrenClass}
                             />

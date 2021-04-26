@@ -41,7 +41,7 @@ const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
 
 const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, classItem }) => {
 
-    const { formatHref, query, state } = menuItemsProps;
+    const { formatHref, query } = menuItemsProps;
     const { id, type, label, labelId = '', items = [], href, style, badge = '', image, subType } = item;
 
     const badgeValue = badge;
@@ -53,7 +53,6 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
             labelId={labelId}
             toogleStyle={style}
             toogleImage={image}
-            state={state}
             dropdownClass={classItem}
             tabIndex={tabIndex}
             badgeValue={badgeValue}
@@ -78,7 +77,7 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
         }
 
         return (
-            <Nav.Link href={handleExpression(state, {}, href)}>{labelId && <Message msgId={labelId} /> || label}</Nav.Link>
+            <Nav.Link href={href}>{labelId && <Message msgId={labelId} /> || label}</Nav.Link>
         );
 
     }

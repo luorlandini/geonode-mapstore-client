@@ -22,14 +22,9 @@ const MenuIndex = forwardRef(({
     rightItems,
     query,
     formatHref,
-    user,
     tools
 }, ref) => {
 
-    const state = {
-        user,
-        ...(getConfigProp('geoNodeResourcesInfo') || {})
-    };
 
     return (
         <nav
@@ -45,13 +40,11 @@ const MenuIndex = forwardRef(({
                             style={{ height }}
                         >
                             <SwipeMenu
-                                items={leftItems
-                                    .filter((item) => filterMenuItems(state, item))}
+                                items={leftItems}
                                 menuItemComponent={MenuItem}
                                 menuItemsProps={{
                                     query,
-                                    formatHref,
-                                    state
+                                    formatHref
                                 }}
                             />
                         </div>
@@ -62,7 +55,6 @@ const MenuIndex = forwardRef(({
                         items={rightItems}
                         containerClass={`gn-brand-navbar-right-side`}
                         childrenClass={`gn-user-dropdown`}
-                        user={user}
                         formatHref={formatHref}
                         query={query}
                     />
