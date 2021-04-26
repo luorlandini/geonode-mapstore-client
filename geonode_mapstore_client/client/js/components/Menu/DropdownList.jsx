@@ -75,12 +75,11 @@ const DropdownList = ({
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
             }
-            //const itmBadgeValue = handleExpression(state,{}, itm.badge || '');
-            const itmBadgeValue=0;
+            const itmBadgeValue = itm.badge;
             return (
                 <Dropdown.Item
                     key={idx}
-                    //href={handleExpression(state, {}, itm.href)}
+                    href={itm.href}
                     style={itm.style}
                 >
                     {itm.labelId && <Message msgId={itm.labelId} /> || itm.label}
