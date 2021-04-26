@@ -66,7 +66,16 @@
         {
             "name": "settings",
             "path": "gnsettings"
+        },
+        {
+            "name": "user",
+            "path": "security.user"
+        },
+        {
+            "name": "geoNodeResourcesInfo",
+            "path": "localConfig.geoNodeResourcesInfo"
         }
+
     ],
     "projectionDefs": [
         {
@@ -352,13 +361,13 @@
                     "authenticated": false
                 },
                 {
-                    "image": "{state.user.avatar}",
+                    "image": "{state('user') && state('user').avatar}",
                     "type": "dropdown",
                     "authenticated": true,
                     "items": [
                         {
                             "type": "link",
-                            "href": "{state.user.hrefProfile}",
+                            "href": "{state('user') && state('user').hrefProfile}",
                             "labelId": "gnhome.profile"
                         },
                         {
@@ -428,7 +437,7 @@
                             "type": "link",
                             "href": "/layers/?limit=5",
                             "labelId": "gnhome.layers",
-                            "badge": "{state.layersTotalCount}",
+                            "badge": "{state('geoNodeResourcesInfo').layersTotalCount}",
                             "permissions": [],
                             "allowedRoles": []
                         },
@@ -436,7 +445,7 @@
                             "type": "link",
                             "href": "/documents/?limit=5",
                             "labelId": "gnhome.documents",
-                            "badge": "{state.documentsTotalCount}",
+                            "badge": "{state('geoNodeResourcesInfo').documentsTotalCount}",
                             "permissions": [],
                             "allowedRoles": []
                         },
@@ -486,13 +495,13 @@
                     "type": "link",
                     "subType": "tag",
                     "href": "/maps/?limit=5",
-                    "badge": "{state.mapsTotalCount}"
+                    "badge": "{state('geoNodeResourcesInfo').mapsTotalCount}"
                 },
                 {
                     "labelId": "gnhome.maps",
                     "type": "dropdown",
                     "authenticated": true,
-                    "badge": "{state.mapsTotalCount}",
+                    "badge": "{state('geoNodeResourcesInfo').mapsTotalCount}",
                     "items": [
                         {
                             "type": "link",
@@ -511,7 +520,7 @@
                     "subType": "tag",
                     "href": "/apps/?limit=5",
                     "labelId": "gnhome.apps",
-                    "badge": "{state.geoappsTotalCount}"
+                    "badge": "{state('geoappsTotalCount')}"
                 },
                 {
                     "labelId": "gnhome.about",

@@ -43,9 +43,8 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
 
     const { formatHref, query, state } = menuItemsProps;
     const { id, type, label, labelId = '', items = [], href, style, badge = '', image, subType } = item;
-    //const badgeValue = readProperty(state, badge);
-    const badgeValue = handleExpression(state, {}, badge);
 
+    const badgeValue = badge;
     if (type === 'dropdown') {
         return (<DropdownList
             id={id}
@@ -68,7 +67,7 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
                 <Tag
                     tabIndex={tabIndex}
                     draggable={draggable}
-                    href={handleExpression(state, {}, href)}
+                    href={href}
                     style={style}
 
                 >

@@ -75,15 +75,16 @@ const DropdownList = ({
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
             }
-            const itmBadgeValue = handleExpression(state,{}, itm.badge || '');
+            //const itmBadgeValue = handleExpression(state,{}, itm.badge || '');
+            const itmBadgeValue=0;
             return (
                 <Dropdown.Item
                     key={idx}
-                    href={handleExpression(state, {}, itm.href)}
+                    //href={handleExpression(state, {}, itm.href)}
                     style={itm.style}
                 >
                     {itm.labelId && <Message msgId={itm.labelId} /> || itm.label}
-                    {isValidBadgeValue(itmBadgeValue) && <Badge>{itmBadgeValue}</Badge>}
+                    {isValidBadgeValue(itm.badge) && <Badge>{itm.badge}</Badge>}
                 </Dropdown.Item>
             );
         });

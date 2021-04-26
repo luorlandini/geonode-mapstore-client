@@ -23,6 +23,13 @@ import DetailsPanel from '@js/components/home/DetailsPanel';
 import FiltersMenu from '@js/components/home/FiltersMenu';
 import FilterForm from '@js/components/home/FilterForm';
 import LanguageSelector from '@js/components/home/LanguageSelector';
+import { getMonitoredState } from '@mapstore/framework/utils/PluginsUtils';
+import { getConfigProp } from "@mapstore/framework/utils/ConfigUtils";
+import { handleExpression } from '@mapstore/framework/utils/PluginsUtils';
+import { getState } from '@mapstore/framework/utils/StateUtils';
+import { filterMenuItems, mapObjectFunc, reduceArrayRecursive } from '@js/utils/MenuUtils';
+
+import get from 'lodash/get';
 import {
     fetchSuggestions,
     searchResources,
@@ -189,6 +196,8 @@ function Home({
     onSearch,
     onToggleFilters,
     isToggle,
+    monitoredUserState,
+    geoNodeConfiguration,
     menu,
     navbar,
     cardsMenu,
@@ -251,6 +260,16 @@ function Home({
         footerNodeHeight,
         heroNodeHeight
     };
+
+
+    const getMonitorState = (path) => {
+        return get(monitoredUserState, path)
+    }
+
+
+    const withExpression = mapObjectFunc(v => handleExpression(getMonitorState, {}, v))
+    const confWithHandleExpression = withExpression(geoNodeConfiguration);
+
 
     const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
     const [showFilterForm, setShowFilterForm] = useState( (isFilterForm && isToggle) || false);
@@ -376,7 +395,7 @@ function Home({
                         ...logo,
                         ...logo[pageSize]
                     }))}
-                navItems={navbar?.items}
+                navItems={confWithHandleExpression?.navbar?.items}
                 inline={pageSize !== 'sm'}
                 pageSize={pageSize}
                 user={user}
@@ -406,9 +425,10 @@ function Home({
                     width
                 }}
                 user={user}
+                getMonitorState={getMonitorState}
                 query={query}
-                leftItems={menu?.items || menu?.leftItems}
-                rightItems={menu?.rightItems}
+                leftItems={confWithHandleExpression?.menu?.items || menu?.leftItems}
+                rightItems={confWithHandleExpression?.menu?.rightItems}
                 formatHref={handleFormatHref}
                 tools={<ConnectedLanguageSelector
                     inline={theme?.languageSelector?.inline}
@@ -535,18 +555,21 @@ Home.defaultProps = {
 
 const DEFAULT_PARAMS = {};
 
+
 const ConnectedHome = connect(
+
     createSelector([
         state => state?.gnsearch?.params || DEFAULT_PARAMS,
         state => state?.security?.user || null,
         state => state?.gnresource?.data || null,
-        state => state?.gnfiltersPanel?.isToggle || false
-    ], (params, user, resource, isToggle) => ({
+        state => state?.gnfiltersPanel?.isToggle || false,
+        state => getMonitoredState(state, getConfigProp('monitorState'))
+    ], (params, user, resource, isToggle, monitoredUserState) => ({
         params,
         user,
         resource,
-        isToggle
-
+        isToggle,
+        monitoredUserState
     })),
     {
         onSearch: searchResources,
