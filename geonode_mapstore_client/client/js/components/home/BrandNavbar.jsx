@@ -13,7 +13,6 @@ const BrandNavbar = forwardRef(({
     style,
     logo,
     navItems,
-    user,
     children,
     centerMinWidth,
     inline

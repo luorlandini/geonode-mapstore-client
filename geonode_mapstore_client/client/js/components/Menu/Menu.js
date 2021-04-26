@@ -8,7 +8,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { filterMenuItems } from '@js/utils/MenuUtils';
 import MenuItem from './MenuItem';
 
 /**

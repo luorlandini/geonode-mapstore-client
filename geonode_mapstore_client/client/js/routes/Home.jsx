@@ -23,10 +23,8 @@ import DetailsPanel from '@js/components/home/DetailsPanel';
 import FiltersMenu from '@js/components/home/FiltersMenu';
 import FilterForm from '@js/components/home/FilterForm';
 import LanguageSelector from '@js/components/home/LanguageSelector';
-import { getMonitoredState } from '@mapstore/framework/utils/PluginsUtils';
+import { getMonitoredState, handleExpression } from '@mapstore/framework/utils/PluginsUtils';
 import { getConfigProp } from "@mapstore/framework/utils/ConfigUtils";
-import { handleExpression } from '@mapstore/framework/utils/PluginsUtils';
-import { getState } from '@mapstore/framework/utils/StateUtils';
 import { filterMenuItems, mapObjectFunc, reduceArrayRecursive } from '@js/utils/MenuUtils';
 
 import get from 'lodash/get';
@@ -198,10 +196,7 @@ function Home({
     isToggle,
     monitoredUserState,
     geoNodeConfiguration,
-    menu,
     navbar,
-    cardsMenu,
-    footer,
     hideHero,
     isFilterForm,
     onSelect,
@@ -263,8 +258,8 @@ function Home({
 
 
     const getMonitorState = (path) => {
-        return get(monitoredUserState, path)
-    }
+        return get(monitoredUserState, path);
+    };
 
 
     const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
@@ -367,13 +362,13 @@ function Home({
 
     const userState = {
         user
-    }
-    const confWithHandleExpression = mapObjectFunc(v => handleExpression(getMonitorState, {}, v))(geoNodeConfiguration)
-    const menuItemsLeftAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.items, (item) => filterMenuItems(userState, item))
-    const menuItemsRightAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.rightItems, (item) => filterMenuItems(userState, item))
-    const navebarItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.navbar?.items, (item) => filterMenuItems(userState, item))
-    const filterMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.cardsMenu?.items, (item) => filterMenuItems(userState, item))
-    const footerMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.footer?.items, (item) => filterMenuItems(userState, item))
+    };
+    const confWithHandleExpression = mapObjectFunc(v => handleExpression(getMonitorState, {}, v))(geoNodeConfiguration);
+    const menuItemsLeftAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.items, (item) => filterMenuItems(userState, item));
+    const menuItemsRightAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.rightItems, (item) => filterMenuItems(userState, item));
+    const navebarItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.navbar?.items, (item) => filterMenuItems(userState, item));
+    const filterMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.cardsMenu?.items, (item) => filterMenuItems(userState, item));
+    const footerMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.footer?.items, (item) => filterMenuItems(userState, item));
 
     const search = (
         <ConnectedSearchBar

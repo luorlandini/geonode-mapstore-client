@@ -8,11 +8,8 @@
 
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import isNil from 'lodash/isNil';
 import ReactResizeDetector from 'react-resize-detector';
 import SwipeMenu from '@js/components/home/SwipeMenu';
-import { filterMenuItems } from '@js/utils/MenuUtils';
-import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 import MenuItem from '@js/components/Menu/MenuItem';
 import Menu from '@js/components/Menu';
 

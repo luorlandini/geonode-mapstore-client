@@ -14,9 +14,7 @@ import isNil from 'lodash/isNil';
 import Tag from '@js/components/home/Tag';
 import { Badge, Nav } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
-import { readProperty } from '@js/utils/MenuUtils';
 import DropdownList from './DropdownList';
-import { handleExpression } from '@mapstore/framework/utils/PluginsUtils';
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
 /**
  * Menu item component

@@ -12,11 +12,6 @@ import PropTypes from 'prop-types';
 import Message from '@mapstore/framework/components/I18N/Message';
 import { Dropdown, Badge } from 'react-bootstrap-v1';
 import isNil from 'lodash/isNil';
-import { handleExpression } from '@mapstore/framework/utils/PluginsUtils';
-import {
-    readProperty,
-    filterMenuItems
-} from '@js/utils/MenuUtils';
 import { createPortal } from 'react-dom';
 
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));

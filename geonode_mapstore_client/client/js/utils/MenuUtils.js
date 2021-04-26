@@ -45,17 +45,17 @@ export const mapObjectFunc = Func => {
 export const reduceArrayRecursive = (arr, func) => {
 
     return arr && arr.reduce(
-      (acc, item) => {
-        const newItem = item;
-        Object.entries(item).forEach(([key,value])=>{
-          if(Array.isArray(value)){
-              newItem[key] = reduceArrayRecursive(item[key], func)
-          }
-        })
-         func(newItem) ? acc.push(newItem) : undefined
+        (acc, item) => {
+            const newItem = item;
+            Object.entries(item).forEach(([key, value])=>{
+                if (Array.isArray(value)) {
+                    newItem[key] = reduceArrayRecursive(item[key], func);
+                }
+            });
+            func(newItem) ? acc.push(newItem) : undefined;
 
-        return acc;
-      },
-      []
+            return acc;
+        },
+        []
     );
-  };
+};
