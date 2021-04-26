@@ -520,7 +520,7 @@
                     "subType": "tag",
                     "href": "/apps/?limit=5",
                     "labelId": "gnhome.apps",
-                    "badge": "{state('geoappsTotalCount')}"
+                    "badge": "{state('geoNodeResourcesInfo').geoappsTotalCount}"
                 },
                 {
                     "labelId": "gnhome.about",
