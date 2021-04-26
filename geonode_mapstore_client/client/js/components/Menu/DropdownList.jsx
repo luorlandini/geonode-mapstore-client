@@ -75,7 +75,6 @@ const DropdownList = ({
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
             }
-            const itmBadgeValue = itm.badge;
             return (
                 <Dropdown.Item
                     key={idx}
