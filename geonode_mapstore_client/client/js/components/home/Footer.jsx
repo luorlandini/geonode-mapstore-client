@@ -11,7 +11,6 @@ import Menu from '@js/components/Menu';
 
 const Footer = forwardRef(({
     footerItems,
-    user,
     style
 }, ref) => {
 
@@ -24,7 +23,6 @@ const Footer = forwardRef(({
             <div>
                 <Menu
                     items={footerItems}
-                    user={user}
                 />
             </div>
         </footer>

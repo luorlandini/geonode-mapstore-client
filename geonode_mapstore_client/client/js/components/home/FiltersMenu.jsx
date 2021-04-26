@@ -23,8 +23,7 @@ const FiltersMenu = forwardRef(({
     style,
     onClick,
     layoutSwitcher,
-    defaultLabelId,
-    user
+    defaultLabelId
 }, ref) => {
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
@@ -50,7 +49,7 @@ const FiltersMenu = forwardRef(({
                 <Menu
                     items={cardsMenu}
                     containerClass={`gn-cards-menu`}
-                    user={user}
+
                 />
 
                 <Button variant="default" onClick={layoutSwitcher} >
