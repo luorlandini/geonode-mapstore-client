@@ -31,7 +31,6 @@ const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
  * @prop {string} labelId alternative to labe
  * @prop {object} toogleStyle inline style to apply to toogle comp
  * @prop {string} toogleImage image to apply to toogle comp
- * @prop {object} state define the user roles and auth
  * @prop {string} dropdownClass the css class to apply to the comp
  * @prop {number} tabIndex define navigation order
  * @prop {number} badgeValue to apply the value to the item in list
