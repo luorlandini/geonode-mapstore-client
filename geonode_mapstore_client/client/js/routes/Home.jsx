@@ -17,6 +17,7 @@ import { currentLocaleSelector } from '@mapstore/framework/selectors/locale';
 import SearchBar from '@js/components/home/SearchBar';
 import BrandNavbar from '@js/components/home/BrandNavbar';
 import Hero from '@js/components/home/Hero';
+import ActionNavBar from '@js/components/ActionNavbar';
 import MenuIndex from '@js/components/home/MenuIndex';
 import CardGrid from '@js/components/home/CardGrid';
 import DetailsPanel from '@js/components/home/DetailsPanel';
@@ -420,6 +421,7 @@ function Home({
                     {isHeroVisible && search}
                 </div>
             </Hero>}
+            {/*
             <MenuIndex
                 ref={menuIndexNode}
                 style={{
@@ -435,6 +437,19 @@ function Home({
                     inline={theme?.languageSelector?.inline}
                     style={theme?.languageSelector?.style}
                 />}
+            />
+                */}
+            <ActionNavBar
+                ref={menuIndexNode}
+                style={{
+                    top: dimensions.brandNavbarHeight,
+                    width
+                }}
+                getMonitorState={getMonitorState}
+                query={query}
+                leftItems={menuItemsLeftAllowed || []}
+                rightItems={menuItemsRightAllowed || []}
+                formatHref={handleFormatHref}
             />
             <div className="gn-main-home">
 

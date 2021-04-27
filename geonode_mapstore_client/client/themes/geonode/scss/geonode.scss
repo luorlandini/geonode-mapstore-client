@@ -27,6 +27,7 @@
 'loader',
 'main-loader',
 'menu-index',
+'action-navbar',
 'resource-card',
 'search-bar',
 'swipe-menu',
@@ -78,7 +79,8 @@
             @include background-color-var(map.get($theme-vars, 'body-shade-bg'), --gn-body-shade-bg);
         }
 
-        .gn-menu-index {
+        .gn-menu-index,
+        .gn-action-navbar {
             @include color-var(map.get($theme-vars, 'primary-color'), --gn-primary-color);
             @include background-color-var(map.get($theme-vars, 'primary-bg'), --gn-primary-bg);
             .badge {
@@ -129,6 +131,8 @@
         }
 
         .gn-menu-index .gn-tag,
+        .gn-action-navbar .gn-tag,
+        .gn-action-navbar .btn-default,
         .gn-menu-index .btn-default {
             @include color-var(map.get($theme-vars, 'primary-color'), --gn-primary-color);
             @include background-color-var(map.get($theme-vars, 'primary-bg'), --gn-primary-bg);
