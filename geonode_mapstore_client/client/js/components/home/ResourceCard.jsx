@@ -13,6 +13,8 @@ import { Card, Dropdown } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
 import Tag from '@js/components/home/Tag';
+
+
 import {
     getUserName,
     getResourceTypesInfo
@@ -27,7 +29,7 @@ const ResourceCard = forwardRef(({
     options,
     formatHref,
     getTypesInfo,
-    user
+    layoutCardsStyle
 }, ref) => {
 
     const state = {
@@ -48,7 +50,7 @@ const ResourceCard = forwardRef(({
     return (
         <Card
             ref={ref}
-            className={`gn-resource-card${active ? ' active' : ''}`}
+            className={`gn-resource-card${active ? ' active' : ''} ${layoutCardsStyle === 'list' ? 'rounded-0' : ''}`}
         >
             <a
                 className="gn-resource-card-link"
@@ -56,13 +58,14 @@ const ResourceCard = forwardRef(({
                     pathname: `/detail/${res.resource_type}/${res.pk}`
                 })}
             />
-            <Card.Img
-                variant="top"
-                src={res.thumbnail_url}
-            />
-            <Card.Body>
-                <Card.Title>
-                    {icon &&
+            <div className={`card-resource-${layoutCardsStyle}`}>
+                <Card.Img
+                    variant={`${(layoutCardsStyle === 'list') ? 'left' : 'top'}`}
+                    src={res.thumbnail_url}
+                />
+                <Card.Body>
+                    <Card.Title>
+                        {icon &&
                         <>
                             <Tag
                                 href={formatHref({

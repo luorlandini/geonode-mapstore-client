@@ -7,21 +7,27 @@
  */
 
 import React, { forwardRef } from 'react';
-import { Dropdown } from 'react-bootstrap-v1';
+import { Dropdown, Button } from 'react-bootstrap-v1';
 import ReactResizeDetector from 'react-resize-detector';
 import Message from '@mapstore/framework/components/I18N/Message';
+import FaIcon from '@js/components/home/FaIcon';
+import useLocalStorage from '@js/hooks/useLocalStorage';
+import Menu from '@js/components/Menu';
 
 const FiltersMenu = forwardRef(({
     formatHref,
     orderOptions,
     order,
+    cardsMenu,
     filters,
     style,
     onClick,
+    layoutSwitcher,
     defaultLabelId
 }, ref) => {
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
+    const [cardLayoutStyle] = useLocalStorage('layoutCardsStyle');
 
     return (
         <div
@@ -30,7 +36,7 @@ const FiltersMenu = forwardRef(({
             ref={ref}
         >
             <div className="gn-filters-menu-container">
-                <a className="gn-toogle-filter" onClick={ onClick } > <Message msgId="gnhome.filters"/> {`(${filters.length})`}</a>
+                <a className="gn-toogle-filter" onClick={onClick} > <Message msgId="gnhome.filters" /> {`(${filters.length})`}</a>
                 <ReactResizeDetector handleHeight>
                     {({ height }) => (
                         <div
@@ -40,9 +46,21 @@ const FiltersMenu = forwardRef(({
                         </div>
                     )}
                 </ReactResizeDetector>
+                <Menu
+                    items={cardsMenu}
+                    containerClass={`gn-cards-menu`}
+
+                />
+
+                <Button variant="default" onClick={layoutSwitcher} >
+                    <FaIcon name={cardLayoutStyle === 'grid' ? 'th' : cardLayoutStyle} />
+                </Button>
+
                 <div
                     className="gn-filters-menu-tools"
+
                 >
+
                     {orderOptions.length > 0 && <Dropdown alignRight>
                         <Dropdown.Toggle
                             id="sort-dropdown"
@@ -106,7 +124,7 @@ FiltersMenu.defaultProps = {
     ],
     defaultLabelId: 'gnhome.orderBy',
     formatHref: () => '#',
-    onClear: () => {}
+    onClear: () => { }
 };
 
 export default FiltersMenu;

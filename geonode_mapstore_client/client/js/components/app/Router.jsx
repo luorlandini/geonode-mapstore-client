@@ -99,12 +99,8 @@ const Router = forwardRef(({
                                                     plugins={plugins}
                                                     pluginsConfig={pluginsConfig}
                                                     loaderComponent={loaderComponent}
-
+                                                    geoNodeConfiguration={geoNodeConfiguration}
                                                     theme={geoNodeConfiguration.theme}
-                                                    navbar={geoNodeConfiguration.navbar}
-                                                    menu={geoNodeConfiguration.menu}
-                                                    cardOptions={geoNodeConfiguration.cardOptions}
-                                                    footer={geoNodeConfiguration.footer}
                                                     filters={geoNodeConfiguration.filters}
 
                                                     {...routeConfig}
