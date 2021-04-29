@@ -194,7 +194,6 @@ function Home({
     onSearch,
     onToggleFilters,
     isToggle,
-    cardOptions,
     monitoredUserState,
     geoNodeConfiguration,
     navbar,
@@ -465,7 +464,7 @@ function Home({
                                 user={user}
                                 query={query}
                                 pageSize={pageSize}
-                                cardOptions={cardOptions}
+                                cardOptions={geoNodeConfiguration.cardOptions}
                                 isColumnActive={!!resource}
                                 containerStyle={!isHeroVisible
                                     ? {

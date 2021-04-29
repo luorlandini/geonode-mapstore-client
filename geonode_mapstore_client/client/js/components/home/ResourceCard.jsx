@@ -32,20 +32,9 @@ const ResourceCard = forwardRef(({
     layoutCardsStyle
 }, ref) => {
 
-    const state = {
-        user
-    };
     const res = data;
     const types = getTypesInfo();
     const { icon } = types[res.doc_type] || types[res.resource_type] || {};
-
-    const cardOptionsActions = {
-        edit: () => { console.log('clickOpen'); },
-        share: () => { console.log('clickShare'); },
-        update: () => { console.log('clickUpdate'); },
-        "delete": () => { console.log('clickDelete'); }
-
-    };
 
     return (
         <Card
@@ -76,25 +65,25 @@ const ResourceCard = forwardRef(({
                                 <FaIcon name={icon} />
                             </Tag>
                         </>}
-                    <a href={res.detail_url}>
-                        {res.title}
-                    </a>
-                </Card.Title>
-                <Card.Text
-                    className="gn-card-description"
-                >
-                    {res.raw_abstract ? res.raw_abstract : '...'}
-                </Card.Text>
-                <Card.Text
-                    lassName="gn-card-user"
-                >
-                    <Message msgId="gnhome.author"/>: <a href={formatHref({
-                        query: {
-                            'filter{owner.username.in}': res.owner.username
-                        }
-                    })}>{getUserName(res.owner)}</a>
-                </Card.Text>
-                {options && options.length > 0 && <Dropdown
+                        <a href={res.detail_url}>
+                            {res.title}
+                        </a>
+                    </Card.Title>
+                    <Card.Text
+                        className="gn-card-description"
+                    >
+                        {res.raw_abstract ? res.raw_abstract : '...'}
+                    </Card.Text>
+                    <Card.Text
+                        lassName="gn-card-user"
+                    >
+                        <Message msgId="gnhome.author"/>: <a href={formatHref({
+                            query: {
+                                'filter{owner.username.in}': res.owner.username
+                            }
+                        })}>{getUserName(res.owner)}</a>
+                    </Card.Text>
+                    {options && options.length > 0 && <Dropdown
                     className="gn-card-options"
                     alignRight
                 >
@@ -107,13 +96,11 @@ const ResourceCard = forwardRef(({
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {options
-                            .filter((opt) => filterMenuItems(state, opt))
                             .map((opt) => {
                                 return (
                                     <Dropdown.Item
                                         key={opt.href}
                                         href={(opt.type === 'link' && opt.href ) ? opt.href : undefined }
-                                        onClick={(opt.type === 'action' && opt.action ) ? cardOptionsActions[opt.action] : undefined }
                                     >
                                         <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
                                     </Dropdown.Item>
@@ -121,7 +108,9 @@ const ResourceCard = forwardRef(({
                             })}
                     </Dropdown.Menu>
                 </Dropdown>}
-            </Card.Body>
+
+                </Card.Body>
+            </div>
         </Card>
     );
 });

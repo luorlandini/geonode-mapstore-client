@@ -592,13 +592,15 @@
                     "action": "edit"
                 },
                 {
-                    "type": "action",
+                    "type": "link",
+                    "href": "/layers/upload",
                     "labelId": "gnhome.share",
                     "icon": "share-alt",
                     "action": "share"
                 },
                 {
-                    "type": "action",
+                    "type": "link",
+                    "href": "/layers/upload",
                     "labelId": "gnhome.update",
                     "icon": "paste",
                     "action": "update",
@@ -608,7 +610,8 @@
                     ]
                 },
                 {
-                    "type": "action",
+                    "type": "link",
+                    "href": "/layers/upload",
                     "labelId": "gnhome.delete",
                     "icon": "trash",
                     "action": "delete",
