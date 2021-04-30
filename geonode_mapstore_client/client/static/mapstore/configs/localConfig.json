@@ -586,23 +586,14 @@
             "items":[
                 {
                     "type": "link",
-                    "hrefTmpl":"${detail_url}",
-                    "href": "/layers/upload",
+                    "href": "${detail_url}",
                     "labelId": "gnhome.open",
                     "icon": "edit",
                     "action": "edit"
                 },
                 {
                     "type": "link",
-                    "hrefTmpl":"#",
-                    "href": "#",
-                    "labelId": "gnhome.share",
-                    "icon": "share-alt",
-                    "action": "share"
-                },
-                {
-                    "type": "link",
-                    "hrefTmpl":"${detail_url}/metadata_advanced",
+                    "href":"${detail_url}/metadata_advanced",
                     "labelId": "gnhome.update",
                     "icon": "paste",
                     "action": "update",
@@ -613,8 +604,7 @@
                 },
                 {
                     "type": "link",
-                    "hrefTmpl":"${detail_url}/remove",
-                    "href": "#",
+                    "href":"${detail_url}/remove",
                     "labelId": "gnhome.delete",
                     "icon": "trash",
                     "action": "delete",

@@ -76,34 +76,35 @@ const ResourceCard = forwardRef(({
                             }
                         })}>{getUserName(res.owner)}</a>
                     </Card.Text>
-                    {options && options.length > 0 && <Dropdown
-                        className="gn-card-options"
-                        alignRight
-                    >
-                        <Dropdown.Toggle
-                            id={`gn-card-options-${res.pk}`}
-                            variant="default"
-                            size="sm"
-                        >
-                            <FaIcon name="ellipsis-h" />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            {options
-                                .map((opt) => {
-
-                                    return (
-                                        <Dropdown.Item
-                                            key={opt.href}
-                                            href={buildHrefByTemplate(res, opt.hrefTmpl)}
-                                        >
-                                            <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
-                                        </Dropdown.Item>
-                                    );
-                                })}
-                        </Dropdown.Menu>
-                    </Dropdown>}
 
                 </Card.Body>
+                {options && options.length > 0 && <Dropdown
+                    className="gn-card-options"
+                    alignRight
+                >
+                    <Dropdown.Toggle
+                        id={`gn-card-options-${res.pk}`}
+                        variant="default"
+                        size="sm"
+                    >
+                        <FaIcon name="ellipsis-h" />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu  className={`gn-card-dropdown`}  >
+                        {options
+                            .map((opt) => {
+
+                                return (
+                                    <Dropdown.Item
+                                        key={opt.href}
+                                        href={buildHrefByTemplate(res, opt.href)}
+                                    >
+                                        <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
+                                    </Dropdown.Item>
+                                );
+                            })}
+                    </Dropdown.Menu>
+                </Dropdown>}
+
             </div>
         </Card>
     );
