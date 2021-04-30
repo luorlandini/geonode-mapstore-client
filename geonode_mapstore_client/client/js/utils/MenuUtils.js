@@ -20,9 +20,9 @@ export function readProperty(state, value) {
     return value;
 }
 
-export function buildHrefByTemplate(state, template, sep = '/'){
-    const splittedTmpl = (template).split(sep)
-    const properties = splittedTmpl.map( val => readProperty(state, val))
+export function buildHrefByTemplate(state, template, sep = '/') {
+    const splittedTmpl = (template).split(sep);
+    const properties = splittedTmpl.map( val => readProperty(state, val));
     return properties.join(sep);
 }
 

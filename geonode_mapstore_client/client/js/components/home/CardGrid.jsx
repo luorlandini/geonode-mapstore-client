@@ -93,7 +93,6 @@ const Cards = withResizeDetector(({
                             data={resource}
                             formatHref={formatHref}
                             options={options}
-                            //links={links}
                             buildHrefByTemplate={buildHrefByTemplate}
                             layoutCardsStyle={cardLayoutStyle}
                         />
