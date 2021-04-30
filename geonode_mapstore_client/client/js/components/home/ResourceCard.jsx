@@ -7,20 +7,15 @@
  */
 
 import React, { forwardRef } from 'react';
-import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
 import { Card, Dropdown } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
 import Tag from '@js/components/home/Tag';
-
-
 import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
 import {
-    filterMenuItems,
     readProperty,
     buildHrefByTemplate
 } from '@js/utils/MenuUtils';
@@ -124,14 +119,4 @@ ResourceCard.defaultProps = {
     getTypesInfo: getResourceTypesInfo
 };
 
-const ConnectedResourceCard = connect(
-    createSelector(
-        [
-            state => state?.security?.user || null
-
-        ], (user) => ({
-            user
-        }))
-)(ResourceCard);
-
-export default ConnectedResourceCard;
+export default ResourceCard;
