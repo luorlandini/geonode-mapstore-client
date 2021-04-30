@@ -178,7 +178,7 @@ const CardGrid = withResizeDetector(({
                             resources={resources}
                             formatHref={formatHref}
                             isCardActive={isCardActive}
-                            options={cardOptions.items}
+                            options={cardOptions}
                             containerWidth={pageSize === 'md' && isColumnActive ? width - columnWidth : undefined}
                             buildHrefByTemplate={buildHrefByTemplate}
                         />
