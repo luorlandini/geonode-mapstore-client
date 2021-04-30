@@ -369,6 +369,7 @@ function Home({
     const navebarItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.navbar?.items, (item) => filterMenuItems(userState, item));
     const filterMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.cardsMenu?.items, (item) => filterMenuItems(userState, item));
     const footerMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.footer?.items, (item) => filterMenuItems(userState, item));
+    const cardOptionsItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.cardOptions?.items, (item) => filterMenuItems(userState, item));
 
     const search = (
         <ConnectedSearchBar
@@ -464,7 +465,7 @@ function Home({
                                 user={user}
                                 query={query}
                                 pageSize={pageSize}
-                                cardOptions={geoNodeConfiguration.cardOptions}
+                                cardOptions={cardOptionsItemsAllowed}
                                 isColumnActive={!!resource}
                                 buildHrefByTemplate={buildHrefByTemplate}
                                 containerStyle={!isHeroVisible
