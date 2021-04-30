@@ -15,18 +15,14 @@ import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
-import {
-    readProperty,
-    buildHrefByTemplate
-} from '@js/utils/MenuUtils';
-
 const ResourceCard = forwardRef(({
     data,
     active,
     options,
     formatHref,
     getTypesInfo,
-    layoutCardsStyle
+    layoutCardsStyle,
+    buildHrefByTemplate
 }, ref) => {
 
     const res = data;
@@ -98,7 +94,7 @@ const ResourceCard = forwardRef(({
                                 return (
                                     <Dropdown.Item
                                         key={opt.href}
-                                        href={buildHrefByTemplate(res, opt.hrefTmpl, readProperty)}
+                                        href={buildHrefByTemplate(res, opt.hrefTmpl)}
                                     >
                                         <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
                                     </Dropdown.Item>

@@ -20,6 +20,7 @@ const Cards = withResizeDetector(({
     isCardActive,
     containerWidth,
     width: detectedWidth,
+    buildHrefByTemplate,
     options
 }) => {
 
@@ -93,6 +94,7 @@ const Cards = withResizeDetector(({
                             formatHref={formatHref}
                             options={options}
                             //links={links}
+                            buildHrefByTemplate={buildHrefByTemplate}
                             layoutCardsStyle={cardLayoutStyle}
                         />
                     </li>
@@ -118,7 +120,8 @@ const CardGrid = withResizeDetector(({
     messageId,
     children,
     pageSize,
-    width
+    width,
+    buildHrefByTemplate
 }) => {
 
     const columnNode = useRef();
@@ -178,6 +181,7 @@ const CardGrid = withResizeDetector(({
                             isCardActive={isCardActive}
                             options={cardOptions.items}
                             containerWidth={pageSize === 'md' && isColumnActive ? width - columnWidth : undefined}
+                            buildHrefByTemplate={buildHrefByTemplate}
                         />
                         <div className="gn-card-grid-pagination">
                             {loading && <Spinner animation="border" role="status">

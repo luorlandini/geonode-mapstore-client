@@ -25,7 +25,7 @@ import FilterForm from '@js/components/home/FilterForm';
 import LanguageSelector from '@js/components/home/LanguageSelector';
 import { getMonitoredState, handleExpression } from '@mapstore/framework/utils/PluginsUtils';
 import { getConfigProp } from "@mapstore/framework/utils/ConfigUtils";
-import { filterMenuItems, mapObjectFunc, reduceArrayRecursive } from '@js/utils/MenuUtils';
+import { filterMenuItems, mapObjectFunc, reduceArrayRecursive, buildHrefByTemplate } from '@js/utils/MenuUtils';
 
 import get from 'lodash/get';
 import {
@@ -466,6 +466,7 @@ function Home({
                                 pageSize={pageSize}
                                 cardOptions={geoNodeConfiguration.cardOptions}
                                 isColumnActive={!!resource}
+                                buildHrefByTemplate={buildHrefByTemplate}
                                 containerStyle={!isHeroVisible
                                     ? {
                                         marginTop: hideHero && dimensions.brandNavbarHeight,
