@@ -40,7 +40,7 @@
   "geonode": {
     "devServer": {
       "host": "localhost",
-      "proxyTargetHost": "localhost:8080",
+      "proxyTargetHost": "localhost:8000",
       "protocol": "http"
     }
   }
