@@ -20,7 +20,9 @@ import {
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
 import {
-    filterMenuItems
+    filterMenuItems,
+    readProperty,
+    buildHrefByTemplate
 } from '@js/utils/MenuUtils';
 
 const ResourceCard = forwardRef(({
@@ -97,10 +99,11 @@ const ResourceCard = forwardRef(({
                     <Dropdown.Menu>
                         {options
                             .map((opt) => {
+
                                 return (
                                     <Dropdown.Item
                                         key={opt.href}
-                                        href={(opt.type === 'link' && opt.href ) ? opt.href : undefined }
+                                        href={buildHrefByTemplate(res, opt.hrefTmpl, readProperty)}
                                     >
                                         <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
                                     </Dropdown.Item>
