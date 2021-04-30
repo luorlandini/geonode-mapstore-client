@@ -468,7 +468,6 @@ function Home({
                                 containerStyle={!isHeroVisible
                                     ? {
                                         marginTop: hideHero && dimensions.brandNavbarHeight,
-                                        minHeight: `calc(100vh - ${dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight + dimensions.footerNodeHeight}px )`,
                                         paddingBottom: dimensions.footerNodeHeight
                                     }
                                     : undefined}
