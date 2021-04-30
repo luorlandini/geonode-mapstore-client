@@ -20,6 +20,12 @@ export function readProperty(state, value) {
     return value;
 }
 
+export function buildHrefByTemplate(state, template, cb, sep = '/'){
+    const splittedTmpl = (template).split(sep)
+    const properties = splittedTmpl.map( val => cb(state, val))
+    return properties.join(sep);
+}
+
 export function filterMenuItems(state, item, parent) {
     const isAuthenticated = !parent
         ? item.authenticated
