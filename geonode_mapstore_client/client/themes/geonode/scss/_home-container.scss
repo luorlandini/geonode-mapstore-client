@@ -1,9 +1,9 @@
 .gn-main-home {
     .gn-container{
-        width: 100%;
-        padding: 0;
-        margin-right: auto;
-        margin-left: auto;
+        //width: 100%;
+        //padding: 0;
+        //margin-right: auto;
+        //margin-left: auto;
         display: flex;
         flex-wrap: wrap;
         .gn-row{
@@ -31,16 +31,27 @@
 
     .gn-filter-form-container{
         position: relative;
-        width: 100%;
-        flex: 0 0 25%;
+        min-width: 300px;
+        //flex: 0 0 25%;
         max-width: 25%;
         @media screen and (max-width: 768px) {
-            flex: 0 0 33.3333333333%;
-            max-width: 33.3333333333%;
-        }
-        @media screen and (max-width: 576px){
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(255,255,255);
+            background-color: rgb(255,255,255, 0.7);
+            display: fi;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding: 10px 10px;
             flex: 0 0 100%;
             max-width: 100%;
+
+
+
         }
 
     }

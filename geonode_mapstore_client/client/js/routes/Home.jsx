@@ -244,6 +244,11 @@ function Home({
         return get(monitoredUserState, path);
     };
 
+    const [isSmallDevice, setIsSmallDevice] = useState(false);
+    useEffect(() => {
+        setIsSmallDevice((pageSize === 'sm') ? true : false);
+    }, [pageSize]);
+
     const handleShowFilterForm = () => {
         if (!isFilterForm) {
             window.location = `#/search/${location.search}`;
@@ -260,6 +265,8 @@ function Home({
             ...params,
             ...newParams
         }, pathname);
+
+        (isSmallDevice) ? handleShowFilterForm() : undefined
     }
 
     function handleClear() {
@@ -281,7 +288,6 @@ function Home({
             ...options
         });
     }
-
 
     const { query } = url.parse(location.search, true);
 

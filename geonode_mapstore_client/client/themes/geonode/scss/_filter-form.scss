@@ -6,14 +6,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.gn-filter-form {
+ .gn-filter-form {
     color: $gn-body-color;
     background-color: $gn-body-bg;
     padding: 1rem;
     margin-bottom: 1rem;
     position: -webkit-sticky;
     position: sticky;
-    width: 100%;
     overflow-y: scroll;
     .gn-filter-form-header {
         display: flex;
@@ -28,14 +27,28 @@
         flex: 1;
     }
     .gn-filter-form-footer {
+        width: 20em;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
-        margin-bottom: 0.5rem;
-        @media screen and (max-width: 768px) {
-            margin-top: 5rem;
+        margin-bottom: 1.5rem;
+        position: fixed;
+        bottom: 0;
+        background: white;
+        height: 4em;
+        padding: 2em 0.8em 2.5em 0;
+
+        @media only screen and (max-width : 768px) {
+            width: 100%;
+            margin-bottom: 0.5em;
+            padding: 2.5em 3.6em 2.5em 0;
         }
     }
+    @media only screen and (max-width : 768px) {
+        max-height:100% !important;
+        height: 100%;
+    }
+
 }
 
 .gn-search-bar {
@@ -53,7 +66,7 @@
     }
     @media screen and (max-width: 1128px) {
         .gn-filter-form {
-            width: 100%;
+            //width: 100%;
         }
     }
 }
