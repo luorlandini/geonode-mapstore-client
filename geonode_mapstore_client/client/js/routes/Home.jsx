@@ -263,7 +263,7 @@ function Home({
 
 
     const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle');
-    const [showFilterForm, setShowFilterForm] = useState( (isFilterForm && isToggle) || false);
+    const [showFilterForm, setShowFilterForm] = useState( (isFilterForm && !isToggle));
 
     const handleShowFilterForm = () => {
         if (!REDIRECT_NOT_ALLOWED.includes(location.pathname)) {
