@@ -27,7 +27,7 @@
         flex: 1;
     }
     .gn-filter-form-footer {
-        width: 20em;
+        width: 20.3em;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
@@ -36,7 +36,7 @@
         bottom: 0;
         background: white;
         height: 4em;
-        padding: 2em 0.8em 2.5em 0;
+        padding: 2em 1.2em 2.5em 0;
 
         @media only screen and (max-width : 768px) {
             width: 100%;
@@ -47,6 +47,9 @@
     @media only screen and (max-width : 768px) {
         max-height:100% !important;
         height: 100%;
+        top: 0 !important;
+        margin-top: 0 !important;
+
     }
 
 }
@@ -64,11 +67,7 @@
         transform: translateX(-50%);
 
     }
-    @media screen and (max-width: 1128px) {
-        .gn-filter-form {
-            //width: 100%;
-        }
-    }
+
 }
 
 .gn-main-home{

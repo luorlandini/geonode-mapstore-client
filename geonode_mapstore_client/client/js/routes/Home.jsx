@@ -226,10 +226,6 @@ function Home({
         ? heroNode.current.getBoundingClientRect().height
         : 0;
 
-    const filterFormOffset = filterFormNode.current
-        ? filterFormNode?.current?.offsetTop
-        : 0;
-
 
     const dimensions = {
         brandNavbarHeight,
@@ -238,7 +234,6 @@ function Home({
         footerNodeHeight,
         heroNodeHeight
     };
-
 
     const getMonitorState = (path) => {
         return get(monitoredUserState, path);
@@ -368,6 +363,8 @@ function Home({
 
     const isHeroVisible = !hideHero && inView;
     const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight);
+    const filterFormTop = dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
+
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
             <BrandNavbar
@@ -419,12 +416,12 @@ function Home({
 
                 <div className="gn-container">
                     <div className="gn-row">
-                        {isFiltersPanelEnabled && isFilterForm && <div ref={filterFormNode} id="gn-filter-form-container" className={`gn-filter-form-container`}>
+                        {isMounted.current && isFiltersPanelEnabled && isFilterForm &&  <div ref={filterFormNode} id="gn-filter-form-container" className={`gn-filter-form-container`}>
                             <FilterForm
                                 key="gn-filter-form"
                                 id="gn-filter-form"
-                                styleContainerForm={ hideHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeight } :
-                                    { top: (filterFormOffset - dimensions.heroNodeHeight), maxHeight: stickyFiltersMaxHeight }}
+                                styleContainerForm={ hideHero ? { marginTop: dimensions.brandNavbarHeight, top: filterFormTop, maxHeight: stickyFiltersMaxHeight } :
+                                    { top: filterFormTop, maxHeight: stickyFiltersMaxHeight }}
                                 show
                                 fields={filters?.fields?.options}
                                 links={filters?.fields?.links}
