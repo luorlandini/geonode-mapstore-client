@@ -261,7 +261,7 @@ function Home({
             ...newParams
         }, pathname);
 
-        (isSmallDevice) ? handleShowFilterForm() : undefined
+        (isSmallDevice) ? handleShowFilterForm() : undefined;
     }
 
     function handleClear() {
@@ -363,7 +363,7 @@ function Home({
 
     const isHeroVisible = !hideHero && inView;
     const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight);
-    const filterFormTop = dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
+    const filterFormTop = dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight;
 
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
