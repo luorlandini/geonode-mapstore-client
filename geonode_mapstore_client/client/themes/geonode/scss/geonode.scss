@@ -14,7 +14,7 @@
 '~bootstrap-v4/scss/bootstrap',
 
 'mixins',
-
+'action-navbar',
 'brand-navbar',
 'card-grid',
 'details-panel',
@@ -170,7 +170,7 @@
             }
         }
 
-        
+
 
         .gn-details-panel.loading .gn-details-panel-content {
             h1, a, p {
