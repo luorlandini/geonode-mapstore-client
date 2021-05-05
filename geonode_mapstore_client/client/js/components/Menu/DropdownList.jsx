@@ -13,8 +13,15 @@ import Message from '@mapstore/framework/components/I18N/Message';
 import { Dropdown, Badge } from 'react-bootstrap-v1';
 import isNil from 'lodash/isNil';
 import { createPortal } from 'react-dom';
-
+import { Nav } from 'react-bootstrap-v1';
+import FaIcon from '@js/components/home/FaIcon';
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
+
+const itemsList = (items) => (
+    items && items.map(({ labelId, href }) => itemElement(labelId, href)))
+
+const itemElement = (labelId, className, href, index) => (<Nav.Link href={href}>{labelId && <Message msgId={labelId} /> || label}</Nav.Link>)
+
 /**
  * DropdownList component
  * @name DropdownList
@@ -55,6 +62,7 @@ const DropdownList = ({
     labelId,
     toogleStyle,
     toogleImage,
+    toogleIcon,
     dropdownClass,
     tabIndex,
     badgeValue,
@@ -77,6 +85,10 @@ const DropdownList = ({
                 >
                     {itm.labelId && <Message msgId={itm.labelId} /> || itm.label}
                     {isValidBadgeValue(itm.badge) && <Badge>{itm.badge}</Badge>}
+                    {itm?.items && <div className="gn-sub-flat-menu-block">
+                            {itemsList(itm?.items)}
+                        </div>}
+
                 </Dropdown.Item>
             );
         });
@@ -93,6 +105,11 @@ const DropdownList = ({
                 ? <img src={toogleImage} />
                 : null
             }
+            {
+                toogleIcon ? <FaIcon name={toogleIcon} />
+                : null
+            }
+
             {labelId && <Message msgId={labelId} /> || label}
             {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
         </Dropdown.Toggle>

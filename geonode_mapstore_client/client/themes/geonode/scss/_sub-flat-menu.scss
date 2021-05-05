@@ -1,0 +1,38 @@
+/*
+ * Copyright 2021, GeoSolutions Sas.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+ .gn-sub-flat-menu-container{
+   position: relative;
+ }
+ .gn-sub-flat-menu {
+    position: absolute;
+    display: none;
+    margin: 0px;
+    transform: translate(0px, 31px);
+    background-color: var(--gn-body-bg, #ffffff);
+    .gn-sub-flat-menu-parent{
+       .gn-sub-flat-item-parent{
+         background-color: var(--gn-body-shade-bg, #f2f0f0);
+         color: #212529;
+         border-bottom: 1px solid $gn-body-border-color;
+       }
+
+       .gn-sub-flat-menu-block{
+          padding-left: 0.5em;
+          border-bottom: 1px solid $gn-body-border-color;
+       }
+
+    }
+
+
+ }
+ .gn-sub-flat-menu.show{
+   opacity: 1;
+   display: block;
+   transform: translateY(0);
+ }

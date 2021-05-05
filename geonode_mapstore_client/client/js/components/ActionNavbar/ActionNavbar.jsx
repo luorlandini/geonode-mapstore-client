@@ -10,6 +10,7 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactResizeDetector from 'react-resize-detector';
 import Menu from '@js/components/Menu';
+qimport BurgerMenu from '@js/components/Menu/BurgerMenu';
 
 
 const ActionNavbar = forwardRef(({
@@ -20,8 +21,6 @@ const ActionNavbar = forwardRef(({
     formatHref
 }, ref) => {
 
-    console.log('leftItems');
-    console.log(leftItems);
 
     return (
         <nav
@@ -38,6 +37,9 @@ const ActionNavbar = forwardRef(({
                             <div
                                 className="gn-action-navbar-content-left"
                             >
+
+
+
                                 {leftItems &&
                                     <Menu
                                         items={leftItems}
@@ -52,6 +54,10 @@ const ActionNavbar = forwardRef(({
                             <div
                                 className="gn-action-navbar-content-right"
                             >
+                                {
+                                   <BurgerMenu items={leftItems} />
+                                }
+
                                 {rightItems &&
                                     <Menu
                                         items={rightItems}
