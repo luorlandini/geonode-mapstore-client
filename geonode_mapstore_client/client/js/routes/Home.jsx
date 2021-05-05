@@ -262,7 +262,8 @@ function Home({
         }, pathname);
 
     }
-
+    // to update the overlay form in mobile device, after apply,
+    // the form has to close
     const handleUpdateSmallDevice = (newParams, pathname) => {
         handleUpdate(newParams, pathname);
         handleShowFilterForm();
