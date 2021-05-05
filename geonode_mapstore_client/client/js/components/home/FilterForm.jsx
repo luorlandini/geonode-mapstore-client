@@ -99,11 +99,13 @@ function FilterForm({
                 </Button>
             </div>
             <div className="gn-filter-form-body">
+            <div className="gn-filter-form-content">
                 {
                     (links) &&   links.map((types) => (
                         <FilterLinks className="gn-filter-link" blockName={Object.keys(types)} items={types[Object.keys(types)]} />
                     ))
                 }
+
                 <Form
                     style={style}
                 >
@@ -174,6 +176,7 @@ function FilterForm({
                         </Col>
                     </Form.Row>
                 </Form>
+                </div>
             </div>
             <div className="gn-filter-form-footer">
                 <Button
