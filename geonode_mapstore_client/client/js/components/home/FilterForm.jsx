@@ -180,13 +180,15 @@ function FilterForm({
             </div>
             <div className="gn-filter-form-footer">
                 <Button
-                    variant="primary btn-sm"
+                    size="sm"
+                    variant="primary"
                     onClick={handleApply}
                 >
                     <Message msgId="gnhome.apply"/>
                 </Button>
                 <Button
-                    variant="default btn-sm"
+                    size="sm"
+                    variant="default"
                     onClick={handleClear}
                 >
                     <Message msgId="gnhome.clearFilters"/>
