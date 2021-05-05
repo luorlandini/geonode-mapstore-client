@@ -261,8 +261,12 @@ function Home({
             ...newParams
         }, pathname);
 
-        (isSmallDevice) ? handleShowFilterForm() : undefined;
     }
+
+    const handleUpdateSmallDevice = (newParams, pathname) => {
+        handleUpdate(newParams, pathname);
+        handleShowFilterForm();
+    };
 
     function handleClear() {
         const { query } = url.parse(location.search, true);
@@ -428,7 +432,7 @@ function Home({
                                 extentProps={filters?.extent}
                                 suggestionsRequestTypes={suggestionsRequestTypes}
                                 query={query}
-                                onChange={handleUpdate}
+                                onChange={isSmallDevice && handleUpdateSmallDevice || handleUpdate}
                                 onClose={handleShowFilterForm}
                             />
 
