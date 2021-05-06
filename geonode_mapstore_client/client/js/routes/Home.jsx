@@ -22,13 +22,12 @@ import MenuIndex from '@js/components/home/MenuIndex';
 import CardGrid from '@js/components/home/CardGrid';
 import DetailsPanel from '@js/components/home/DetailsPanel';
 import FiltersMenu from '@js/components/home/FiltersMenu';
-import FilterForm from '@js/components/home/FilterForm';
+import FiltersForm from '@js/components/FiltersForm';
 import LanguageSelector from '@js/components/home/LanguageSelector';
-import { getMonitoredState, handleExpression } from '@mapstore/framework/utils/PluginsUtils';
-import { getConfigProp } from "@mapstore/framework/utils/ConfigUtils";
-import { filterMenuItems, mapObjectFunc, reduceArrayRecursive, buildHrefByTemplate } from '@js/utils/MenuUtils';
+import { getParsedGeoNodeConfiguration } from "@js/selectors/config";
+import { userSelector } from '@mapstore/framework/selectors/security';
+import { buildHrefByTemplate } from '@js/utils/MenuUtils';
 import { setControlProperty } from '@mapstore/framework/actions/controls';
-import get from 'lodash/get';
 import {
     fetchSuggestions,
     searchResources,
@@ -173,23 +172,33 @@ function getPageSize(width) {
 
 function Home({
     location,
-    theme,
     params,
     onSearch,
     onEnableFiltersPanel,
     isFiltersPanelEnabled,
-    monitoredUserState,
-    geoNodeConfiguration,
+    config,
     hideHero,
     isFilterForm,
     onSelect,
     match,
-    filters,
     user,
     width,
     resource,
     totalResources
 }) {
+
+    const {
+        menuItemsLeftAllowed,
+        menuItemsRightAllowed,
+        navbarItemsAllowed,
+        filterMenuItemsAllowed,
+        footerMenuItemsAllowed,
+        cardOptionsItemsAllowed,
+        filtersFormItemsAllowed,
+        theme,
+        filters
+    } = config;
+
     const pageSize = getPageSize(width);
     const isMounted = useRef();
     useEffect(() => {
@@ -227,10 +236,6 @@ function Home({
         ? heroNode.current.getBoundingClientRect().height
         : 0;
 
-    const filterFormOffset = filterFormNode.current
-        ? filterFormNode?.current?.offsetTop
-        : 0;
-
 
     const dimensions = {
         brandNavbarHeight,
@@ -240,10 +245,10 @@ function Home({
         heroNodeHeight
     };
 
-
-    const getMonitorState = (path) => {
-        return get(monitoredUserState, path);
-    };
+    const [isSmallDevice, setIsSmallDevice] = useState(false);
+    useEffect(() => {
+        setIsSmallDevice((pageSize === 'sm') ? true : false);
+    }, [pageSize]);
 
     const handleShowFilterForm = () => {
         if (!isFilterForm) {
@@ -261,13 +266,21 @@ function Home({
             ...params,
             ...newParams
         }, pathname);
+
     }
+    // to update the overlay form in mobile device, after apply,
+    // the form has to close
+    const handleUpdateSmallDevice = (newParams, pathname) => {
+        handleUpdate(newParams, pathname);
+        handleShowFilterForm();
+    };
 
     function handleClear() {
         const { query } = url.parse(location.search, true);
         const newParams = Object.keys(query)
             .reduce((acc, key) =>
                 key.indexOf('filter') === 0
+                || key === 'f'
                     ? {
                         ...acc,
                         [key]: []
@@ -282,7 +295,6 @@ function Home({
             ...options
         });
     }
-
 
     const { query } = url.parse(location.search, true);
 
@@ -333,17 +345,6 @@ function Home({
 
     }, []);
 
-    const userState = {
-        user
-    };
-    const confWithHandleExpression = mapObjectFunc(v => handleExpression(getMonitorState, {}, v))(geoNodeConfiguration);
-    const menuItemsLeftAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.items, (item) => filterMenuItems(userState, item));
-    const menuItemsRightAllowed = reduceArrayRecursive(confWithHandleExpression?.menu?.rightItems, (item) => filterMenuItems(userState, item));
-    const navbarItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.navbar?.items, (item) => filterMenuItems(userState, item));
-    const filterMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.cardsMenu?.items, (item) => filterMenuItems(userState, item));
-    const footerMenuItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.footer?.items, (item) => filterMenuItems(userState, item));
-    const cardOptionsItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.cardOptions?.items, (item) => filterMenuItems(userState, item));
-
     const search = (
         <ConnectedSearchBar
             key="search"
@@ -363,11 +364,13 @@ function Home({
 
     const isHeroVisible = !hideHero && inView;
     const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight);
+    const filterFormTop = dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight;
+
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
             <BrandNavbar
                 ref={brandNavbarNode}
-                logo={castArray(confWithHandleExpression?.navbar?.logo || [])
+                logo={castArray(config?.navbar?.logo || [])
                     .map((logo) => ({
                         ...logo,
                         ...logo[pageSize]
@@ -401,7 +404,6 @@ function Home({
                     top: dimensions.brandNavbarHeight,
                     width
                 }}
-                getMonitorState={getMonitorState}
                 query={query}
                 leftItems={menuItemsLeftAllowed || []}
                 rightItems={menuItemsRightAllowed || []}
@@ -436,19 +438,17 @@ function Home({
 
                 <div className="gn-container">
                     <div className="gn-row">
-                        {isFiltersPanelEnabled && isFilterForm && <div ref={filterFormNode} id="gn-filter-form-container" className={`gn-filter-form-container`}>
-                            <FilterForm
+                        {isMounted.current && isFiltersPanelEnabled && isFilterForm &&  <div ref={filterFormNode} id="gn-filter-form-container" className={`gn-filter-form-container`}>
+                            <FiltersForm
                                 key="gn-filter-form"
                                 id="gn-filter-form"
-                                styleContainerForm={ hideHero ? { marginTop: dimensions.brandNavbarHeight, top: (filterFormOffset + dimensions.brandNavbarHeight), maxHeight: stickyFiltersMaxHeight } :
-                                    { top: (filterFormOffset - dimensions.heroNodeHeight), maxHeight: stickyFiltersMaxHeight }}
-                                show
-                                fields={filters?.fields?.options}
-                                links={filters?.fields?.links}
+                                styleContainerForm={ hideHero ? { marginTop: dimensions.brandNavbarHeight, top: filterFormTop, maxHeight: stickyFiltersMaxHeight } :
+                                    { top: filterFormTop, maxHeight: stickyFiltersMaxHeight }}
+                                fields={filtersFormItemsAllowed}
                                 extentProps={filters?.extent}
                                 suggestionsRequestTypes={suggestionsRequestTypes}
                                 query={query}
-                                onChange={handleUpdate}
+                                onChange={isSmallDevice && handleUpdateSmallDevice || handleUpdate}
                                 onClose={handleShowFilterForm}
                             />
 
@@ -508,20 +508,18 @@ function Home({
                                     formatHref={handleFormatHref}
                                     cardsMenu={filterMenuItemsAllowed || []}
                                     order={query?.sort}
-                                    filters={queryFilters}
                                     onClear={handleClear}
                                     onClick={handleShowFilterForm}
                                     orderOptions={filters?.order?.options}
                                     defaultLabelId={filters?.order?.defaultLabelId}
                                     totalResources={totalResources}
+                                    filtersActive={!!(queryFilters.length > 0 || query.f || query.extent)}
                                 />
 
                             </ConnectedCardGrid>
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <Footer
                 ref={footerNode}
@@ -558,17 +556,17 @@ const ConnectedHome = connect(
 
     createSelector([
         state => state?.gnsearch?.params || DEFAULT_PARAMS,
-        state => state?.security?.user || null,
+        userSelector,
         state => state?.gnresource?.data || null,
         state => state?.controls?.gnFiltersPanel?.enabled || null,
-        state => getMonitoredState(state, getConfigProp('monitorState')),
+        getParsedGeoNodeConfiguration,
         state => state?.gnsearch?.total || 0
-    ], (params, user, resource, isFiltersPanelEnabled, monitoredUserState, totalResources) => ({
+    ], (params, user, resource, isFiltersPanelEnabled, config, totalResources) => ({
         params,
         user,
         resource,
         isFiltersPanelEnabled,
-        monitoredUserState,
+        config,
         totalResources
     })),
     {
