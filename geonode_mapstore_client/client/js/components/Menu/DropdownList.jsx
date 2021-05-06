@@ -69,8 +69,6 @@ const DropdownList = ({
     alignRight,
     drop
 }) => {
-    console.log('drop');
-    console.log(drop);
 
     const dropdownItems = items
         .map((itm, idx) => {
