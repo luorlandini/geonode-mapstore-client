@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {forwardRef} from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from './MenuItem';
 
@@ -25,7 +25,7 @@ import MenuItem from './MenuItem';
  */
 
 
-const Menu = ({
+const Menu = forwardRef(({
     items,
     containerClass,
     childrenClass,
@@ -33,10 +33,10 @@ const Menu = ({
     formatHref,
     size,
     alignRight
-}) => {
+}, ref) => {
 
     return (
-        <ul className={`${containerClass}`}>
+        <ul ref={ref} className={`${containerClass}`}>
             {items
                 .map((item, idx) => {
                     return (
@@ -56,7 +56,7 @@ const Menu = ({
                 })}
         </ul>
     );
-};
+});
 
 Menu.propTypes = {
     items: PropTypes.array.isRequired,
