@@ -6,11 +6,90 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import ReactResizeDetector from 'react-resize-detector';
 import Menu from '@js/components/Menu';
-qimport BurgerMenu from '@js/components/Menu/BurgerMenu';
+import BurgerMenu from '@js/components/Menu/BurgerMenu';
+import useResizeElement from '@js/hooks/useResizeElement';
+
+
+const LeftContentMenu = ({ items, formatHref, query }) => {
+
+    const navbarContentLeft = useRef();
+    const navbarLeft = useRef();
+    const { width: widthContentLeft } = useResizeElement(navbarContentLeft);
+    const { width: widthNavbarLeft } = useResizeElement(navbarLeft);
+    const [switchToBurgerMenu, setSwitchToBurgerMenu] = useState(false)
+    useEffect(() => {
+        setSwitchToBurgerMenu(widthNavbarLeft >= widthContentLeft)
+    }, [widthNavbarLeft, widthContentLeft])
+
+    return (
+        <div
+            className="gn-action-navbar-content-left"
+            ref={navbarContentLeft}
+        >
+            {
+                (switchToBurgerMenu) && items && <BurgerMenu items={items} />
+            }
+
+            { (!switchToBurgerMenu) && items &&
+
+                <Menu
+                    ref={navbarLeft}
+                    items={items}
+                    containerClass={`gn-brand-navbar-left-side`}
+                    childrenClass={`gn-user-dropdown`}
+                    formatHref={formatHref}
+                    query={query}
+                />
+
+            }
+        </div>
+
+    )
+}
+
+
+const RightContentMenu = ({ items, formatHref, query, parentRef }) => {
+
+    const navbarContentRight = useRef();
+    const navbarRight = useRef();
+    const { width: widthNavbarRight } = useResizeElement(navbarRight);
+    const { width: widthParent } = useResizeElement(parentRef);
+    const [switchToBurgerMenu, setSwitchToBurgerMenu] = useState(false)
+    useEffect(() => {
+        setSwitchToBurgerMenu(widthNavbarRight >= widthParent)
+    }, [widthNavbarRight, widthParent])
+
+    return (
+        <div
+            ref={navbarContentRight}
+            className="gn-action-navbar-content-right"
+        >
+
+            {
+                (switchToBurgerMenu) && items && <BurgerMenu drop={'down'} items={items} />
+            }
+
+            {(!switchToBurgerMenu) && items &&
+                <Menu
+                    ref={navbarRight}
+                    items={items}
+                    containerClass={`gn-brand-navbar-right-side`}
+                    childrenClass={`gn-user-dropdown`}
+                    formatHref={formatHref}
+                    query={query}
+
+                />
+
+            }
+
+        </div>
+
+
+    )
+}
 
 
 const ActionNavbar = forwardRef(({
@@ -18,9 +97,9 @@ const ActionNavbar = forwardRef(({
     leftItems,
     rightItems,
     query,
-    formatHref
+    formatHref,
+    tools,
 }, ref) => {
-
 
     return (
         <nav
@@ -29,49 +108,28 @@ const ActionNavbar = forwardRef(({
             style={style}
         >
             <div className="gn-action-navbar-container">
-                <ReactResizeDetector handleHeight>
-                    {({ height }) => (
-                        <div
-                            className="gn-action-navbar-content"
-                        >
-                            <div
-                                className="gn-action-navbar-content-left"
-                            >
 
+                <div
+                    className="gn-action-navbar-content"
+                >
+                    <LeftContentMenu
+                        items={leftItems}
+                        formatHref={formatHref}
+                        query={query}
+                    />
 
+                    <RightContentMenu
+                        items={rightItems}
+                        formatHref={formatHref}
+                        query={query}
+                        parentRef={ref}
+                    />
 
-                                {leftItems &&
-                                    <Menu
-                                        items={leftItems}
-                                        containerClass={`gn-brand-navbar-left-side`}
-                                        childrenClass={`gn-user-dropdown`}
-                                        formatHref={formatHref}
-                                        query={query}
-                                    />
+                    <div className="gn-action-navbar-content-tools">
+                        {tools}
+                    </div>
+                </div>
 
-                                }
-                            </div>
-                            <div
-                                className="gn-action-navbar-content-right"
-                            >
-                                {
-                                   <BurgerMenu items={leftItems} />
-                                }
-
-                                {rightItems &&
-                                    <Menu
-                                        items={rightItems}
-                                        containerClass={`gn-brand-navbar-right-side`}
-                                        childrenClass={`gn-user-dropdown`}
-                                        formatHref={formatHref}
-                                        query={query}
-                                    />
-
-                                }
-                            </div>
-                        </div>
-                    )}
-                </ReactResizeDetector>
 
             </div>
 

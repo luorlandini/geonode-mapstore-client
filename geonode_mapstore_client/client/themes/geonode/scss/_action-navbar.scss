@@ -38,17 +38,16 @@
             margin: 0 0 0 0.4rem;
             flex: 1;
             ul {
-                display: flex;
+                display: inline-block;
                 flex-direction: row;
                 list-style-type: none;
                 padding: 0;
                 margin: 0;
                 min-width: 360px;
-                //width: max-content;
 
             }
             li{
-                display: flex;
+                display: inline-block;
                 align-items: center;
             }
 

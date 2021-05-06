@@ -7,15 +7,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
-import FaIcon from '@js/components/home/FaIcon';
+import React from 'react';
 import DropdownList from '@js/components/Menu/DropdownList';
 
-const BurgerMenu = ({items}) => {
+const BurgerMenu = ({items,drop}) => {
 
     return(
         <div className="gn-sub-flat-menu-container" >
-            <DropdownList toogleIcon={`bars`} className={`gn-sub-flat-menu`}  items={items} />
+            <DropdownList
+            toogleIcon={`bars`}
+            className={`gn-sub-flat-menu`}
+            items={items}
+            drop={drop}
+            />
         </div>
 
     )

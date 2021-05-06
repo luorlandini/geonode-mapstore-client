@@ -424,8 +424,13 @@ function Home({
                 getMonitorState={getMonitorState}
                 query={query}
                 leftItems={menuItemsLeftAllowed || []}
-                //rightItems={menuItemsRightAllowed || []}
+                rightItems={menuItemsRightAllowed || []}
                 formatHref={handleFormatHref}
+                tools={<ConnectedLanguageSelector
+                    inline={theme?.languageSelector?.inline}
+                    style={theme?.languageSelector?.style}
+                />}
+
             />
             <div className="gn-main-home">
 
