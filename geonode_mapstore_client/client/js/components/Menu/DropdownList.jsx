@@ -16,10 +16,8 @@ import { createPortal } from 'react-dom';
 import { Nav } from 'react-bootstrap-v1';
 import FaIcon from '@js/components/home/FaIcon';
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
-
 const itemsList = (items) => (
     items && items.map(({ labelId, href }) => itemElement(labelId, href)))
-
 const itemElement = (labelId, className, href, index) => (<Nav.Link href={href}>{labelId && <Message msgId={labelId} /> || label}</Nav.Link>)
 
 /**
@@ -68,9 +66,11 @@ const DropdownList = ({
     badgeValue,
     containerNode,
     size,
-    alignRight
+    alignRight,
+    drop
 }) => {
-
+    console.log('drop');
+    console.log(drop);
 
     const dropdownItems = items
         .map((itm, idx) => {
@@ -121,6 +121,7 @@ const DropdownList = ({
         <Dropdown
             className={`${dropdownClass}`}
             alignRight={alignRight}
+            drop={drop}
         >
             {DropdownToogle}
             {containerNode
