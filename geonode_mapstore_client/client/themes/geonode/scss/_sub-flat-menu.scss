@@ -8,6 +8,8 @@
 
 .gn-sub-flat-menu-container{
   position: relative;
+  display: flex;
+  flex-direction: row-reverse;
 
   .gn-sub-flat-menu-block{
     padding-left: 1em;

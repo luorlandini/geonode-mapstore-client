@@ -195,7 +195,8 @@ function Home({
         cardOptionsItemsAllowed,
         filtersFormItemsAllowed,
         theme,
-        filters
+        filters,
+        menu: {cfg: actionNavbarCfg} = {}
     } = config;
 
     const pageSize = getPageSize(width);
@@ -402,6 +403,7 @@ function Home({
                     top: dimensions.brandNavbarHeight
 
                 }}
+                cfg={actionNavbarCfg}
                 screen={width}
                 query={query}
                 leftItems={menuItemsLeftAllowed || []}

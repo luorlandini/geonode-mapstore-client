@@ -51,21 +51,24 @@ const LeftContentMenu = ({ items, formatHref, query }) => {
 };
 
 
-const RightContentMenu = ({ items, formatHref, query, parentRef }) => {
+const RightContentMenu = ({ items, formatHref, query, parentRef, cfg }) => {
 
     const navbarContentRight = useRef();
     const navbarRight = useRef();
     const { width: widthNavbarRight } = useResizeElement(navbarRight);
     const { width: widthParent } = useResizeElement(parentRef);
+    const { width: widthNavbarContentRight } = useResizeElement(navbarContentRight);
+
     const [switchToBurgerMenu, setSwitchToBurgerMenu] = useState(false);
     useEffect(() => {
-        setSwitchToBurgerMenu(widthNavbarRight >= widthParent);
+        setSwitchToBurgerMenu(widthNavbarRight >= widthParent || widthNavbarRight >= widthNavbarContentRight );
     }, [widthNavbarRight, widthParent]);
 
     return (
         <div
             ref={navbarContentRight}
             className={`gn-action-navbar-content-right`}
+            style={cfg?.style}
         >
 
             {
@@ -98,7 +101,8 @@ const ActionNavbar = forwardRef(({
     rightItems,
     query,
     formatHref,
-    tools
+    tools,
+    cfg
 }, ref) => {
 
     return (
@@ -123,6 +127,7 @@ const ActionNavbar = forwardRef(({
                         formatHref={formatHref}
                         query={query}
                         parentRef={ref}
+                        cfg={cfg?.rightContents}
                     />
 
                     <div className={`gn-action-navbar-content-tools`}>

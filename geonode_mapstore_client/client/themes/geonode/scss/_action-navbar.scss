@@ -56,7 +56,9 @@
             }
 
             .gn-action-navbar-content-left {
+                display: flex;
                 flex: 1;
+                flex-direction: row;
             }
         }
         .gn-action-navbar-tools > * {
