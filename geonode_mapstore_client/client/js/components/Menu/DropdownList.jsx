@@ -72,8 +72,7 @@ const DropdownList = ({
     badgeValue,
     containerNode,
     size,
-    alignRight,
-    drop
+    alignRight
 }) => {
 
     const dropdownItems = items
@@ -128,7 +127,6 @@ const DropdownList = ({
         <Dropdown
             className={`${dropdownClass}`}
             alignRight={alignRight}
-            drop={drop}
         >
             {DropdownToogle}
             {containerNode

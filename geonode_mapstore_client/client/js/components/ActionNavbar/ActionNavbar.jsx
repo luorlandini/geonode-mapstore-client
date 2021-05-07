@@ -72,7 +72,7 @@ const RightContentMenu = ({ items, formatHref, query, parentRef, cfg }) => {
         >
 
             {
-                (switchToBurgerMenu) && items && <BurgerMenu drop={'down'} items={items} />
+                (switchToBurgerMenu) && items && <BurgerMenu items={items} />
             }
 
             {(!switchToBurgerMenu) && items &&
