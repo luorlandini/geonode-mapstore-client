@@ -109,70 +109,70 @@ const conf = {
         }
     ],
     rightItems: [
-    {
-        "labelId": "gnhome.data",
-        "type": "dropdown",
-        "items": [
-            {
-                "type": "link",
-                "href": "/layers/?limit=5",
-                "labelId": "gnhome.layers",
-                "badge": 1,
-                "permissions": [],
-                "allowedRoles": []
-            },
-            {
-                "type": "link",
-                "href": "/documents/?limit=5",
-                "labelId": "gnhome.documents",
-                "badge": 1,
-                "permissions": [],
-                "allowedRoles": []
-            },
-            {
-                "type": "link",
-                "href": "/services/?limit=5",
-                "labelId": "gnhome.remoteServices",
-                "permissions": [],
-                "allowedRoles": []
-            }
-        ]
-    },
-    {
-        "labelId": "gnhome.maps",
-        "authenticated": false,
-        "type": "link",
-        "subType": "tag",
-        "href": "/maps/?limit=5",
-        "badge": 2
-    },
-    {
-        "labelId": "gnhome.maps",
-        "authenticated": false,
-        "type": "link",
-        "subType": "tag",
-        "href": "/maps/?limit=5",
-        "badge": 2
-    },
-    {
-        "labelId": "gnhome.maps",
-        "authenticated": false,
-        "type": "link",
-        "subType": "tag",
-        "href": "/maps/?limit=5",
-        "badge": 2
-    },
-    {
-        "labelId": "gnhome.maps",
-        "authenticated": false,
-        "type": "link",
-        "subType": "tag",
-        "href": "/maps/?limit=5",
-        "badge": 2
-    }
-]
+        {
+            "labelId": "gnhome.data",
+            "type": "dropdown",
+            "items": [
+                {
+                    "type": "link",
+                    "href": "/layers/?limit=5",
+                    "labelId": "gnhome.layers",
+                    "badge": 1,
+                    "permissions": [],
+                    "allowedRoles": []
+                },
+                {
+                    "type": "link",
+                    "href": "/documents/?limit=5",
+                    "labelId": "gnhome.documents",
+                    "badge": 1,
+                    "permissions": [],
+                    "allowedRoles": []
+                },
+                {
+                    "type": "link",
+                    "href": "/services/?limit=5",
+                    "labelId": "gnhome.remoteServices",
+                    "permissions": [],
+                    "allowedRoles": []
+                }
+            ]
+        },
+        {
+            "labelId": "gnhome.maps",
+            "authenticated": false,
+            "type": "link",
+            "subType": "tag",
+            "href": "/maps/?limit=5",
+            "badge": 2
+        },
+        {
+            "labelId": "gnhome.maps",
+            "authenticated": false,
+            "type": "link",
+            "subType": "tag",
+            "href": "/maps/?limit=5",
+            "badge": 2
+        },
+        {
+            "labelId": "gnhome.maps",
+            "authenticated": false,
+            "type": "link",
+            "subType": "tag",
+            "href": "/maps/?limit=5",
+            "badge": 2
+        },
+        {
+            "labelId": "gnhome.maps",
+            "authenticated": false,
+            "type": "link",
+            "subType": "tag",
+            "href": "/maps/?limit=5",
+            "badge": 2
+        }
+    ]
 
-}
+};
 
 describe('Test GeoNode action navbar component', () => {
     beforeEach((done) => {
@@ -198,11 +198,11 @@ describe('Test GeoNode action navbar component', () => {
 
         const el = document.querySelector('.gn-action-navbar');
         expect(el).toExist();
-        const navBarContent = document.querySelector('.gn-action-navbar-content')
+        const navBarContent = document.querySelector('.gn-action-navbar-content');
         expect(navBarContent).toExist();
-        const navBarContentRight = document.querySelector('.gn-action-navbar-content-right')
+        const navBarContentRight = document.querySelector('.gn-action-navbar-content-right');
         expect(navBarContentRight).toExist();
-        const navBarContentLeft = document.querySelector('.gn-brand-navbar-left-side')
+        const navBarContentLeft = document.querySelector('.gn-brand-navbar-left-side');
         expect(navBarContentLeft).toExist();
 
     });
