@@ -60,6 +60,23 @@
                 flex: 1;
                 flex-direction: row;
             }
+
+            .gn-action-navbar-content-right {
+                display: flex;
+                flex: 1;
+                flex-direction: row-reverse;
+                ul {
+                    display: flex;
+                    flex: 1;
+                    flex-direction: row-reverse;
+
+                }
+                li{
+                    display: flex;
+
+                }
+            }
+
         }
         .gn-action-navbar-tools > * {
             margin: 0 0.8rem;
