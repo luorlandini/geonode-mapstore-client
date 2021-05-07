@@ -99,7 +99,8 @@
             @include background-color-var(map.get($theme-vars, 'badge-bg'), --gn-badge-bg);
         }
 
-        .gn-menu-index {
+
+        .gn-menu-index, .gn-action-navbar {
             @include color-var(map.get($theme-vars, 'primary-color'), --gn-primary-color);
             @include background-color-var(map.get($theme-vars, 'primary-bg'), --gn-primary-bg);
             .badge {
