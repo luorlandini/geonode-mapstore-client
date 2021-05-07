@@ -16,9 +16,14 @@ import { createPortal } from 'react-dom';
 import { Nav } from 'react-bootstrap-v1';
 import FaIcon from '@js/components/home/FaIcon';
 const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
-const itemsList = (items) => (
-    items && items.map(({ labelId, href }) => itemElement(labelId, href)))
-const itemElement = (labelId, className, href, index) => (<Nav.Link href={href}>{labelId && <Message msgId={labelId} /> || label}</Nav.Link>)
+const itemsList = (items) => ( items && items.map(({ labelId, href, badge }) => itemElement({ labelId, href, badge })))
+
+const itemElement = ({ labelId, href, badge }) =>  (
+        <>
+            <Nav.Link href={href}>{labelId && <Message msgId={labelId} />}
+            { isValidBadgeValue(badge) && <Badge>{badge}</Badge>}
+            </Nav.Link>
+        </>)
 
 /**
  * DropdownList component
@@ -76,36 +81,39 @@ const DropdownList = ({
                 return <Dropdown.Divider key={idx} />;
             }
             return (
-                <Dropdown.Item
-                    key={idx}
-                    href={itm.href}
-                    style={itm.style}
-                >
-                    {itm.labelId && <Message msgId={itm.labelId} /> || itm.label}
-                    {isValidBadgeValue(itm.badge) && <Badge>{itm.badge}</Badge>}
-                    {itm?.items && <div className="gn-sub-flat-menu-block">
-                            {itemsList(itm?.items)}
-                        </div>}
+                <>
+                    <Dropdown.Item
+                        key={idx}
+                        href={itm.href}
+                        style={itm.style}
+                        as={itm?.items ? 'span' : 'a' }
+                    >
+                        {itm.labelId && <Message msgId={itm.labelId} /> || itm.label}
+                        {isValidBadgeValue(itm.badge) && <Badge>{itm.badge}</Badge>}
+                    </Dropdown.Item>
 
-                </Dropdown.Item>
+                    {itm?.items && <div className={`gn-sub-flat-menu-block`}>
+                        {itemsList(itm?.items)}
+                    </div>}
+                </>
             );
         });
 
     const DropdownToogle = (
         <Dropdown.Toggle
-            id={'gn-toggle-dropdown-' + id}
-            variant="default"
+            id={ `gn-toggle-dropdown-${id}`}
+            variant={`default`}
             tabIndex={tabIndex}
             style={toogleStyle}
             size={size}
         >
             {toogleImage
                 ? <img src={toogleImage} />
-                : null
+                : undefined
             }
             {
                 toogleIcon ? <FaIcon name={toogleIcon} />
-                : null
+                    : undefined
             }
 
             {labelId && <Message msgId={labelId} /> || label}
