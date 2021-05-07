@@ -37,6 +37,7 @@ const itemsList = (items) => ( items && items.map(({ labelId, href, badge }) => 
  * @prop {string} labelId alternative to labe
  * @prop {object} toogleStyle inline style to apply to toogle comp
  * @prop {string} toogleImage image to apply to toogle comp
+ * @prop {string} toogleIcon icon to apply to toogle comp
  * @prop {string} dropdownClass the css class to apply to the comp
  * @prop {number} tabIndex define navigation order
  * @prop {number} badgeValue to apply the value to the item in list
@@ -49,6 +50,7 @@ const itemsList = (items) => ( items && items.map(({ labelId, href, badge }) => 
  *           labelId={labelId}
  *           toogleStyle={style}
  *           toogleImage={image}
+ *           toogleIcon={icon}
  *           state={state}
  *           dropdownClass={classItem}
  *           tabIndex={tabIndex}
