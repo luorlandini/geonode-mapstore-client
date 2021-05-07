@@ -208,7 +208,7 @@ function Home({
     }, []);
 
     const brandNavbarNode = useRef();
-    const menuIndexNode = useRef();
+    const actionNavbarNode = useRef();
     const filtersMenuNode = useRef();
     const footerNode = useRef();
     const filterFormNode = useRef();
@@ -221,8 +221,8 @@ function Home({
         ? brandNavbarNode.current.getBoundingClientRect().height
         : 0;
 
-    const menuIndexNodeHeight = menuIndexNode.current
-        ? menuIndexNode.current.getBoundingClientRect().height
+    const actionNavbarNodeHeight = actionNavbarNode.current
+        ? actionNavbarNode.current.getBoundingClientRect().height
         : 0;
     const filtersMenuNodeHeight = filtersMenuNode.current
         ? filtersMenuNode.current.getBoundingClientRect().height
@@ -238,7 +238,7 @@ function Home({
 
     const dimensions = {
         brandNavbarHeight,
-        menuIndexNodeHeight,
+        actionNavbarNodeHeight,
         filtersMenuNodeHeight,
         footerNodeHeight,
         heroNodeHeight
@@ -362,8 +362,8 @@ function Home({
     );
 
     const isHeroVisible = !hideHero && inView;
-    const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.menuIndexNodeHeight - dimensions.footerNodeHeight);
-    const filterFormTop = dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight;
+    const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.actionNavbarNodeHeight - dimensions.footerNodeHeight);
+    const filterFormTop = dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight;
 
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
@@ -396,27 +396,8 @@ function Home({
                     {isHeroVisible && search}
                 </div>
             </Hero>}
-            {/*
-            <MenuIndex
-                ref={menuIndexNode}
-                style={{
-                    top: dimensions.brandNavbarHeight,
-                    width
-                }}
-                query={query}
-                leftItems={menuItemsLeftAllowed || []}
-                rightItems={menuItemsRightAllowed || []}
-                formatHref={handleFormatHref}
-                tools={<ConnectedLanguageSelector
-                    inline={theme?.languageSelector?.inline}
-                    style={theme?.languageSelector?.style}
-                />}
-
-
-            />
-            */}
             <ActionNavBar
-                ref={menuIndexNode}
+                ref={actionNavbarNode}
                 style={{
                     top: dimensions.brandNavbarHeight
 
@@ -480,7 +461,7 @@ function Home({
                                                     : '100%',
                                             ...(!isHeroVisible && {
                                                 position: 'fixed',
-                                                top: dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight,
+                                                top: dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight,
                                                 bottom: dimensions.footerNodeHeight,
                                                 overflowY: 'scroll',
                                                 height: 'auto'
@@ -501,7 +482,7 @@ function Home({
                                 <FiltersMenu
                                     ref={filtersMenuNode}
                                     style={{
-                                        top: dimensions.brandNavbarHeight + dimensions.menuIndexNodeHeight
+                                        top: dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight
                                     }}
                                     formatHref={handleFormatHref}
                                     cardsMenu={filterMenuItemsAllowed || []}
