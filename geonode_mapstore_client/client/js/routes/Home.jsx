@@ -423,7 +423,6 @@ function Home({
 
                 }}
                 screen={width}
-                getMonitorState={getMonitorState}
                 query={query}
                 leftItems={menuItemsLeftAllowed || []}
                 rightItems={menuItemsRightAllowed || []}
