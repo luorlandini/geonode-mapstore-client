@@ -18,7 +18,6 @@ import SearchBar from '@js/components/home/SearchBar';
 import BrandNavbar from '@js/components/home/BrandNavbar';
 import ActionNavBar from '@js/components/ActionNavbar';
 import Hero from '@js/components/home/Hero';
-import MenuIndex from '@js/components/home/MenuIndex';
 import CardGrid from '@js/components/home/CardGrid';
 import DetailsPanel from '@js/components/home/DetailsPanel';
 import FiltersMenu from '@js/components/home/FiltersMenu';

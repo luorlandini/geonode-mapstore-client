@@ -9,29 +9,29 @@
 import { useState, useEffect } from 'react';
 
 const useResizeElement = (elemRef) => {
-    const [width, setWidth] = useState(0)
-    const [height, setHeight] = useState(0)
+    const [width, setWidth] = useState(0);
+    const [height, setHeight] = useState(0);
 
     const handleResize = () => {
         if (elemRef.current) {
-            setWidth(elemRef.current.offsetWidth)
-            setHeight(elemRef.current.offsetHeight)
+            setWidth(elemRef.current.offsetWidth);
+            setHeight(elemRef.current.offsetHeight);
         }
-    }
+    };
     useEffect(() => {
 
-        window.addEventListener('resize', handleResize)
+        window.addEventListener('resize', handleResize);
 
         return () => {
-            window.removeEventListener('resize', handleResize)
-        }
-    }, [elemRef])
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [elemRef]);
 
     useEffect(() => {
         handleResize();
-    })
+    });
 
-    return { width, height }
-}
+    return { width, height };
+};
 
 export default useResizeElement;

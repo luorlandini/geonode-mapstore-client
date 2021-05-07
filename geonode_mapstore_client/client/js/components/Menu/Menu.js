@@ -20,7 +20,7 @@ import MenuItem from './MenuItem';
  * @prop {string} query string to build the query url in case of link item
  * @prop {function} formatHref function to format the href in case of link item
  * @example
- *  <Menu items={items} user={user} />
+ *  <Menu items={items} />
  *
  */
 

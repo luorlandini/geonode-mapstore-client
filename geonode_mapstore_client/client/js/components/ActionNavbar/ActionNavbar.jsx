@@ -19,14 +19,14 @@ const LeftContentMenu = ({ items, formatHref, query }) => {
     const navbarLeft = useRef();
     const { width: widthContentLeft } = useResizeElement(navbarContentLeft);
     const { width: widthNavbarLeft } = useResizeElement(navbarLeft);
-    const [switchToBurgerMenu, setSwitchToBurgerMenu] = useState(false)
+    const [switchToBurgerMenu, setSwitchToBurgerMenu] = useState(false);
     useEffect(() => {
-        setSwitchToBurgerMenu(widthNavbarLeft >= widthContentLeft)
-    }, [widthNavbarLeft, widthContentLeft])
+        setSwitchToBurgerMenu(widthNavbarLeft >= widthContentLeft);
+    }, [widthNavbarLeft, widthContentLeft]);
 
     return (
         <div
-            className="gn-action-navbar-content-left"
+            className={`gn-action-navbar-content-left`}
             ref={navbarContentLeft}
         >
             {
@@ -47,8 +47,8 @@ const LeftContentMenu = ({ items, formatHref, query }) => {
             }
         </div>
 
-    )
-}
+    );
+};
 
 
 const RightContentMenu = ({ items, formatHref, query, parentRef }) => {
@@ -57,15 +57,15 @@ const RightContentMenu = ({ items, formatHref, query, parentRef }) => {
     const navbarRight = useRef();
     const { width: widthNavbarRight } = useResizeElement(navbarRight);
     const { width: widthParent } = useResizeElement(parentRef);
-    const [switchToBurgerMenu, setSwitchToBurgerMenu] = useState(false)
+    const [switchToBurgerMenu, setSwitchToBurgerMenu] = useState(false);
     useEffect(() => {
-        setSwitchToBurgerMenu(widthNavbarRight >= widthParent)
-    }, [widthNavbarRight, widthParent])
+        setSwitchToBurgerMenu(widthNavbarRight >= widthParent);
+    }, [widthNavbarRight, widthParent]);
 
     return (
         <div
             ref={navbarContentRight}
-            className="gn-action-navbar-content-right"
+            className={`gn-action-navbar-content-right`}
         >
 
             {
@@ -88,8 +88,8 @@ const RightContentMenu = ({ items, formatHref, query, parentRef }) => {
         </div>
 
 
-    )
-}
+    );
+};
 
 
 const ActionNavbar = forwardRef(({
@@ -98,19 +98,19 @@ const ActionNavbar = forwardRef(({
     rightItems,
     query,
     formatHref,
-    tools,
+    tools
 }, ref) => {
 
     return (
         <nav
             ref={ref}
-            className="gn-action-navbar"
+            className={`gn-action-navbar`}
             style={style}
         >
-            <div className="gn-action-navbar-container">
+            <div className={`gn-action-navbar-container`}>
 
                 <div
-                    className="gn-action-navbar-content"
+                    className={`gn-action-navbar-content`}
                 >
                     <LeftContentMenu
                         items={leftItems}
@@ -125,7 +125,7 @@ const ActionNavbar = forwardRef(({
                         parentRef={ref}
                     />
 
-                    <div className="gn-action-navbar-content-tools">
+                    <div className={`gn-action-navbar-content-tools`}>
                         {tools}
                     </div>
                 </div>
