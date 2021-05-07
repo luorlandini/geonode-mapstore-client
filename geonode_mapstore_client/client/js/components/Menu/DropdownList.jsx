@@ -10,20 +10,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@mapstore/framework/components/I18N/Message';
-import { Dropdown, Badge } from 'react-bootstrap-v1';
-import isNil from 'lodash/isNil';
+import { Dropdown, Badge, Nav } from 'react-bootstrap-v1';
 import { createPortal } from 'react-dom';
-import { Nav } from 'react-bootstrap-v1';
 import FaIcon from '@js/components/home/FaIcon';
-const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
-const itemsList = (items) => ( items && items.map(({ labelId, href, badge }) => itemElement({ labelId, href, badge })))
+import {
+    isValidBadgeValue
+} from '@js/utils/MenuUtils';
 
 const itemElement = ({ labelId, href, badge }) =>  (
-        <>
-            <Nav.Link href={href}>{labelId && <Message msgId={labelId} />}
+    <>
+        <Nav.Link href={href}>{labelId && <Message msgId={labelId} />}
             { isValidBadgeValue(badge) && <Badge>{badge}</Badge>}
-            </Nav.Link>
-        </>)
+        </Nav.Link>
+    </>);
+
+const itemsList = (items) => ( items && items.map(({ labelId, href, badge }) => itemElement({ labelId, href, badge })));
 
 /**
  * DropdownList component
