@@ -116,19 +116,28 @@ const ActionNavbar = forwardRef(({
                 <div
                     className={`gn-action-navbar-content`}
                 >
-                    <LeftContentMenu
+
+                    {
+                        leftItems.length > 0 &&
+                        <LeftContentMenu
                         items={leftItems}
                         formatHref={formatHref}
                         query={query}
                     />
+                    }
 
-                    <RightContentMenu
-                        items={rightItems}
-                        formatHref={formatHref}
-                        query={query}
-                        parentRef={ref}
-                        cfg={cfg?.rightContents}
-                    />
+                    {
+
+                        rightItems.length > 0 &&
+                        <RightContentMenu
+                            items={rightItems}
+                            formatHref={formatHref}
+                            query={query}
+                            parentRef={ref}
+                            cfg={cfg?.rightContents}
+                        />
+                    }
+
 
                     <div className={`gn-action-navbar-content-tools`}>
                         {tools}
