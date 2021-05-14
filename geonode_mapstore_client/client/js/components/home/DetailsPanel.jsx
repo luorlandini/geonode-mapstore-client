@@ -16,6 +16,7 @@ import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
+import TextEditable from '@js/components/ContentsEditable/'
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import url from 'url';
@@ -66,12 +67,42 @@ function DetailsPanel({
     formatHref,
     sectionStyle,
     loading,
-    getTypesInfo
+    getTypesInfo,
+    editable = true
 }) {
-
     const detailsContainerNode = useRef();
     const isMounted = useRef();
     const [copiedResourceLink, setCopiedResourceLink] = useState(false);
+
+
+
+    const [isEditingTitle, setIsEditingTitle] =  useState(false);
+    const [isEditingAbstract, setIsEditingAbstract] =  useState(false);
+
+    const startEditingTitle = () => {
+        setIsEditingTitle(true);
+    }
+
+    const startEditingAbstract = () => {
+        setIsEditingAbstract(true);
+    }
+
+    const editTitleRef = useRef(null);
+    const editAbstractRef = useRef(null);
+    useEffect(() => {
+        if (isEditingTitle) {
+            editTitleRef?.current.focus();
+        }
+      }, [isEditingTitle]
+    );
+
+    useEffect(() => {
+        if (isEditingAbstract) {
+            editAbstractRef?.current.focus();
+        }
+      }, [isEditingAbstract]
+    );
+
 
     useEffect(() => {
         isMounted.current = true;
@@ -108,7 +139,7 @@ function DetailsPanel({
         <div
             ref={detailsContainerNode}
             className={`gn-details-panel${loading ? ' loading' : ''}`}
-            style={{ width: sectionStyle.width }}
+            style={{ width: sectionStyle?.width }}
         >
             <section style={sectionStyle}>
                 <div className="gn-details-panel-header">
@@ -174,11 +205,21 @@ function DetailsPanel({
                     </div>}
                 </div>
                 <div className="gn-details-panel-content">
-                    <div className="gn-details-panel-title">
-                        <h1>
-                            {icon && <><FaIcon name={icon}/></>}
-                            {resource?.title}
-                        </h1>
+                    <div className="gn-details-panel-title" >
+
+                       {!isEditingTitle && <h1>
+                            { icon && <><FaIcon name={icon}/></>}
+                            { resource?.title }
+                            { editable && <span onClick={startEditingTitle} ><FaIcon name={'edit'} /></span>}
+                            </h1>
+                        }
+
+                        {isEditingTitle &&
+                            <div className='editContainer'>
+                                <h1><TextEditable ref={editTitleRef} text={resource?.title} /></h1>
+                            </div>
+                        }
+
                         <div className="gn-details-panel-tools">
                             {detailUrl && <OverlayTrigger
                                 placement="top"
@@ -220,12 +261,24 @@ function DetailsPanel({
                             && <>{' '}/{' '}{ moment(resource.date).format('MMMM Do YYYY')}</>}
                     </p>
                     <p>
-                        <div className="gn-details-panel-description">{
-                            resource?.abstract ?
+                        <div className="gn-details-panel-description">
+                        {
+                           !isEditingAbstract && resource?.abstract ?
                                 <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
                                 : null
-                        }</div>
+                        }
+                        { editable && !isEditingAbstract && <span onClick={startEditingAbstract} ><FaIcon name={'edit'} /></span>}
+
+
+                        {isEditingAbstract &&
+                            <div className='editContainer'>
+                                <TextEditable ref={editAbstractRef} text={resource?.abstract} />
+                            </div>
+                        }
+
+                        </div>
                     </p>
+
                     <p>
                         {resource?.category?.identifier && <div>
                             <Message msgId="gnhome.category"/>:{' '}
