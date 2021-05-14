@@ -3313,7 +3313,8 @@
         "document_viewer": [
             { "name": "ViewerLayout" },
             { "name": "ActionNavbar" },
-            { "name": "BrandNavbar" }
+            { "name": "BrandNavbar" },
+            { "name": "DetailViewer"}
         ]
     }
 }
