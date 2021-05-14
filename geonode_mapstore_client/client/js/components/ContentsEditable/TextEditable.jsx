@@ -1,0 +1,37 @@
+/*
+ * Copyright 2019, GeoSolutions Sas.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+import React, { forwardRef } from 'react';
+import ContentEditable from 'react-contenteditable';
+
+
+const TextEditable = forwardRef(({
+        text,
+        className = "gn-text-editable",
+        onUpdate = () =>  {},
+        setText = () => {}
+    }, ref ) => {
+
+    return (<ContentEditable
+        innerRef={ref}
+        className={className}
+        html={text}
+        onClick={evt => {
+            evt.stopPropagation();
+        }}
+        onChange={evt => {
+            setText(evt.target.value);
+        }}
+        onBlur={(evt) => {
+            // this event has no value property
+            onUpdate(evt.target.innerText);
+        }}
+    />);
+});
+
+
+export default TextEditable;
