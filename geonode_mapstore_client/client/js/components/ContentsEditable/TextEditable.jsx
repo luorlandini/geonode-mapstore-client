@@ -15,8 +15,6 @@ const TextEditable = forwardRef(({
     onEdit = () => {}
 
 }, ref ) => {
-    console.log('TextEditable');
-    console.log(text);
     return (<ContentEditable
         innerRef={ref}
         className={className}
