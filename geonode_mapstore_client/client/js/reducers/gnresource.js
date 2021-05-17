@@ -14,10 +14,12 @@ import {
     SET_RESOURCE_TYPE,
     SET_NEW_RESOURCE,
     SET_RESOURCE_ID,
-    SET_RESOURCE_PERMISSIONS
+    SET_RESOURCE_PERMISSIONS,
+    EDIT_RESOURCE
 } from '@js/actions/gnresource';
 
 function gnresource(state = {}, action) {
+
     switch (action.type) {
     case RESOURCE_LOADING: {
         return {
@@ -74,9 +76,31 @@ function gnresource(state = {}, action) {
             permissions: action.permissions
         };
     }
+
+    case EDIT_RESOURCE: {
+        return {
+            ...state,
+            data: {
+                ...state?.data,
+                title: action?.data,
+                name: action?.data
+            }
+        };
+    }
+
+
     default:
         return state;
     }
 }
 
 export default gnresource;
+
+/*
+{
+        return {
+            ...state
+            //data: action.data
+        };
+    }
+*/
