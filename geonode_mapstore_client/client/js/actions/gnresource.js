@@ -51,9 +51,6 @@ export function setResource(data) {
 */
 export function editResource(data) {
 
-    console.log('editResource');
-    console.log(data);
-
     return {
         type: EDIT_RESOURCE,
         data
