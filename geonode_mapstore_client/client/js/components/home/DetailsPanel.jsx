@@ -16,7 +16,6 @@ import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
-import TextEditable from '@js/components/ContentsEditable/'
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import url from 'url';
@@ -68,42 +67,14 @@ function DetailsPanel({
     sectionStyle,
     loading,
     getTypesInfo,
-    editable = true
+    editable,
+    editTitle,
+    editAbstract,
+    editImage
 }) {
     const detailsContainerNode = useRef();
     const isMounted = useRef();
     const [copiedResourceLink, setCopiedResourceLink] = useState(false);
-
-
-
-    const [isEditingTitle, setIsEditingTitle] =  useState(false);
-    const [isEditingAbstract, setIsEditingAbstract] =  useState(false);
-
-    const startEditingTitle = () => {
-        setIsEditingTitle(true);
-    }
-
-    const startEditingAbstract = () => {
-        setIsEditingAbstract(true);
-    }
-
-    const editTitleRef = useRef(null);
-    const editAbstractRef = useRef(null);
-    useEffect(() => {
-        if (isEditingTitle) {
-            editTitleRef?.current.focus();
-        }
-      }, [isEditingTitle]
-    );
-
-    useEffect(() => {
-        if (isEditingAbstract) {
-            editAbstractRef?.current.focus();
-        }
-      }, [isEditingAbstract]
-    );
-
-
     useEffect(() => {
         isMounted.current = true;
         return () => {
@@ -152,8 +123,8 @@ function DetailsPanel({
                         <FaIcon name="times" />
                     </Button>
                 </div>
-                <div className="gn-details-panel-preview">
-                    <div
+                {!editable && <div className="gn-details-panel-preview">
+                     <div
                         className="gn-loader-placeholder"
                         style={{
                             position: 'absolute',
@@ -176,7 +147,7 @@ function DetailsPanel({
                             }}
                             frameBorder="0"
                         />
-                        : <ThumbnailPreview
+                        : (<ThumbnailPreview
                             src={resource?.thumbnail_url}
                             style={{
                                 position: 'absolute',
@@ -185,7 +156,7 @@ function DetailsPanel({
                                 top: 0,
                                 left: 0,
                                 backgroundColor: 'inherit'
-                            }}/>
+                            }}/> )
                     }
                     {loading && <div
                         className="gn-details-panel-preview-loader"
@@ -203,23 +174,19 @@ function DetailsPanel({
                             <span className="sr-only">Loading resource detail...</span>
                         </Spinner>
                     </div>}
-                </div>
+                </div> }
+
+                {editable && editImage && editImage(resource?.thumbnail_url)}
+
                 <div className="gn-details-panel-content">
                     <div className="gn-details-panel-title" >
 
-                       {!isEditingTitle && <h1>
+                        { !editable && <h1>
                             { icon && <><FaIcon name={icon}/></>}
                             { resource?.title }
-                            { editable && <span onClick={startEditingTitle} ><FaIcon name={'edit'} /></span>}
-                            </h1>
+                        </h1>
                         }
-
-                        {isEditingTitle &&
-                            <div className='editContainer'>
-                                <h1><TextEditable ref={editTitleRef} text={resource?.title} /></h1>
-                            </div>
-                        }
-
+                        {!editable &&
                         <div className="gn-details-panel-tools">
                             {detailUrl && <OverlayTrigger
                                 placement="top"
@@ -250,7 +217,11 @@ function DetailsPanel({
                                 <Message msgId={`gnhome.view${name || ''}`}/>
                             </Button>}
                         </div>
+                        }
+                        {editable && editTitle(resource?.title)}
                     </div>
+
+
                     <p>
                         {resource?.owner && <><a href={formatHref({
                             query: {
@@ -262,20 +233,12 @@ function DetailsPanel({
                     </p>
                     <p>
                         <div className="gn-details-panel-description">
-                        {
-                           !isEditingAbstract && resource?.abstract ?
-                                <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
-                                : null
-                        }
-                        { editable && !isEditingAbstract && <span onClick={startEditingAbstract} ><FaIcon name={'edit'} /></span>}
-
-
-                        {isEditingAbstract &&
-                            <div className='editContainer'>
-                                <TextEditable ref={editAbstractRef} text={resource?.abstract} />
-                            </div>
-                        }
-
+                            {
+                                !editable && resource?.abstract ?
+                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
+                                    : null
+                            }
+                            {editable && editAbstract(resource?.abstract)}
                         </div>
                     </p>
 
