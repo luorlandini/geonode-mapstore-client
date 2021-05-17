@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, GeoSolutions Sas.
+ * Copyright 2021, GeoSolutions Sas.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -10,12 +10,13 @@ import ContentEditable from 'react-contenteditable';
 
 
 const TextEditable = forwardRef(({
-        text,
-        className = "gn-text-editable",
-        onUpdate = () =>  {},
-        setText = () => {}
-    }, ref ) => {
+    text,
+    className = "gn-text-editable",
+    onEdit = () => {}
 
+}, ref ) => {
+    console.log('TextEditable');
+    console.log(text);
     return (<ContentEditable
         innerRef={ref}
         className={className}
@@ -23,13 +24,10 @@ const TextEditable = forwardRef(({
         onClick={evt => {
             evt.stopPropagation();
         }}
-        onChange={evt => {
-            setText(evt.target.value);
+        onChange={(evt) => {
+            onEdit(evt.target.value);
         }}
-        onBlur={(evt) => {
-            // this event has no value property
-            onUpdate(evt.target.innerText);
-        }}
+
     />);
 });
 
