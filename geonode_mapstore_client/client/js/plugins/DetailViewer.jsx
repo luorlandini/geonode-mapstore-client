@@ -36,7 +36,7 @@ function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
     const [editMode, setEditMode] = useState(false);
     const [iconEditMode,  iconSetEditMode] = useState('edit');
 
-    const handleChangeValue = (val) => {
+    const handleTitleValue = (val) => {
         onEditResource(val);
     };
 
@@ -47,7 +47,7 @@ function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
         onEditImage(val);
     };
 
-
+    /*
     const editTitle = (value) => {
         return (
             <div className="editContainer">
@@ -68,7 +68,7 @@ function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
         </div>
 
     );
-
+    */
     const handleEditMode = () => {
         setEditMode(!editMode);
     };
@@ -100,14 +100,14 @@ function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
             </div>
             <ConnectedDetailsPanel
                 editable={editMode}
-                editTitle={editTitle}
-                editAbstract={editAbstract}
-                editImage={editImage}
+                editTitle={handleTitleValue}
+                editAbstract={handleAbstractValue}
+                editImage={handleEditImage}
                 sectionStyle={{
                     width: '600px',
                     position: 'fixed',
                     overflowY: 'scroll',
-                    height: '750px'
+                    height: '800px'
 
                 }}
             />

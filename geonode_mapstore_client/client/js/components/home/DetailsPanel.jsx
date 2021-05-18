@@ -19,6 +19,30 @@ import {
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import url from 'url';
+import {TextEditable, RichTextEditable, ImagesEditable} from '@js/components/ContentsEditable/';
+
+const EditTitle = ({title, onEdit}) => {
+    return (
+        <div className="editContainer">
+            <h1><TextEditable  onEdit={ onEdit } text={title} /></h1>
+        </div>);
+};
+
+const EditAbstract = ({abstract, onEdit}) => (
+    <div className="editContainer">
+        <TextEditable onEdit={ onEdit } text={abstract} />
+    </div>
+
+);
+
+
+const EditImage = ({image, onEdit}) => (
+    <div className="editContainer imagepreview">
+        <ImagesEditable onEdit={onEdit} defaultImage={image} />
+    </div>
+
+);
+
 
 function formatResourceLinkUrl(resourceUrl = '') {
     if (resourceUrl.indexOf('http') === 0) {
@@ -176,7 +200,11 @@ function DetailsPanel({
                         </Spinner>
                     </div>}
                 </div> }
-                {editable && editImage && <div className="gn-details-panel-preview inediting"> {editImage(resource?.thumbnail_url)}</div>}
+
+                {/*editable && editImage && <div className="gn-details-panel-preview inediting"> {editImage(resource?.thumbnail_url)}</div>*/}
+
+                {editable && editImage && <div className="gn-details-panel-preview inediting"> <EditImage onEdit={editImage} image={resource?.thumbnail_url} /> </div>}
+
 
                 <div className="gn-details-panel-content">
                     <div className="gn-details-panel-title" >
@@ -218,7 +246,9 @@ function DetailsPanel({
                             </Button>}
                         </div>
                         }
-                        {editable && editTitle(resource?.title)}
+                        {/*editable && editTitle(resource?.title)*/}
+
+                        {editable && <EditTitle title={resource?.title} onEdit={editTitle} /> }
                     </div>
 
 
@@ -239,7 +269,8 @@ function DetailsPanel({
                                     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
                                     : null
                             }
-                            {editable && editAbstract(resource?.abstract)}
+                            {/*editable && editAbstract(resource?.abstract)*/}
+                            {editable && <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />}
                         </div>
                     </p>
 
