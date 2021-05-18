@@ -15,7 +15,9 @@ import {
     SET_NEW_RESOURCE,
     SET_RESOURCE_ID,
     SET_RESOURCE_PERMISSIONS,
-    EDIT_RESOURCE
+    EDIT_TITLE_RESOURCE,
+    EDIT_ABSTRACT_RESOURCE,
+    EDIT_IMAGE_RESOURCE
 } from '@js/actions/gnresource';
 
 function gnresource(state = {}, action) {
@@ -77,13 +79,33 @@ function gnresource(state = {}, action) {
         };
     }
 
-    case EDIT_RESOURCE: {
+    case EDIT_TITLE_RESOURCE: {
         return {
             ...state,
             data: {
                 ...state?.data,
-                title: action?.data,
-                name: action?.data
+                title: action?.title,
+                name: action?.title
+            }
+        };
+    }
+
+    case EDIT_ABSTRACT_RESOURCE: {
+        return {
+            ...state,
+            data: {
+                ...state?.data,
+                "abstract": action?.abstract
+            }
+        };
+    }
+
+    case EDIT_IMAGE_RESOURCE: {
+        return {
+            ...state,
+            data: {
+                ...state?.data,
+                thumbnail_url: action?.image
             }
         };
     }
@@ -95,12 +117,3 @@ function gnresource(state = {}, action) {
 }
 
 export default gnresource;
-
-/*
-{
-        return {
-            ...state
-            //data: action.data
-        };
-    }
-*/

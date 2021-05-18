@@ -14,7 +14,10 @@ export const SET_RESOURCE_TYPE = 'GEONODE:SET_RESOURCE_TYPE';
 export const SET_NEW_RESOURCE = 'GEONODE:SET_NEW_RESOURCE';
 export const SET_RESOURCE_ID = 'GEONODE:SET_RESOURCE_ID';
 export const SET_RESOURCE_PERMISSIONS = 'GEONODE:SET_RESOURCE_PERMISSIONS';
-export const EDIT_RESOURCE = 'GEONODE:EDIT_RESOURCE';
+export const EDIT_TITLE_RESOURCE = 'GEONODE:EDIT_TITLE_RESOURCE';
+export const EDIT_ABSTRACT_RESOURCE = 'GEONODE:EDIT_ABSTRACT_RESOURCE';
+export const EDIT_IMAGE_RESOURCE = 'GEONODE:EDIT_IMAGE_RESOURCE';
+
 
 /**
 * Actions for GeoNode resource
@@ -45,18 +48,43 @@ export function setResource(data) {
 }
 
 /**
-* edit the resource in the state
+* edit the title resource in the state
 * @memberof actions.gnresource
-* @param {object} data resource data object
+* @param {string} title resource
 */
-export function editResource(data) {
+export function editTitleResource(title) {
 
     return {
-        type: EDIT_RESOURCE,
-        data
+        type: EDIT_TITLE_RESOURCE,
+        title
     };
 }
 
+/**
+* edit the abstract resource in the state
+* @memberof actions.gnresource
+* @param {string} abstract resource
+*/
+export function editAbstractResource(abstract) {
+
+    return {
+        type: EDIT_ABSTRACT_RESOURCE,
+        abstract
+    };
+}
+
+/**
+* edit the image resource in the state
+* @memberof actions.gnresource
+* @param {string} image resource
+*/
+export function editImageResource(image) {
+
+    return {
+        type: EDIT_IMAGE_RESOURCE,
+        image
+    };
+}
 
 /**
 * Set the resource type in the state
