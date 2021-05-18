@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-boolean-value */
-
 /*
  * Copyright 2021, GeoSolutions Sas.
  * All rights reserved.
@@ -8,14 +6,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { connect } from 'react-redux';
-import FaIcon from '@js/components/home/FaIcon';
 import { createSelector } from 'reselect';
 import DetailsPanel from '@js/components/home/DetailsPanel';
-import {TextEditable, RichTextEditable, ImagesEditable} from '@js/components/ContentsEditable/';
-import { editTitleResource, editAbstractResource, editImageResource } from '@js/actions/gnresource';
+import {
+    editTitleResource,
+    editAbstractResource,
+    editImageResource,
+    toggleEditMode } from '@js/actions/gnresource';
 
 import gnresource from '@js/reducers/gnresource';
 
@@ -24,17 +24,18 @@ const ConnectedDetailsPanel = connect(
     createSelector([
         state => state?.gnresource?.data || null,
         state => state?.gnresource?.loading || false
-    ], (resource, loading) => ({
+    ], (resource, loading, editMode) => ({
         resource,
-        loading
+        loading,
+        editMode
     }))
 )(DetailsPanel);
 
 
-function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
-
-    const [editMode, setEditMode] = useState(false);
-    const [iconEditMode,  iconSetEditMode] = useState('edit');
+function DetailViewer({
+    onEditResource,
+    onEditAbstractResource,
+    onEditImage}) {
 
     const handleTitleValue = (val) => {
         onEditResource(val);
@@ -47,38 +48,6 @@ function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
         onEditImage(val);
     };
 
-    /*
-    const editTitle = (value) => {
-        return (
-            <div className="editContainer">
-                <h1><TextEditable  onEdit={ handleChangeValue } text={value} /></h1>
-            </div>);
-    };
-
-    const editAbstract = (abstract) => (
-        <div className="editContainer">
-            <TextEditable onEdit={ handleAbstractValue } text={abstract} />
-        </div>
-
-    );
-
-    const editImage = (image) => (
-        <div className="editContainer imagepreview">
-            <ImagesEditable onEdit={handleEditImage} defaultImage={image} />
-        </div>
-
-    );
-    */
-    const handleEditMode = () => {
-        setEditMode(!editMode);
-    };
-
-    useEffect(() => {
-
-        (editMode) ? iconSetEditMode('eye') : iconSetEditMode('edit');
-
-    }, [editMode]);
-
     return (
         <div
             style={{
@@ -88,21 +57,11 @@ function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
                 height: '100%'
 
             }}>
-            <div
-                className={`gn-edit-toogle`}
-                style={{
-                    display: 'flex',
-                    flex: 1
-                }}  >
-                <button onClick={handleEditMode} type="button" className="btn" >
-                    <FaIcon name={iconEditMode} />
-                </button>
-            </div>
             <ConnectedDetailsPanel
-                editable={editMode}
                 editTitle={handleTitleValue}
                 editAbstract={handleAbstractValue}
                 editImage={handleEditImage}
+                activeEditMode
                 sectionStyle={{
                     width: '600px',
                     position: 'fixed',
@@ -121,7 +80,8 @@ const DetailViewerPlugin = connect(
     {
         onEditResource: editTitleResource,
         onEditAbstractResource: editAbstractResource,
-        onEditImage: editImageResource
+        onEditImage: editImageResource,
+        onToggleEditMode: toggleEditMode
 
     }
 )(DetailViewer);

@@ -91,11 +91,24 @@ function DetailsPanel({
     sectionStyle,
     loading,
     getTypesInfo,
-    editable,
     editTitle,
     editAbstract,
-    editImage
+    editImage,
+    activeEditMode
 }) {
+
+    const [editMode, setEditMode] = useState(false);
+    const [iconEditMode,  iconSetEditMode] = useState('edit');
+
+    useEffect(() => {
+        (editMode) ? iconSetEditMode('eye') : iconSetEditMode('edit');
+    }, [editMode]);
+
+    const handleEditMode = () => {
+        setEditMode(!editMode);
+    };
+
+
     const detailsContainerNode = useRef();
     const isMounted = useRef();
     const [copiedResourceLink, setCopiedResourceLink] = useState(false);
@@ -130,6 +143,7 @@ function DetailsPanel({
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
 
+
     return (
         <div
             ref={detailsContainerNode}
@@ -138,6 +152,12 @@ function DetailsPanel({
         >
             <section style={sectionStyle}>
                 {<div className="gn-details-panel-header">
+
+                    {activeEditMode && <button onClick={handleEditMode} type="button" className="btn" >
+                        <FaIcon name={iconEditMode} />
+                    </button>
+                    }
+
                     <Button
                         variant="default"
                         href={formatHref({
@@ -146,9 +166,10 @@ function DetailsPanel({
                         size="sm">
                         <FaIcon name="times" />
                     </Button>
+
                 </div>
                 }
-                {!editable && <div className="gn-details-panel-preview">
+                {!editMode && <div className="gn-details-panel-preview">
                     <div
                         className="gn-loader-placeholder"
                         style={{
@@ -201,20 +222,20 @@ function DetailsPanel({
                     </div>}
                 </div> }
 
-                {/*editable && editImage && <div className="gn-details-panel-preview inediting"> {editImage(resource?.thumbnail_url)}</div>*/}
+                {/* editMode && editImage && <div className="gn-details-panel-preview inediting"> {editImage(resource?.thumbnail_url)}</div>*/}
 
-                {editable && editImage && <div className="gn-details-panel-preview inediting"> <EditImage onEdit={editImage} image={resource?.thumbnail_url} /> </div>}
+                {editMode && editImage && <div className="gn-details-panel-preview inediting"> <EditImage onEdit={editImage} image={resource?.thumbnail_url} /> </div>}
 
 
                 <div className="gn-details-panel-content">
                     <div className="gn-details-panel-title" >
 
-                        { !editable && <h1>
+                        { !editMode && <h1>
                             { icon && <><FaIcon name={icon}/></>}
                             { resource?.title }
                         </h1>
                         }
-                        {!editable &&
+                        {!editMode &&
                         <div className="gn-details-panel-tools">
                             {detailUrl && <OverlayTrigger
                                 placement="top"
@@ -246,13 +267,13 @@ function DetailsPanel({
                             </Button>}
                         </div>
                         }
-                        {/*editable && editTitle(resource?.title)*/}
+                        {/* editMode && editTitle(resource?.title)*/}
 
-                        {editable && <EditTitle title={resource?.title} onEdit={editTitle} /> }
+                        {editMode && <EditTitle title={resource?.title} onEdit={editTitle} /> }
                     </div>
 
 
-                    {!editable && <p>
+                    {!editMode && <p>
                         {resource?.owner && <><a href={formatHref({
                             query: {
                                 'filter{owner.username.in}': resource.owner.username
@@ -265,12 +286,12 @@ function DetailsPanel({
                     <p>
                         <div className="gn-details-panel-description">
                             {
-                                !editable && resource?.abstract ?
+                                !editMode && resource?.abstract ?
                                     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
                                     : null
                             }
-                            {/*editable && editAbstract(resource?.abstract)*/}
-                            {editable && <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />}
+                            {/* editMode && editAbstract(resource?.abstract)*/}
+                            {editMode && <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />}
                         </div>
                     </p>
 
