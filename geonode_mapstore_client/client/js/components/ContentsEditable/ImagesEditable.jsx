@@ -7,30 +7,35 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState } from 'react';
-import ImageUploader from "react-images-upload";
+import React, { useState, useEffect } from 'react';
+import Thumbnail from '@mapstore/framework/components/misc/Thumbnail';
+import FaIcon from '@js/components/home/FaIcon';
 
-const ImagesEditable = ({defaultImage}) => {
+const ImagesEditable = ({
+    defaultImage,
+    onEdit = () => {}
+}) => {
 
-    /*
-    const [pictures, setPictures] = useState([]);
+    const [thumbnail, setThumbnail] =  useState();
+    useEffect(() => {
+        setThumbnail(defaultImage);
 
-    const onDrop = picture => {
-        setPictures([...pictures, picture]);
-    };
-    */
+    }, [ ]);
+
     return (
-        <ImageUploader
-            withIcon={false}
-            withLabel={false}
-            withPreview={true}
-            onChange={() => console.log('onChange') }
-            //imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-            //maxFileSize={5242880}
-            defaultImage={true}
-            defaultImages={[defaultImage]}
-            singleImage={true}
-        />
+        <>
+            <Thumbnail
+                thumbnail={thumbnail}
+                onUpdate={(data) => {
+                    setThumbnail(data);
+                    onEdit(data);
+                }}
+
+            />
+            <div className={`icon-image-preview`} >
+                <FaIcon name="file-upload" />
+            </div>
+        </>
     );
 };
 
