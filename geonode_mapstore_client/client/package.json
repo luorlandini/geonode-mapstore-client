@@ -33,13 +33,14 @@
     "@fortawesome/fontawesome-free": "5.15.1",
     "bootstrap-v4": "npm:bootstrap@4.5.0",
     "dompurify": "2.2.6",
+    "draft-convert": "^2.1.11",
     "js-cookie": "2.2.1",
     "mapstore": "file:MapStore2",
     "react-bootstrap-v1": "npm:react-bootstrap@1.3.0"
   },
   "geonode": {
     "devServer": {
-      "host": "192.168.8.165",
+      "host": "localhost",
       "proxyTargetHost": "localhost:8000",
       "protocol": "http"
     }
