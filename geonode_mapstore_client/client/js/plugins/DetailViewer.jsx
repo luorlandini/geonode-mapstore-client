@@ -44,8 +44,6 @@ function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
         onEditAbstractResource(val);
     };
     const handleEditImage = (val) => {
-        console.log('handleEditImage');
-
         onEditImage(val);
     };
 
