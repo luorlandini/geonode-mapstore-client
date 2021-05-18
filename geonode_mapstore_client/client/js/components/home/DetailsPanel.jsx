@@ -113,7 +113,7 @@ function DetailsPanel({
             style={{ width: sectionStyle?.width }}
         >
             <section style={sectionStyle}>
-                <div className="gn-details-panel-header">
+                {<div className="gn-details-panel-header">
                     <Button
                         variant="default"
                         href={formatHref({
@@ -123,8 +123,9 @@ function DetailsPanel({
                         <FaIcon name="times" />
                     </Button>
                 </div>
+                }
                 {!editable && <div className="gn-details-panel-preview">
-                     <div
+                    <div
                         className="gn-loader-placeholder"
                         style={{
                             position: 'absolute',
@@ -175,8 +176,7 @@ function DetailsPanel({
                         </Spinner>
                     </div>}
                 </div> }
-
-                {editable && editImage && editImage(resource?.thumbnail_url)}
+                {editable && editImage && <div className="gn-details-panel-preview inediting"> {editImage(resource?.thumbnail_url)}</div>}
 
                 <div className="gn-details-panel-content">
                     <div className="gn-details-panel-title" >
@@ -222,7 +222,7 @@ function DetailsPanel({
                     </div>
 
 
-                    <p>
+                    {!editable && <p>
                         {resource?.owner && <><a href={formatHref({
                             query: {
                                 'filter{owner.username.in}': resource.owner.username
@@ -231,6 +231,7 @@ function DetailsPanel({
                         {(resource?.date_type && resource?.date)
                             && <>{' '}/{' '}{ moment(resource.date).format('MMMM Do YYYY')}</>}
                     </p>
+                    }
                     <p>
                         <div className="gn-details-panel-description">
                             {
