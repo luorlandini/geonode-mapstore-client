@@ -15,7 +15,8 @@ import FaIcon from '@js/components/home/FaIcon';
 import { createSelector } from 'reselect';
 import DetailsPanel from '@js/components/home/DetailsPanel';
 import {TextEditable, RichTextEditable, ImagesEditable} from '@js/components/ContentsEditable/';
-import { editResource } from '@js/actions/gnresource';
+import { editTitleResource, editAbstractResource, editImageResource } from '@js/actions/gnresource';
+
 import gnresource from '@js/reducers/gnresource';
 
 
@@ -30,30 +31,42 @@ const ConnectedDetailsPanel = connect(
 )(DetailsPanel);
 
 
-function DetailViewer({onEditResource}) {
+function DetailViewer({onEditResource, onEditAbstractResource, onEditImage}) {
 
     const [editMode, setEditMode] = useState(false);
     const [iconEditMode,  iconSetEditMode] = useState('edit');
 
-    const onChangeValue = (val) => {
+    const handleChangeValue = (val) => {
         onEditResource(val);
-        // console.log(val);
     };
 
+    const handleAbstractValue = (val) => {
+        onEditAbstractResource(val);
+    };
+    const handleEditImage = (val) => {
+        console.log('handleEditImage');
+
+        onEditImage(val);
+    };
+
+
     const editTitle = (value) => {
-        return (<h1><TextEditable  onEdit={ onChangeValue } text={value} /></h1>);
+        return (
+            <div className="editContainer">
+                <h1><TextEditable  onEdit={ handleChangeValue } text={value} /></h1>
+            </div>);
     };
 
     const editAbstract = (abstract) => (
         <div className="editContainer">
-            <TextEditable onEdit={ onChangeValue } text={abstract} />
+            <TextEditable onEdit={ handleAbstractValue } text={abstract} />
         </div>
 
     );
 
     const editImage = (image) => (
         <div className="editContainer imagepreview">
-            <ImagesEditable defaultImage={image} />
+            <ImagesEditable onEdit={handleEditImage} defaultImage={image} />
         </div>
 
     );
@@ -74,6 +87,7 @@ function DetailViewer({onEditResource}) {
                 top: 0,
                 left: 0,
                 width: '100%',
+                height: '100%'
 
             }}>
             <div
@@ -95,7 +109,7 @@ function DetailViewer({onEditResource}) {
                     width: '600px',
                     position: 'fixed',
                     overflowY: 'scroll',
-                    height: 'auto'
+                    height: '750px'
 
                 }}
             />
@@ -107,7 +121,10 @@ const DetailViewerPlugin = connect(
     createSelector([
     ], () => ({})),
     {
-        onEditResource: editResource
+        onEditResource: editTitleResource,
+        onEditAbstractResource: editAbstractResource,
+        onEditImage: editImageResource
+
     }
 )(DetailViewer);
 
