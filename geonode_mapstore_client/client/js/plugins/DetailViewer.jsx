@@ -141,34 +141,3 @@ export default createPlugin('DetailViewer', {
         gnresource
     }
 });
-
-
-/*
-        ActionNavbar: {
-            name: 'DetailViewerMenuItem',
-            target: 'dropdown.edit', // we should find a way to target an existing dropdown
-            Tool: ConnectedDetailViewerMenuItem, // The toggle button
-            priority: 1
-        }
-        */
-
-
-/*
-    { editable && <span onClick={startEditingTitle} ><FaIcon name={'edit'} /></span>}
-
-                        {isEditingTitle &&
-                            <div className="editContainer">
-                                <h1><TextEditable ref={editTitleRef} text={resource?.title} /></h1>
-                            </div>
-                        }
-
-                        { editable && !isEditingAbstract && <span onClick={startEditingAbstract} ><FaIcon name={'edit'} /></span>}
-
-
-                            {isEditingAbstract &&
-                            <div className='editContainer'>
-                                <TextEditable ref={editAbstractRef} text={resource?.abstract} />
-                            </div>
-                            }
-
-*/
