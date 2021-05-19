@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-boolean-value */
 /*
  * Copyright 2021, GeoSolutions Sas.
  * All rights reserved.
