@@ -98,15 +98,29 @@ function DetailsPanel({
 }) {
 
     const [editMode, setEditMode] = useState(false);
-    const [iconEditMode,  iconSetEditMode] = useState('edit');
 
-    useEffect(() => {
-        (editMode) ? iconSetEditMode('eye') : iconSetEditMode('edit');
-    }, [editMode]);
+    const [editModeTitle, setEditModeTitle] = useState(false);
+    const [editModeAbstract, setEditModeAbstract] = useState(false);
+    const [editModeImage, setEditModeImage] = useState(false);
+
+    const [iconEditMode,  iconSetEditMode] = useState('edit');
 
     const handleEditMode = () => {
         setEditMode(!editMode);
     };
+
+    const handleEditModeTitle = () => {
+        setEditModeTitle(!editModeTitle);
+    };
+
+    const handleEditModeAbstract = () => {
+        setEditModeAbstract(!editModeAbstract);
+    };
+
+
+    useEffect(() => {
+        (editMode) ? iconSetEditMode('eye') : iconSetEditMode('edit');
+    }, [editMode]);
 
 
     const detailsContainerNode = useRef();
@@ -152,12 +166,6 @@ function DetailsPanel({
         >
             <section style={sectionStyle}>
                 {<div className="gn-details-panel-header">
-
-                    {activeEditMode && <button onClick={handleEditMode} type="button" className="btn" >
-                        <FaIcon name={iconEditMode} />
-                    </button>
-                    }
-
                     <Button
                         variant="default"
                         href={formatHref({
@@ -166,10 +174,9 @@ function DetailsPanel({
                         size="sm">
                         <FaIcon name="times" />
                     </Button>
-
                 </div>
                 }
-                {!editMode && <div className="gn-details-panel-preview">
+                {!activeEditMode && <div className="gn-details-panel-preview">
                     <div
                         className="gn-loader-placeholder"
                         style={{
@@ -222,18 +229,23 @@ function DetailsPanel({
                     </div>}
                 </div> }
 
-                {/* editMode && editImage && <div className="gn-details-panel-preview inediting"> {editImage(resource?.thumbnail_url)}</div>*/}
-
-                {editMode && editImage && <div className="gn-details-panel-preview inediting"> <EditImage onEdit={editImage} image={resource?.thumbnail_url} /> </div>}
+                {activeEditMode && editImage && <div className="gn-details-panel-preview inediting"> <EditImage onEdit={editImage} image={resource?.thumbnail_url} /> </div>}
 
 
                 <div className="gn-details-panel-content">
                     <div className="gn-details-panel-title" >
 
-                        { !editMode && <h1>
+                        {!editModeTitle && <h1>
                             { icon && <><FaIcon name={icon}/></>}
                             { resource?.title }
                         </h1>
+                        }
+                        { activeEditMode && !editModeTitle && <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'edit'}/></span>}
+
+
+                        {editModeTitle && <><h1><EditTitle title={resource?.title} onEdit={editTitle} />
+                        </h1>
+                        <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'check-circle'}/></span></>
                         }
                         {!editMode &&
                         <div className="gn-details-panel-tools">
@@ -267,9 +279,8 @@ function DetailsPanel({
                             </Button>}
                         </div>
                         }
-                        {/* editMode && editTitle(resource?.title)*/}
 
-                        {editMode && <EditTitle title={resource?.title} onEdit={editTitle} /> }
+
                     </div>
 
 
@@ -284,14 +295,18 @@ function DetailsPanel({
                     </p>
                     }
                     <p>
+                        { activeEditMode && !editModeAbstract && <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'edit'}/></span>}
                         <div className="gn-details-panel-description">
+                            {editModeAbstract && <>
+                                <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'check-circle'}/></span>
+                                <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />
+                            </>
+                            }
                             {
-                                !editMode && resource?.abstract ?
+                                !editModeAbstract && resource?.abstract ?
                                     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
                                     : null
                             }
-                            {/* editMode && editAbstract(resource?.abstract)*/}
-                            {editMode && <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />}
                         </div>
                     </p>
 

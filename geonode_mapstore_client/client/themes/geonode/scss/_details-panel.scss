@@ -37,6 +37,7 @@
             border: 1px solid $gn-focus-color;
             border-radius: 5px;
             border-color: var(--gn-body-border-color, #dddddd);
+            margin-right: 0.5rem;
         }
         &.imagepreview {
             padding: 0rem 5rem;
@@ -85,6 +86,9 @@
 .gn-details-panel-content {
     padding: 1rem;
     font-size: 0.9em;
+    .inEdit{
+        margin-right: 0.5rem;
+    }
 }
 
 .gn-details-panel-title {

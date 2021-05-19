@@ -14,8 +14,8 @@ import DetailsPanel from '@js/components/home/DetailsPanel';
 import {
     editTitleResource,
     editAbstractResource,
-    editImageResource,
-    toggleEditMode } from '@js/actions/gnresource';
+    editImageResource
+} from '@js/actions/gnresource';
 
 import gnresource from '@js/reducers/gnresource';
 
@@ -80,9 +80,7 @@ const DetailViewerPlugin = connect(
     {
         onEditResource: editTitleResource,
         onEditAbstractResource: editAbstractResource,
-        onEditImage: editImageResource,
-        onToggleEditMode: toggleEditMode
-
+        onEditImage: editImageResource
     }
 )(DetailViewer);
 
