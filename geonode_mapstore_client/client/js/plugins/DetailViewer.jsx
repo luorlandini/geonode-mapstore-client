@@ -64,10 +64,7 @@ function DetailViewer({
                 activeEditMode
                 sectionStyle={{
                     width: '600px',
-                    position: 'fixed',
-                    overflowY: 'scroll',
-                    height: '800px'
-
+                    position: 'fixed'
                 }}
             />
         </div>
