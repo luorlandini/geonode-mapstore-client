@@ -36,7 +36,7 @@
             padding: 0.5em;
             border: 1px solid $gn-focus-color;
             border-radius: 5px;
-            border-color: var(--gn-body-border-color, #dddddd);
+            border-color: $gn-body-border-color;
             margin-right: 0.5rem;
         }
         &.imagepreview {
