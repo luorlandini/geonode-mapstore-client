@@ -142,7 +142,8 @@ export const getResources = ({
             ...mergeCustomQuery(params, customQuery),
             ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
             page,
-            page_size: pageSize
+            page_size: pageSize,
+            'filter{metadata_only}': false // exclude resources such as services
         }
     })
         .then(({ data }) => {
@@ -368,6 +369,23 @@ export const getResourceTypes = ({}, filterKey = 'resource-types') => {
                 });
             return [...availableResourceTypes];
         });
+};
+
+export const getLayerByName = name => {
+    const url = parseDevHostname(`${endpoints[LAYERS]}/?filter{alternate}=${name}`);
+    return axios.get(url)
+        .then(({data}) => data?.layers[0]);
+};
+
+export const getLayersByName = names => {
+    const url = parseDevHostname(endpoints[LAYERS]);
+    return axios.get(url, {
+        params: {
+            page_size: names.length,
+            'filter{alternate.in}': names
+        }
+    })
+        .then(({data}) => data?.layers);
 };
 
 export const getResourcesTotalCount = () => {

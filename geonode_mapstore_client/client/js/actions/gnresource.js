@@ -18,6 +18,7 @@ export const EDIT_TITLE_RESOURCE = 'GEONODE:EDIT_TITLE_RESOURCE';
 export const EDIT_ABSTRACT_RESOURCE = 'GEONODE:EDIT_ABSTRACT_RESOURCE';
 export const EDIT_IMAGE_RESOURCE = 'GEONODE:EDIT_IMAGE_RESOURCE';
 
+export const SET_SELECTED_LAYER_PERMISSIONS = "GEONODE:SET_SELECTED_LAYER_PERMISSIONS";
 
 /**
 * Actions for GeoNode resource
@@ -154,6 +155,21 @@ export function setResourceId(id) {
 export function setResourcePermissions(permissions) {
     return {
         type: SET_RESOURCE_PERMISSIONS,
+        permissions
+    };
+}
+
+/**
+* Set resource permissions
+* @memberof actions.gnresource
+* @param {object} permissions permissions info
+* @param {bool} permissions.canEdit can edit permission
+* @param {bool} permissions.canView can view permission
+*/
+
+export function setSelectedLayerPermissions(permissions) {
+    return {
+        type: SET_SELECTED_LAYER_PERMISSIONS,
         permissions
     };
 }

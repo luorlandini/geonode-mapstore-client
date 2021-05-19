@@ -17,11 +17,11 @@ import {
     SET_RESOURCE_PERMISSIONS,
     EDIT_TITLE_RESOURCE,
     EDIT_ABSTRACT_RESOURCE,
-    EDIT_IMAGE_RESOURCE
+    EDIT_IMAGE_RESOURCE,
+    SET_SELECTED_LAYER_PERMISSIONS
 } from '@js/actions/gnresource';
 
-function gnresource(state = {}, action) {
-
+function gnresource(state = {selectedLayerPermissions: []}, action) {
     switch (action.type) {
     case RESOURCE_LOADING: {
         return {
@@ -111,6 +111,11 @@ function gnresource(state = {}, action) {
     }
 
 
+    case SET_SELECTED_LAYER_PERMISSIONS:
+        return {
+            ...state,
+            selectedLayerPermissions: action.permissions
+        };
     default:
         return state;
     }
