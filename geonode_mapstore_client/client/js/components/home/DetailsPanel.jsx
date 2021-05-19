@@ -97,17 +97,9 @@ function DetailsPanel({
     activeEditMode
 }) {
 
-    const [editMode, setEditMode] = useState(false);
 
     const [editModeTitle, setEditModeTitle] = useState(false);
     const [editModeAbstract, setEditModeAbstract] = useState(false);
-    const [editModeImage, setEditModeImage] = useState(false);
-
-    const [iconEditMode,  iconSetEditMode] = useState('edit');
-
-    const handleEditMode = () => {
-        setEditMode(!editMode);
-    };
 
     const handleEditModeTitle = () => {
         setEditModeTitle(!editModeTitle);
@@ -116,12 +108,6 @@ function DetailsPanel({
     const handleEditModeAbstract = () => {
         setEditModeAbstract(!editModeAbstract);
     };
-
-
-    useEffect(() => {
-        (editMode) ? iconSetEditMode('eye') : iconSetEditMode('edit');
-    }, [editMode]);
-
 
     const detailsContainerNode = useRef();
     const isMounted = useRef();
@@ -156,7 +142,6 @@ function DetailsPanel({
     } = resource && (types[resource.doc_type] || types[resource.resource_type]) || {};
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
-
 
     return (
         <div
@@ -247,44 +232,44 @@ function DetailsPanel({
                         </h1>
                         <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'check-circle'}/></span></>
                         }
-                        {!editMode &&
-                        <div className="gn-details-panel-tools">
-                            {detailUrl && <OverlayTrigger
-                                placement="top"
-                                overlay={(props) =>
-                                    <Tooltip id="share-resource-tooltip" {...props}>
-                                        <Message msgId={
-                                            copiedResourceLink
-                                                ? 'gnhome.copiedResourceUrl'
-                                                : 'gnhome.copyResourceUrl'
-                                        }/>
-                                    </Tooltip>}
-                            >
-                                <CopyToClipboard
-                                    text={formatResourceLinkUrl(detailUrl)}
+                        {
+                            <div className="gn-details-panel-tools">
+                                {detailUrl && <OverlayTrigger
+                                    placement="top"
+                                    overlay={(props) =>
+                                        <Tooltip id="share-resource-tooltip" {...props}>
+                                            <Message msgId={
+                                                copiedResourceLink
+                                                    ? 'gnhome.copiedResourceUrl'
+                                                    : 'gnhome.copyResourceUrl'
+                                            }/>
+                                        </Tooltip>}
                                 >
-                                    <Button
-                                        variant="default"
-                                        onClick={handleCopyPermalink}>
-                                        <FaIcon name="share-alt" />
-                                    </Button>
-                                </CopyToClipboard>
-                            </OverlayTrigger>}
-                            {detailUrl && <Button
-                                variant="default"
-                                href={detailUrl}
-                                target="_blank"
-                                rel="noopener noreferrer">
-                                <Message msgId={`gnhome.view${name || ''}`}/>
-                            </Button>}
-                        </div>
+                                    <CopyToClipboard
+                                        text={formatResourceLinkUrl(detailUrl)}
+                                    >
+                                        <Button
+                                            variant="default"
+                                            onClick={handleCopyPermalink}>
+                                            <FaIcon name="share-alt" />
+                                        </Button>
+                                    </CopyToClipboard>
+                                </OverlayTrigger>}
+                                {detailUrl && <Button
+                                    variant="default"
+                                    href={detailUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    <Message msgId={`gnhome.view${name || ''}`}/>
+                                </Button>}
+                            </div>
                         }
 
 
                     </div>
 
 
-                    {!editMode && <p>
+                    {<p>
                         {resource?.owner && <><a href={formatHref({
                             query: {
                                 'filter{owner.username.in}': resource.owner.username
