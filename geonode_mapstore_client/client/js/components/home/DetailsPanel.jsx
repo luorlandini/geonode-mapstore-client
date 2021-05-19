@@ -314,6 +314,7 @@ function DetailsPanel({
 DetailsPanel.defaultProps = {
     onClose: () => { },
     formatHref: () => '#',
+    linkHref: () => '#',
     width: 696,
     getTypesInfo: getResourceTypesInfo
 };
