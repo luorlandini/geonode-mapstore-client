@@ -19,7 +19,7 @@ import {
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import url from 'url';
-import {TextEditable, RichTextEditable, ImagesEditable} from '@js/components/ContentsEditable/';
+import {TextEditable, ImagesEditable} from '@js/components/ContentsEditable/';
 
 const EditTitle = ({title, onEdit}) => {
     return (

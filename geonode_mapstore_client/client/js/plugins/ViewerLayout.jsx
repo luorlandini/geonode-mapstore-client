@@ -55,8 +55,8 @@ function ViewerLayout({
                             flex: 1,
                             position: 'relative'
                         }}
-                        >
-                    {configuredItems
+                    >
+                        {configuredItems
                             .filter(({ target }) => target === 'rightColumn')
                             .map(({ Component, name }) => <Component key={name} />)}
 
