@@ -62,11 +62,12 @@ function ThumbnailPreview({
 
 function DetailsPanel({
     resource,
-    // filters,
     formatHref,
+    linkHref,
     sectionStyle,
     loading,
-    getTypesInfo
+    getTypesInfo,
+    closePanel
 }) {
 
     const detailsContainerNode = useRef();
@@ -114,9 +115,8 @@ function DetailsPanel({
                 <div className="gn-details-panel-header">
                     <Button
                         variant="default"
-                        href={formatHref({
-                            pathname: '/search/'
-                        })}
+                        href={linkHref()}
+                        onClick={closePanel}
                         size="sm">
                         <FaIcon name="times" />
                     </Button>

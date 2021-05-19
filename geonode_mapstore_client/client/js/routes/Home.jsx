@@ -296,6 +296,13 @@ function Home({
         });
     }
 
+    function hrefDetailPanel() {
+        return handleFormatHref({
+            pathname: '/search/'
+        });
+    }
+
+
     const { query } = url.parse(location.search, true);
 
     const queryFilters = Object.keys(query).reduce((acc, key) => key.indexOf('filter') === 0
@@ -365,6 +372,8 @@ function Home({
     const isHeroVisible = !hideHero && inView;
     const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.actionNavbarNodeHeight - dimensions.footerNodeHeight);
     const filterFormTop = dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight;
+
+
 
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
@@ -454,6 +463,7 @@ function Home({
                                     <ConnectedDetailsPanel
                                         resource={resource}
                                         filters={queryFilters}
+                                        linkHref={hrefDetailPanel}
                                         formatHref={handleFormatHref}
                                         sectionStyle={{
                                             width: pageSize === 'lg'
