@@ -15,6 +15,7 @@ import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
+import { hasPermissionsTo } from '@js/utils/MenuUtils';
 const ResourceCard = forwardRef(({
     data,
     active,
@@ -89,10 +90,11 @@ const ResourceCard = forwardRef(({
                     >
                         <FaIcon name="ellipsis-h" />
                     </Dropdown.Toggle>
+
                     <Dropdown.Menu  className={`gn-card-dropdown`}  >
                         {options
+                            .filter((opt) => hasPermissionsTo(data.perms, opt.perms))
                             .map((opt) => {
-
                                 return (
                                     <Dropdown.Item
                                         key={opt.href}
