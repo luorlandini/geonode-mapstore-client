@@ -14,11 +14,12 @@ function inAllowedGroups(user, allowedRoles) {
     return !allowedRoles || !!groups.find(group => allowedRoles.indexOf(group) !== -1);
 }
 
-const hasPermissionsTo = (userPerms, objResource) => {
-    return objResource.some((element) => {
-        return userPerms.includes(element?.value);
-    });
-};
+export function hasPermissionsTo(perms, objResource, objType) {
+    return objResource.filter(obj => obj.type === objType)
+        .some((element) => {
+            return perms.includes(element?.value);
+        });
+}
 
 export function readProperty(state, value) {
     if (value?.indexOf('${') === 0) {
@@ -41,7 +42,8 @@ export function filterMenuItems(state, item, parent) {
             ? item.authenticated
             : parent.authenticated;
 
-    const hasUserPermissions = ( state?.user && item.perms) ? hasPermissionsTo(state?.user?.perms, item.perms) : true;
+    const userItem = (item.perms && item?.perms.filter(obj => obj.type === 'user'));
+    const hasUserPermissions = ( userItem && userItem.length > 0 ) ? hasPermissionsTo(state?.user?.perms, userItem, 'user') : true;
 
     return isAuthenticated === undefined
         || (isAuthenticated === true && state?.user && inAllowedGroups(state.user, item.allowedGroups) && hasUserPermissions)
