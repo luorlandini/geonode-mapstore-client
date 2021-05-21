@@ -93,7 +93,7 @@ const ResourceCard = forwardRef(({
 
                     <Dropdown.Menu  className={`gn-card-dropdown`}  >
                         {options
-                            .filter((opt) => hasPermissionsTo(data.perms, opt.perms))
+                            .filter((opt) => hasPermissionsTo(data?.perms, opt?.perms, 'resource'))
                             .map((opt) => {
                                 return (
                                     <Dropdown.Item

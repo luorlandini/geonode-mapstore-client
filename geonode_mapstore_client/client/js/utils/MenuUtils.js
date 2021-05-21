@@ -14,9 +14,12 @@ function inAllowedGroups(user, allowedRoles) {
     return !allowedRoles || !!groups.find(group => allowedRoles.indexOf(group) !== -1);
 }
 
-export function hasPermissionsTo(perms, objResource) {
-    return objResource === undefined
-    || (objResource && objResource.some((element) => {
+export function hasPermissionsTo(perms, objResource, objType) {
+
+    const res = (objResource) ? objResource.filter(obj => obj.type === objType) : undefined;
+    return res === undefined
+    || (res && res.length === 0)
+    || (res && res.some((element) => {
         return perms.includes(element?.value);
     }));
 }
@@ -42,11 +45,10 @@ export function filterMenuItems(state, item, parent) {
             ? item.authenticated
             : parent.authenticated;
 
-    const userItem = (item.perms && item?.perms.filter(obj => obj.type === 'user'));
-    const hasUserPermissions = hasPermissionsTo(state?.user?.perms, userItem);
-
     return isAuthenticated === undefined
-        || (isAuthenticated === true && state?.user && inAllowedGroups(state.user, item.allowedGroups) && hasUserPermissions)
+        || (isAuthenticated === true && state?.user
+            && inAllowedGroups(state.user, item.allowedGroups)
+            && hasPermissionsTo(state?.user?.perms, item.perms, 'user'))
         || isAuthenticated === false && !state?.user;
 }
 
