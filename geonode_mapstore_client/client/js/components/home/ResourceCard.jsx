@@ -15,7 +15,6 @@ import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
-import { hasPermissionsTo } from '@js/utils/MenuUtils';
 const ResourceCard = forwardRef(({
     data,
     active,
