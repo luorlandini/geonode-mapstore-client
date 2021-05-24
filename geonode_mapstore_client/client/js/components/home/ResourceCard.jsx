@@ -88,10 +88,10 @@ const ResourceCard = forwardRef(({
                     >
                         <FaIcon name="ellipsis-h" />
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu  className={`gn-card-dropdown`}  >
                         {options
                             .map((opt) => {
+
                                 return (
                                     <Dropdown.Item
                                         key={opt.href}
