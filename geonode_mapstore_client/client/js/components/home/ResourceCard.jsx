@@ -28,6 +28,7 @@ const ResourceCard = forwardRef(({
     const res = data;
     const types = getTypesInfo();
     const { icon } = types[res.doc_type] || types[res.resource_type] || {};
+
     return (
         <Card
             ref={ref}
