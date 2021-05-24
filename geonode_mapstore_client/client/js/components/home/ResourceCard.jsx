@@ -29,7 +29,6 @@ const ResourceCard = forwardRef(({
     const res = data;
     const types = getTypesInfo();
     const { icon } = types[res.doc_type] || types[res.resource_type] || {};
-
     return (
         <Card
             ref={ref}
@@ -93,7 +92,6 @@ const ResourceCard = forwardRef(({
 
                     <Dropdown.Menu  className={`gn-card-dropdown`}  >
                         {options
-                            .filter((opt) => hasPermissionsTo(data?.perms, opt?.perms, 'resource'))
                             .map((opt) => {
                                 return (
                                     <Dropdown.Item
