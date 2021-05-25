@@ -7,12 +7,38 @@
  */
 
 import React from 'react';
+import castArray from 'lodash/castArray';
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import BrandNavbar from '@js/components/home/BrandNavbar';
+import { getParsedGeoNodeConfiguration } from "@js/selectors/config";
+import { withResizeDetector } from 'react-resize-detector';
 
-function BrandNavbar({}) {
+function getPageSize(width) {
+    if (width < 968) {
+        return 'sm';
+    }
+    if (width < 1400) {
+        return 'md';
+    }
+    return 'lg';
+}
+
+function BrandNavbarPlg({
+    config,
+    width
+}) {
     // placeholder plugin component
+    console.log('BrandNavbar');
+    console.log(config);
+
+    const {
+        navbarItemsAllowed,
+        theme
+    } = config;
+    const pageSize = getPageSize(width);
+
     return (
         <div
             style={{
@@ -20,16 +46,36 @@ function BrandNavbar({}) {
                 left: 0,
                 width: '100%',
                 height: 60,
-                backgroundColor: '#f2f2f2'
+                backgroundColor: '#f2f2f2',
+                border: '3px solid green'
             }}>
+            <BrandNavbar
+                logo={castArray(config?.navbar?.logo || [])
+                    .map((logo) => ({
+                        ...logo,
+                        ...logo[pageSize]
+                    }))}
+
+                navItems={navbarItemsAllowed}
+                style={{
+                    ...theme?.navbar?.style
+
+                }}
+
+            >
+            </BrandNavbar>
         </div>
     );
 }
 
 const BrandNavbarPlugin = connect(
-    createSelector([], () => ({})),
+    createSelector([
+        getParsedGeoNodeConfiguration
+    ], (config) => ({
+        config
+    })),
     {}
-)(BrandNavbar);
+)(withResizeDetector(BrandNavbarPlg));
 
 export default createPlugin('BrandNavbar', {
     component: BrandNavbarPlugin,
