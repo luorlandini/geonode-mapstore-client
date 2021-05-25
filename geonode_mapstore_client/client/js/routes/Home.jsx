@@ -363,7 +363,6 @@ function Home({
     const filterFormTop = dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight;
 
 
-
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
             <BrandNavbar
