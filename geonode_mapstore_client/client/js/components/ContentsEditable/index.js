@@ -1,6 +1,6 @@
 import TextEditable from './TextEditable';
-import ImagesEditable from './ImagesEditable';
+import ThumbnailEditable from './ThumbnailEditable';
 export {
     TextEditable,
-    ImagesEditable
+    ThumbnailEditable
 };

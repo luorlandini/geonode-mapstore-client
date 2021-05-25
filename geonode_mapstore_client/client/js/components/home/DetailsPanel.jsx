@@ -19,7 +19,7 @@ import {
 
 import CopyToClipboard from 'react-copy-to-clipboard';
 import url from 'url';
-import {TextEditable, ImagesEditable} from '@js/components/ContentsEditable/';
+import {TextEditable, ThumbnailEditable} from '@js/components/ContentsEditable/';
 
 const EditTitle = ({title, onEdit}) => {
     return (
@@ -38,7 +38,7 @@ const EditAbstract = ({abstract, onEdit}) => (
 
 const EditThumbnail = ({image, onEdit}) => (
     <div className="editContainer imagepreview">
-        <ImagesEditable onEdit={onEdit} defaultImage={image} />
+        <ThumbnailEditable onEdit={onEdit} defaultImage={image} />
     </div>
 
 );

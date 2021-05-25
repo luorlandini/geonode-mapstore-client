@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import Thumbnail from '@mapstore/framework/components/misc/Thumbnail';
 import FaIcon from '@js/components/home/FaIcon';
 
-const ImagesEditable = ({
+const ThumbnailEditable = ({
     defaultImage,
     onEdit = () => {}
 }) => {
@@ -38,4 +38,4 @@ const ImagesEditable = ({
     );
 };
 
-export default ImagesEditable;
+export default ThumbnailEditable;
