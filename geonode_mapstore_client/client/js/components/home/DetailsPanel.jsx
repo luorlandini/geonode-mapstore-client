@@ -36,7 +36,7 @@ const EditAbstract = ({abstract, onEdit}) => (
 );
 
 
-const EditImage = ({image, onEdit}) => (
+const EditThumbnail = ({image, onEdit}) => (
     <div className="editContainer imagepreview">
         <ImagesEditable onEdit={onEdit} defaultImage={image} />
     </div>
@@ -93,7 +93,7 @@ function DetailsPanel({
     getTypesInfo,
     editTitle,
     editAbstract,
-    editImage,
+    editThumbnail,
     activeEditMode,
     closePanel
 }) {
@@ -214,7 +214,7 @@ function DetailsPanel({
                     </div>}
                 </div> }
 
-                {activeEditMode && editImage && <div className="gn-details-panel-preview inediting"> <EditImage onEdit={editImage} image={resource?.thumbnail_url} /> </div>}
+                {activeEditMode && editThumbnail && <div className="gn-details-panel-preview inediting"> <EditThumbnail onEdit={editThumbnail} image={resource?.thumbnail_url} /> </div>}
 
 
                 <div className="gn-details-panel-content">

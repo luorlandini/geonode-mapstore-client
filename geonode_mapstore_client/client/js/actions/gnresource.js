@@ -16,7 +16,7 @@ export const SET_RESOURCE_ID = 'GEONODE:SET_RESOURCE_ID';
 export const SET_RESOURCE_PERMISSIONS = 'GEONODE:SET_RESOURCE_PERMISSIONS';
 export const EDIT_TITLE_RESOURCE = 'GEONODE:EDIT_TITLE_RESOURCE';
 export const EDIT_ABSTRACT_RESOURCE = 'GEONODE:EDIT_ABSTRACT_RESOURCE';
-export const EDIT_IMAGE_RESOURCE = 'GEONODE:EDIT_IMAGE_RESOURCE';
+export const EDIT_THUMBNAIL_RESOURCE = 'GEONODE:EDIT_THUMBNAIL_RESOURCE';
 
 export const SET_SELECTED_LAYER_PERMISSIONS = "GEONODE:SET_SELECTED_LAYER_PERMISSIONS";
 
@@ -79,10 +79,11 @@ export function editAbstractResource(abstract) {
 * @memberof actions.gnresource
 * @param {string} image resource
 */
-export function editImageResource(image) {
+
+export function editThumbnailResource(image) {
 
     return {
-        type: EDIT_IMAGE_RESOURCE,
+        type: EDIT_THUMBNAIL_RESOURCE,
         image
     };
 }

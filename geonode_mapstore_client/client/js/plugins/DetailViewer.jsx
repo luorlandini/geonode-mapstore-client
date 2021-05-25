@@ -14,7 +14,7 @@ import DetailsPanel from '@js/components/home/DetailsPanel';
 import {
     editTitleResource,
     editAbstractResource,
-    editImageResource
+    editThumbnailResource
 } from '@js/actions/gnresource';
 
 import gnresource from '@js/reducers/gnresource';
@@ -35,7 +35,7 @@ const ConnectedDetailsPanel = connect(
 function DetailViewer({
     onEditResource,
     onEditAbstractResource,
-    onEditImage}) {
+    onEditThumbnail}) {
 
     const handleTitleValue = (val) => {
         onEditResource(val);
@@ -44,8 +44,8 @@ function DetailViewer({
     const handleAbstractValue = (val) => {
         onEditAbstractResource(val);
     };
-    const handleEditImage = (val) => {
-        onEditImage(val);
+    const handleEditThumbnail = (val) => {
+        onEditThumbnail(val);
     };
 
     return (
@@ -60,7 +60,7 @@ function DetailViewer({
             <ConnectedDetailsPanel
                 editTitle={handleTitleValue}
                 editAbstract={handleAbstractValue}
-                editImage={handleEditImage}
+                editThumbnail={handleEditThumbnail}
                 activeEditMode
                 sectionStyle={{
                     width: '600px',
@@ -77,7 +77,7 @@ const DetailViewerPlugin = connect(
     {
         onEditResource: editTitleResource,
         onEditAbstractResource: editAbstractResource,
-        onEditImage: editImageResource
+        onEditThumbnail: editThumbnailResource
     }
 )(DetailViewer);
 
