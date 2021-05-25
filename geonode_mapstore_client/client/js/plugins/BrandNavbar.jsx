@@ -14,24 +14,15 @@ import { createSelector } from 'reselect';
 import BrandNavbar from '@js/components/home/BrandNavbar';
 import { getParsedGeoNodeConfiguration } from "@js/selectors/config";
 import { withResizeDetector } from 'react-resize-detector';
+import {
+    getPageSize
+} from '@js/utils/AppUtils';
 
-function getPageSize(width) {
-    if (width < 968) {
-        return 'sm';
-    }
-    if (width < 1400) {
-        return 'md';
-    }
-    return 'lg';
-}
 
 function BrandNavbarPlg({
     config,
     width
 }) {
-    // placeholder plugin component
-    console.log('BrandNavbar');
-    console.log(config);
 
     const {
         navbarItemsAllowed,
@@ -47,7 +38,6 @@ function BrandNavbarPlg({
                 width: '100%',
                 height: 60,
                 backgroundColor: '#f2f2f2',
-                border: '3px solid green'
             }}>
             <BrandNavbar
                 logo={castArray(config?.navbar?.logo || [])
