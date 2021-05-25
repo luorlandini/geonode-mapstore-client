@@ -17,7 +17,7 @@ import {
     SET_RESOURCE_PERMISSIONS,
     EDIT_TITLE_RESOURCE,
     EDIT_ABSTRACT_RESOURCE,
-    EDIT_IMAGE_RESOURCE,
+    EDIT_THUMBNAIL_RESOURCE,
     SET_SELECTED_LAYER_PERMISSIONS
 } from '@js/actions/gnresource';
 
@@ -100,12 +100,12 @@ function gnresource(state = {selectedLayerPermissions: []}, action) {
         };
     }
 
-    case EDIT_IMAGE_RESOURCE: {
+    case EDIT_THUMBNAIL_RESOURCE: {
         return {
             ...state,
             data: {
                 ...state?.data,
-                thumbnail_url: action?.image
+                thumbnail_url: action?.thumbnail_url
             }
         };
     }
