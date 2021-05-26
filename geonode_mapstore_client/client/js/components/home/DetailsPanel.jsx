@@ -95,9 +95,10 @@ function DetailsPanel({
     editAbstract,
     editThumbnail,
     activeEditMode,
-    closePanel
+    closePanel,
+    favorite,
+    onFavorite
 }) {
-
 
     const [editModeTitle, setEditModeTitle] = useState(false);
     const [editModeAbstract, setEditModeAbstract] = useState(false);
@@ -133,6 +134,9 @@ function DetailsPanel({
         }, 700);
     };
 
+    const handleFavorite = () => {
+        onFavorite();
+    };
 
     const types = getTypesInfo();
     const {
@@ -234,6 +238,13 @@ function DetailsPanel({
                         }
                         {
                             <div className="gn-details-panel-tools">
+
+                                <Button
+                                    variant="default"
+                                    onClick={handleFavorite}>
+                                    <FaIcon stylePrefix={ favorite ? `fa` : `far`} name="star" />
+                                </Button>
+
                                 {detailUrl && <OverlayTrigger
                                     placement="top"
                                     overlay={(props) =>

@@ -34,6 +34,9 @@ import {
     updateSuggestions
 } from '@js/actions/gnsearch';
 
+import { setFavoriteResource
+} from '@js/actions/gnresource';
+
 import {
     hashLocationToHref,
     getFilterById
@@ -100,10 +103,15 @@ const ConnectedCardGrid = connect(
 
 const ConnectedDetailsPanel = connect(
     createSelector([
-        state => state?.gnresource?.loading || false
-    ], (loading) => ({
-        loading
-    }))
+        state => state?.gnresource?.loading || false,
+        state => state?.gnresource?.data?.favorite || false
+    ], (loading, favorite) => ({
+        loading,
+        favorite
+    })),
+    {
+        onFavorite: setFavoriteResource
+    }
 )(DetailsPanel);
 
 const suggestionsRequestTypes = {
