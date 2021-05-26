@@ -34,7 +34,7 @@ import {
     updateSuggestions
 } from '@js/actions/gnsearch';
 
-import { setFavoriteResource
+import { setFavouriteResource
 } from '@js/actions/gnresource';
 
 import {
@@ -104,13 +104,13 @@ const ConnectedCardGrid = connect(
 const ConnectedDetailsPanel = connect(
     createSelector([
         state => state?.gnresource?.loading || false,
-        state => state?.gnresource?.data?.favorite || false
-    ], (loading, favorite) => ({
+        state => state?.gnresource?.data?.favourite || false
+    ], (loading, favourite) => ({
         loading,
-        favorite
+        favourite
     })),
     {
-        onFavorite: setFavoriteResource
+        onFavorite: setFavouriteResource
     }
 )(DetailsPanel);
 
