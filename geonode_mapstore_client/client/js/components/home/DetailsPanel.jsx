@@ -97,7 +97,8 @@ function DetailsPanel({
     activeEditMode,
     closePanel,
     favorite,
-    onFavorite
+    onFavorite,
+    isLogged
 }) {
 
     const [editModeTitle, setEditModeTitle] = useState(false);
@@ -238,12 +239,14 @@ function DetailsPanel({
                         }
                         {
                             <div className="gn-details-panel-tools">
-
-                                <Button
-                                    variant="default"
-                                    onClick={handleFavorite}>
-                                    <FaIcon stylePrefix={ favorite ? `fa` : `far`} name="star" />
-                                </Button>
+                                {
+                                    isLogged &&
+                                   <Button
+                                       variant="default"
+                                       onClick={handleFavorite}>
+                                       <FaIcon stylePrefix={ favorite ? `fa` : `far`} name="star" />
+                                   </Button>
+                                }
 
                                 {detailUrl && <OverlayTrigger
                                     placement="top"

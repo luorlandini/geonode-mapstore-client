@@ -104,7 +104,7 @@ const ConnectedCardGrid = connect(
 const ConnectedDetailsPanel = connect(
     createSelector([
         state => state?.gnresource?.loading || false,
-        state => state?.gnresource?.data?.favorite || false
+        state => state?.gnresource?.data?.favourite || false
     ], (loading, favorite) => ({
         loading,
         favorite
@@ -377,7 +377,6 @@ function Home({
     const filterFormTop = dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight;
 
 
-
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
             <BrandNavbar
@@ -464,6 +463,7 @@ function Home({
                                     : undefined}
                                 column={ hideHero &&
                                     <ConnectedDetailsPanel
+                                        isLogged={!!user}
                                         resource={resource}
                                         filters={queryFilters}
                                         linkHref={hrefDetailPanel}
