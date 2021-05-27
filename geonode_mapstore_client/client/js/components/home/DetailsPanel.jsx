@@ -96,8 +96,8 @@ function DetailsPanel({
     editThumbnail,
     activeEditMode,
     closePanel,
-    favorite,
-    onFavorite,
+    favourite,
+    onFavourite,
     isLogged
 }) {
 
@@ -135,8 +135,8 @@ function DetailsPanel({
         }, 700);
     };
 
-    const handleFavorite = () => {
-        onFavorite(!favorite);
+    const handleFavourite = () => {
+        onFavourite(!favourite);
     };
 
     const types = getTypesInfo();
@@ -243,8 +243,8 @@ function DetailsPanel({
                                     isLogged &&
                                    <Button
                                        variant="default"
-                                       onClick={debounce(handleFavorite, 700)}>
-                                       <FaIcon stylePrefix={ favorite ? `fa` : `far`} name="star" />
+                                       onClick={debounce(handleFavourite, 500)}>
+                                       <FaIcon stylePrefix={ favourite ? `fa` : `far`} name="star" />
                                    </Button>
                                 }
 

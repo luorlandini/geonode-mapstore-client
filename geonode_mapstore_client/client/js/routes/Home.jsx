@@ -34,7 +34,7 @@ import {
     updateSuggestions
 } from '@js/actions/gnsearch';
 
-import { setFavoriteResource
+import { setFavouriteResource
 } from '@js/actions/gnresource';
 
 import {
@@ -105,12 +105,12 @@ const ConnectedDetailsPanel = connect(
     createSelector([
         state => state?.gnresource?.loading || false,
         state => state?.gnresource?.data?.favourite || false
-    ], (loading, favorite) => ({
+    ], (loading, favourite) => ({
         loading,
-        favorite
+        favourite
     })),
     {
-        onFavorite: setFavoriteResource
+        onFavourite: setFavouriteResource
     }
 )(DetailsPanel);
 
