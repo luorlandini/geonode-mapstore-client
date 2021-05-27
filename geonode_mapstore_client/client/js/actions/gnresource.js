@@ -178,9 +178,9 @@ export function setSelectedLayerPermissions(permissions) {
 }
 
 /**
-* Set the resource favorite field  in the state
+* Set the resource favorite field (trigger epic gnSaveFavoriteContent)
 * @memberof actions.gnresource
-* @param {object} data resource data object
+* @param {bool} favorite resource data field
 */
 export function setFavoriteResource(favorite) {
 
