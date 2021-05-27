@@ -18,8 +18,7 @@ import {
     EDIT_TITLE_RESOURCE,
     EDIT_ABSTRACT_RESOURCE,
     EDIT_THUMBNAIL_RESOURCE,
-    SET_SELECTED_LAYER_PERMISSIONS,
-    SET_FAVOURITE_RESOURCE
+    SET_SELECTED_LAYER_PERMISSIONS
 } from '@js/actions/gnresource';
 
 function gnresource(state = {selectedLayerPermissions: []}, action) {
@@ -110,17 +109,6 @@ function gnresource(state = {selectedLayerPermissions: []}, action) {
             }
         };
     }
-
-    case SET_FAVOURITE_RESOURCE: {
-        return {
-            ...state,
-            data: {
-                ...state?.data,
-                favourite: !state?.data.favourite
-            }
-        };
-    }
-
 
     case SET_SELECTED_LAYER_PERMISSIONS:
         return {
