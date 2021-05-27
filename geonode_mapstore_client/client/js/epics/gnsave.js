@@ -211,7 +211,7 @@ export const gnSaveFavoriteContent = (action$, store) =>
             const state = store.getState();
             const pk = state?.gnresource?.data.pk;
             const favorite =  action.favorite;
-            const method = (favorite) ? 'post' : 'delete';
+            const method = (favorite) ? 'delete' : 'post';
             return Observable.defer(() => setFavoriteResource(pk, method))
                 .switchMap(() => {
                     return Observable.of(
@@ -223,6 +223,7 @@ export const gnSaveFavoriteContent = (action$, store) =>
                 .catch((error) => {
                     return Observable.of(resourceError(error.data || error.message));
                 });
+
         });
 
 
