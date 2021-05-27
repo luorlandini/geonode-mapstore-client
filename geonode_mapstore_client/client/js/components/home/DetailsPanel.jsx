@@ -134,7 +134,7 @@ function DetailsPanel({
         }, 700);
     };
 
-    const handleFavorite = () => {
+    const handleFavourite = () => {
         onFavourite();
     };
 
@@ -241,7 +241,7 @@ function DetailsPanel({
 
                                 <Button
                                     variant="default"
-                                    onClick={handleFavorite}>
+                                    onClick={handleFavourite}>
                                     <FaIcon stylePrefix={ favourite ? `fa` : `far`} name="star" />
                                 </Button>
 

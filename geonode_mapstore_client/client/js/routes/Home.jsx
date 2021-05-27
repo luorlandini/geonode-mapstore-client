@@ -110,7 +110,7 @@ const ConnectedDetailsPanel = connect(
         favourite
     })),
     {
-        onFavorite: setFavouriteResource
+        onFavourite: setFavouriteResource
     }
 )(DetailsPanel);
 
