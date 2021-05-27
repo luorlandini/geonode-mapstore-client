@@ -16,7 +16,7 @@ import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
-
+import debounce from 'lodash/debounce';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import url from 'url';
 import {TextEditable, ThumbnailEditable} from '@js/components/ContentsEditable/';
@@ -243,7 +243,7 @@ function DetailsPanel({
                                     isLogged &&
                                    <Button
                                        variant="default"
-                                       onClick={handleFavorite}>
+                                       onClick={debounce(handleFavorite, 700)}>
                                        <FaIcon stylePrefix={ favorite ? `fa` : `far`} name="star" />
                                    </Button>
                                 }
