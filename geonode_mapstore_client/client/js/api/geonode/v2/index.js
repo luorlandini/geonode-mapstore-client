@@ -243,6 +243,12 @@ export const getDocumentsByDocType = (docType = 'image', {
         }));
 };
 
+export const setFavoriteResource = (pk, method) => {
+    // eslint-disable-next-line dot-notation
+    return axios[method](parseDevHostname(`${endpoints[RESOURCES]}/${pk}/favorite`))
+        .then(({ data }) => data );
+};
+
 export const getResourceByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[RESOURCES]}/${pk}`))
         .then(({ data }) => data.resource);

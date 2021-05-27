@@ -96,8 +96,8 @@ function DetailsPanel({
     editThumbnail,
     activeEditMode,
     closePanel,
-    favourite,
-    onFavourite
+    favorite,
+    onFavorite
 }) {
 
     const [editModeTitle, setEditModeTitle] = useState(false);
@@ -134,8 +134,8 @@ function DetailsPanel({
         }, 700);
     };
 
-    const handleFavourite = () => {
-        onFavourite();
+    const handleFavorite = () => {
+        onFavorite(!favorite);
     };
 
     const types = getTypesInfo();
@@ -241,8 +241,8 @@ function DetailsPanel({
 
                                 <Button
                                     variant="default"
-                                    onClick={handleFavourite}>
-                                    <FaIcon stylePrefix={ favourite ? `fa` : `far`} name="star" />
+                                    onClick={handleFavorite}>
+                                    <FaIcon stylePrefix={ favorite ? `fa` : `far`} name="star" />
                                 </Button>
 
                                 {detailUrl && <OverlayTrigger
