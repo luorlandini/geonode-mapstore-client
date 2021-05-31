@@ -41,7 +41,6 @@ function FilterForm({
         fields,
         values
     };
-
     useEffect(() => {
         const newValues = state.current.fields.reduce((acc, { id: formId, suggestionsRequestKey }) => {
             const filterKey = suggestionsRequestKey
@@ -62,8 +61,8 @@ function FilterForm({
         });
     }, [query]);
 
-    function handleApply() {
-        onChange(values);
+    function handleApply(val) {
+        onChange(val);
     }
 
     function handleClear() {
@@ -110,6 +109,7 @@ function FilterForm({
                             suggestionsRequestTypes={suggestionsRequestTypes}
                             values={state.current.values}
                             setValues={setValues}
+                            applyField={handleApply}
                         />
                         <FilterByExtent
                             id={id}

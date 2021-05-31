@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import { Form } from 'react-bootstrap-v1';
@@ -18,63 +18,97 @@ import { getFilterLabelById } from '@js/utils/GNSearchUtils';
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
 
+const SelectField = ({id,
+    field,
+    suggestionsRequestTypes,
+    val,
+    applyField
+}) => {
+
+    const [values, setValues] = useState(val || {});
+    const {
+        id: formId,
+        labelId,
+        label,
+        placeholderId,
+        description,
+        options,
+        suggestionsRequestKey
+    } = field;
+    const key = `${id}-${formId || suggestionsRequestKey}`;
+    const filterKey = suggestionsRequestKey
+        ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
+        : `filter{${formId}.in}`;
+
+    const currentValues = suggestionsRequestKey
+        ? values[suggestionsRequestTypes[suggestionsRequestKey]?.filterKey] || []
+        : values[filterKey] || [];
+
+    const optionsProp = suggestionsRequestKey
+        ? { loadOptions: suggestionsRequestTypes[suggestionsRequestKey]?.loadOptions }
+        : { options: options.map(option => ({ value: option, label: option })) };
+    const Select = suggestionsRequestKey ? SelectAsync : SelectSync;
+
+
+    const handleChangeValue = (selected) => {
+        setValues({
+            ...values,
+            [filterKey]: selected.map(({ value }) => value)
+        });
+    };
+
+    useEffect(() =>{
+        (applyField && applyField(values));
+    }, [values]);
+
+    useEffect(() => {
+        setValues(val);
+    }, [val]);
+
+
+    return (
+        <Form.Group
+            key={key}
+            controlId={key}
+        >
+            <Form.Label><strong>{labelId ? <Message msgId={labelId}/> : label}</strong></Form.Label>
+            <Select
+                value={currentValues.map((value) => ({ value, label: getFilterLabelById(filterKey, value) || value }))}
+                multi
+                placeholder={placeholderId}
+                onChange={(selected) => {
+                    handleChangeValue(selected);
+                }}
+                { ...optionsProp }
+            />
+            {description &&
+            <Form.Text className="text-muted">
+                {description}
+            </Form.Text>}
+        </Form.Group>
+    );
+
+};
+
 function FilterItems({
     id,
     items,
     suggestionsRequestTypes,
     values,
-    setValues
+    setValues,
+    applyField
 }) {
     return (
         <>
             {items.map((field) => {
                 if (field.type === 'select') {
-                    const {
-                        id: formId,
-                        labelId,
-                        label,
-                        placeholderId,
-                        description,
-                        options,
-                        suggestionsRequestKey
-                    } = field;
-                    const key = `${id}-${formId || suggestionsRequestKey}`;
-                    const filterKey = suggestionsRequestKey
-                        ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
-                        : `filter{${formId}.in}`;
-
-                    const currentValues = suggestionsRequestKey
-                        ? values[suggestionsRequestTypes[suggestionsRequestKey]?.filterKey] || []
-                        : values[filterKey] || [];
-
-                    const optionsProp = suggestionsRequestKey
-                        ? { loadOptions: suggestionsRequestTypes[suggestionsRequestKey]?.loadOptions }
-                        : { options: options.map(option => ({ value: option, label: option })) };
-                    const Select = suggestionsRequestKey ? SelectAsync : SelectSync;
-                    return (
-                        <Form.Group
-                            key={key}
-                            controlId={key}
-                        >
-                            <Form.Label><strong>{labelId ? <Message msgId={labelId}/> : label}</strong></Form.Label>
-                            <Select
-                                value={currentValues.map((value) => ({ value, label: getFilterLabelById(filterKey, value) || value }))}
-                                multi
-                                placeholder={placeholderId}
-                                onChange={(selected) => {
-                                    setValues({
-                                        ...values,
-                                        [filterKey]: selected.map(({ value }) => value)
-                                    });
-                                }}
-                                { ...optionsProp }
-                            />
-                            {description &&
-                            <Form.Text className="text-muted">
-                                {description}
-                            </Form.Text>}
-                        </Form.Group>
-                    );
+                    return (<SelectField
+                        id={id}
+                        field={field}
+                        suggestionsRequestTypes={suggestionsRequestTypes}
+                        val={values}
+                        applyField={applyField}
+                    /> );
                 }
                 if (field.type === 'group') {
                     return (<>
