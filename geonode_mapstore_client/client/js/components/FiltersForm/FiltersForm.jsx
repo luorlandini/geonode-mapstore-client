@@ -16,7 +16,7 @@ import isEqual from 'lodash/isEqual';
 import FilterByExtent from './FilterByExtent';
 import FilterItems from './FilterItems';
 import debounce from 'lodash/debounce';
-
+import isEmpty from 'lodash/isEmpty';
 /**
  * FilterForm component allows to configure a list of field that can be used to apply filter on the page
  * @name FilterForm
@@ -44,26 +44,29 @@ function FilterForm({
         values
     };
 
+
+    const newValues = state.current.fields.reduce((acc, { id: formId, suggestionsRequestKey }) => {
+        const filterKey = suggestionsRequestKey
+            ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
+            : `filter{${formId}.in}`;
+        if (filterKey && !state.current.query[filterKey]) {
+            return acc;
+        }
+        return {
+            ...acc,
+            [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
+        };
+    }, {});
+
     useEffect(() => {
-        const newValues = state.current.fields.reduce((acc, { id: formId, suggestionsRequestKey }) => {
-            const filterKey = suggestionsRequestKey
-                ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
-                : `filter{${formId}.in}`;
-            if (filterKey && !state.current.query[filterKey]) {
-                return acc;
-            }
-            return {
-                ...acc,
-                [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
-            };
-        }, {});
-        (!isSubmitOnChange &&
+        (!isSubmitOnChange || (!isEmpty(newValues) && isEmpty(values))  &&
         setValues({
             ...newValues,
             ...(query?.extent && { extent: query.extent }),
             ...(query?.f && { f: query.f })
         }));
-    }, [query]);
+    }, [query, newValues]);
+
 
     function handleApply() {
         onChange(values);
