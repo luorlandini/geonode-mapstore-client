@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import { Form, Button } from 'react-bootstrap-v1';
@@ -15,6 +15,7 @@ import FaIcon from '@js/components/home/FaIcon';
 import isEqual from 'lodash/isEqual';
 import FilterByExtent from './FilterByExtent';
 import FilterItems from './FilterItems';
+import debounce from 'lodash/debounce';
 
 /**
  * FilterForm component allows to configure a list of field that can be used to apply filter on the page
@@ -85,10 +86,10 @@ function FilterForm({
         onChange(emptyValues);
     }
 
-    useEffect( ( ) => {
-        isSubmitOnChange && onChange(values);
-    }, [values]);
-
+    useEffect( () => {
+        onChange(values);
+    },
+    [values]);
 
     return (
         <div className="gn-filter-form" style={styleContainerForm} >
@@ -124,11 +125,11 @@ function FilterForm({
                             queryExtent={query.extent}
                             layers={extentProps?.layers}
                             vectorLayerStyle={extentProps?.style}
-                            onChange={({extent}) =>
+                            onChange={debounce(({extent}) =>
                                 setValues({
                                     ...values,
                                     extent
-                                })
+                                }), 500)
                             }
                         />
                     </Form>
