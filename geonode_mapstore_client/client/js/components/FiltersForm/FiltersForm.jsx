@@ -32,7 +32,7 @@ function FilterForm({
     onClose,
     extentProps,
     suggestionsRequestTypes,
-
+    isSubmitOnChange
 }) {
 
     const [values, setValues] = useState({});
@@ -56,13 +56,12 @@ function FilterForm({
                 [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
             };
         }, {});
-        /*
+        (!isSubmitOnChange &&
         setValues({
             ...newValues,
             ...(query?.extent && { extent: query.extent }),
             ...(query?.f && { f: query.f })
-        });
-        */
+        }));
     }, [query]);
 
     function handleApply() {
@@ -87,7 +86,7 @@ function FilterForm({
     }
 
     useEffect( ( ) => {
-        onChange(values);
+        isSubmitOnChange && onChange(values);
     }, [values]);
 
 
@@ -136,13 +135,14 @@ function FilterForm({
                 </div>
             </div>
             <div className="gn-filter-form-footer">
-                <Button
+                {!isSubmitOnChange && <Button
                     size="sm"
                     variant="primary"
                     onClick={handleApply}
                 >
                     <Message msgId="gnhome.apply"/>
                 </Button>
+                }
                 <Button
                     size="sm"
                     variant="default"
