@@ -34,7 +34,8 @@ function FilterForm({
     extentProps,
     suggestionsRequestTypes,
     isSmallDevice,
-    submitOnChangeField
+    submitOnChangeField,
+    timeDebounce
 }) {
 
     const [values, setValues] = useState({});
@@ -122,6 +123,7 @@ function FilterForm({
                             suggestionsRequestTypes={suggestionsRequestTypes}
                             values={state.current.values}
                             setValues={setValues}
+                            timeDebounce={timeDebounce}
                         />
                         <FilterByExtent
                             id={id}
@@ -133,7 +135,7 @@ function FilterForm({
                                 setValues({
                                     ...values,
                                     extent
-                                }), 500)
+                                }), timeDebounce)
                             }
                         />
                     </Form>

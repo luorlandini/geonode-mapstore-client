@@ -192,7 +192,8 @@ function Home({
         theme,
         filters,
         menu: {cfg: actionNavbarCfg} = {},
-        filtersForm: {submitOnChange: filterFormsSubmitOnChange} = {}
+        filtersForm: {cfg: {submitOnChange: filterFormsSubmitOnChange}} = {},
+        filtersForm: {cfg: {debounceTime: filterFormstimeDebounce}} = {}
 
     } = config;
 
@@ -439,6 +440,7 @@ function Home({
                                 onClose={handleShowFilterForm}
                                 isSmallDevice={isSmallDevice}
                                 submitOnChangeField={filterFormsSubmitOnChange}
+                                timeDebounce={filterFormstimeDebounce}
                             />
 
                         </div>

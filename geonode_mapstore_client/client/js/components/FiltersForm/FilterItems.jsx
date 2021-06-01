@@ -23,7 +23,8 @@ function FilterItems({
     items,
     suggestionsRequestTypes,
     values,
-    setValues
+    setValues,
+    timeDebounce
 }) {
     return (
         <>
@@ -113,7 +114,7 @@ function FilterItems({
                                             ? customFilters.filter(value => value !== field.id)
                                             : [...customFilters, field.id]
                                     });
-                                }, 500)}/>
+                                }, timeDebounce)}/>
                         </Form.Group>
                     );
                 }
