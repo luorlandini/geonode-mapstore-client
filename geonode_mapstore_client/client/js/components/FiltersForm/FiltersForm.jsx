@@ -33,7 +33,8 @@ function FilterForm({
     onClose,
     extentProps,
     suggestionsRequestTypes,
-    isSubmitOnChange
+    isSmallDevice,
+    submitOnChangeField
 }) {
 
     const [values, setValues] = useState({});
@@ -59,7 +60,7 @@ function FilterForm({
     }, {});
 
     useEffect(() => {
-        (!isSubmitOnChange || (!isEmpty(newValues) && isEmpty(values))  &&
+        (!submitOnChangeField || isSmallDevice || (!isEmpty(newValues) && isEmpty(values))  &&
         setValues({
             ...newValues,
             ...(query?.extent && { extent: query.extent }),
@@ -90,7 +91,7 @@ function FilterForm({
     }
 
     useEffect( () => {
-        onChange(values);
+        submitOnChangeField && onChange(values);
     },
     [values]);
 
@@ -139,7 +140,7 @@ function FilterForm({
                 </div>
             </div>
             <div className="gn-filter-form-footer">
-                {!isSubmitOnChange && <Button
+                {(!submitOnChangeField || isSmallDevice) && <Button
                     size="sm"
                     variant="primary"
                     onClick={handleApply}

@@ -191,7 +191,9 @@ function Home({
         filtersFormItemsAllowed,
         theme,
         filters,
-        menu: {cfg: actionNavbarCfg} = {}
+        menu: {cfg: actionNavbarCfg} = {},
+        filtersForm: {submitOnChange: filterFormsSubmitOnChange} = {}
+
     } = config;
 
     const pageSize = getPageSize(width);
@@ -435,7 +437,8 @@ function Home({
                                 query={query}
                                 onChange={isSmallDevice && handleUpdateSmallDevice || handleUpdate}
                                 onClose={handleShowFilterForm}
-                                isSubmitOnChange={!isSmallDevice}
+                                isSmallDevice={isSmallDevice}
+                                submitOnChangeField={filterFormsSubmitOnChange}
                             />
 
                         </div>
