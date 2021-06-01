@@ -196,6 +196,7 @@
             }
         },
         "filtersForm": {
+            "submitOnChange": true,
             "items": [
                 {
                     "type": "group",
