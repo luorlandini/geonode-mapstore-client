@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import { Form, Button } from 'react-bootstrap-v1';
@@ -31,7 +31,8 @@ function FilterForm({
     onChange,
     onClose,
     extentProps,
-    suggestionsRequestTypes
+    suggestionsRequestTypes,
+
 }) {
 
     const [values, setValues] = useState({});
@@ -55,11 +56,13 @@ function FilterForm({
                 [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
             };
         }, {});
+        /*
         setValues({
             ...newValues,
             ...(query?.extent && { extent: query.extent }),
             ...(query?.f && { f: query.f })
         });
+        */
     }, [query]);
 
     function handleApply() {
@@ -82,6 +85,11 @@ function FilterForm({
         setValues(emptyValues);
         onChange(emptyValues);
     }
+
+    useEffect( ( ) => {
+        onChange(values);
+    }, [values]);
+
 
     return (
         <div className="gn-filter-form" style={styleContainerForm} >
