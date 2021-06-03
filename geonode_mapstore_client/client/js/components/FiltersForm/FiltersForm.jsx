@@ -47,27 +47,29 @@ function FilterForm({
     };
 
 
-    const newValues = state.current.fields.reduce((acc, { id: formId, suggestionsRequestKey }) => {
-        const filterKey = suggestionsRequestKey
-            ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
-            : `filter{${formId}.in}`;
-        if (filterKey && !state.current.query[filterKey]) {
-            return acc;
-        }
-        return {
-            ...acc,
-            [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
-        };
-    }, {});
-
     useEffect(() => {
-        (!submitOnChangeField || isSmallDevice || (!isEmpty(newValues) && isEmpty(values))  &&
-        setValues({
-            ...newValues,
-            ...(query?.extent && { extent: query.extent }),
-            ...(query?.f && { f: query.f })
-        }));
-    }, [query, newValues]);
+        const newValues = state.current.fields.reduce((acc, { id: formId, suggestionsRequestKey }) => {
+            const filterKey = suggestionsRequestKey
+                ? suggestionsRequestTypes[suggestionsRequestKey]?.filterKey
+                : `filter{${formId}.in}`;
+            if (filterKey && !state.current.query[filterKey]) {
+                return acc;
+            }
+            return {
+                ...acc,
+                [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
+            };
+        }, {});
+
+        (!submitOnChangeField
+            || isSmallDevice
+            || ( !isSmallDevice && (!isEmpty(newValues) && isEmpty(values)))
+             && setValues({
+                 ...newValues,
+                 ...(query?.extent && { extent: query.extent }),
+                 ...(query?.f && { f: query.f })
+             }));
+    }, [query]);
 
 
     function handleApply() {
@@ -92,7 +94,9 @@ function FilterForm({
     }
 
     useEffect( () => {
-        submitOnChangeField && onChange(values);
+        submitOnChangeField
+        && !isSmallDevice
+        && onChange(values);
     },
     [values]);
 
@@ -171,7 +175,11 @@ FilterForm.defaultProps = {
     onChange: PropTypes.func,
     onClose: PropTypes.func,
     extentProps: PropTypes.object,
-    suggestionsRequestTypes: PropTypes.object
+    suggestionsRequestTypes: PropTypes.object,
+    isSmallDevice: PropTypes.bool,
+    submitOnChangeField: PropTypes.bool,
+    timeDebounce: PropTypes.number
+
 };
 
 FilterForm.defaultProps = {
@@ -179,7 +187,9 @@ FilterForm.defaultProps = {
     fields: [],
     onChange: () => {},
     onClose: () => {},
-    suggestionsRequestTypes: {}
+    suggestionsRequestTypes: {},
+    submitOnChangeField: true,
+    timeDebounce: 500
 };
 
 const arePropsEqual = (prevProps, nextProps) => {
