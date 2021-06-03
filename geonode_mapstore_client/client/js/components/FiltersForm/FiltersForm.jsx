@@ -86,7 +86,9 @@ function FilterForm({
     return (
         <div className="gn-filter-form" style={styleContainerForm} >
             <div className="gn-filter-form-header">
-                <div className="gn-filter-form-title"><Message msgId="gnhome.advancedSearch"/></div>
+                <div className="gn-filter-form-title">
+                    <FaIcon name="filter"/> <strong><Message msgId="gnhome.filters"/></strong>
+                </div>
                 <Button
                     variant="default"
                     onClick={() => onClose()}
@@ -166,7 +168,7 @@ FilterForm.defaultProps = {
 };
 
 const arePropsEqual = (prevProps, nextProps) => {
-    return isEqual( prevProps.styleContainerForm, nextProps.styleContainerForm );
+    return isEqual( prevProps.query, nextProps.query );
 };
 
 

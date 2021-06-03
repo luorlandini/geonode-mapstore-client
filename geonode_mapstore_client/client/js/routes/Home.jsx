@@ -41,13 +41,12 @@ import {
 import { withResizeDetector } from 'react-resize-detector';
 import Footer from '@js/components/home/Footer';
 import { useInView } from 'react-intersection-observer';
+
+import { getResourceTypes, getCategories, getRegions, getOwners, getKeywords } from '@js/api/geonode/v2';
+
 import {
-    getKeywords,
-    getCategories,
-    getRegions,
-    getOwners
-} from '@js/api/geonode/v1';
-import { getResourceTypes } from '@js/api/geonode/v2';
+    getPageSize
+} from '@js/utils/AppUtils';
 
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
@@ -158,16 +157,6 @@ const suggestionsRequestTypes = {
             .catch(() => null)
     }
 };
-
-function getPageSize(width) {
-    if (width < 968) {
-        return 'sm';
-    }
-    if (width < 1400) {
-        return 'md';
-    }
-    return 'lg';
-}
 
 function Home({
     location,
@@ -296,6 +285,13 @@ function Home({
         });
     }
 
+    function hrefDetailPanel() {
+        return handleFormatHref({
+            pathname: '/search/'
+        });
+    }
+
+
     const { query } = url.parse(location.search, true);
 
     const queryFilters = Object.keys(query).reduce((acc, key) => key.indexOf('filter') === 0
@@ -365,6 +361,7 @@ function Home({
     const isHeroVisible = !hideHero && inView;
     const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.actionNavbarNodeHeight - dimensions.footerNodeHeight);
     const filterFormTop = dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight;
+
 
     return (
         <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
@@ -454,6 +451,7 @@ function Home({
                                     <ConnectedDetailsPanel
                                         resource={resource}
                                         filters={queryFilters}
+                                        linkHref={hrefDetailPanel}
                                         formatHref={handleFormatHref}
                                         sectionStyle={{
                                             width: pageSize === 'lg'
@@ -527,7 +525,7 @@ Home.defaultProps = {
     background: {},
     logo: [],
     jumbotron: {},
-    isFilterForm: true
+    isFilterForm: false
 };
 
 const DEFAULT_PARAMS = {};
