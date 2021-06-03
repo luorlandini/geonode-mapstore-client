@@ -63,12 +63,12 @@ function FilterForm({
 
         (!submitOnChangeField
             || isSmallDevice
-            || ( !isSmallDevice && (!isEmpty(newValues) && isEmpty(values)))
-             && setValues({
-                 ...newValues,
-                 ...(query?.extent && { extent: query.extent }),
-                 ...(query?.f && { f: query.f })
-             }));
+            || ( !isSmallDevice && (!isEmpty(newValues) && isEmpty(values))) // query string already set
+            && setValues({
+                ...newValues,
+                ...(query?.extent && { extent: query.extent }),
+                ...(query?.f && { f: query.f })
+            }));
     }, [query]);
 
 
