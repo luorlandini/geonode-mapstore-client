@@ -62,7 +62,7 @@ function FilterForm({
         }, {});
 
         !submitOnChangeField
-            || ( isSmallDevice || (!isEmpty(newValues) && isEmpty(values)))
+            || (!isEmpty(newValues) && isEmpty(values))
             && setValues({
                 ...newValues,
                 ...(query?.extent && { extent: query.extent }),
