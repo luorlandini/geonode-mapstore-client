@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -19,6 +20,7 @@ function ActionNavbarPlugin({
     rightMenuItems
 }, context) {
 
+
     const { loadedPlugins } = context;
     const configuredItems = usePluginItems({ items, loadedPlugins });
     const leftMenuConfiguredItems = configuredItems
@@ -29,14 +31,28 @@ function ActionNavbarPlugin({
         .filter(({ target }) => target === 'rightMenuItem')
         .map(({ Component }) => ({ type: 'custom', Component }));
 
+    const leftItems = [...leftMenuConfiguredItems, ...leftMenuItems];
+    const rightItems = [...rightMenuConfiguredItems, ...rightMenuItems];
     return (
 
         <ActionNavbar
-            leftItems={leftMenuConfiguredItems}
-            rightItems={rightMenuConfiguredItems}
+            leftItems={leftItems}
+            rightItems={rightItems}
         />
     );
 }
+
+ActionNavbarPlugin.propTypes = {
+    items: PropTypes.array,
+    leftMenuItems: PropTypes.array,
+    rightMenuItems: PropTypes.array
+};
+
+ActionNavbarPlugin.defaultProps = {
+    items: [],
+    leftMenuItems: [],
+    rightMenuItems: []
+};
 
 const ConnectedActionNavbarPlugin = connect(
     createSelector([], () => ({})),
