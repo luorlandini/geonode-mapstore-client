@@ -104,6 +104,9 @@
             "customFiltersTitle": "Ressources",
             "myResources": "Mes ressources",
             "pendingApproval": "En attente de validation"
+        },
+        "gnviewer":{
+            "edit": "Éditer"
         }
     }
 }
