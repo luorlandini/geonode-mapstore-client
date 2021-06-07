@@ -37,11 +37,14 @@ const ConnectedDetailsPanel = connect(
 )(DetailsPanel);
 
 const ButtonViewer = ({user,  onClick}) => {
+
+    const handleClickButton = () => {
+        onClick();
+    };
+
     return (user && <button
         className="btn btn-default"
-        onClick={() => {
-            onClick();
-        }}
+        onClick={handleClickButton}
     > <Message msgId="gnviewer.edit"/> </button>);
 };
 
