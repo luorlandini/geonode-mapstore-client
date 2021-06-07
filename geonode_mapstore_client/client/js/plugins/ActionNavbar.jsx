@@ -25,14 +25,15 @@ function ActionNavbarPlugin({
     const configuredItems = usePluginItems({ items, loadedPlugins });
     const leftMenuConfiguredItems = configuredItems
         .filter(({ target }) => target === 'leftMenuItem')
-        .map(({ Component }) => ({ type: 'custom', Component }));
+        .map(({ Component }) => ({ type: 'custom', labelId: "gnviewer.edit", Component }));
 
     const rightMenuConfiguredItems = configuredItems
         .filter(({ target }) => target === 'rightMenuItem')
-        .map(({ Component }) => ({ type: 'custom', Component }));
+        .map(({ Component }) => ({ type: 'custom',  Component }));
 
     const leftItems = [...leftMenuConfiguredItems, ...leftMenuItems];
     const rightItems = [...rightMenuConfiguredItems, ...rightMenuItems];
+
     return (
 
         <ActionNavbar
