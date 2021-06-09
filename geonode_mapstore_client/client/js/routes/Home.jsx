@@ -192,8 +192,8 @@ function Home({
         theme,
         filters,
         menu: {cfg: actionNavbarCfg} = {},
-        filtersForm: {cfg: {submitOnChange: filterFormsSubmitOnChange}} = {},
-        filtersForm: {cfg: {debounceTime: filterFormstimeDebounce}} = {}
+        filtersForm: {cfg: {submitOnChange: filterFormsSubmitOnChange} = {}} = {},
+        filtersForm: {cfg: {debounceTime: filterFormstimeDebounce} = {}} = {}
 
     } = config;
 

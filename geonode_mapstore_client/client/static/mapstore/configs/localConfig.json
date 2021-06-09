@@ -196,6 +196,11 @@
             }
         },
         "filtersForm": {
+            "cfg":{
+                "debounceTime": 500,
+                "submitOnChange": true
+
+            },
             "items": [
                 {
                     "type": "group",
@@ -217,6 +222,15 @@
                             "type": "filter",
                             "query": {
                                 "filter{is_approved}": false
+                            },
+                            "authenticated": true
+                        },
+                        {
+                            "id": "favorite",
+                            "labelId": "gnhome.favorites",
+                            "type": "filter",
+                            "query": {
+                                "favorite": true
                             },
                             "authenticated": true
                         }
