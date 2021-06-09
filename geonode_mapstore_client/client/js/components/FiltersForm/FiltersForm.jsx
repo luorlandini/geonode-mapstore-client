@@ -63,6 +63,7 @@ function FilterForm({
 
         !submitOnChangeField
             || (!isEmpty(newValues) && isEmpty(values))
+            || (!isEmpty(query) && isEmpty(values))
             && setValues({
                 ...newValues,
                 ...(query?.extent && { extent: query.extent }),
