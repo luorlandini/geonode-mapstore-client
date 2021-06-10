@@ -300,7 +300,7 @@ function Home({
 
     const { query } = url.parse(location.search, true);
 
-    const queryFilters = Object.keys(query).reduce((acc, key) =>{
+    const queryFilters = Object.keys(query).reduce((acc, key) => {
         return [...acc, ...castArray(query[key]).map((value) => ({ key, value }))];
     }, []);
 
