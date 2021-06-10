@@ -300,9 +300,9 @@ function Home({
 
     const { query } = url.parse(location.search, true);
 
-    const queryFilters = Object.keys(query).reduce((acc, key) => key.indexOf('filter') === 0
-        ? [...acc, ...castArray(query[key]).map((value) => ({ key, value }))]
-        : acc, []);
+    const queryFilters = Object.keys(query).reduce((acc, key) =>{
+        return [...acc, ...castArray(query[key]).map((value) => ({ key, value }))];
+    }, []);
 
 
     const pk = match.params.pk;
@@ -367,7 +367,6 @@ function Home({
     const isHeroVisible = !hideHero && inView;
     const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.actionNavbarNodeHeight - dimensions.footerNodeHeight);
     const filterFormTop = dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight;
-
 
 
     return (
