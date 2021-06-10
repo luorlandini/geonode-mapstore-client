@@ -50,7 +50,7 @@ const FiltersMenu = forwardRef(({
                         active={filtersActive}
                         onClick={onClick}
                     >
-                        <Message msgId="gnhome.filters" msgParams={{ count: totalFilters }} />
+                        <Message msgId="gnhome.filtersCount" msgParams={{ count: totalFilters }} />
                     </Button>
                     {filtersActive && <Button
                         variant="default"
