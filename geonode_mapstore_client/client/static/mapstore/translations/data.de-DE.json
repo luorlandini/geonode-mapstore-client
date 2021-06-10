@@ -58,6 +58,7 @@
             "register": "Registrieren",
             "signIn": "Anmelden",
             "filters": "Filter",
+            "filtersCount": "{count, plural, =0 { Filter (0) } other {Filter (#)}}",
             "admin": "Admin",
             "logOut": "Ausloggen",
             "terms": "Terms",

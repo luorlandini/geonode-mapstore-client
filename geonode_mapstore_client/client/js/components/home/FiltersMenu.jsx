@@ -23,8 +23,13 @@ const FiltersMenu = forwardRef(({
     defaultLabelId,
     onClear,
     totalResources,
+    totalFilters,
     filtersActive
 }, ref) => {
+    console.log('FiltersMenu');
+    console.log(totalFilters);
+    console.log(totalResources);
+
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
     const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle', 'grid');
@@ -45,7 +50,7 @@ const FiltersMenu = forwardRef(({
                         active={filtersActive}
                         onClick={onClick}
                     >
-                        <Message msgId="gnhome.filters" />
+                        <Message msgId="gnhome.filters" msgParams={{ count: totalFilters }} />
                     </Button>
                     {filtersActive && <Button
                         variant="default"

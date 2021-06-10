@@ -58,6 +58,7 @@
             "register": "Registrati",
             "signIn": "Accedi",
             "filters": "Filtri",
+            "filtersCount": "{count, plural, =0 { Filtri (0) } other {Filtri (#)}}",
             "myresources": "Risorse",
             "mylink": "I miei Link",
             "admin": "Amministrazione",

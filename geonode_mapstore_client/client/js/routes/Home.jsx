@@ -499,6 +499,7 @@ function Home({
                                     orderOptions={filters?.order?.options}
                                     defaultLabelId={filters?.order?.defaultLabelId}
                                     totalResources={totalResources}
+                                    totalFilters={queryFilters.length}
                                     filtersActive={!!(queryFilters.length > 0 || query.f || query.extent)}
                                 />
 
