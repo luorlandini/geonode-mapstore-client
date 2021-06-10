@@ -26,10 +26,6 @@ const FiltersMenu = forwardRef(({
     totalFilters,
     filtersActive
 }, ref) => {
-    console.log('FiltersMenu');
-    console.log(totalFilters);
-    console.log(totalResources);
-
 
     const selectedSort = orderOptions.find(({ value }) => order === value);
     const [cardLayoutStyle, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle', 'grid');
