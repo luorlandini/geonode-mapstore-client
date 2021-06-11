@@ -61,9 +61,9 @@ function FilterForm({
             };
         }, {});
 
-        !submitOnChangeField
+        ((!submitOnChangeField
             || (!isEmpty(newValues) && isEmpty(values))
-            || (!isEmpty(query) && isEmpty(values))
+            || (!isEmpty(query) && isEmpty(values))) || isSmallDevice)
             && setValues({
                 ...newValues,
                 ...(query?.extent && { extent: query.extent }),
