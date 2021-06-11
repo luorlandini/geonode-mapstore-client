@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
-import { Form } from 'react-bootstrap-v1';
+import { FormGroup, Checkbox } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import Message from '@mapstore/framework/components/I18N/Message';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
@@ -53,11 +53,11 @@ function FilterItems({
                         : { options: options.map(option => ({ value: option, label: option })) };
                     const Select = suggestionsRequestKey ? SelectAsync : SelectSync;
                     return (
-                        <Form.Group
+                        <FormGroup
                             key={key}
                             controlId={key}
                         >
-                            <Form.Label><strong>{labelId ? <Message msgId={labelId}/> : label}</strong></Form.Label>
+                            <label><strong>{labelId ? <Message msgId={labelId}/> : label}</strong></label>
                             <Select
                                 value={currentValues.map((value) => ({ value, label: getFilterLabelById(filterKey, value) || value }))}
                                 multi
@@ -71,10 +71,10 @@ function FilterItems({
                                 { ...optionsProp }
                             />
                             {description &&
-                            <Form.Text className="text-muted">
+                            <div className="text-muted">
                                 {description}
-                            </Form.Text>}
-                        </Form.Group>
+                            </div>}
+                        </FormGroup>
                     );
                 }
                 if (field.type === 'group') {
@@ -101,10 +101,9 @@ function FilterItems({
                     const customFilters = castArray(values.f || []);
                     const active = customFilters.find(value => value === field.id);
                     return (
-                        <Form.Group controlId={'gn-radio-filter-' + field.id}>
-                            <Form.Check
+                        <FormGroup controlId={'gn-radio-filter-' + field.id}>
+                            <Checkbox
                                 type="checkbox"
-                                label={<Message msgId={field.labelId}/>}
                                 checked={!!active}
                                 value={field.id}
                                 onChange={debounce(() => {
@@ -114,8 +113,10 @@ function FilterItems({
                                             ? customFilters.filter(value => value !== field.id)
                                             : [...customFilters, field.id]
                                     });
-                                }, timeDebounce)}/>
-                        </Form.Group>
+                                }, timeDebounce)} />
+
+                            <Message msgId={field.labelId}/>
+                        </FormGroup>
                     );
                 }
                 return null;
