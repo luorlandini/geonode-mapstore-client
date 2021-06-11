@@ -196,11 +196,6 @@
             }
         },
         "filtersForm": {
-            "cfg":{
-                "debounceTime": 500,
-                "submitOnChange": true
-
-            },
             "items": [
                 {
                     "type": "group",
