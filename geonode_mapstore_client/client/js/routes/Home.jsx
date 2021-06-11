@@ -293,11 +293,9 @@ function Home({
 
 
     const { query } = url.parse(location.search, true);
-
-    const queryFilters = Object.keys(query).reduce((acc, key) => {
-        return [...acc, ...castArray(query[key]).map((value) => ({ key, value }))];
-    }, []);
-
+    const queryFilters = Object.keys(query).reduce((acc, key) => key.indexOf('sort') === 0
+        ? acc
+        : [...acc, ...castArray(query[key]).map((value) => ({ key, value }))], []);
 
     const pk = match.params.pk;
     const ctype = match.params.ctype;
