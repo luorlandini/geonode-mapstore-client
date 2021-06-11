@@ -106,16 +106,16 @@ function FilterItems({
                                 type="checkbox"
                                 checked={!!active}
                                 value={field.id}
-                                onChange={debounce(() => {
+                                onChange={() => {
                                     setValues({
                                         ...values,
                                         f: active
                                             ? customFilters.filter(value => value !== field.id)
                                             : [...customFilters, field.id]
                                     });
-                                }, timeDebounce)} />
-
-                            <Message msgId={field.labelId}/>
+                                }}>
+                                <Message msgId={field.labelId}/>
+                            </Checkbox>
                         </FormGroup>
                     );
                 }
