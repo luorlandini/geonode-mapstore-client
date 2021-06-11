@@ -201,10 +201,7 @@ function Home({
         filtersFormItemsAllowed,
         theme,
         filters,
-        menu: {cfg: actionNavbarCfg} = {},
-        filtersForm: {cfg: {submitOnChange: filterFormsSubmitOnChange} = {}} = {},
-        filtersForm: {cfg: {debounceTime: filterFormstimeDebounce} = {}} = {}
-
+        menu: {cfg: actionNavbarCfg} = {}
     } = config;
 
     const pageSize = getPageSize(width);
@@ -459,8 +456,7 @@ function Home({
                                 onChange={isSmallDevice && handleUpdateSmallDevice || handleUpdate}
                                 onClose={handleShowFilterForm}
                                 isSmallDevice={isSmallDevice}
-                                submitOnChangeField={filterFormsSubmitOnChange}
-                                timeDebounce={filterFormstimeDebounce}
+                                submitOnChangeField={!isSmallDevice}
                             />
 
                         </div>
