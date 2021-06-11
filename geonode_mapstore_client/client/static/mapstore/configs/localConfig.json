@@ -219,7 +219,35 @@
                                 "filter{is_approved}": false
                             },
                             "authenticated": true
+                        },
+                        {
+                            "id": "documents",
+                            "labelId": "gnhome.documents",
+                            "type": "filter",
+                            "query": {
+                                "filter{resource_type.in}": "document"
+                            }
+
+                        },
+                        {
+                            "id": "maps",
+                            "labelId": "gnhome.maps",
+                            "type": "filter",
+                            "query": {
+                                "filter{resource_type.in}": "map"
+                            }
+
+                        },
+                        {
+                            "id": "geostory",
+                            "labelId": "gnhome.geostory",
+                            "type": "filter",
+                            "query": {
+                                "filter{resource_type.in}": "geostory"
+                            }
+
                         }
+
                     ]
                 },
                 {
