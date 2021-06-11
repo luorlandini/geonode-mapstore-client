@@ -448,7 +448,6 @@ function Home({
                                 column={ hideHero &&
                                     <ConnectedDetailsPanel
                                         resource={resource}
-                                        filters={queryFilters}
                                         linkHref={hrefDetailPanel}
                                         formatHref={handleFormatHref}
                                         sectionStyle={{
@@ -491,7 +490,7 @@ function Home({
                                     defaultLabelId={filters?.order?.defaultLabelId}
                                     totalResources={totalResources}
                                     totalFilters={queryFilters.length}
-                                    filtersActive={!!(queryFilters.length > 0 || query.f || query.extent)}
+                                    filtersActive={!!(queryFilters.length > 0)}
                                 />
 
                             </ConnectedCardGrid>
