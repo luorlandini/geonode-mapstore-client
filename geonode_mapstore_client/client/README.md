@@ -55,8 +55,6 @@ The homepage configuration file is located in [localConfig.json](static/mapstore
 | `cardOptions` | {object} | configuration of the resource cards dropdown | |
 | `cardOptions.items` | {array} | list of menu item objects, dropdown placement | [menu item object entry](#menu-item-object) |
 | `filtersForm` | {object} | configuration of the resource cards dropdown | |
-| `filtersForm.cfg.debounceTime` | {number} | value to debouce the  api requests | |
-| `filtersForm.cfg.submitOnChange` | {boolean} | flag to disable / enable, the submit of the form when the field value is changed | |
 | `filtersForm.items` | {array} | list of filter objects, panel placement | [filter object](#filter-object) |
 ### Theme configuration
 
