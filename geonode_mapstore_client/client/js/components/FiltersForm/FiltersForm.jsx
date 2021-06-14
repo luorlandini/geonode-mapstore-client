@@ -33,7 +33,6 @@ function FilterForm({
     onClose,
     extentProps,
     suggestionsRequestTypes,
-    isSmallDevice,
     submitOnChangeField,
     timeDebounce
 }) {
@@ -63,7 +62,7 @@ function FilterForm({
 
         ((!submitOnChangeField
             || (!isEmpty(newValues) && isEmpty(values))
-            || (!isEmpty(query) && isEmpty(values))) || isSmallDevice)
+            || (!isEmpty(query) && isEmpty(values))))
             && setValues({
                 ...newValues,
                 ...(query?.extent && { extent: query.extent }),
@@ -95,7 +94,6 @@ function FilterForm({
 
     useEffect( () => {
         submitOnChangeField
-        && !isSmallDevice
         && onChange(values);
     },
     [values]);
@@ -146,7 +144,7 @@ function FilterForm({
                 </div>
             </div>
             <div className="gn-filter-form-footer">
-                {(!submitOnChangeField || isSmallDevice) && <Button
+                {(!submitOnChangeField) && <Button
                     size="sm"
                     variant="primary"
                     onClick={handleApply}
@@ -176,7 +174,6 @@ FilterForm.defaultProps = {
     onClose: PropTypes.func,
     extentProps: PropTypes.object,
     suggestionsRequestTypes: PropTypes.object,
-    isSmallDevice: PropTypes.bool,
     submitOnChangeField: PropTypes.bool,
     timeDebounce: PropTypes.number
 
