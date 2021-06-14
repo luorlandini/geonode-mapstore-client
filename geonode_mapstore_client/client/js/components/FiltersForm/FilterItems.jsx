@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /*
  * Copyright 2021, GeoSolutions Sas.
  * All rights reserved.
@@ -6,14 +7,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import { FormGroup, Checkbox } from 'react-bootstrap';
 import ReactSelect from 'react-select';
+import CheckboxTree from 'react-checkbox-tree';
 import Message from '@mapstore/framework/components/I18N/Message';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
+import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
@@ -98,13 +101,62 @@ function FilterItems({
                 }
                 if (field.type === 'filter') {
                     const customFilters = castArray(values.f || []);
-                    const active = customFilters.find(value => value === field.id);
+                    const customStoreType = castArray(values.storeType || []);
+
+                    const active = customFilters.find(value => value === field.id) || field.isChecked;
+
+                    /*
+                    customFilters.length > 0  && customFilters.map(value => {
+                        if (value === field.id && field.items) {
+                            field.items.map(item => item.isChecked = !item.isChecked );
+                        }
+
+                    });
+                    */
+                    const handleParentFilter = (event) => {
+                        field.items.forEach( item => { item.isChecked = event.target.checked; });
+                    };
+
+                    const handleChildFilter = (event) => {
+                        field.items.forEach(item => {
+                            if (item.id === event.target.value) {
+                                item.isChecked =  event.target.checked;
+                            }
+                        });
+                    };
+
+
+                    const filterChild = ( _items ) => {
+                        return _items.map((item) => {
+                            console.log(item);
+                            return (<Checkbox
+                                type="checkbox"
+                                checked={item.isChecked}
+                                value={item.id}
+                                onClick={handleChildFilter}
+                                onChange={() => {
+                                    console.log('_items');
+                                    console.log(_items);
+
+                                    setValues({
+                                        ...values,
+                                        storeType: item.isChecked
+                                            ? customStoreType.filter(value => value !== item.id)
+                                            : [...customStoreType, item.id]
+                                    });
+                                }}>
+                                <Message msgId={item.labelId}/>
+                            </Checkbox>);
+                        } );
+                    };
+
                     return (
                         <FormGroup controlId={'gn-radio-filter-' + field.id}>
                             <Checkbox
                                 type="checkbox"
                                 checked={!!active}
                                 value={field.id}
+                                onClick={handleParentFilter}
                                 onChange={() => {
                                     setValues({
                                         ...values,
@@ -114,10 +166,14 @@ function FilterItems({
                                     });
                                 }}>
                                 <Message msgId={field.labelId}/>
+                                {field.items && filterChild(field.items)}
                             </Checkbox>
+
                         </FormGroup>
+
                     );
                 }
+
                 return null;
             })}
         </>

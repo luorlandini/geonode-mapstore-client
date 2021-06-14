@@ -58,7 +58,8 @@ function FilterForm({
         setValues({
             ...newValues,
             ...(query?.extent && { extent: query.extent }),
-            ...(query?.f && { f: query.f })
+            ...(query?.f && { f: query.f }),
+            ...(query?.storeType && { storeType: query.storeType })
         });
     }, [query]);
 

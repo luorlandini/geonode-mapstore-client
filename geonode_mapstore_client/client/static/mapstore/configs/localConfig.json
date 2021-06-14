@@ -221,6 +221,32 @@
                             "authenticated": true
                         },
                         {
+                            "id": "datasets",
+                            "labelId": "gnhome.dataset",
+                            "type": "filter",
+                            "items": [
+                                {
+                                    "id": "vector",
+                                    "labelId": "gnhome.vector",
+                                    "type": "filter",
+                                    "query": {
+                                        "storeType": "vector"
+                                    }
+
+                                },
+                                {
+                                    "id": "raster",
+                                    "labelId": "gnhome.raster",
+                                    "type": "filter",
+                                    "query": {
+                                        "storeType": "raster"
+                                    }
+
+                                }
+                            ]
+
+                        },
+                        {
                             "id": "documents",
                             "labelId": "gnhome.documents",
                             "type": "filter",
