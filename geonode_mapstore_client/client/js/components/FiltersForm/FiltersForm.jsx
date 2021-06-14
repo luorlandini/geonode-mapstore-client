@@ -125,7 +125,6 @@ function FilterForm({
                             suggestionsRequestTypes={suggestionsRequestTypes}
                             values={state.current.values}
                             setValues={setValues}
-                            timeDebounce={timeDebounce}
                         />
                         <FilterByExtent
                             id={id}
