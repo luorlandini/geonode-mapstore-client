@@ -28,6 +28,9 @@ function FilterItems({
     values,
     setValues
 }) {
+
+    const [openChildFilters, setOpenChildFilters] = useState(false);
+
     return (
         <>
             {items.map((field) => {
@@ -101,50 +104,48 @@ function FilterItems({
                 }
                 if (field.type === 'filter') {
                     const customFilters = castArray(values.f || []);
-                    const customStoreType = castArray(values.storeType || []);
-
-                    const active = customFilters.find(value => value === field.id) || field.isChecked;
-
-                    /*
-                    customFilters.length > 0  && customFilters.map(value => {
-                        if (value === field.id && field.items) {
-                            field.items.map(item => item.isChecked = !item.isChecked );
-                        }
-
-                    });
-                    */
+                    const active = customFilters.find(value => value === field.id);
                     const handleParentFilter = (event) => {
+                        setOpenChildFilters(!openChildFilters);
                         field.items.forEach( item => { item.isChecked = event.target.checked; });
                     };
 
+                    const [childFilters, setChildFilters] = useState(field.items || []);
+
                     const handleChildFilter = (event) => {
-                        field.items.forEach(item => {
+                        childFilters.forEach(item => {
                             if (item.id === event.target.value) {
                                 item.isChecked =  event.target.checked;
                             }
                         });
+
+                        const itemChoosed = childFilters.filter(value => {
+                            return value.isChecked !== event.target.checked;
+                        });
+                        const labelItem = itemChoosed.map(item => {
+                            return item.id;
+                        });
+
+                        setValues({
+                            ...values,
+                            storeType: labelItem
+                        });
+
                     };
 
 
-                    const filterChild = ( _items ) => {
-                        return _items.map((item) => {
-                            console.log(item);
+                    const filterChild = () => {
+
+                        return childFilters.map((item) => {
+                            // const customStoreType = castArray(values.storeType || []);
+                            const customStoreType = castArray(values.storeType || []);
+                            const activeChild = customStoreType.find(value => value === item.id);
                             return (<Checkbox
                                 type="checkbox"
-                                checked={item.isChecked}
+                                checked={!!activeChild || item.isChecked}
                                 value={item.id}
-                                onClick={handleChildFilter}
-                                onChange={() => {
-                                    console.log('_items');
-                                    console.log(_items);
-
-                                    setValues({
-                                        ...values,
-                                        storeType: item.isChecked
-                                            ? customStoreType.filter(value => value !== item.id)
-                                            : [...customStoreType, item.id]
-                                    });
-                                }}>
+                                onChange={handleChildFilter}
+                            >
                                 <Message msgId={item.labelId}/>
                             </Checkbox>);
                         } );
@@ -166,7 +167,7 @@ function FilterItems({
                                     });
                                 }}>
                                 <Message msgId={field.labelId}/>
-                                {field.items && filterChild(field.items)}
+                                {openChildFilters && filterChild()}
                             </Checkbox>
 
                         </FormGroup>

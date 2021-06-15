@@ -200,7 +200,6 @@
                 {
                     "type": "group",
                     "labelId": "gnhome.customFiltersTitle",
-                    "authenticated": true,
                     "items": [
                         {
                             "id": "my-resources",
@@ -242,7 +241,27 @@
                                         "storeType": "raster"
                                     }
 
+                                },
+                                {
+                                    "id": "remote",
+                                    "labelId": "gnhome.remote",
+                                    "type": "filter",
+                                    "query": {
+                                        "storeType": "remote"
+                                    }
+
+                                },
+                                {
+                                    "id": "time-series",
+                                    "labelId": "gnhome.timeSeries",
+                                    "type": "filter",
+                                    "query": {
+                                        "storeType": "time-series"
+                                    }
+
                                 }
+
+
                             ]
 
                         },
