@@ -7,7 +7,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import { FormGroup, Checkbox } from 'react-bootstrap';
@@ -106,8 +106,8 @@ function FilterItems({
                     const customFilters = castArray(values.f || []);
                     const active = customFilters.find(value => value === field.id);
                     const handleParentFilter = (event) => {
-                        setOpenChildFilters(!openChildFilters);
-                        field.items.forEach( item => { item.isChecked = event.target.checked; });
+                        field?.items && setOpenChildFilters(!openChildFilters);
+                        field?.items && field.items.forEach( item => { item.isChecked = event.target.checked; });
                     };
 
                     const [childFilters, setChildFilters] = useState(field.items || []);
@@ -118,6 +118,7 @@ function FilterItems({
                                 item.isChecked =  event.target.checked;
                             }
                         });
+                        setChildFilters(childFilters);
 
                         const itemChoosed = childFilters.filter(value => {
                             return value.isChecked !== event.target.checked;
@@ -135,10 +136,8 @@ function FilterItems({
 
 
                     const filterChild = () => {
-
+                        const customStoreType = castArray(values.storeType || []);
                         return childFilters.map((item) => {
-                            // const customStoreType = castArray(values.storeType || []);
-                            const customStoreType = castArray(values.storeType || []);
                             const activeChild = customStoreType.find(value => value === item.id);
                             return (<Checkbox
                                 type="checkbox"
@@ -151,6 +150,10 @@ function FilterItems({
                         } );
                     };
 
+                    useEffect(() => {
+                        filterChild();
+                    }, []);
+
                     return (
                         <FormGroup controlId={'gn-radio-filter-' + field.id}>
                             <Checkbox
@@ -159,6 +162,7 @@ function FilterItems({
                                 value={field.id}
                                 onClick={handleParentFilter}
                                 onChange={() => {
+                                    console.log('onChange');
                                     setValues({
                                         ...values,
                                         f: active
@@ -167,7 +171,7 @@ function FilterItems({
                                     });
                                 }}>
                                 <Message msgId={field.labelId}/>
-                                {openChildFilters && filterChild()}
+                                {(openChildFilters || !!active)  && filterChild()}
                             </Checkbox>
 
                         </FormGroup>

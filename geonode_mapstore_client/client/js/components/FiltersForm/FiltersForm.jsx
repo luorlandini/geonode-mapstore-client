@@ -35,6 +35,10 @@ function FilterForm({
 }) {
 
     const [values, setValues] = useState({});
+
+    console.log('values FilterForm');
+    console.log(values);
+
     const state = useRef({});
     state.current = {
         query,
