@@ -7,12 +7,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import { FormGroup, Checkbox } from 'react-bootstrap';
 import ReactSelect from 'react-select';
-import CheckboxTree from 'react-checkbox-tree';
 import Message from '@mapstore/framework/components/I18N/Message';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
@@ -149,10 +148,6 @@ function FilterItems({
                             </Checkbox>);
                         } );
                     };
-
-                    useEffect(() => {
-                        filterChild();
-                    }, []);
 
                     return (
                         <FormGroup controlId={'gn-radio-filter-' + field.id}>
