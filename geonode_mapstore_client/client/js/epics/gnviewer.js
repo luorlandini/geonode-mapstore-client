@@ -126,7 +126,6 @@ export const gnViewerRequestMapConfig = (action$) =>
 export const gnViewerRequestNewMapConfig = (action$) =>
     action$.ofType(REQUEST_NEW_MAP_CONFIG)
         .switchMap(() => {
-            console.log('REQUEST_NEW_MAP_CONFIG');
             return Observable.defer(getBaseMapConfiguration
             ).switchMap((response) => {
                 return Observable.of(configureMap(response));
