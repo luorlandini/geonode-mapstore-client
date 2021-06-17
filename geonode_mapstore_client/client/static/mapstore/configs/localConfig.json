@@ -311,12 +311,6 @@
                     "authenticated": true
                 },
                 {
-                    "labelId": "gnhome.resourceTypes",
-                    "placeholderId": "gnhome.resourceTypesPlaceholder",
-                    "type": "select",
-                    "suggestionsRequestKey": "resourceTypes"
-                },
-                {
                     "labelId": "gnhome.categories",
                     "placeholderId": "gnhome.categoriesPlaceholder",
                     "type": "select",
