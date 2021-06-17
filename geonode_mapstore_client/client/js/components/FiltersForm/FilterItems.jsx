@@ -106,7 +106,7 @@ function FilterItems({
                     const [childFilters, setChildFilters] = useState(field.items || []);
                     const unChecked = false;
                     const checked = true;
-                    const reserCheckboxChild = (flag) => {
+                    const resetCheckboxChild = (flag) => {
                         childFilters.map(item => {
                             if (customStoreType.includes(item.id)) {
                                 item.isChecked =  flag;
@@ -114,18 +114,12 @@ function FilterItems({
                         });
                     };
                     const handleParentFilter = () => {
-                        if (!!active) {
-                            values.storeType = [];
-                            reserCheckboxChild(unChecked);
-                            /*
-                            setValues({
-                                ...values,
-                                f: null
-                            });
-                            */
-                        }
+
+                        (!!active) ? resetCheckboxChild(unChecked)
+                            : setChildFilters(field.items);
+
                     };
-                    reserCheckboxChild(checked);
+                    resetCheckboxChild(checked);
                     const handleChildFilter = (event) => {
                         childFilters.map(item => {
                             if (item.id === event.target.value) {
@@ -165,7 +159,7 @@ function FilterItems({
                                 type="checkbox"
                                 checked={!!active}
                                 value={field.id}
-                                onClick={handleParentFilter}
+                                onClick={field.items && handleParentFilter}
                                 onChange={() => {
                                     setValues({
                                         ...values,
