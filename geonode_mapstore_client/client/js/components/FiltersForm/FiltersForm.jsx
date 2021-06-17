@@ -76,7 +76,7 @@ function FilterForm({
 
     function handleClear() {
         const emptyValues = Object.keys(values).reduce((acc, filterKey) => {
-            if (filterKey === 'extent' || filterKey === 'f') {
+            if (filterKey === 'extent' || filterKey === 'f' || filterKey === 'storeType') {
                 return {
                     ...acc,
                     [filterKey]: undefined
