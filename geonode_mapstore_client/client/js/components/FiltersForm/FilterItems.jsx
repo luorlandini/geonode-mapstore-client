@@ -141,7 +141,6 @@ function FilterItems({
                     const filterChild = () => {
 
                         return childFilters.map((item) => {
-                            // const activeChild = customStoreType.find(value => value === item.id);
                             return (<Checkbox
                                 type="checkbox"
                                 checked={item.isChecked}
