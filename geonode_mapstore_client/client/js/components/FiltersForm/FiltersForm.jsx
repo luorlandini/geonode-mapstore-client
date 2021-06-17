@@ -15,7 +15,8 @@ import FaIcon from '@js/components/home/FaIcon';
 import isEqual from 'lodash/isEqual';
 import FilterByExtent from './FilterByExtent';
 import FilterItems from './FilterItems';
-
+import debounce from 'lodash/debounce';
+import isEmpty from 'lodash/isEmpty';
 /**
  * FilterForm component allows to configure a list of field that can be used to apply filter on the page
  * @name FilterForm
@@ -31,14 +32,12 @@ function FilterForm({
     onChange,
     onClose,
     extentProps,
-    suggestionsRequestTypes
+    suggestionsRequestTypes,
+    submitOnChangeField,
+    timeDebounce
 }) {
 
     const [values, setValues] = useState({});
-
-    console.log('values FilterForm');
-    console.log(values);
-
     const state = useRef({});
     state.current = {
         query,
@@ -59,13 +58,17 @@ function FilterForm({
                 [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
             };
         }, {});
-        setValues({
-            ...newValues,
-            ...(query?.extent && { extent: query.extent }),
-            ...(query?.f && { f: query.f }),
-            ...(query?.storeType && { storeType: query.storeType })
-        });
+        ((!submitOnChangeField
+            || (!isEmpty(newValues) && isEmpty(values))
+            || (!isEmpty(query) && isEmpty(values))))
+            && setValues({
+                ...newValues,
+                ...(query?.extent && { extent: query.extent }),
+                ...(query?.f && { f: query.f }),
+                ...(query?.storeType && { storeType: query.storeType })
+            });
     }, [query]);
+
 
     function handleApply() {
         onChange(values);
@@ -87,6 +90,12 @@ function FilterForm({
         setValues(emptyValues);
         onChange(emptyValues);
     }
+
+    useEffect( () => {
+        submitOnChangeField
+        && onChange(values);
+    },
+    [values]);
 
     return (
         <div className="gn-filter-form" style={styleContainerForm} >
@@ -122,24 +131,25 @@ function FilterForm({
                             queryExtent={query.extent}
                             layers={extentProps?.layers}
                             vectorLayerStyle={extentProps?.style}
-                            onChange={({extent}) =>
+                            onChange={debounce(({extent}) =>
                                 setValues({
                                     ...values,
                                     extent
-                                })
+                                }), timeDebounce)
                             }
                         />
                     </form>
                 </div>
             </div>
             <div className="gn-filter-form-footer">
-                <Button
+                {(!submitOnChangeField) && <Button
                     size="sm"
                     variant="primary"
                     onClick={handleApply}
                 >
                     <Message msgId="gnhome.apply"/>
                 </Button>
+                }
                 <Button
                     size="sm"
                     variant="default"
@@ -161,7 +171,10 @@ FilterForm.defaultProps = {
     onChange: PropTypes.func,
     onClose: PropTypes.func,
     extentProps: PropTypes.object,
-    suggestionsRequestTypes: PropTypes.object
+    suggestionsRequestTypes: PropTypes.object,
+    submitOnChangeField: PropTypes.bool,
+    timeDebounce: PropTypes.number
+
 };
 
 FilterForm.defaultProps = {
@@ -169,7 +182,9 @@ FilterForm.defaultProps = {
     fields: [],
     onChange: () => {},
     onClose: () => {},
-    suggestionsRequestTypes: {}
+    suggestionsRequestTypes: {},
+    submitOnChangeField: true,
+    timeDebounce: 500
 };
 
 const arePropsEqual = (prevProps, nextProps) => {

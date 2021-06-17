@@ -293,7 +293,15 @@
                             "query": {
                                 "filter{resource_type.in}": "geostory"
                             }
-
+                        },
+                        {
+                            "id": "favorite",
+                            "labelId": "gnhome.favorites",
+                            "type": "filter",
+                            "query": {
+                                "favorite": true
+                            },
+                            "authenticated": true
                         }
 
                     ]
@@ -439,7 +447,7 @@
             "logo": [
                 {
                     "src": "/static/mapstore/img/geonode-logo.svg",
-                    "href": "#/"
+                    "href": "/"
                 }
             ],
             "items": [
@@ -2748,9 +2756,6 @@
                 "name": "Expander"
             },
             {
-                "name": "BurgerMenu"
-            },
-            {
                 "name": "MapFooter",
                 "override": {
                     "ViewerLayout": {
@@ -2900,12 +2905,6 @@
                 "name": "Notifications"
             },
             {
-                "name": "Share",
-                "cfg": {
-                    "pathTemplate": "/maps/{id}/embed"
-                }
-            },
-            {
                 "name": "Locate"
             }
         ],
@@ -2994,6 +2993,8 @@
             {
                 "name": "Map",
                 "cfg": {
+                    "shouldLoadFont": false,
+                    "fonts": [],
                     "tools": [
                         "measurement",
                         "draw",
@@ -3086,14 +3087,6 @@
                 "name": "Expander"
             },
             {
-                "name": "BurgerMenu",
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
-            },
-            {
                 "name": "MapFooter",
                 "override": {
                     "ViewerLayout": {
@@ -3163,12 +3156,7 @@
                 "name": "ScaleBox"
             },
             {
-                "name": "FeatureEditor",
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
+                "name": "FeatureEditor"
             },
             {
                 "name": "QueryPanel",
@@ -3258,20 +3246,10 @@
                 "cfg": {
                     "hideTitleTranslations": true,
                     "showFeatureInfoTab": false
-                },
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
                 }
             },
             {
-                "name": "Widgets",
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
+                "name": "Widgets"
             },
             {
                 "name": "WidgetsTray",
@@ -3346,27 +3324,6 @@
             { "name": "ActionNavbar" },
             { "name": "BrandNavbar" },
             {
-                "name": "OmniBar",
-                "cfg": {
-                    "disablePluginIf": "{!!(state('browser') && state('browser').mobile)}",
-                    "containerPosition": "header",
-                    "className": "navbar shadow navbar-home"
-                },
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
-            },
-            {
-                "name": "BurgerMenu",
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
-            },
-            {
                 "name": "GeoStory",
                 "cfg": {
                     "mediaEditorSettings": {
@@ -3431,12 +3388,16 @@
             {
                 "name": "GeoStoryEditor",
                 "cfg": {
-                    "disablePluginIf": "{!!(state('browser') && state('browser').mobile)}",
-                    "containerPosition": "columns"
+                    "disablePluginIf": "{!!(state('browser') && state('browser').mobile)}"
                 },
                 "override": {
-                    "ViewerLayout": {
+                    "GeoStoryNavigation": {
                         "priority": 1
+                    },
+                    "ViewerLayout": {
+                        "priority": 1,
+                        "target": "leftColumn",
+                        "name": "GeoStoryEditor"
                     }
                 }
             },
@@ -3468,7 +3429,8 @@
             { "name": "ViewerLayout" },
             { "name": "ActionNavbar" },
             { "name": "BrandNavbar" },
-            { "name": "DetailViewer"}
+            { "name": "DetailViewer"},
+            {"name": "MediaViewer"}
         ]
     }
 }
