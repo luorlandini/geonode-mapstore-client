@@ -131,7 +131,6 @@ function FilterItems({
                         const itemChoosed = childFilters.filter(value => value.isChecked === checked)
                             .map(item => item.id);
 
-                        values.storeType = customStoreType;
                         setValues({
                             ...values,
                             storeType: itemChoosed
