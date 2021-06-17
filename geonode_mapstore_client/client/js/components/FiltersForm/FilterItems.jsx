@@ -120,6 +120,7 @@ function FilterItems({
 
                     };
                     resetCheckboxChild(checked);
+
                     const handleChildFilter = (event) => {
                         childFilters.map(item => {
                             if (item.id === event.target.value) {
@@ -164,8 +165,8 @@ function FilterItems({
                                         ...values,
                                         f: active
                                             ? customFilters.filter(value => value !== field.id)
-                                            : [...customFilters, field.id]
-
+                                            : [...customFilters, field.id],
+                                        storeType: active ? undefined :  customStoreType
 
                                     });
                                 }}>
