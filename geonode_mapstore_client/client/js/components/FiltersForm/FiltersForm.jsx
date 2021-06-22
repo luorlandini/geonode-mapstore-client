@@ -34,7 +34,8 @@ function FilterForm({
     extentProps,
     suggestionsRequestTypes,
     submitOnChangeField,
-    timeDebounce
+    timeDebounce,
+    formParams
 }) {
 
     const [values, setValues] = useState({});
@@ -68,8 +69,9 @@ function FilterForm({
                 ...(query?.extent && { extent: query.extent }),
                 ...(query?.f && { f: query.f })
             });
-    }, [query]);
 
+
+    }, [query]);
 
     function handleApply() {
         onChange(values);
@@ -97,6 +99,15 @@ function FilterForm({
         && onChange(values);
     },
     [values]);
+
+
+    useEffect( () => {
+        submitOnChangeField
+        && isEmpty(query)
+        && setValues(formParams);
+    },
+    [formParams]);
+
 
     return (
         <div className="gn-filter-form" style={styleContainerForm} >
@@ -174,7 +185,8 @@ FilterForm.defaultProps = {
     extentProps: PropTypes.object,
     suggestionsRequestTypes: PropTypes.object,
     submitOnChangeField: PropTypes.bool,
-    timeDebounce: PropTypes.number
+    timeDebounce: PropTypes.number,
+    formParams: PropTypes.object
 
 };
 
@@ -185,7 +197,8 @@ FilterForm.defaultProps = {
     onClose: () => {},
     suggestionsRequestTypes: {},
     submitOnChangeField: true,
-    timeDebounce: 500
+    timeDebounce: 500,
+    formParams: {}
 };
 
 const arePropsEqual = (prevProps, nextProps) => {

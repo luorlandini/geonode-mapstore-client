@@ -279,6 +279,7 @@ function Home({
         handleUpdate(newParams, pathname);
         handleShowFilterForm();
     };
+    const [formParams, setFormParams] = useState({});
 
     function handleClear() {
         const { query } = url.parse(location.search, true);
@@ -291,6 +292,8 @@ function Home({
                         [key]: []
                     }
                     : acc, { extent: undefined });
+
+        setFormParams(newParams);
         handleUpdate(newParams);
     }
 
@@ -376,7 +379,6 @@ function Home({
     const stickyFiltersMaxHeight = (window.innerHeight - dimensions.brandNavbarHeight - dimensions.actionNavbarNodeHeight - dimensions.footerNodeHeight);
     const filterFormTop = dimensions.brandNavbarHeight + dimensions.actionNavbarNodeHeight;
 
-
     return (
         <div className={`gn-home`}>
             <BrandNavbar
@@ -456,6 +458,7 @@ function Home({
                                 onChange={isSmallDevice && handleUpdateSmallDevice || handleUpdate}
                                 onClose={handleShowFilterForm}
                                 submitOnChangeField={!isSmallDevice}
+                                formParams={formParams}
                             />
 
                         </div>
