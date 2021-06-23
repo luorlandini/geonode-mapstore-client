@@ -61,9 +61,6 @@ function FilterForm({
             };
         }, {});
 
-        console.log(newValues);
-        console.log(values);
-        console.log(query);
         ((!submitOnChangeField
             || (!isEmpty(newValues) && isEmpty(values))
             || (!isEmpty(query) && isEmpty(values))
