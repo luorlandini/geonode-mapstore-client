@@ -31,6 +31,7 @@ function FilterForm({
     fields,
     onChange,
     onClose,
+    onClear,
     extentProps,
     suggestionsRequestTypes,
     submitOnChangeField,
@@ -61,48 +62,17 @@ function FilterForm({
             };
         }, {});
 
-        ((!submitOnChangeField
-            || (!isEmpty(newValues) && isEmpty(values))
-            || (!isEmpty(query) && isEmpty(values))
-            || (!isEmpty(query) && !isEmpty(newValues))
-        ))
-
-            && setValues({
-                ...newValues,
-                ...(query?.extent && { extent: query.extent }),
-                ...(query?.f && { f: query.f })
-            });
-
+        setValues({
+            ...newValues,
+            ...(query?.extent && { extent: query.extent }),
+            ...(query?.f && { f: query.f })
+        });
 
     }, [query]);
 
     function handleApply() {
         onChange(values);
     }
-
-    function handleClear() {
-        const emptyValues = Object.keys(values).reduce((acc, filterKey) => {
-            if (filterKey === 'extent' || filterKey === 'f') {
-                return {
-                    ...acc,
-                    [filterKey]: undefined
-                };
-            }
-            return {
-                ...acc,
-                [filterKey]: []
-            };
-        }, {});
-        setValues(emptyValues);
-        onChange(emptyValues);
-    }
-
-    useEffect( () => {
-        submitOnChangeField
-        && onChange(values);
-    },
-    [values]);
-
 
     useEffect( () => {
         submitOnChangeField
@@ -111,6 +81,9 @@ function FilterForm({
     },
     [formParams]);
 
+    const fieldChange = (val) => {
+        onChange(val);
+    };
 
     return (
         <div className="gn-filter-form" style={styleContainerForm} >
@@ -138,7 +111,7 @@ function FilterForm({
                             items={fields}
                             suggestionsRequestTypes={suggestionsRequestTypes}
                             values={state.current.values}
-                            setValues={setValues}
+                            setValues={fieldChange}
                         />
                         <FilterByExtent
                             id={id}
@@ -168,7 +141,7 @@ function FilterForm({
                 <Button
                     size="sm"
                     variant="default"
-                    onClick={handleClear}
+                    onClick={onClear}
                 >
                     <Message msgId="gnhome.clearFilters"/>
                 </Button>

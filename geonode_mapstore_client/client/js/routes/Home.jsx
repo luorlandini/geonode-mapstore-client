@@ -457,6 +457,7 @@ function Home({
                                 query={query}
                                 onChange={isSmallDevice && handleUpdateSmallDevice || handleUpdate}
                                 onClose={handleShowFilterForm}
+                                onClear={handleClear}
                                 submitOnChangeField={!isSmallDevice}
                                 formParams={formParams}
                             />
