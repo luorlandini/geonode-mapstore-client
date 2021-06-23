@@ -61,9 +61,15 @@ function FilterForm({
             };
         }, {});
 
+        console.log(newValues);
+        console.log(values);
+        console.log(query);
         ((!submitOnChangeField
             || (!isEmpty(newValues) && isEmpty(values))
-            || (!isEmpty(query))))
+            || (!isEmpty(query) && isEmpty(values))
+            || (!isEmpty(query) && !isEmpty(newValues))
+        ))
+
             && setValues({
                 ...newValues,
                 ...(query?.extent && { extent: query.extent }),
