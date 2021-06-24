@@ -37,13 +37,13 @@ const ConnectedDetailsPanel = connect(
     }
 )(DetailsPanel);
 
-const ButtonViewer = ({user,  onClick}) => {
+const ButtonViewer = ({onClick}) => {
 
     const handleClickButton = () => {
         onClick();
     };
 
-    return (user && <Button
+    return (<Button
         variant="primary"
         onClick={handleClickButton}
     > <Message msgId="gnviewer.details"/>
@@ -51,10 +51,8 @@ const ButtonViewer = ({user,  onClick}) => {
 };
 
 const ConnectedButton = connect(
-    createSelector([userSelector],
-        (user) => ({
-            user
-        })),
+    createSelector([],
+        () => ({})),
     {
         onClick: toggleControl.bind(null, 'DetailViewer', null)
     }
@@ -87,11 +85,11 @@ function DetailViewer({
                 height: '100%'
 
             }}>
-            { enabled && <ConnectedDetailsPanel
+            { !enabled && <ConnectedDetailsPanel
                 editTitle={handleTitleValue}
                 editAbstract={handleAbstractValue}
                 editThumbnail={handleEditThumbnail}
-                activeEditMode={enabled}
+                activeEditMode={!enabled}
                 sectionStyle={{
                     width: '600px',
                     position: 'fixed'
