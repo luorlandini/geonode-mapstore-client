@@ -256,7 +256,6 @@ function DetailsPanel({
                                 {detailUrl && <Button
                                     variant="default"
                                     href={detailUrl}
-                                    target="_blank"
                                     rel="noopener noreferrer">
                                     <Message msgId={`gnhome.view${name || ''}`}/>
                                 </Button>}
