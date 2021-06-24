@@ -63,7 +63,9 @@ function DetailViewer({
     enabled,
     onEditResource,
     onEditAbstractResource,
-    onEditThumbnail}) {
+    onEditThumbnail,
+    user
+}) {
 
     const handleTitleValue = (val) => {
         onEditResource(val);
@@ -89,7 +91,7 @@ function DetailViewer({
                 editTitle={handleTitleValue}
                 editAbstract={handleAbstractValue}
                 editThumbnail={handleEditThumbnail}
-                activeEditMode={!enabled}
+                activeEditMode={!enabled && user}
                 sectionStyle={{
                     width: '600px',
                     position: 'fixed'
@@ -101,9 +103,11 @@ function DetailViewer({
 
 const DetailViewerPlugin = connect(
     createSelector([
-        state => state?.controls?.DetailViewer?.enabled || false
-    ], (enabled) => ({
-        enabled
+        state => state?.controls?.DetailViewer?.enabled || false,
+        userSelector
+    ], (enabled, user) => ({
+        enabled,
+        user
     })),
     {
         onEditResource: editTitleResource,
