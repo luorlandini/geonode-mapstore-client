@@ -20,7 +20,7 @@ import controls from '@mapstore/framework/reducers/controls';
 import {toggleControl} from '@mapstore/framework/actions/controls';
 import gnresource from '@js/reducers/gnresource';
 import Message from '@mapstore/framework/components/I18N/Message';
-import { userSelector } from '@mapstore/framework/selectors/security';
+import { canEditResource } from '@js/selectors/gnresource';
 import Button from '@js/components/Button';
 
 const ConnectedDetailsPanel = connect(
@@ -37,23 +37,22 @@ const ConnectedDetailsPanel = connect(
     }
 )(DetailsPanel);
 
-const ButtonViewer = ({user,  onClick}) => {
+const ButtonViewer = ({onClick}) => {
 
     const handleClickButton = () => {
         onClick();
     };
 
-    return (user && <Button
+    return (<Button
+        variant="primary"
         onClick={handleClickButton}
     > <Message msgId="gnviewer.details"/>
     </Button>);
 };
 
 const ConnectedButton = connect(
-    createSelector([userSelector],
-        (user) => ({
-            user
-        })),
+    createSelector([],
+        () => ({})),
     {
         onClick: toggleControl.bind(null, 'DetailViewer', null)
     }
@@ -64,7 +63,9 @@ function DetailViewer({
     enabled,
     onEditResource,
     onEditAbstractResource,
-    onEditThumbnail}) {
+    onEditThumbnail,
+    canEdit
+}) {
 
     const handleTitleValue = (val) => {
         onEditResource(val);
@@ -86,11 +87,11 @@ function DetailViewer({
                 height: '100%'
 
             }}>
-            { enabled && <ConnectedDetailsPanel
+            { !enabled && <ConnectedDetailsPanel
                 editTitle={handleTitleValue}
                 editAbstract={handleAbstractValue}
                 editThumbnail={handleEditThumbnail}
-                activeEditMode={enabled}
+                activeEditMode={!enabled && canEdit}
                 sectionStyle={{
                     width: '600px',
                     position: 'fixed'
@@ -102,9 +103,11 @@ function DetailViewer({
 
 const DetailViewerPlugin = connect(
     createSelector([
-        state => state?.controls?.DetailViewer?.enabled || false
-    ], (enabled) => ({
-        enabled
+        state => state?.controls?.DetailViewer?.enabled || false,
+        canEditResource
+    ], (enabled, canEdit) => ({
+        enabled,
+        canEdit
     })),
     {
         onEditResource: editTitleResource,

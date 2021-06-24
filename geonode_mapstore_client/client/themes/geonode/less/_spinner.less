@@ -1,4 +1,21 @@
-.get-spinner(@border-size: 0.1em, @size: 1em) {
+// **************
+// Theme
+// **************
+
+#gn-components-theme(@theme-vars) {
+    .gn-spinner {
+        .border-top-color-var(@theme-vars[loader-fade-color]);
+        .border-right-color-var(@theme-vars[loader-fade-color]);
+        .border-bottom-color-var(@theme-vars[loader-fade-color]);
+        .border-left-color-var(@theme-vars[loader-color]);
+    }
+}
+
+// **************
+// Layout
+// **************
+
+.get-gn-spinner(@border-size: 0.1em, @size: 1em) {
     @-webkit-keyframes load {
         0% {
             -webkit-transform: rotate(0deg);
@@ -39,9 +56,9 @@
     border-color: inherit;
 }
 
-.spinner {
+.gn-spinner {
     display: inline-flex;
     >div {
-        .get-spinner(0.1em, 1em);
+        .get-gn-spinner(0.1em, 1em);
     }
 }

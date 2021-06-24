@@ -11,15 +11,65 @@
 import React, { useMemo } from 'react';
 import tinycolor from 'tinycolor2';
 
-function rootVariables(variables) {
-    return ':root {\n' +
+function rootVariables(variables, selector = ':root') {
+    return selector + ' {\n' +
     Object.keys(variables)
         .filter(key => variables[key])
         .map((key) => `\t${key}: ${variables[key]};`).join('\n') +
     '\n}';
 }
 
+function buttonTheme(style, name) {
+    const prefix = name ? '-' + name : '';
+    const bg = style.bg;
+    const color = style.color || tinycolor.mostReadable(bg, ['#ffffff', '#000000'], {
+        includeFallbackColors: true
+    }).toHexString();
+
+    const borderColor = style.borderColor || bg;
+    const focusColor = style.focusColor || color;
+    const focusBg = style.focusBg || tinycolor(bg).darken(10).toString();
+    const focusBorderColor = style.focusBorderColor || tinycolor(bg).darken(25).toString();
+    const hoverColor = style.hoverColor || color;
+    const hoverBg = style.hoverBg || tinycolor(bg).darken(10).toString();
+    const hoverBorderColor = style.hoverBorderColor || tinycolor(bg).darken(12).toString();
+    const activeColor = style.activeColor || color;
+    const activeBg = style.activeBg || tinycolor(bg).darken(10).toString();
+    const activeBorderColor = style.activeBorderColor || tinycolor(bg).darken(12).toString();
+    const activeHoverColor = style.activeHoverColor || color;
+    const activeHoverBg = style.activeHoverBg || tinycolor(bg).darken(17).toString();
+    const activeHoverBorderColor = style.activeHoverBorderColor || tinycolor(bg).darken(25).toString();
+    const disableColor = style.disableColor || color;
+    const disabledBg = style.disabledBg || tinycolor(tinycolor(bg).desaturate(30).toString()).lighten(20).toString();
+    const disabledBorderColor = style.disabledBorderColor || tinycolor(tinycolor(bg).desaturate(30).toString()).lighten(20).toString();
+    const badgeColor = style.badgeColor || bg;
+    const badgeBg = style.badgeBg || color;
+    return {
+        [`--gn-button${prefix}-color`]: color,
+        [`--gn-button${prefix}-bg`]: bg,
+        [`--gn-button${prefix}-border-color`]: borderColor,
+        [`--gn-button${prefix}-focus-color`]: focusColor,
+        [`--gn-button${prefix}-focus-bg`]: focusBg,
+        [`--gn-button${prefix}-focus-border-color`]: focusBorderColor,
+        [`--gn-button${prefix}-hover-color`]: hoverColor,
+        [`--gn-button${prefix}-hover-bg`]: hoverBg,
+        [`--gn-button${prefix}-hover-border-color`]: hoverBorderColor,
+        [`--gn-button${prefix}-active-color`]: activeColor,
+        [`--gn-button${prefix}-active-bg`]: activeBg,
+        [`--gn-button${prefix}-active-border-color`]: activeBorderColor,
+        [`--gn-button${prefix}-active-hover-color`]: activeHoverColor,
+        [`--gn-button${prefix}-active-hover-bg`]: activeHoverBg,
+        [`--gn-button${prefix}-active-hover-border-color`]: activeHoverBorderColor,
+        [`--gn-button${prefix}-disabled-color`]: disableColor,
+        [`--gn-button${prefix}-disabled-bg`]: disabledBg,
+        [`--gn-button${prefix}-disabled-border-color`]: disabledBorderColor,
+        [`--gn-button${prefix}-badge-color`]: badgeColor,
+        [`--gn-button${prefix}-badge-bg`]: badgeBg
+    };
+}
+
 function RootStyle({
+    targetId,
     theme
 }) {
 
@@ -31,6 +81,9 @@ function RootStyle({
                 bodyShade,
                 placeholder,
                 disabled,
+                info,
+                success,
+                warning,
                 danger,
                 primary,
                 link,
@@ -39,24 +92,45 @@ function RootStyle({
                 focus,
                 tag,
                 badge,
-                footer
+                footer,
+                buttonDefault,
+                buttonPrimary,
+                buttonInfo,
+                buttonSuccess,
+                buttonWarning,
+                buttonDanger
             } = theme;
-            const color = themeColor && tinycolor.mostReadable(themeColor, ['#ffffff', '#000000'], {
+
+            const bg = primary?.value || themeColor;
+            const color = primary?.contrast || bg && tinycolor.mostReadable(bg, ['#ffffff', '#000000'], {
                 includeFallbackColors: true
             }).toHexString();
+
+            const btnPrimary = (bg || buttonPrimary) && {
+                ...(bg && { bg }),
+                ...(color && { color }),
+                ...buttonPrimary
+            };
+
             return {
-                ...(themeColor && {
-                    '--gn-primary-color': color,
-                    '--gn-primary-bg': themeColor
+                ...(bg && {
+                    '--gn-primary-contrast': color,
+                    '--gn-primary': bg,
+                    '--gn-loader-primary-color': bg,
+                    '--gn-loader-primary-fade-color': tinycolor(bg).setAlpha(0.2).toString(),
+                    '--gn-loader-primary-contrast-color': color,
+                    '--gn-loader-primary-contrast-fade-color': tinycolor(color).setAlpha(0.2).toString()
                 }),
                 ...(body && {
-                    '--gn-body-color': body.color || '#000000',
-                    '--gn-body-bg': body.bg || '#ffffff',
-                    '--gn-body-border-color': body.borderColor || '#dddddd'
+                    ' --gn-main-color': body.color || '#000000',
+                    '--gn-main-bg': body.bg || '#ffffff',
+                    '--gn-main-border-color': body.borderColor || '#dddddd',
+                    '--gn-loader-color': '',
+                    '--gn-loader-fade-color': ''
                 }),
                 ...(bodyShade && {
-                    '--gn-body-shade-color': bodyShade.color || '#000000',
-                    '--gn-body-shade-bg': bodyShade.bg || '#f2f0f0'
+                    '--gn-main-variant-color': bodyShade.color || '#000000',
+                    '--gn-main-variant-bg': bodyShade.bg || '#f2f0f0'
                 }),
                 ...(placeholder && {
                     '--gn-placeholder-color': placeholder.color || '#aaaaaa',
@@ -66,12 +140,25 @@ function RootStyle({
                     '--gn-disabled-color': disabled.color || '#acacac',
                     '--gn-disabled-bg': disabled.bg || '#fcfcfc'
                 }),
-                ...(danger && {
-                    '--gn-danger-color': danger.color || '#D0021B'
-                }),
                 ...(primary && {
-                    '--gn-primary-color': primary.color || '#ffffff',
-                    '--gn-primary-bg': primary.bg || '#397AAB'
+                    '--gn-primary-contrast': primary.contrast || '#ffffff',
+                    '--gn-primary': primary.value || '#397AAB'
+                }),
+                ...(info && {
+                    '--gn-info-contrast': info.contrast || '#ffffff',
+                    '--gn-info': info.value || '#639fcc'
+                }),
+                ...(success && {
+                    '--gn-success-contrast': success.contrast || '#ffffff',
+                    '--gn-success': success.value || '#58cf80'
+                }),
+                ...(warning && {
+                    '--gn-warning-contrast': warning.contrast || '#ffffff',
+                    '--gn-warning': warning.value || '#ebbc35'
+                }),
+                ...(danger && {
+                    '--gn-danger-contrast': danger.contrast || '#ffffff',
+                    '--gn-danger': danger.value || '#bb4940'
                 }),
                 ...(link && {
                     '--gn-link-color': link.color || '#397AAB',
@@ -106,14 +193,20 @@ function RootStyle({
                         '--gn-footer-link-color': footer.link.color || '#397AAB',
                         '--gn-footer-link-hover-color': footer.link.hoverColor || '#1b4d74'
                     })
-                })
+                }),
+                ...(buttonDefault?.bg && buttonTheme(buttonDefault)),
+                ...(buttonInfo?.bg && buttonTheme(buttonInfo, 'info')),
+                ...(buttonSuccess?.bg && buttonTheme(buttonSuccess, 'success')),
+                ...(buttonWarning?.bg && buttonTheme(buttonWarning, 'warning')),
+                ...(buttonDanger?.bg && buttonTheme(buttonDanger, 'danger')),
+                ...(btnPrimary?.bg && buttonTheme(btnPrimary, 'primary'))
             };
         }
         return {};
     }, [theme]);
     return (
         <style dangerouslySetInnerHTML={{
-            __html: rootVariables(variables)
+            __html: rootVariables(variables, `#${targetId}`)
         }} />
     );
 }
