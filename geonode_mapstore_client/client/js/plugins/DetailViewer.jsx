@@ -20,7 +20,7 @@ import controls from '@mapstore/framework/reducers/controls';
 import {toggleControl} from '@mapstore/framework/actions/controls';
 import gnresource from '@js/reducers/gnresource';
 import Message from '@mapstore/framework/components/I18N/Message';
-import { userSelector } from '@mapstore/framework/selectors/security';
+import { canEditResource } from '@js/selectors/gnresource';
 import Button from '@js/components/Button';
 
 const ConnectedDetailsPanel = connect(
@@ -64,7 +64,7 @@ function DetailViewer({
     onEditResource,
     onEditAbstractResource,
     onEditThumbnail,
-    user
+    canEdit
 }) {
 
     const handleTitleValue = (val) => {
@@ -91,7 +91,7 @@ function DetailViewer({
                 editTitle={handleTitleValue}
                 editAbstract={handleAbstractValue}
                 editThumbnail={handleEditThumbnail}
-                activeEditMode={!enabled && user}
+                activeEditMode={!enabled && canEdit}
                 sectionStyle={{
                     width: '600px',
                     position: 'fixed'
@@ -104,10 +104,10 @@ function DetailViewer({
 const DetailViewerPlugin = connect(
     createSelector([
         state => state?.controls?.DetailViewer?.enabled || false,
-        userSelector
-    ], (enabled, user) => ({
+        canEditResource
+    ], (enabled, canEdit) => ({
         enabled,
-        user
+        canEdit
     })),
     {
         onEditResource: editTitleResource,

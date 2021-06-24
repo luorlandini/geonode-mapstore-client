@@ -178,7 +178,7 @@ function DetailsPanel({
                         }}>
                         <FaIcon name={icon}/>
                     </div>
-                    {embedUrl
+                    {embedUrl && !editThumbnail
                         ? <iframe
                             key={embedUrl}
                             src={embedUrl}
