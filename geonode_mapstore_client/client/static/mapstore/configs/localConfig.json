@@ -3015,6 +3015,7 @@
         "map_viewer": [
             { "name": "ViewerLayout" },
             { "name": "ActionNavbar" },
+            { "name": "DetailViewer"},
             { "name": "BrandNavbar" },
             {
                 "name": "Map",
@@ -3349,6 +3350,7 @@
             { "name": "ViewerLayout" },
             { "name": "ActionNavbar" },
             { "name": "BrandNavbar" },
+            { "name": "DetailViewer"},
             {
                 "name": "GeoStory",
                 "cfg": {
