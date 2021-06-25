@@ -215,8 +215,6 @@ export const gnSaveFavouriteContent = (action$, store) =>
             const state = store.getState();
             const pk = state?.gnresource?.data.pk;
             const favourite =  action.favourite;
-            //const method = (favourite) ? 'post' : 'delete';
-
             return Observable
                 .defer(() => setFavouriteResource(pk, favourite))
                 .switchMap(() => {

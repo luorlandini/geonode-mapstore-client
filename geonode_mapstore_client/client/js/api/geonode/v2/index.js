@@ -252,7 +252,7 @@ export const setFavouriteResource = (pk, method) => {
 */
 
 export const setFavouriteResource = (pk, favourite) => {
-    const request = favourite ? axios.post : axios.get;
+    const request = favourite ? axios.post : axios.delete;
     return request(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/favorite`))
         .then(({ data }) => data );
 };
