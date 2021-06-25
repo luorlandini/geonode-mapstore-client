@@ -24,20 +24,23 @@
             "zA": "Z A",
             "mostPopular": "Les plus populaires",
             "data": "Données",
-            "layers": "Couches",
+            "layer": "Dataset",
+            "layers": "Datasets",
+            "document": "Document",
             "documents": "Documents",
             "remoteServices": "Services à distance",
             "maps": "Cartes",
             "map": "Carte",
-            "layer": "Couche",
             "geostory": "GeoStory",
+            "geostories": "GeoStories",
+            "createGeostory": "Créer une geostory",
             "createNew": "Créer un nouveau",
             "about": "À propos",
             "people": "Personnes",
             "groups": "Groupe",
             "groupsCategories": "Catégories de groupe",
             "view": "Voir",
-            "viewLayer": "Visualiser la couche",
+            "viewLayer": "Visualiser dataset",
             "viewMap": "Voir la carte",
             "viewGeoStory": "Voir la GeoStory",
             "viewDocument": "Voir document",
@@ -58,12 +61,14 @@
             "register": "S'inscrire",
             "signIn": "Connexion",
             "filters": "Filtres",
+            "filtersCount": "{count, plural, =0 { Filtres } other {Filtres (#)}}",
             "admin": "Administration",
             "logOut": "Se déconnecter",
             "terms": "Terms",
             "privacy": "Privacy",
             "extent": "Étendue",
             "enableFilterByExtent": "Activer le filtre par étendue",
+            "advancedSearch": "Recherche vvancée",
             "apply": "Appliquer",
             "clearFilters": "Effacer les filtres",
 
@@ -83,12 +88,13 @@
             "inbox": "Boîte de réception",
             "geoServer": "GeoServer",
             "help": "Aide",
-            "uploadLayer": "Téléchargez la couche",
+            "uploadLayer": "Téléchargez dataset",
             "uploadDocument": "Télécharger un document",
             "addRemoteService": "Ajouter un service à distance",
             "exploreMaps": "Explorer les cartes",
             "createMap": "Créer une carte",
             "apps": "Apps",
+            "createApp": "Créer une app",
             "announcements": "Annonces",
             "inviteUsers": "Inviter des utilisateurs",
             "addUser": "Ajouter un utilisateur",
@@ -103,7 +109,24 @@
             "delete": "Effacer",
             "customFiltersTitle": "Ressources",
             "myResources": "Mes ressources",
-            "pendingApproval": "En attente de validation"
+            "pendingApproval": "En attente de validation",
+            "featuredList": "Mis en exergue"
+        },
+        "viewer":{
+            "document": {
+                "unSupportedMedia": "Le format multimédia n'est pas pris en charge"
+            },
+            "errors": {
+                "noPermissions": "Vous n'êtes pas autorisé à ajouter une géohistoire"
+            }
+        },
+        "gnviewer":{
+            "edit": "Éditer",
+            "details": "Des détails",
+            "editMetadata": "Modifier les Métadonnées",
+            "editStyle": "Modifier le Style",
+            "editData": "Modifier les Données",
+            "backToDataset": "Retour à l'Ensemble de Données"
         }
     }
 }

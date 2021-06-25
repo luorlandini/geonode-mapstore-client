@@ -10,13 +10,15 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import url from 'url';
+import isUndefined from 'lodash/isUndefined';
 import { createSelector } from 'reselect';
 import BorderLayout from '@mapstore/framework/components/layout/BorderLayout';
 import { getMonitoredState } from '@mapstore/framework/utils/PluginsUtils';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 import PluginsContainer from '@mapstore/framework/components/plugins/PluginsContainer';
 import useLazyPlugins from '@js/hooks/useLazyPlugins';
-import { requestGeoStoryConfig } from '@js/actions/gnviewer';
+import { requestGeoStoryConfig, requestNewGeostoryConfig } from '@js/actions/gnviewer';
+import MetaTags from "@js/components/MetaTags";
 
 const urlQuery = url.parse(window.location.href, true).query;
 
@@ -36,7 +38,10 @@ function GeoStoryViewerRoute({
     loaderComponent,
     lazyPlugins,
     plugins,
-    match
+    match,
+    onCreate = () => {},
+    resource,
+    siteName
 }) {
 
     const { pk } = match.params || {};
@@ -49,13 +54,26 @@ function GeoStoryViewerRoute({
     });
     useEffect(() => {
         if (!loading) {
-            onUpdate(pk);
+            pk === "new" ? onCreate() : onUpdate(pk);
         }
     }, [loading, pk]);
+
+    useEffect(() => {
+        if (pk === "new" && !isUndefined(resource?.canEdit) && !(resource?.canEdit)) {
+            window.location.replace('/account/login');
+        }
+    }, [pk, resource]);
     const Loader = loaderComponent;
 
     return (
         <>
+            {resource &&  <MetaTags
+                logo={resource.thumbnail_url}
+                title={(resource?.title) ? resource?.title + " - " + siteName : siteName }
+                siteName={siteName}
+                contentURL={resource.detail_url}
+                content={resource.abstract}
+            />}
             <ConnectedPluginsContainer
                 key="page-geostory-viewer"
                 id="page-geostory-viewer"
@@ -76,9 +94,13 @@ GeoStoryViewerRoute.propTypes = {
 };
 
 const ConnectedGeoStoryViewerRoute = connect(
-    createSelector([], () => ({})),
+    createSelector([
+        state => state?.gnresource?.data,
+        state => state?.localConfig?.siteName || "Geonode"
+    ], (resource, siteName) => ({resource, siteName})),
     {
-        onUpdate: requestGeoStoryConfig
+        onUpdate: requestGeoStoryConfig,
+        onCreate: requestNewGeostoryConfig
     }
 )(GeoStoryViewerRoute);
 

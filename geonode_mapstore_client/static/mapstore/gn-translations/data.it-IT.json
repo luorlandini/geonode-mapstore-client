@@ -23,21 +23,24 @@
             "aZ": "A Z",
             "zA": "Z A",
             "mostPopular": "Più popolare",
-            "data": "Dato",
-            "layers": "Layers",
+            "data": "Dati",
+            "layer": "Dataset",
+            "layers": "Datasets",
+            "document": "Documento",
             "documents": "Documenti",
             "remoteServices": "Servizi remoti",
             "maps": "Mappe",
             "map": "Mappa",
-            "layer": "Couche",
-            "geostory": "Layer",
+            "geostory": "Geostory",
+            "geostories": "GeoStories",
+            "createGeostory": "Create geostory",
             "createNew": "Crea nuova",
             "about": "A proposito",
             "people": "Utenti",
             "groups": "Gruppi",
             "groupsCategories": "Categorie gruppo",
             "view": "View",
-            "viewLayer": "Visualizza layer",
+            "viewLayer": "Visualizza dataset",
             "viewMap": "Visualizza mappa",
             "viewGeoStory": "Visualizza GeoStory",
             "viewDocument": "Visualizza documento",
@@ -58,6 +61,7 @@
             "register": "Registrati",
             "signIn": "Accedi",
             "filters": "Filtri",
+            "filtersCount": "{count, plural, =0 { Filtri } other {Filtri (#)}}",
             "myresources": "Risorse",
             "mylink": "I miei Link",
             "admin": "Amministrazione",
@@ -86,12 +90,13 @@
             "inbox": "Posta in arrivo",
             "geoServer": "GeoServer",
             "help": "Aiuto",
-            "uploadLayer": "Carica layer",
+            "uploadLayer": "Carica dataset",
             "uploadDocument": "Carica documento",
             "addRemoteService": "Aggiungi servizio remoto",
             "exploreMaps": "Esplora mappe",
             "createMap": "Crea mappa",
             "apps": "Apps",
+            "createApp": "Crea app",
             "announcements": "Notizie",
             "inviteUsers": "Invita utenti",
             "addUser": "Aggiungi utente",
@@ -106,7 +111,20 @@
             "delete": "Cancella",
             "customFiltersTitle": "Risorse",
             "myResources": "Le mie risorse",
-            "pendingApproval": "In attesa di approvazione"
+            "pendingApproval": "In attesa di approvazione",
+            "featuredList": "In primo piano"
+        },
+        "viewer":{
+            "document": {
+                "unSupportedMedia": "Il formato multimediale non è supportato"
+            },
+            "errors": {
+                "noPermissions": "Non hai i permessi per aggiungere una geostoria"
+            }
+        },
+        "gnviewer":{
+            "edit": "Modifica",
+            "details": "Dettagli"
         }
     }
 }

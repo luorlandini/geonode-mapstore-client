@@ -13,14 +13,16 @@ import { createSelector } from 'reselect';
 import isEqual from 'lodash/isEqual';
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import usePluginItems from '@js/hooks/usePluginItems';
-
+import { getResourceId } from '@js/selectors/gnresource';
 function ViewerLayout({
-    items
+    items,
+    resourcePk
 }, context) {
     const { loadedPlugins } = context;
-    const configuredItems = usePluginItems({ items, loadedPlugins });
+    const configuredItems = usePluginItems({ items, loadedPlugins }, [resourcePk]);
     return (
         <div
+            className="gn-viewer-layout"
             style={{
                 position: 'fixed',
                 top: 0,
@@ -35,10 +37,22 @@ function ViewerLayout({
                     .filter(({ target }) => target === 'header')
                     .map(({ Component, name }) => <Component key={name} />)}
             </header>
-            <div style={{display: 'flex'}}>
+            <div
+                className="gn-viewer-layout-body"
+                style={{
+                    display: 'flex',
+                    width: '100%',
+                    flex: 1,
+                    position: 'relative'
+                }}>
+                <div className="gn-viewer-left-column">
+                    {configuredItems
+                        .filter(({ target }) => target === 'leftColumn')
+                        .map(({ Component, name }) => <Component key={name} />)}
+                </div>
                 <div
+                    className="gn-viewer-layout-center"
                     style={{
-                        display: 'flex',
                         flex: 1,
                         position: 'relative'
                     }}
@@ -47,20 +61,10 @@ function ViewerLayout({
                         .filter(({ target }) => !target)
                         .map(({ Component, name }) => <Component key={name} />)}
                 </div>
-                <div>
-                    <div
-                        className={`rightColumn`}
-                        style={{
-                            display: 'flex',
-                            flex: 1,
-                            position: 'relative'
-                        }}
-                    >
-                        {configuredItems
-                            .filter(({ target }) => target === 'rightColumn')
-                            .map(({ Component, name }) => <Component key={name} />)}
-
-                    </div>
+                <div className="gn-viewer-right-column">
+                    {configuredItems
+                        .filter(({ target }) => target === 'rightColumn')
+                        .map(({ Component, name }) => <Component key={name} />)}
                 </div>
             </div>
             <footer>
@@ -83,7 +87,11 @@ function arePropsEqual(prevProps, nextProps) {
 const MemoizeViewerLayout = memo(ViewerLayout, arePropsEqual);
 
 const ViewerLayoutPlugin = connect(
-    createSelector([], () => ({})),
+    createSelector([
+        getResourceId
+    ], (resourcePk) => ({
+        resourcePk
+    })),
     {}
 )(MemoizeViewerLayout);
 

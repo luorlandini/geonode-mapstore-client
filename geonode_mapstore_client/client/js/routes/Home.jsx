@@ -22,6 +22,7 @@ import CardGrid from '@js/components/home/CardGrid';
 import DetailsPanel from '@js/components/home/DetailsPanel';
 import FiltersMenu from '@js/components/home/FiltersMenu';
 import FiltersForm from '@js/components/FiltersForm';
+import FeaturedList from '@js/components/home/FeaturedList';
 import LanguageSelector from '@js/components/home/LanguageSelector';
 import { getParsedGeoNodeConfiguration } from "@js/selectors/config";
 import { userSelector } from '@mapstore/framework/selectors/security';
@@ -31,7 +32,8 @@ import {
     fetchSuggestions,
     searchResources,
     requestResource,
-    updateSuggestions
+    updateSuggestions,
+    loadFeaturedResources
 } from '@js/actions/gnsearch';
 
 import { setFavouriteResource
@@ -46,6 +48,11 @@ import Footer from '@js/components/home/Footer';
 import { useInView } from 'react-intersection-observer';
 
 import { getResourceTypes, getCategories, getRegions, getOwners, getKeywords } from '@js/api/geonode/v2';
+import MetaTags from "@js/components/MetaTags";
+
+import {
+    getPageSize
+} from '@js/utils/AppUtils';
 
 const DEFAULT_SUGGESTIONS = [];
 const DEFAULT_RESOURCES = [];
@@ -99,6 +106,18 @@ const ConnectedCardGrid = connect(
         isFirstRequest
     }))
 )(CardGridWithMessageId);
+
+const ConnectedFeatureList = connect(
+    createSelector([
+        state => state?.gnsearch?.featuredResources?.resources || DEFAULT_RESOURCES,
+        state => state?.gnsearch?.featuredResources?.page || 1,
+        state => state?.gnsearch?.featuredResources?.isNextPageAvailable || false,
+        state => state?.gnsearch?.featuredResources?.isPreviousPageAvailable || false,
+        state => state?.gnsearch?.featuredResources?.loading || false
+    ], (resources, page, isNextPageAvailable, isPreviousPageAvailable, loading) => ({
+        resources, page, isNextPageAvailable, isPreviousPageAvailable, loading})
+    ), {loadFeaturedResources}
+)(FeaturedList);
 
 
 const ConnectedDetailsPanel = connect(
@@ -162,16 +181,6 @@ const suggestionsRequestTypes = {
     }
 };
 
-function getPageSize(width) {
-    if (width < 968) {
-        return 'sm';
-    }
-    if (width < 1400) {
-        return 'md';
-    }
-    return 'lg';
-}
-
 function Home({
     location,
     params,
@@ -186,7 +195,10 @@ function Home({
     user,
     width,
     resource,
-    totalResources
+    totalResources,
+    disableFeatured = false,
+    fetchFeaturedResources = () => {},
+    siteName
 }) {
 
     const {
@@ -201,9 +213,9 @@ function Home({
         filters,
         menu: {cfg: actionNavbarCfg} = {}
     } = config;
-
     const pageSize = getPageSize(width);
     const isMounted = useRef();
+
     useEffect(() => {
         isMounted.current = true;
         return () => {
@@ -277,6 +289,7 @@ function Home({
         handleUpdate(newParams, pathname);
         handleShowFilterForm();
     };
+    const [formParams, setFormParams] = useState({});
 
     function handleClear() {
         const { query } = url.parse(location.search, true);
@@ -289,6 +302,8 @@ function Home({
                         [key]: []
                     }
                     : acc, { extent: undefined });
+
+        setFormParams(newParams);
         handleUpdate(newParams);
     }
 
@@ -307,11 +322,9 @@ function Home({
 
 
     const { query } = url.parse(location.search, true);
-
-    const queryFilters = Object.keys(query).reduce((acc, key) => key.indexOf('filter') === 0
-        ? [...acc, ...castArray(query[key]).map((value) => ({ key, value }))]
-        : acc, []);
-
+    const queryFilters = Object.keys(query).reduce((acc, key) => key.indexOf('sort') === 0
+        ? acc
+        : [...acc, ...castArray(query[key]).map((value) => ({ key, value }))], []);
 
     const pk = match.params.pk;
     const ctype = match.params.ctype;
@@ -378,7 +391,14 @@ function Home({
 
 
     return (
-        <div className={`gn-home gn-theme-${theme?.variant || 'light'}`}>
+        <div className={`gn-home`}>
+            <MetaTags
+                logo={resource ? resource.thumbnail_url : window.location.origin + config?.navbar?.logo[0]?.src}
+                title={(resource?.title) ? resource?.title + " - " + siteName : siteName }
+                siteName={siteName}
+                contentURL={resource?.detail_url}
+                content={resource?.abstract}
+            />
             <BrandNavbar
                 ref={brandNavbarNode}
                 logo={castArray(config?.navbar?.logo || [])
@@ -429,6 +449,19 @@ function Home({
             <div className="gn-main-home">
 
                 <div className="gn-container">
+                    <div className="gn-row gn-home-section">
+                        <div className="gn-grid-container">
+                            {!disableFeatured &&  <ConnectedFeatureList
+                                query={query}
+                                formatHref={handleFormatHref}
+                                buildHrefByTemplate={buildHrefByTemplate}
+                                onLoad={fetchFeaturedResources}
+                                containerStyle={{
+                                    minHeight: 'auto'
+                                }}/> }
+
+                        </div>
+                    </div>
                     <div className="gn-row">
                         {isMounted.current && isFiltersPanelEnabled && isFilterForm &&  <div ref={filterFormNode} id="gn-filter-form-container" className={`gn-filter-form-container`}>
                             <FiltersForm
@@ -442,6 +475,9 @@ function Home({
                                 query={query}
                                 onChange={isSmallDevice && handleUpdateSmallDevice || handleUpdate}
                                 onClose={handleShowFilterForm}
+                                onClear={handleClear}
+                                submitOnChangeField={!isSmallDevice}
+                                formParams={formParams}
                             />
 
                         </div>
@@ -465,7 +501,6 @@ function Home({
                                     <ConnectedDetailsPanel
                                         isLogged={!!user}
                                         resource={resource}
-                                        filters={queryFilters}
                                         linkHref={hrefDetailPanel}
                                         formatHref={handleFormatHref}
                                         sectionStyle={{
@@ -507,7 +542,8 @@ function Home({
                                     orderOptions={filters?.order?.options}
                                     defaultLabelId={filters?.order?.defaultLabelId}
                                     totalResources={totalResources}
-                                    filtersActive={!!(queryFilters.length > 0 || query.f || query.extent)}
+                                    totalFilters={queryFilters.length}
+                                    filtersActive={!!(queryFilters.length > 0)}
                                 />
 
                             </ConnectedCardGrid>
@@ -554,19 +590,22 @@ const ConnectedHome = connect(
         state => state?.gnresource?.data || null,
         state => state?.controls?.gnFiltersPanel?.enabled || null,
         getParsedGeoNodeConfiguration,
-        state => state?.gnsearch?.total || 0
-    ], (params, user, resource, isFiltersPanelEnabled, config, totalResources) => ({
+        state => state?.gnsearch?.total || 0,
+        state => state?.localConfig?.siteName || "Geonode"
+    ], (params, user, resource, isFiltersPanelEnabled, config, totalResources, siteName) => ({
         params,
         user,
         resource,
         isFiltersPanelEnabled,
         config,
-        totalResources
+        totalResources,
+        siteName
     })),
     {
         onSearch: searchResources,
         onSelect: requestResource,
-        onEnableFiltersPanel: setControlProperty.bind(null, 'gnFiltersPanel', 'enabled')
+        onEnableFiltersPanel: setControlProperty.bind(null, 'gnFiltersPanel', 'enabled'),
+        fetchFeaturedResources: loadFeaturedResources
     }
 )(withResizeDetector(Home));
 

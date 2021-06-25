@@ -1,0 +1,157 @@
+/*
+ * Copyright 2020, GeoSolutions Sas.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// **************
+// Theme
+// **************
+
+#gn-components-theme(@theme-vars) {
+    .gn-resource-card {
+        .color-var(@theme-vars[main-color]);
+        .background-color-var(@theme-vars[main-bg]);
+        .card-img-top {
+            .color-var(@theme-vars[image-color]);
+            .background-color-var(@theme-vars[image-bg]);
+        }
+        .card-title a {
+            .color-var(@theme-vars[main-color]);
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .gn-tag {
+            .color-var(@theme-vars[main-color]);
+            font-size: inherit;
+
+            &:hover {
+                color: inherit;
+                background-color: transparent;
+            }
+        }
+
+        &.active {
+            .border-color-var(@theme-vars[focus-color]);
+            .outline-color-var(@theme-vars[focus-color]);
+        }
+
+        &:hover {
+            .border-color-var(@theme-vars[focus-color]);
+        }
+        .gn-card-options {
+            .color-var(@theme-vars[main-color]);
+            .background-color-var(@theme-vars[main-bg]);
+        }
+    }
+}
+
+// **************
+// Layout
+// **************
+
+.gn-resource-card {
+    .shadow-sm();
+    transition: box-shadow, border 0.3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    .gn-resource-card-link {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    .gn-card-options {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin: 0.25rem;
+        .dropdown-menu {
+            min-width: 8rem;
+        }
+        .dropdown-item {
+            padding: 0.25rem 1.0rem;
+        }
+    }
+
+    .gn-card-options .dropdown-toggle::after {
+        display: none;
+    }
+    .gn-card-options,
+    a {
+        pointer-events: auto;
+    }
+    .card-body {
+        position: relative;
+        pointer-events: none;
+        z-index: 2;
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+    }
+    &.gn-card-type-list .card-body {
+        width: 20vw;
+    }
+    .card-img-top {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+    }
+    .gn-resource-card-category {
+        text-transform: uppercase;
+    }
+    .card-title,
+    .card-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .card-title {
+        font-size: 0.875rem;
+        margin-bottom: .75rem;
+        .fa {
+            margin: 0;
+            margin-right: 0.4rem;
+        }
+        a {
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    .card-text {
+        font-size: 0.69rem;
+    }
+    .card-text:last-child {
+        margin-bottom: 0;
+    }
+
+    .gn-tag {
+        padding: 0;
+        margin: 0;
+        font-size: inherit;
+        &:hover {
+            color: inherit;
+            opacity: 0.8;
+            background-color: transparent;
+        }
+    }
+    &.active {
+        outline-width: 0.25rem;
+        outline-style: solid;
+        .shadow();
+    }
+    &:hover {
+        .shadow();
+    }
+}

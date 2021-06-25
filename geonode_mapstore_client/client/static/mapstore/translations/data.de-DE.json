@@ -24,20 +24,23 @@
             "zA": "Z A",
             "mostPopular": "Beliebteste",
             "data": "Daten",
-            "layers": "Ebenen",
+            "layer": "Dataset",
+            "layers": "Datasets",
+            "document": "Dokument",
             "documents": "Dokumente",
             "remoteServices": "Remote-Dienste",
             "maps": "Karten",
             "map": "Karte",
-            "layer": "Ebene",
             "geostory": "GeoStory",
+            "geostories": "GeoStories",
+            "createGeostory": "Create geostory",
             "createNew": "Erstelle neu",
             "about": "Über",
             "people": "Benutzer",
             "groups": "Gruppen",
             "groupsCategories": "Gruppenkategorien",
             "view": "Ansehen",
-            "viewLayer": "Ebene ansehen",
+            "viewLayer": "Ebene dataset",
             "viewMap": "Karte ansehen",
             "viewGeoStory": "GeoStory ansehen",
             "viewDocument": "Dokument ansehen",
@@ -58,12 +61,14 @@
             "register": "Registrieren",
             "signIn": "Anmelden",
             "filters": "Filter",
+            "filtersCount": "{count, plural, =0 { Filter } other {Filter (#)}}",
             "admin": "Admin",
             "logOut": "Ausloggen",
             "terms": "Terms",
             "privacy": "Datenschutz",
             "extent": "Ausmaß",
             "enableFilterByExtent": "Filter nach ausmaß aktivieren",
+            "advancedSearch": "Erweiterte suche",
             "apply": "Anwenden",
             "clearFilters": "Filter löschen",
 
@@ -83,12 +88,13 @@
             "inbox": "Inbox",
             "geoServer": "GeoServer",
             "help": "Hilfe",
-            "uploadLayer": "Ebene hochladen",
+            "uploadLayer": "Ebene dataset",
             "uploadDocument": "Dokument hochladen",
             "addRemoteService": "Remote Service hinzufügen",
             "exploreMaps": "Karten erkunden",
             "createMap": "Karte erstellen",
-            "apps": "Apps",
+            "apps": "app",
+            "createApp": "Karte app",
             "announcements": "Ankündigungen",
             "inviteUsers": "Benutzer einladen",
             "addUser": "Benutzer hinzufügen",
@@ -103,7 +109,25 @@
             "delete": "Löschen",
             "customFiltersTitle": "Ressourcen",
             "myResources": "Meine Ressourcen",
-            "pendingApproval": "Ausstehende Genehmigung"
+            "pendingApproval": "Ausstehende Genehmigung",
+            "featuredList": "Vorgestellt"
+        },
+        "viewer":{
+            "document": {
+                "unSupportedMedia": "Das Medienformat wird nicht unterstützt"
+            },
+            "errors": {
+                "noPermissions": "Sie sind nicht berechtigt, eine Geostory hinzuzufügen"
+            }
+        },
+        "gnviewer":{
+            "edit": "Bearbeiten",
+            "details": "Einzelheiten",
+            "editMetadata": "Metadaten bearbeiten",
+            "editStyle": "Stil Bearbeiten",
+            "editData": "Daten Bearbeiten",
+            "backToDataset": "Zurück zum Datensatz"
         }
+
     }
 }

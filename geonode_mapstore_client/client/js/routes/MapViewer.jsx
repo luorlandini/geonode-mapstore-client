@@ -16,7 +16,9 @@ import { getMonitoredState } from '@mapstore/framework/utils/PluginsUtils';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 import PluginsContainer from '@mapstore/framework/components/plugins/PluginsContainer';
 import useLazyPlugins from '@js/hooks/useLazyPlugins';
-import { requestMapConfig } from '@js/actions/gnviewer';
+import { requestMapConfig, requestNewMapConfig } from '@js/actions/gnviewer';
+import MetaTags from "@js/components/MetaTags";
+
 
 const urlQuery = url.parse(window.location.href, true).query;
 
@@ -33,10 +35,13 @@ function MapViewerRoute({
     pluginsConfig: propPluginsConfig,
     params,
     onUpdate,
+    onCreate = () => {},
     loaderComponent,
     lazyPlugins,
     plugins,
-    match
+    match,
+    resource,
+    siteName
 }) {
 
     const { pk } = match.params || {};
@@ -47,10 +52,9 @@ function MapViewerRoute({
         pluginsEntries: lazyPlugins,
         pluginsConfig
     });
-
     useEffect(() => {
-        if (!loading) {
-            onUpdate(pk);
+        if (!loading && pk !== undefined) {
+            (pk === "new") ? onCreate() : onUpdate(pk);
         }
     }, [loading, pk]);
 
@@ -58,6 +62,13 @@ function MapViewerRoute({
 
     return (
         <>
+            {resource &&  <MetaTags
+                logo={resource.thumbnail_url}
+                title={(resource?.title) ? resource?.title + " - " + siteName : siteName }
+                siteName={siteName}
+                contentURL={resource?.detail_url}
+                content={resource?.abstract}
+            />}
             <ConnectedPluginsContainer
                 key="page-map-viewer"
                 id="page-map-viewer"
@@ -78,9 +89,14 @@ MapViewerRoute.propTypes = {
 };
 
 const ConnectedMapViewerRoute = connect(
-    createSelector([], () => ({})),
+    createSelector([
+        state => state?.gnresource?.data,
+        state => state?.localConfig?.siteName || "Geonode"
+    ], (resource, siteName) => ({resource, siteName})),
     {
-        onUpdate: requestMapConfig
+        onUpdate: requestMapConfig,
+        onCreate: requestNewMapConfig
+
     }
 )(MapViewerRoute);
 

@@ -219,6 +219,15 @@
                                 "filter{is_approved}": false
                             },
                             "authenticated": true
+                        },
+                        {
+                            "id": "favorite",
+                            "labelId": "gnhome.favorites",
+                            "type": "filter",
+                            "query": {
+                                "favorite": true
+                            },
+                            "authenticated": true
                         }
                     ]
                 },
@@ -315,34 +324,47 @@
                     "labelId": "gnhome.createNew",
                     "authenticated": true,
                     "type": "dropdown",
+                    "perms": [{ "type": "user", "value": "add_resource" }],
                     "items": [
                         {
                             "labelId": "gnhome.layer",
-                            "value": "map",
+                            "value": "layer",
                             "type": "link",
                             "href": "/layers/upload",
-                            "authenticated": true
+                            "authenticated": true,
+                            "perms": [{ "type": "user", "value": "add_resource" }]
+                        },
+                        {
+                            "labelId": "gnhome.document",
+                            "value": "document",
+                            "type": "link",
+                            "href": "/documents/upload",
+                            "authenticated": true,
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         },
                         {
                             "labelId": "gnhome.map",
                             "value": "map",
                             "type": "link",
-                            "href": "/maps/new",
-                            "authenticated": true
+                            "href": "/viewer/#/map/new",
+                            "authenticated": true,
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         },
                         {
                             "labelId": "gnhome.geostory",
                             "value": "geostory",
                             "type": "link",
-                            "href": "/apps/new?appType=GeoStory",
-                            "authenticated": true
+                            "href": "/viewer/#/geostory/new",
+                            "authenticated": true,
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         }
 
                     ]
                 },
                 {
                     "type": "divider",
-                    "authenticated": true
+                    "authenticated": true,
+                    "perms": [{ "type": "user", "value": "add_resource" }]
                 }
             ]
         },
@@ -350,7 +372,7 @@
             "logo": [
                 {
                     "src": "/static/mapstore/img/geonode-logo.svg",
-                    "href": "#/"
+                    "href": "/"
                 }
             ],
             "items": [
@@ -436,29 +458,14 @@
         "menu": {
             "items": [
                 {
-                    "labelId": "gnhome.data",
+                    "labelId": "gnhome.layers",
                     "type": "dropdown",
                     "items": [
                         {
                             "type": "link",
-                            "href": "/layers/?limit=5",
+                            "href": "#/search/?filter{resource_type.in}=layer",
                             "labelId": "gnhome.layers",
                             "badge": "{state('geoNodeResourcesInfo') && state('geoNodeResourcesInfo').layersTotalCount}",
-                            "permissions": [],
-                            "allowedRoles": []
-                        },
-                        {
-                            "type": "link",
-                            "href": "/documents/?limit=5",
-                            "labelId": "gnhome.documents",
-                            "badge": "{state('geoNodeResourcesInfo') && state('geoNodeResourcesInfo').documentsTotalCount}",
-                            "permissions": [],
-                            "allowedRoles": []
-                        },
-                        {
-                            "type": "link",
-                            "href": "/services/?limit=5",
-                            "labelId": "gnhome.remoteServices",
                             "permissions": [],
                             "allowedRoles": []
                         },
@@ -466,7 +473,8 @@
                             "type": "divider",
                             "authenticated": true,
                             "permissions": [],
-                            "allowedRoles": []
+                            "allowedRoles": [],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         },
                         {
                             "type": "link",
@@ -474,7 +482,29 @@
                             "labelId": "gnhome.uploadLayer",
                             "authenticated": true,
                             "permissions": [],
+                            "allowedRoles": [],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
+                        }
+                    ]
+                },
+                {
+                    "labelId": "gnhome.documents",
+                    "type": "dropdown",
+                    "items": [
+                        {
+                            "type": "link",
+                            "href": "#/search/?filter{resource_type.in}=document",
+                            "labelId": "gnhome.documents",
+                            "badge": "{state('geoNodeResourcesInfo') && state('geoNodeResourcesInfo').documentsTotalCount}",
+                            "permissions": [],
                             "allowedRoles": []
+                        },
+                        {
+                            "type": "divider",
+                            "authenticated": true,
+                            "permissions": [],
+                            "allowedRoles": [],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         },
                         {
                             "type": "link",
@@ -482,51 +512,66 @@
                             "labelId": "gnhome.uploadDocument",
                             "authenticated": true,
                             "permissions": [],
-                            "allowedRoles": []
-                        },
-                        {
-                            "type": "link",
-                            "href": "/services/register/",
-                            "labelId": "gnhome.addRemoteService",
-                            "authenticated": true,
-                            "allowedRoles": [
-                                "admin"
-                            ]
+                            "allowedRoles": [],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         }
                     ]
-                },
-                {
-                    "labelId": "gnhome.maps",
-                    "authenticated": false,
-                    "type": "link",
-                    "subType": "tag",
-                    "href": "/maps/?limit=5",
-                    "badge": "{state('geoNodeResourcesInfo') && state('geoNodeResourcesInfo').mapsTotalCount}"
                 },
                 {
                     "labelId": "gnhome.maps",
                     "type": "dropdown",
-                    "authenticated": true,
-                    "badge": "{state('geoNodeResourcesInfo') && state('geoNodeResourcesInfo').mapsTotalCount}",
                     "items": [
                         {
                             "type": "link",
-                            "href": "/maps/?limit=5",
-                            "labelId": "gnhome.exploreMaps"
+                            "href": "#/search/?filter{resource_type.in}=map",
+                            "labelId": "gnhome.exploreMaps",
+                            "badge": "{state('geoNodeResourcesInfo') && state('geoNodeResourcesInfo').mapsTotalCount}"
+                        },
+                        {
+                            "type": "divider",
+                            "authenticated": true,
+                            "permissions": [],
+                            "allowedRoles": [],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         },
                         {
                             "type": "link",
-                            "href": "/maps/new",
-                            "labelId": "gnhome.createMap"
+                            "href": "/viewer/#/map/new",
+                            "labelId": "gnhome.createMap",
+                            "authenticated": true,
+                            "permissions": [],
+                            "allowedRoles": [],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         }
                     ]
                 },
                 {
-                    "type": "link",
-                    "subType": "tag",
-                    "href": "/apps/?limit=5",
-                    "labelId": "gnhome.apps",
-                    "badge": "{state('geoNodeResourcesInfo') && state('geoNodeResourcesInfo').geoappsTotalCount}"
+                    "labelId": "gnhome.geostories",
+                    "type": "dropdown",
+                    "items": [
+                        {
+                            "type": "link",
+                            "href": "#/search/?filter{resource_type.in}=geostory",
+                            "labelId": "gnhome.geostories",
+                            "badge": "{state('geoNodeResourcesInfo') && state('geoNodeResourcesInfo').geoappsTotalCount}"
+                        },
+                        {
+                            "type": "divider",
+                            "authenticated": true,
+                            "permissions": [],
+                            "allowedRoles": [],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
+                        },
+                        {
+                            "type": "link",
+                            "href": "/viewer/#/geostory/new",
+                            "labelId": "gnhome.createGeostory",
+                            "authenticated": true,
+                            "permissions": [],
+                            "allowedRoles": [],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
+                        }
+                    ]
                 },
                 {
                     "labelId": "gnhome.about",
@@ -558,13 +603,15 @@
                         },
                         {
                             "type": "divider",
-                            "authenticated": true
+                            "authenticated": true,
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         },
                         {
                             "type": "link",
                             "href": "/invitations/geonode-send-invite/",
                             "labelId": "gnhome.inviteUsers",
-                            "authenticated": true
+                            "authenticated": true,
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         },
                         {
                             "type": "link",
@@ -573,7 +620,8 @@
                             "authenticated": true,
                             "allowedRoles": [
                                 "admin"
-                            ]
+                            ],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         },
                         {
                             "type": "link",
@@ -582,7 +630,8 @@
                             "authenticated": true,
                             "allowedRoles": [
                                 "admin"
-                            ]
+                            ],
+                            "perms": [{ "type": "user", "value": "add_resource" }]
                         }
                     ]
                 }
@@ -594,7 +643,8 @@
                     "type": "link",
                     "href": "${detail_url}",
                     "labelId": "gnhome.open",
-                    "icon": "edit"
+                    "icon": "edit",
+                    "perms": [{ "type": "resource", "value": "view_resourcebase" }]
                 },
                 {
                     "type": "link",
@@ -602,6 +652,7 @@
                     "labelId": "gnhome.update",
                     "icon": "paste",
                     "authenticated": true,
+                    "perms": [{ "type": "resource", "value": "change_resourcebase" }],
                     "allowedGroups": [
                         "admin"
                     ]
@@ -612,6 +663,7 @@
                     "labelId": "gnhome.delete",
                     "icon": "trash",
                     "authenticated": true,
+                    "perms": [{ "type": "resource", "value": "delete_resourcebase" }],
                     "allowedGroups": [
                         "admin"
                     ]
@@ -2544,6 +2596,9 @@
                 "name": "BrandNavbar"
             },
             {
+                "name": "DetailViewer"
+            },
+            {
                 "name": "Map",
                 "cfg": {
                     "shouldLoadFont": false,
@@ -2624,9 +2679,6 @@
             },
             {
                 "name": "Expander"
-            },
-            {
-                "name": "BurgerMenu"
             },
             {
                 "name": "MapFooter",
@@ -2778,12 +2830,6 @@
                 "name": "Notifications"
             },
             {
-                "name": "Share",
-                "cfg": {
-                    "pathTemplate": "/maps/{id}/embed"
-                }
-            },
-            {
                 "name": "Locate"
             }
         ],
@@ -2796,6 +2842,65 @@
             },
             {
                 "name": "BrandNavbar"
+            },
+            {
+                "name": "FeatureEditor"
+            },
+            {
+                "name": "QueryPanel",
+                "cfg": {
+                    "activateQueryTool": true,
+                    "spatialOperations": [
+                        {
+                            "id": "INTERSECTS",
+                            "name": "queryform.spatialfilter.operations.intersects"
+                        },
+                        {
+                            "id": "BBOX",
+                            "name": "queryform.spatialfilter.operations.bbox"
+                        },
+                        {
+                            "id": "CONTAINS",
+                            "name": "queryform.spatialfilter.operations.contains"
+                        },
+                        {
+                            "id": "WITHIN",
+                            "name": "queryform.spatialfilter.operations.within"
+                        }
+                    ],
+                    "spatialMethodOptions": [
+                        {
+                            "id": "Viewport",
+                            "name": "queryform.spatialfilter.methods.viewport"
+                        },
+                        {
+                            "id": "BBOX",
+                            "name": "queryform.spatialfilter.methods.box"
+                        },
+                        {
+                            "id": "Circle",
+                            "name": "queryform.spatialfilter.methods.circle"
+                        },
+                        {
+                            "id": "Polygon",
+                            "name": "queryform.spatialfilter.methods.poly"
+                        }
+                    ]
+                },
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 1
+                    }
+                }
+            },
+            {
+                "name": "MapFooter",
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 1,
+                        "target": "footer"
+                    }
+                }
             },
             {
                 "name": "Map",
@@ -2837,6 +2942,48 @@
                 "name": "BrandNavbar"
             },
             {
+                "name": "StyleEditor",
+                "cfg": {
+                    "styleService": {
+                        "baseUrl": "{state('settings') && state('settings').geonodeUrl && state('settings').geonodeUrl + 'gs/' || '/gs/'}",
+                        "formats": [
+                            "css",
+                            "sld"
+                        ],
+                        "availableUrls": [
+                            "{state('settings') && state('settings').geoserverUrl || '/geoserver/'}",
+                            "{state('settings') && state('settings').geonodeUrl && state('settings').geonodeUrl + 'gs/' || '/gs/'}"
+                        ],
+                        "fonts": [
+                            "Arial",
+                            "Courier New",
+                            "Monospaced",
+                            "SansSerif",
+                            "Serif",
+                            "Times New Roman"
+                        ]
+                    },
+                    "editingAllowedRoles": null,
+                    "enableSetDefaultStyle": true
+                }
+            },
+            {
+                "name": "TOCItemsSettings",
+                "cfg": {
+                    "hideTitleTranslations": true,
+                    "showFeatureInfoTab": false
+                }
+            },
+            {
+                "name": "MapFooter",
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 1,
+                        "target": "footer"
+                    }
+                }
+            },
+            {
                 "name": "Map",
                 "cfg": {
                     "shouldLoadFont": false,
@@ -2872,6 +3019,8 @@
             {
                 "name": "Map",
                 "cfg": {
+                    "shouldLoadFont": false,
+                    "fonts": [],
                     "tools": [
                         "measurement",
                         "draw",
@@ -2964,14 +3113,6 @@
                 "name": "Expander"
             },
             {
-                "name": "BurgerMenu",
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
-            },
-            {
                 "name": "MapFooter",
                 "override": {
                     "ViewerLayout": {
@@ -3041,12 +3182,7 @@
                 "name": "ScaleBox"
             },
             {
-                "name": "FeatureEditor",
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
+                "name": "FeatureEditor"
             },
             {
                 "name": "QueryPanel",
@@ -3136,20 +3272,10 @@
                 "cfg": {
                     "hideTitleTranslations": true,
                     "showFeatureInfoTab": false
-                },
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
                 }
             },
             {
-                "name": "Widgets",
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
+                "name": "Widgets"
             },
             {
                 "name": "WidgetsTray",
@@ -3224,27 +3350,6 @@
             { "name": "ActionNavbar" },
             { "name": "BrandNavbar" },
             {
-                "name": "OmniBar",
-                "cfg": {
-                    "disablePluginIf": "{!!(state('browser') && state('browser').mobile)}",
-                    "containerPosition": "header",
-                    "className": "navbar shadow navbar-home"
-                },
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
-            },
-            {
-                "name": "BurgerMenu",
-                "override": {
-                    "ViewerLayout": {
-                        "priority": 1
-                    }
-                }
-            },
-            {
                 "name": "GeoStory",
                 "cfg": {
                     "mediaEditorSettings": {
@@ -3309,12 +3414,16 @@
             {
                 "name": "GeoStoryEditor",
                 "cfg": {
-                    "disablePluginIf": "{!!(state('browser') && state('browser').mobile)}",
-                    "containerPosition": "columns"
+                    "disablePluginIf": "{!!(state('browser') && state('browser').mobile)}"
                 },
                 "override": {
-                    "ViewerLayout": {
+                    "GeoStoryNavigation": {
                         "priority": 1
+                    },
+                    "ViewerLayout": {
+                        "priority": 1,
+                        "target": "leftColumn",
+                        "name": "GeoStoryEditor"
                     }
                 }
             },
@@ -3345,7 +3454,9 @@
         "document_viewer": [
             { "name": "ViewerLayout" },
             { "name": "ActionNavbar" },
-            { "name": "BrandNavbar" }
+            { "name": "BrandNavbar" },
+            { "name": "DetailViewer"},
+            {"name": "MediaViewer"}
         ]
     }
 }

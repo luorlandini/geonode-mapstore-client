@@ -9,13 +9,14 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
-import { Form, Button } from 'react-bootstrap-v1';
+import Button from '@js/components/Button';
 import Message from '@mapstore/framework/components/I18N/Message';
 import FaIcon from '@js/components/home/FaIcon';
 import isEqual from 'lodash/isEqual';
 import FilterByExtent from './FilterByExtent';
 import FilterItems from './FilterItems';
-
+import debounce from 'lodash/debounce';
+import isEmpty from 'lodash/isEmpty';
 /**
  * FilterForm component allows to configure a list of field that can be used to apply filter on the page
  * @name FilterForm
@@ -30,8 +31,12 @@ function FilterForm({
     fields,
     onChange,
     onClose,
+    onClear,
     extentProps,
-    suggestionsRequestTypes
+    suggestionsRequestTypes,
+    submitOnChangeField,
+    timeDebounce,
+    formParams
 }) {
 
     const [values, setValues] = useState({});
@@ -41,6 +46,7 @@ function FilterForm({
         fields,
         values
     };
+
 
     useEffect(() => {
         const newValues = state.current.fields.reduce((acc, { id: formId, suggestionsRequestKey }) => {
@@ -55,33 +61,29 @@ function FilterForm({
                 [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
             };
         }, {});
+
         setValues({
             ...newValues,
             ...(query?.extent && { extent: query.extent }),
             ...(query?.f && { f: query.f })
         });
+
     }, [query]);
 
     function handleApply() {
         onChange(values);
     }
 
-    function handleClear() {
-        const emptyValues = Object.keys(values).reduce((acc, filterKey) => {
-            if (filterKey === 'extent' || filterKey === 'f') {
-                return {
-                    ...acc,
-                    [filterKey]: undefined
-                };
-            }
-            return {
-                ...acc,
-                [filterKey]: []
-            };
-        }, {});
-        setValues(emptyValues);
-        onChange(emptyValues);
-    }
+    useEffect( () => {
+        submitOnChangeField
+        && isEmpty(query)
+        && setValues(formParams);
+    },
+    [formParams]);
+
+    const fieldChange = (val) => {
+        onChange(val);
+    };
 
     return (
         <div className="gn-filter-form" style={styleContainerForm} >
@@ -101,7 +103,7 @@ function FilterForm({
                 className="gn-filter-form-body"
             >
                 <div className="gn-filter-form-content">
-                    <Form
+                    <form
                         style={style}
                     >
                         <FilterItems
@@ -109,7 +111,7 @@ function FilterForm({
                             items={fields}
                             suggestionsRequestTypes={suggestionsRequestTypes}
                             values={state.current.values}
-                            setValues={setValues}
+                            setValues={fieldChange}
                         />
                         <FilterByExtent
                             id={id}
@@ -117,28 +119,29 @@ function FilterForm({
                             queryExtent={query.extent}
                             layers={extentProps?.layers}
                             vectorLayerStyle={extentProps?.style}
-                            onChange={({extent}) =>
+                            onChange={debounce(({extent}) =>
                                 setValues({
                                     ...values,
                                     extent
-                                })
+                                }), timeDebounce)
                             }
                         />
-                    </Form>
+                    </form>
                 </div>
             </div>
             <div className="gn-filter-form-footer">
-                <Button
+                {(!submitOnChangeField) && <Button
                     size="sm"
                     variant="primary"
                     onClick={handleApply}
                 >
                     <Message msgId="gnhome.apply"/>
                 </Button>
+                }
                 <Button
                     size="sm"
                     variant="default"
-                    onClick={handleClear}
+                    onClick={onClear}
                 >
                     <Message msgId="gnhome.clearFilters"/>
                 </Button>
@@ -155,8 +158,13 @@ FilterForm.defaultProps = {
     fields: PropTypes.array,
     onChange: PropTypes.func,
     onClose: PropTypes.func,
+    onClear: PropTypes.func,
     extentProps: PropTypes.object,
-    suggestionsRequestTypes: PropTypes.object
+    suggestionsRequestTypes: PropTypes.object,
+    submitOnChangeField: PropTypes.bool,
+    timeDebounce: PropTypes.number,
+    formParams: PropTypes.object
+
 };
 
 FilterForm.defaultProps = {
@@ -164,7 +172,11 @@ FilterForm.defaultProps = {
     fields: [],
     onChange: () => {},
     onClose: () => {},
-    suggestionsRequestTypes: {}
+    onClear: () => {},
+    suggestionsRequestTypes: {},
+    submitOnChangeField: true,
+    timeDebounce: 500,
+    formParams: {}
 };
 
 const arePropsEqual = (prevProps, nextProps) => {

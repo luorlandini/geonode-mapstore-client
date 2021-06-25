@@ -8,10 +8,10 @@
 
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, Button } from 'react-bootstrap-v1';
 import Message from '@mapstore/framework/components/I18N/Message';
 import { getSupportedLocales } from '@mapstore/framework/utils/LocaleUtils';
-
+import Dropdown from '@js/components/Dropdown';
+import Button from '@js/components/Button';
 const LanguageSelector = forwardRef(({
     style,
     value,
@@ -32,27 +32,29 @@ const LanguageSelector = forwardRef(({
     return (
         <div
             ref={ref}
-            className="gn-language-selector"
+            className={`gn-language-selector ${inline ? 'inline' : ''}`}
             style={style}
         >
             {inline
                 ? options.map((option) => {
+                    const active = option.value === value;
                     return (
                         <Button
-                            active={option.value === value}
+                            active={active}
                             key={option.key}
-                            variant="default"
+                            variant={active ? 'default' : 'primary'}
                             onClick={() => onSelect(option.value)}
                         >
                             {option.key}
                         </Button>
                     );
                 })
-                : <Dropdown alignRight>
+                : <Dropdown pullRight>
                     <Dropdown.Toggle
                         id="language-selector"
-                        variant="default"
-                        size="sm"
+                        bsStyle="primary"
+                        bsSize="sm"
+                        noCaret
                     >
                         {selected.description || <Message msgId="gnhome.language" />}
                     </Dropdown.Toggle>

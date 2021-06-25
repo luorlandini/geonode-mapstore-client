@@ -317,6 +317,7 @@ export const updateGeoStory = (pk, body) => {
         .then(({ data }) => data.geostory);
 };
 
+
 export const getUserByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[USERS]}/${pk}`))
         .then(({ data }) => data.user);
@@ -448,6 +449,16 @@ export const getResourcesTotalCount = () => {
                 geoappsTotalCount
             };
         });
+};
+
+export const getFeaturedResources = (page = 1, page_size =  4) => {
+    return axios.get(parseDevHostname(endpoints[RESOURCES]), {
+        params: {
+            page_size,
+            page,
+            'filter{featured}': true
+        }
+    }).then(({data}) => data);
 };
 
 export const getCategories = ({ q, idIn, ...params }, filterKey = 'categories') => {

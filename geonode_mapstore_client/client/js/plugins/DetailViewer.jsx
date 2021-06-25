@@ -16,9 +16,12 @@ import {
     editAbstractResource,
     editThumbnailResource
 } from '@js/actions/gnresource';
-
+import controls from '@mapstore/framework/reducers/controls';
+import {toggleControl} from '@mapstore/framework/actions/controls';
 import gnresource from '@js/reducers/gnresource';
-
+import Message from '@mapstore/framework/components/I18N/Message';
+import { canEditResource } from '@js/selectors/gnresource';
+import Button from '@js/components/Button';
 
 const ConnectedDetailsPanel = connect(
     createSelector([
@@ -28,14 +31,43 @@ const ConnectedDetailsPanel = connect(
         resource,
         loading,
         editMode
-    }))
+    })),
+    {
+        closePanel: toggleControl.bind(null, 'DetailViewer', null)
+    }
 )(DetailsPanel);
+
+const ButtonViewer = ({onClick, isEnabledViewer}) => {
+
+    const handleClickButton = () => {
+        onClick();
+    };
+
+    return (<Button
+        variant="primary"
+        onClick={handleClickButton}
+        active={!isEnabledViewer} > <Message msgId="gnviewer.details"/>
+    </Button>);
+};
+
+const ConnectedButton = connect(
+    createSelector([
+        state => state?.controls?.DetailViewer?.enabled || false
+    ],
+    (isEnabledViewer) => ({isEnabledViewer})),
+    {
+        onClick: toggleControl.bind(null, 'DetailViewer', null)
+    }
+)((ButtonViewer));
 
 
 function DetailViewer({
+    enabled,
     onEditResource,
     onEditAbstractResource,
-    onEditThumbnail}) {
+    onEditThumbnail,
+    canEdit
+}) {
 
     const handleTitleValue = (val) => {
         onEditResource(val);
@@ -57,23 +89,28 @@ function DetailViewer({
                 height: '100%'
 
             }}>
-            <ConnectedDetailsPanel
+            { !enabled && <ConnectedDetailsPanel
                 editTitle={handleTitleValue}
                 editAbstract={handleAbstractValue}
                 editThumbnail={handleEditThumbnail}
-                activeEditMode
+                activeEditMode={!enabled && canEdit}
                 sectionStyle={{
                     width: '600px',
                     position: 'fixed'
                 }}
-            />
+            /> }
         </div>
     );
 }
 
 const DetailViewerPlugin = connect(
     createSelector([
-    ], () => ({})),
+        state => state?.controls?.DetailViewer?.enabled || false,
+        canEditResource
+    ], (enabled, canEdit) => ({
+        enabled,
+        canEdit
+    })),
     {
         onEditResource: editTitleResource,
         onEditAbstractResource: editAbstractResource,
@@ -89,10 +126,17 @@ export default createPlugin('DetailViewer', {
             name: 'DetailViewer',
             target: 'rightColumn',
             priority: 1
+        },
+        ActionNavbar: {
+            name: 'ButtonViewer',
+            target: 'leftMenuItem',
+            Component: ConnectedButton,
+            priority: 1
         }
     },
     epics: {},
     reducers: {
-        gnresource
+        gnresource,
+        controls
     }
 });
