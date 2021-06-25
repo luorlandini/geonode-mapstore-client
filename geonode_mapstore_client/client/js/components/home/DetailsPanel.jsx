@@ -18,29 +18,29 @@ import {
     getUserName,
     getResourceTypesInfo
 } from '@js/utils/GNSearchUtils';
-
+import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import url from 'url';
-import {TextEditable, ThumbnailEditable} from '@js/components/ContentsEditable/';
+import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
 
 const CopyToClipboard = tooltip(CopyToClipboardCmp);
 
-const EditTitle = ({title, onEdit}) => {
+const EditTitle = ({ title, onEdit }) => {
     return (
         <div className="editContainer">
-            <h1><TextEditable  onEdit={ onEdit } text={title} /></h1>
+            <h1><TextEditable onEdit={onEdit} text={title} /></h1>
         </div>);
 };
 
-const EditAbstract = ({abstract, onEdit}) => (
+const EditAbstract = ({ abstract, onEdit }) => (
     <div className="editContainer">
-        <TextEditable onEdit={ onEdit } text={abstract} />
+        <TextEditable onEdit={onEdit} text={abstract} />
     </div>
 
 );
 
 
-const EditThumbnail = ({image, onEdit}) => (
+const EditThumbnail = ({ image, onEdit }) => (
     <div className="editContainer imagepreview">
         <ThumbnailEditable onEdit={onEdit} defaultImage={image} />
     </div>
@@ -181,7 +181,7 @@ function DetailsPanel({
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                        <FaIcon name={icon}/>
+                        <FaIcon name={icon} />
                     </div>
                     {embedUrl && !editThumbnail
                         ? <iframe
@@ -203,7 +203,7 @@ function DetailsPanel({
                                 top: 0,
                                 left: 0,
                                 backgroundColor: 'inherit'
-                            }}/> )
+                            }} />)
                     }
                     {loading && <div
                         className="gn-details-panel-preview-loader"
@@ -221,7 +221,7 @@ function DetailsPanel({
                             <span className="sr-only">Loading resource detail...</span>
                         </Spinner>
                     </div>}
-                </div> }
+                </div>}
 
                 {activeEditMode && editThumbnail && <div className="gn-details-panel-preview inediting"> <EditThumbnail onEdit={editThumbnail} image={resource?.thumbnail_url} /> </div>}
 
@@ -230,19 +230,29 @@ function DetailsPanel({
                     <div className="gn-details-panel-title" >
 
                         {!editModeTitle && <h1>
-                            { icon && <><FaIcon name={icon}/></>}
-                            { resource?.title }
+                            {icon && <><FaIcon name={icon} /></>}
+                            {resource?.title}
                         </h1>
                         }
-                        { activeEditMode && !editModeTitle && <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'edit'}/></span>}
+                        {activeEditMode && !editModeTitle && <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'edit'} /></span>}
 
 
                         {editModeTitle && <><h1><EditTitle title={resource?.title} onEdit={editTitle} />
                         </h1>
-                        <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'check-circle'}/></span></>
+                        <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'check-circle'} /></span></>
                         }
                         {
                             <div className="gn-details-panel-tools">
+                                {
+                                    isLogged &&
+                                    <Button
+                                        variant="default"
+                                        onClick={debounce(handleFavourite, 500)}>
+                                        <FaIcon stylePrefix={favourite ? `fa` : `far`} name="star" />
+                                    </Button>
+                                }
+
+
                                 {detailUrl && <CopyToClipboard
                                     tooltipPosition="top"
                                     tooltipId={
@@ -262,7 +272,7 @@ function DetailsPanel({
                                     variant="default"
                                     href={detailUrl}
                                     rel="noopener noreferrer">
-                                    <Message msgId={`gnhome.view${name || ''}`}/>
+                                    <Message msgId={`gnhome.view${name || ''}`} />
                                 </Button>}
                             </div>
                         }
@@ -278,14 +288,14 @@ function DetailsPanel({
                             }
                         })}>{getUserName(resource.owner)}</a></>}
                         {(resource?.date_type && resource?.date)
-                            && <>{' '}/{' '}{ moment(resource.date).format('MMMM Do YYYY')}</>}
+                            && <>{' '}/{' '}{moment(resource.date).format('MMMM Do YYYY')}</>}
                     </p>
                     }
                     <p>
-                        { activeEditMode && !editModeAbstract && <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'edit'}/></span>}
+                        {activeEditMode && !editModeAbstract && <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'edit'} /></span>}
                         <div className="gn-details-panel-description">
                             {editModeAbstract && <>
-                                <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'check-circle'}/></span>
+                                <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'check-circle'} /></span>
                                 <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />
                             </>
                             }
@@ -299,7 +309,7 @@ function DetailsPanel({
 
                     <p>
                         {resource?.category?.identifier && <div>
-                            <Message msgId="gnhome.category"/>:{' '}
+                            <Message msgId="gnhome.category" />:{' '}
                             <a href={formatHref({
                                 query: {
                                     'filter{category.identifier.in}': resource.category.identifier
