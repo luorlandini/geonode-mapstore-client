@@ -102,7 +102,7 @@ function DetailsPanel({
     closePanel,
     favourite,
     onFavourite,
-    isLogged
+    enableFavourite
 }) {
 
     const [editModeTitle, setEditModeTitle] = useState(false);
@@ -152,7 +152,6 @@ function DetailsPanel({
     } = resource && (types[resource.doc_type] || types[resource.resource_type]) || {};
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
-
     return (
         <div
             ref={detailsContainerNode}
@@ -244,7 +243,7 @@ function DetailsPanel({
                         {
                             <div className="gn-details-panel-tools">
                                 {
-                                    isLogged &&
+                                    enableFavourite &&
                                     <Button
                                         variant="default"
                                         onClick={debounce(handleFavourite, 500)}>

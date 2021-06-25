@@ -499,7 +499,7 @@ function Home({
                                     : undefined}
                                 column={ hideHero &&
                                     <ConnectedDetailsPanel
-                                        isLogged={!!user}
+                                        enableFavourite={!!user}
                                         resource={resource}
                                         linkHref={hrefDetailPanel}
                                         formatHref={handleFormatHref}
