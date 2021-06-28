@@ -44,7 +44,8 @@ import {
 import {
     getResourceByPk,
     createGeoStory,
-    updateGeoStory
+    updateGeoStory,
+    updateDocument
 } from '@js/api/geonode/v2';
 import { parseDevHostname } from '@js/utils/APIUtils';
 import uuid from 'uuid';
@@ -126,6 +127,15 @@ const SaveAPI = {
                 }
                 return response.data;
             });
+    },
+    document: (id, metadata) => {
+        const body = {
+            'title': metadata.name,
+            'abstract': metadata.description,
+            'thumbnail_url': metadata.thumbnail
+        };
+        return id ? updateDocument(id, body) : console.log('cannot create');
+
     }
 };
 
@@ -133,7 +143,7 @@ export const gnSaveContent = (action$, store) =>
     action$.ofType(SAVE_CONTENT)
         .switchMap((action) => {
             const state = store.getState();
-            const contentType = state.gnresource?.type || 'map';
+            const contentType = state.gnresource?.type || state.gnresource?.data.resource_type || 'map';
             return Observable.defer(() => SaveAPI[contentType](state, action.id, action.metadata, action.reload))
                 .switchMap((response) => {
                     return Observable.of(
@@ -165,14 +175,14 @@ export const gnSaveDirectContent = (action$, store) =>
         .switchMap(() => {
             const state = store.getState();
             const mapInfo = mapInfoSelector(state);
-            const resourceId = mapInfo?.id // injected map id
+            const resourceId = mapInfo?.id
             || state?.gnresource?.id; // injected geostory id
             return Observable.defer(() => getResourceByPk(resourceId))
                 .switchMap((resource) => {
                     const metadata = {
-                        name: resource?.title,
-                        description: resource?.abstract,
-                        thumbnail: resource?.thumbnail_url
+                        name: (state.gnresource.data.name !== resource?.title ) ? state.gnresource.data.name : resource?.title,
+                        description: (state.gnresource.data.abstract !== resource?.abstract ) ? state.gnresource.data.abstract : resource?.abstract,
+                        thumbnail: (state.gnresource.data.thumbnail_url !== resource?.thumbnail_url ) ? state.gnresource.data.thumbnail_url : resource?.thumbnail_url
                     };
                     return Observable.of(
                         setResource(resource),
