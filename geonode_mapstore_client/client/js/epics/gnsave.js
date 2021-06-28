@@ -128,13 +128,13 @@ const SaveAPI = {
                 return response.data;
             });
     },
-    document: (id, metadata) => {
+    document: (state, id, metadata) => {
         const body = {
             'title': metadata.name,
             'abstract': metadata.description,
             'thumbnail_url': metadata.thumbnail
         };
-        return id ? updateDocument(id, body) : console.log('cannot create');
+        return id ? updateDocument(id, body) : false;
 
     }
 };
