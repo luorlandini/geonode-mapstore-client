@@ -151,7 +151,9 @@ export const gnSaveContent = (action$, store) =>
                         updateResourceProperties({
                             'title': action.metadata.name,
                             'abstract': action.metadata.description,
-                            'thumbnail_url': action.metadata.thumbnail
+                            'thumbnail_url': action.metadata.thumbnail,
+                            'extension': response?.extension,
+                            'href': response?.href
                         }),
                         ...(action.showNotifications
                             ? [successNotification({title: "saveDialog.saveSuccessTitle", message: "saveDialog.saveSuccessMessage"})]
@@ -182,7 +184,9 @@ export const gnSaveDirectContent = (action$, store) =>
                     const metadata = {
                         name: (state.gnresource.data.name !== resource?.title ) ? state.gnresource.data.name : resource?.title,
                         description: (state.gnresource.data.abstract !== resource?.abstract ) ? state.gnresource.data.abstract : resource?.abstract,
-                        thumbnail: (state.gnresource.data.thumbnail_url !== resource?.thumbnail_url ) ? state.gnresource.data.thumbnail_url : resource?.thumbnail_url
+                        thumbnail: (state.gnresource.data.thumbnail_url !== resource?.thumbnail_url ) ? state.gnresource.data.thumbnail_url : resource?.thumbnail_url,
+                        extension: resource?.extension,
+                        href: resource?.href
                     };
                     return Observable.of(
                         setResource(resource),
