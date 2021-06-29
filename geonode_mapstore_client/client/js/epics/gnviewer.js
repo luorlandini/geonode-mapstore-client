@@ -8,7 +8,6 @@
 
 import { Observable } from 'rxjs';
 import axios from '@mapstore/framework/libs/ajax';
-import turfBbox from '@turf/bbox';
 import uuid from "uuid";
 import {
     REQUEST_LAYER_CONFIG,
@@ -18,7 +17,7 @@ import {
     REQUEST_NEW_GEOSTORY_CONFIG,
     REQUEST_NEW_MAP_CONFIG
 } from '@js/actions/gnviewer';
-import { getBaseMapConfiguration, getNewGeoStoryConfig } from '@js/api/geonode/config';
+import { getNewMapConfiguration, getNewGeoStoryConfig } from '@js/api/geonode/config';
 import {
     getLayerByPk,
     getGeoStoryByPk,
@@ -35,7 +34,6 @@ import {
     showSettings
 } from '@mapstore/framework/actions/layers';
 import { toggleStyleEditor } from '@mapstore/framework/actions/styleeditor';
-import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 import {
     // setResourcePermissions,
     setNewResource,
@@ -50,51 +48,17 @@ import {
 } from '@mapstore/framework/actions/geostory';
 
 import { setControlProperty } from '@mapstore/framework/actions/controls';
+import { resourceToLayerConfig } from '@js/utils/ResourceUtils';
 
 export const gnViewerRequestLayerConfig = (action$) =>
     action$.ofType(REQUEST_LAYER_CONFIG)
         .switchMap(({ pk, page }) => {
             return Observable.defer(() => axios.all([
-                getBaseMapConfiguration(),
+                getNewMapConfiguration(),
                 getLayerByPk(pk)
             ])).switchMap((response) => {
                 const [mapConfig, gnLayer] = response;
-                const geoserverUrl = getConfigProp('geoserverUrl') || '/geoserver/';
-                const extent = turfBbox({
-                    type: 'Feature',
-                    properties: {},
-                    geometry: gnLayer.ll_bbox_polygon
-                });
-                const [minx, miny, maxx, maxy] = extent;
-                const bbox = {
-                    crs: 'EPSG:4326',
-                    bounds: { minx, miny, maxx, maxy }
-                };
-                const newLayer = {
-                    perms: gnLayer.perms,
-                    id: `pk:${gnLayer.pk}`,
-                    pk: gnLayer.pk,
-                    type: 'wms',
-                    name: `${gnLayer.workspace}:${gnLayer.name}`,
-                    url: `${geoserverUrl}ows`,
-                    format: 'image/png',
-                    ...(gnLayer.storeType === 'vector' && {
-                        search: {
-                            type: 'wfs',
-                            url: `/gs/ows`
-                        }
-                    }),
-                    bbox,
-                    ...(gnLayer.featureinfo_custom_template && {
-                        featureInfo: {
-                            format: 'TEMPLATE',
-                            template: gnLayer.featureinfo_custom_template
-                        }
-                    }),
-                    style: '',
-                    title: gnLayer.title,
-                    visibility: true
-                };
+                const newLayer = resourceToLayerConfig(gnLayer);
                 return Observable.of(
                     configureMap({
                         ...mapConfig,
@@ -106,7 +70,9 @@ export const gnViewerRequestLayerConfig = (action$) =>
                             ]
                         }
                     }),
-                    zoomToExtent(extent, 'EPSG:4326'),
+                    ...(newLayer?.bbox?.bounds
+                        ? [ zoomToExtent(newLayer.bbox.bounds, 'EPSG:4326') ]
+                        : []),
                     setResource(gnLayer),
                     setResourceId(pk),
                     ...(page === 'layer_edit_data_viewer'
@@ -155,13 +121,17 @@ export const gnViewerRequestMapConfig = (action$) =>
 export const gnViewerRequestNewMapConfig = (action$) =>
     action$.ofType(REQUEST_NEW_MAP_CONFIG)
         .switchMap(() => {
-            return Observable.defer(getBaseMapConfiguration
+            return Observable.defer(getNewMapConfiguration
             ).switchMap((response) => {
-                return Observable.of(configureMap(response));
+                return Observable.of(
+                    configureMap(response),
+                    setResourceType('map')
+                );
             }).catch(() => {
                 // TODO: implement various error cases
                 return Observable.empty();
-            });
+            })
+                .startWith(setNewResource());
         });
 
 export const gnViewerRequestGeoStoryConfig = (action$) =>
@@ -201,7 +171,6 @@ export const gnViewerRequestNewGeoStoryConfig = (action$, { getState = () => {}}
             return Observable.defer(() => getNewGeoStoryConfig())
                 .switchMap((gnGeoStory) => {
                     return Observable.of(
-                        setNewResource(),
                         setCurrentStory({...gnGeoStory, sections: [{...gnGeoStory.sections[0], id: uuid(),
                             contents: [{...gnGeoStory.sections[0].contents[0], id: uuid()}]}]}),
                         setResourceType('geostory'),
@@ -212,7 +181,8 @@ export const gnViewerRequestNewGeoStoryConfig = (action$, { getState = () => {}}
                     );
                 }).catch(() => {
                     return Observable.empty();
-                });
+                })
+                .startWith(setNewResource());
         });
 export const gnViewerRequestDocumentConfig = (action$) =>
     action$.ofType(REQUEST_DOCUMENT_CONFIG)

@@ -243,6 +243,13 @@ export const getDocumentsByDocType = (docType = 'image', {
         }));
 };
 
+
+export const setFavoriteResource = (pk, favorite) => {
+    const request = favorite ? axios.post : axios.delete;
+    return request(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/favorite`))
+        .then(({ data }) => data );
+};
+
 export const getResourceByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[RESOURCES]}/${pk}`))
         .then(({ data }) => data.resource);
