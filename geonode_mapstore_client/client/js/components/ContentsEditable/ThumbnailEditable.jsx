@@ -32,6 +32,9 @@ const ThumbnailEditable = ({
                 }}
                 message={<Message msgId="gnviewer.uploadImage"/>}
             />
+            <div className={`icon-image-preview`} >
+                <FaIcon name="file-upload" />
+            </div>
         </>
     );
 };
