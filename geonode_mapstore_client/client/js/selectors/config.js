@@ -66,12 +66,19 @@ export const getCustomMenuFilters = (state) => {
     const filtersFormItemsAllowed = reduceArrayRecursive(confWithHandleExpression?.filtersForm?.items, (item) => filterMenuItems(userState, item));
     const menuFilters = [
         ...menuItemsLeftAllowed,
-        ...filtersFormItemsAllowed.reduce((acc, item) => [
-            ...acc,
-            ...(item.type === 'group'
-                ? item.items || []
-                : [item])
-        ], [])
+        ...filtersFormItemsAllowed
+            .reduce((acc, item) => [
+                ...acc,
+                ...(item.type === 'group'
+                    ? item.items || []
+                    : [item])
+            ], [])
+            .reduce((acc, item) => [
+                ...acc,
+                ...(item.type === 'filter' && item.items
+                    ? item.items && [...item.items, item] || []
+                    : [item])
+            ], [])
     ].filter(({ type }) => type === 'filter');
     return menuFilters;
 };

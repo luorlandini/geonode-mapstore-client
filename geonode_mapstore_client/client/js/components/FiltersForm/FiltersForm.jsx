@@ -64,8 +64,7 @@ function FilterForm({
             && setValues({
                 ...newValues,
                 ...(query?.extent && { extent: query.extent }),
-                ...(query?.f && { f: query.f }),
-                ...(query?.storeType && { storeType: query.storeType })
+                ...(query?.f && { f: query.f })
             });
     }, [query]);
 
@@ -76,7 +75,7 @@ function FilterForm({
 
     function handleClear() {
         const emptyValues = Object.keys(values).reduce((acc, filterKey) => {
-            if (filterKey === 'extent' || filterKey === 'f' || filterKey === 'storeType') {
+            if (filterKey === 'extent' || filterKey === 'f') {
                 return {
                     ...acc,
                     [filterKey]: undefined
