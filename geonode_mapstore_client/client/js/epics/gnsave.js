@@ -51,6 +51,11 @@ import {
 } from '@js/api/geonode/v2';
 import { parseDevHostname } from '@js/utils/APIUtils';
 import uuid from 'uuid';
+import {
+    getResourceName,
+    getResourceDescription,
+    getResourceThumbnail
+} from '@js/selectors/gnresource';
 
 const SaveAPI = {
     map: (state, id, metadata, reload) => {
@@ -136,6 +141,7 @@ const SaveAPI = {
             'abstract': metadata.description,
             'thumbnail_url': metadata.thumbnail
         };
+
         return id ? updateDocument(id, body) : false;
 
     }
@@ -183,10 +189,13 @@ export const gnSaveDirectContent = (action$, store) =>
             || state?.gnresource?.id; // injected geostory id
             return Observable.defer(() => getResourceByPk(resourceId))
                 .switchMap((resource) => {
+                    const name = getResourceName(state);
+                    const description = getResourceDescription(state);
+                    const thumbnail = getResourceThumbnail(state);
                     const metadata = {
-                        name: (state.gnresource.data.name !== resource?.title ) ? state.gnresource.data.name : resource?.title,
-                        description: (state.gnresource.data.abstract !== resource?.abstract ) ? state.gnresource.data.abstract : resource?.abstract,
-                        thumbnail: (state.gnresource.data.thumbnail_url !== resource?.thumbnail_url ) ? state.gnresource.data.thumbnail_url : resource?.thumbnail_url,
+                        name: (name) ? name : resource?.title,
+                        description: (description) ? description : resource?.abstract,
+                        thumbnail: (thumbnail) ? thumbnail : resource?.thumbnail_url,
                         extension: resource?.extension,
                         href: resource?.href
                     };
