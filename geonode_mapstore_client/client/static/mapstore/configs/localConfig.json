@@ -228,45 +228,39 @@
                             },
                             "items": [
                                 {
-                                    "id": "vector",
+                                    "id": "store-vector",
                                     "labelId": "gnhome.vector",
                                     "type": "filter",
                                     "query": {
-                                        "storeType": "vector"
+                                        "filter{storeType.in}": "vector"
                                     }
-
                                 },
                                 {
-                                    "id": "raster",
+                                    "id": "store-raster",
                                     "labelId": "gnhome.raster",
                                     "type": "filter",
                                     "query": {
-                                        "storeType": "raster"
+                                        "filter{storeType.in}": "raster"
                                     }
 
                                 },
                                 {
-                                    "id": "remote",
+                                    "id": "store-remote",
                                     "labelId": "gnhome.remote",
                                     "type": "filter",
                                     "query": {
-                                        "storeType": "remote"
+                                        "filter{storeType.in}": "remote"
                                     }
-
                                 },
                                 {
-                                    "id": "time-series",
+                                    "id": "store-time-series",
                                     "labelId": "gnhome.timeSeries",
                                     "type": "filter",
                                     "query": {
-                                        "storeType": "time-series"
+                                        "filter{storeType.in}": "vector_time"
                                     }
-
                                 }
-
-
                             ]
-
                         },
                         {
                             "id": "documents",

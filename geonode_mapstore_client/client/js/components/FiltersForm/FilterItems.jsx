@@ -1,4 +1,3 @@
-/* eslint-disable no-return-assign */
 /*
  * Copyright 2021, GeoSolutions Sas.
  * All rights reserved.
@@ -7,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import castArray from 'lodash/castArray';
 import { FormGroup, Checkbox } from 'react-bootstrap';
@@ -15,7 +14,6 @@ import ReactSelect from 'react-select';
 import Message from '@mapstore/framework/components/I18N/Message';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
-import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
@@ -100,81 +98,56 @@ function FilterItems({
                     return <div className="gn-filter-form-link"><a href={field.href}>{field.labelId && <Message msgId={field.labelId} /> || field.label}</a></div>;
                 }
                 if (field.type === 'filter') {
+
                     const customFilters = castArray(values.f || []);
-                    const customStoreType = (values.storeType || []);
-                    const active = customFilters.find(value => value === field.id);
-                    const [childFilters, setChildFilters] = useState(field.items || []);
-                    const unChecked = false;
-                    const checked = true;
-                    const resetCheckboxChild = (flag) => {
-                        childFilters.map(item => {
-                            if (customStoreType.includes(item.id)) {
-                                item.isChecked =  flag;
-                            }
-                        });
-                    };
-                    const handleParentFilter = () => {
-
-                        (!!active) ? resetCheckboxChild(unChecked)
-                            : setChildFilters(field.items);
-
-                    };
-                    resetCheckboxChild(checked);
-
-                    const handleChildFilter = (event) => {
-                        childFilters.map(item => {
-                            if (item.id === event.target.value) {
-                                item.isChecked =  event.target.checked;
-                            }
-                        });
-                        setChildFilters(childFilters);
-                        const itemChoosed = childFilters.filter(value => value.isChecked === checked)
-                            .map(item => item.id);
-
-                        setValues({
-                            ...values,
-                            storeType: itemChoosed
-                        });
-
-                    };
-
                     const filterChild = () => {
-
-                        return childFilters.map((item) => {
-                            return (<Checkbox
-                                type="checkbox"
-                                checked={item.isChecked}
-                                value={item.id}
-                                onChange={handleChildFilter}
-                            >
-                                <Message msgId={item.labelId}/>
-                            </Checkbox>);
+                        return field.items && field.items.map((item) => {
+                            const active = customFilters.find(value => value === item.id);
+                            return (
+                                <Checkbox
+                                    type="checkbox"
+                                    checked={!!active}
+                                    value={item.id}
+                                    onChange={() => {
+                                        setValues({
+                                            ...values,
+                                            f: active
+                                                ? customFilters.filter(value => value !== item.id)
+                                                : [...customFilters, item.id]
+                                        });
+                                    }}
+                                >
+                                    <Message msgId={item.labelId}/>
+                                </Checkbox>
+                            );
                         } );
                     };
 
+                    const active = customFilters.find(value => value === field.id);
+                    const parentFilterIds = [
+                        field.id,
+                        ...(field.items
+                            ? field.items.map((item) => item.id)
+                            : [])
+                    ];
                     return (
                         <FormGroup controlId={'gn-radio-filter-' + field.id}>
                             <Checkbox
                                 type="checkbox"
                                 checked={!!active}
                                 value={field.id}
-                                onClick={field.items && handleParentFilter}
                                 onChange={() => {
                                     setValues({
                                         ...values,
                                         f: active
-                                            ? customFilters.filter(value => value !== field.id)
-                                            : [...customFilters, field.id],
-                                        storeType: active ? undefined :  customStoreType
-
+                                            ? customFilters.filter(value => !parentFilterIds.includes(value))
+                                            : [...customFilters, field.id]
                                     });
                                 }}>
                                 <Message msgId={field.labelId}/>
                                 {!!active && filterChild()}
                             </Checkbox>
-
                         </FormGroup>
-
                     );
                 }
 
