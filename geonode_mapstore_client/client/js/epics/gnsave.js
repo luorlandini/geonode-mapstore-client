@@ -145,7 +145,7 @@ export const gnSaveContent = (action$, store) =>
     action$.ofType(SAVE_CONTENT)
         .switchMap((action) => {
             const state = store.getState();
-            const contentType = state.gnresource?.type || state.gnresource?.data.resource_type || 'map';
+            const contentType = state.gnresource?.type || 'map';
             return Observable.defer(() => SaveAPI[contentType](state, action.id, action.metadata, action.reload))
                 .switchMap((response) => {
                     return Observable.of(
