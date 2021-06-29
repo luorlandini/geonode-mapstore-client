@@ -40,16 +40,22 @@ import {
     setResource,
     resourceError,
     updateResourceProperties,
-    SET_FAVOURITE_RESOURCE
+    SET_FAVORITE_RESOURCE
 } from '@js/actions/gnresource';
 import {
     getResourceByPk,
     createGeoStory,
     updateGeoStory,
-    setFavouriteResource
+    updateDocument,
+    setFavoriteResource
 } from '@js/api/geonode/v2';
 import { parseDevHostname } from '@js/utils/APIUtils';
 import uuid from 'uuid';
+import {
+    getResourceName,
+    getResourceDescription,
+    getResourceThumbnail
+} from '@js/selectors/gnresource';
 
 const SaveAPI = {
     map: (state, id, metadata, reload) => {
@@ -128,6 +134,16 @@ const SaveAPI = {
                 }
                 return response.data;
             });
+    },
+    document: (state, id, metadata) => {
+        const body = {
+            'title': metadata.name,
+            'abstract': metadata.description,
+            'thumbnail_url': metadata.thumbnail
+        };
+
+        return id ? updateDocument(id, body) : false;
+
     }
 };
 
@@ -143,7 +159,9 @@ export const gnSaveContent = (action$, store) =>
                         updateResourceProperties({
                             'title': action.metadata.name,
                             'abstract': action.metadata.description,
-                            'thumbnail_url': action.metadata.thumbnail
+                            'thumbnail_url': action.metadata.thumbnail,
+                            'extension': response?.extension,
+                            'href': response?.href
                         }),
                         ...(action.showNotifications
                             ? [successNotification({title: "saveDialog.saveSuccessTitle", message: "saveDialog.saveSuccessMessage"})]
@@ -167,14 +185,19 @@ export const gnSaveDirectContent = (action$, store) =>
         .switchMap(() => {
             const state = store.getState();
             const mapInfo = mapInfoSelector(state);
-            const resourceId = mapInfo?.id // injected map id
+            const resourceId = mapInfo?.id
             || state?.gnresource?.id; // injected geostory id
             return Observable.defer(() => getResourceByPk(resourceId))
                 .switchMap((resource) => {
+                    const name = getResourceName(state);
+                    const description = getResourceDescription(state);
+                    const thumbnail = getResourceThumbnail(state);
                     const metadata = {
-                        name: resource?.title,
-                        description: resource?.abstract,
-                        thumbnail: resource?.thumbnail_url
+                        name: (name) ? name : resource?.title,
+                        description: (description) ? description : resource?.abstract,
+                        thumbnail: (thumbnail) ? thumbnail : resource?.thumbnail_url,
+                        extension: resource?.extension,
+                        href: resource?.href
                     };
                     return Observable.of(
                         setResource(resource),
@@ -209,18 +232,18 @@ export const gnUpdateResource = (action$, store) =>
                 .startWith(resourceLoading());
         });
 
-export const gnSaveFavouriteContent = (action$, store) =>
-    action$.ofType(SET_FAVOURITE_RESOURCE)
+export const gnSaveFavoriteContent = (action$, store) =>
+    action$.ofType(SET_FAVORITE_RESOURCE)
         .switchMap((action) => {
             const state = store.getState();
             const pk = state?.gnresource?.data.pk;
-            const favourite =  action.favourite;
+            const favorite =  action.favorite;
             return Observable
-                .defer(() => setFavouriteResource(pk, favourite))
+                .defer(() => setFavoriteResource(pk, favorite))
                 .switchMap(() => {
                     return Observable.of(
                         updateResourceProperties({
-                            'favourite': favourite
+                            'favorite': favorite
                         })
                     );
                 })
@@ -235,5 +258,5 @@ export default {
     gnSaveContent,
     gnUpdateResource,
     gnSaveDirectContent,
-    gnSaveFavouriteContent
+    gnSaveFavoriteContent
 };

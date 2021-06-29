@@ -244,8 +244,8 @@ export const getDocumentsByDocType = (docType = 'image', {
 };
 
 
-export const setFavouriteResource = (pk, favourite) => {
-    const request = favourite ? axios.post : axios.delete;
+export const setFavoriteResource = (pk, favorite) => {
+    const request = favorite ? axios.post : axios.delete;
     return request(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/favorite`))
         .then(({ data }) => data );
 };
@@ -310,6 +310,11 @@ export const updateGeoStory = (pk, body) => {
         .then(({ data }) => data.geostory);
 };
 
+export const updateDocument = (pk, body) => {
+    return axios.patch(parseDevHostname(`${endpoints[DOCUMENTS]}/${pk}`), body)
+        .then(({ data }) => data.document);
+};
+
 
 export const getUserByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[USERS]}/${pk}`))
@@ -340,7 +345,7 @@ export const getConfiguration = (configUrl = '/static/mapstore/configs/localConf
                 geoNodePageConfig.localConfig || {},
                 (objValue, srcValue) => {
                     if (isArray(objValue)) {
-                        return srcValue;
+                        return [...objValue, ...srcValue];
                     }
                     return undefined; // eslint-disable-line consistent-return
                 });
