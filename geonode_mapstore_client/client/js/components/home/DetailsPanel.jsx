@@ -324,7 +324,6 @@ function DetailsPanel({
                         </div>}
                     </p>
 
-                    {documentDownloadUrl && <Button href={documentDownloadUrl} >Download</Button>}
                 </div>
             </section>
         </div>
