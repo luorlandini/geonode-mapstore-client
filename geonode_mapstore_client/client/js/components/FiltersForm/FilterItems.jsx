@@ -14,6 +14,7 @@ import ReactSelect from 'react-select';
 import Message from '@mapstore/framework/components/I18N/Message';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
 import { getFilterLabelById } from '@js/utils/GNSearchUtils';
+import debounce from 'lodash/debounce';
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
 
@@ -22,7 +23,8 @@ function FilterItems({
     items,
     suggestionsRequestTypes,
     values,
-    setValues
+    setValues,
+    timeDebounce
 }) {
     return (
         <>
@@ -104,14 +106,15 @@ function FilterItems({
                                 type="checkbox"
                                 checked={!!active}
                                 value={field.id}
-                                onChange={() => {
+                                onChange={debounce(() => {
                                     setValues({
                                         ...values,
                                         f: active
                                             ? customFilters.filter(value => value !== field.id)
                                             : [...customFilters, field.id]
                                     });
-                                }}>
+                                }, timeDebounce)}>
+
                                 <Message msgId={field.labelId}/>
                             </Checkbox>
                         </FormGroup>

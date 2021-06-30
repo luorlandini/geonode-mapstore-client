@@ -61,7 +61,6 @@ function FilterForm({
                 [filterKey]: (filterKey) ? castArray(state.current.query[filterKey]) : []
             };
         }, {});
-
         setValues({
             ...newValues,
             ...(query?.extent && { extent: query.extent }),
@@ -83,6 +82,11 @@ function FilterForm({
 
     const fieldChange = (val) => {
         onChange(val);
+    };
+
+    const handleClear = () => {
+        setValues(formParams);
+        onClear();
     };
 
     return (
@@ -112,6 +116,7 @@ function FilterForm({
                             suggestionsRequestTypes={suggestionsRequestTypes}
                             values={state.current.values}
                             setValues={fieldChange}
+                            timeDebounce={timeDebounce}
                         />
                         <FilterByExtent
                             id={id}
@@ -141,7 +146,9 @@ function FilterForm({
                 <Button
                     size="sm"
                     variant="default"
-                    onClick={onClear}
+                    onClick={handleClear}
+
+                    disabled={isEmpty(query)}
                 >
                     <Message msgId="gnhome.clearFilters"/>
                 </Button>
