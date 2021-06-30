@@ -85,6 +85,13 @@ function FilterForm({
         onChange(val);
     };
 
+    const extentChange = (extent) => {
+        setValues({
+            ...values,
+            extent
+        });
+        onChange(values);
+    };
     return (
         <div className="gn-filter-form" style={styleContainerForm} >
             <div className="gn-filter-form-header">
@@ -119,12 +126,9 @@ function FilterForm({
                             queryExtent={query.extent}
                             layers={extentProps?.layers}
                             vectorLayerStyle={extentProps?.style}
-                            onChange={debounce(({extent}) =>
-                                setValues({
-                                    ...values,
-                                    extent
-                                }), timeDebounce)
-                            }
+                            onChange={(({extent}) =>{
+                                extentChange(extent);
+                            })}
                         />
                     </form>
                 </div>
