@@ -2865,9 +2865,6 @@
             },
             {
                 "name": "Locate"
-            },
-            {
-                "name": "LayerDownload"
             }
         ],
         "layer_edit_data_viewer": [
@@ -3107,10 +3104,6 @@
             },
             { "name": "DetailViewer"},
             { "name": "BrandNavbar" },
-            {
-                "name": "LayerDownload"
-
-            },
             {
                 "name": "Map",
                 "cfg": {
