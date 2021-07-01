@@ -28,7 +28,7 @@ const CopyToClipboard = tooltip(CopyToClipboardCmp);
 const EditTitle = ({ title, onEdit }) => {
     return (
         <div className="editContainer">
-            <h1><TextEditable onEdit={onEdit} text={title} /></h1>
+            <TextEditable onEdit={onEdit} text={title} />
         </div>);
 };
 
@@ -152,6 +152,8 @@ function DetailsPanel({
     } = resource && (types[resource.doc_type] || types[resource.resource_type]) || {};
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
+    const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
+
     return (
         <div
             ref={detailsContainerNode}
@@ -233,12 +235,13 @@ function DetailsPanel({
                             {resource?.title}
                         </h1>
                         }
-                        {activeEditMode && !editModeTitle && <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'edit'} /></span>}
+                        {activeEditMode && !editModeTitle && <span onClick={handleEditModeTitle} ><FaIcon name={'edit'} /></span>}
 
 
-                        {editModeTitle && <><h1><EditTitle title={resource?.title} onEdit={editTitle} />
+                        {editModeTitle && <h1>
+                            <EditTitle title={resource?.title} onEdit={editTitle} />
+                            <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'check-circle'} /></span>
                         </h1>
-                        <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'check-circle'} /></span></>
                         }
                         {
                             <div className="gn-details-panel-tools">
@@ -250,7 +253,11 @@ function DetailsPanel({
                                         <FaIcon stylePrefix={favorite ? `fa` : `far`} name="star" />
                                     </Button>
                                 }
-
+                                {documentDownloadUrl &&
+                                    <Button variant="default"
+                                        href={documentDownloadUrl} >
+                                        <FaIcon name="download" />
+                                    </Button>}
 
                                 {detailUrl && <CopyToClipboard
                                     tooltipPosition="top"
@@ -266,7 +273,8 @@ function DetailsPanel({
                                         onClick={handleCopyPermalink}>
                                         <FaIcon name="share-alt" />
                                     </Button>
-                                </CopyToClipboard>}
+                                </CopyToClipboard>
+                                }
                                 {detailUrl && !editThumbnail && <Button
                                     variant="default"
                                     href={detailUrl}
@@ -290,21 +298,20 @@ function DetailsPanel({
                             && <>{' '}/{' '}{moment(resource.date).format('MMMM Do YYYY')}</>}
                     </p>
                     }
-                    <p>
-                        {activeEditMode && !editModeAbstract && <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'edit'} /></span>}
-                        <div className="gn-details-panel-description">
-                            {editModeAbstract && <>
-                                <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'check-circle'} /></span>
-                                <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />
-                            </>
-                            }
-                            {
-                                !editModeAbstract && resource?.abstract ?
-                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
-                                    : null
-                            }
-                        </div>
-                    </p>
+                    <div className="gn-details-panel-description">
+                        {editModeAbstract && <>
+                            <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />
+                            <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'check-circle'} /></span>
+
+                        </>
+                        }
+                        {
+                            !editModeAbstract && resource?.abstract ?
+                                <span className="gn-details-panel-text" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
+                                : null
+                        }
+                        {activeEditMode && !editModeAbstract && <span onClick={handleEditModeAbstract} ><FaIcon name={'edit'} /></span>}
+                    </div>
 
                     <p>
                         {resource?.category?.identifier && <div>
@@ -316,6 +323,7 @@ function DetailsPanel({
                             })}>{resource.category.identifier}</a>
                         </div>}
                     </p>
+
                 </div>
             </section>
         </div>
