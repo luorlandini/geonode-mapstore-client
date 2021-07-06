@@ -76,7 +76,7 @@ function FilterForm({
 
     useEffect( () => {
         submitOnChangeField
-        && isEmpty(query)
+        //&& isEmpty(query)
         && setValues(formParams);
     },
     [formParams]);
