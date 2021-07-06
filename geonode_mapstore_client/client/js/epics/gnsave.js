@@ -186,20 +186,21 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
     action$.ofType(SET_MAP_LIKE_THUMBNAIL)
         .switchMap(() => {
             const state = store.getState();
-            const mapInfo = mapInfoSelector(state);
-            const resourceId = mapInfo?.id || state?.gnresource?.id;
+            const contentType = state.gnresource?.data?.resource_type || 'map';
+            const resourceIDThumbnail = (state.gnresource?.data?.resource_type === 'layer') ? state?.gnresource?.data?.alternate  : state?.gnresource?.id;
+            const resourceId = state?.gnresource?.id;
+
             const body = {
                 srid: state.map.present.bbox.crs,
                 bbox: Object.values(state.map.present.bbox.bounds)
             };
             return Observable.defer(() => axios.all([
-                setMapLikeThumbnail(resourceId, body),
+                setMapLikeThumbnail(resourceIDThumbnail, body, contentType),
                 getResourceByPk(resourceId)
             ]))
                 .flatMap((response) => {
                     const [, resource] = response;
                     setResource(resource);
-                    //window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}viewer/#/${resource.resource_type}/${resource.pk}/`);
                     location.reload();
                     return Observable.of(
 

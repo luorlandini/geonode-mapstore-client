@@ -54,7 +54,7 @@ function MapLikeThumbnailButton({
             variant="primary"
             onClick={() => onClick()}
         >
-            <Message msgId="setMapLikeThumbnail"/>
+            <Message msgId="gnviewer.setMapLikeThumbnail"/>
         </Button>
         : null
     ;

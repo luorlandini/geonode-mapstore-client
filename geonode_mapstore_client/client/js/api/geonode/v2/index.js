@@ -38,6 +38,12 @@ let endpoints = {
     'regions': '/api/v2/regions'
 };
 
+let pathApiThumbnail = {
+    map: 'maps',
+    layer: 'layers'
+};
+
+
 const RESOURCES = 'resources';
 const DOCUMENTS = 'documents';
 const LAYERS = 'layers';
@@ -243,9 +249,9 @@ export const getDocumentsByDocType = (docType = 'image', {
         }));
 };
 
-export const setMapLikeThumbnail = (pk, body) => {
-    return axios.post(parseDevHostname(`/maps/${pk}/thumbnail`), body)
-        .then(({ data }) => console.log(data));
+export const setMapLikeThumbnail = (pk, body, type) => {
+    return axios.post(parseDevHostname(`/${pathApiThumbnail[type]}/${pk}/thumbnail`), body)
+        .then(({ data }) => (data));
 };
 
 export const setFavoriteResource = (pk, favorite) => {
