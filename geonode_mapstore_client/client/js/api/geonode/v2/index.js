@@ -243,6 +243,10 @@ export const getDocumentsByDocType = (docType = 'image', {
         }));
 };
 
+export const setMapLikeThumbnail = (pk, body) => {
+    return axios.post(parseDevHostname(`/maps/${pk}/thumbnail`), body)
+        .then(({ data }) => console.log(data));
+};
 
 export const setFavoriteResource = (pk, favorite) => {
     const request = favorite ? axios.post : axios.delete;
