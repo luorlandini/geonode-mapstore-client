@@ -190,7 +190,7 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
             const resourceIDThumbnail = (state.gnresource?.data?.resource_type === 'layer') ? state?.gnresource?.data?.alternate  : state?.gnresource?.id;
             const resourceId = state?.gnresource?.id;
             const body = {
-                srid: state?.gnresource?.data?.srid,
+                srid: state.map.present.bbox.crs,
                 bbox: Object.values(state.map.present.bbox.bounds)
             };
             return Observable.defer(() => axios.all([
@@ -202,7 +202,6 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
                     setResource(resource);
                     location.reload();
                     return Observable.of(
-
                         clearSave()
                     );
                 })
