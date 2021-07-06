@@ -76,7 +76,7 @@ function FilterForm({
 
     useEffect( () => {
         submitOnChangeField
-        //&& isEmpty(query)
+        // && isEmpty(query)
         && setValues(formParams);
     },
     [formParams]);
@@ -146,6 +146,7 @@ function FilterForm({
                     size="sm"
                     variant="default"
                     onClick={onClear}
+                    disabled={isEmpty(query)}
                 >
                     <Message msgId="gnhome.clearFilters"/>
                 </Button>
