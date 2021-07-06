@@ -2629,6 +2629,12 @@
                 "name": "DetailViewer"
             },
             {
+                "name": "MapLikeThumbnail",
+                "cfg": {
+                    "disablePermission": true
+                }
+            },
+            {
                 "name": "Map",
                 "cfg": {
                     "shouldLoadFont": false,
@@ -3430,6 +3436,12 @@
             },
             {
                 "name": "Save",
+                "cfg": {
+                    "disablePermission": true
+                }
+            },
+            {
+                "name": "MapLikeThumbnail",
                 "cfg": {
                     "disablePermission": true
                 }
