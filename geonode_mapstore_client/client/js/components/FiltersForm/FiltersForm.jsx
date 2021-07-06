@@ -146,7 +146,7 @@ function FilterForm({
                     size="sm"
                     variant="default"
                     onClick={onClear}
-                    disabled={isEmpty(query)}
+                    disabled={ isEmpty(query) }
                 >
                     <Message msgId="gnhome.clearFilters"/>
                 </Button>
