@@ -8,7 +8,6 @@
 
 import React, { forwardRef, useRef, cloneElement, Children } from 'react';
 import Menu from '@js/components/Menu';
-import { Route } from 'react-router';
 
 const BrandNavbar = forwardRef(({
     style,
