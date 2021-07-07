@@ -8,6 +8,7 @@
 
 import React, { forwardRef, useRef, cloneElement, Children } from 'react';
 import Menu from '@js/components/Menu';
+import { Route } from 'react-router';
 
 const BrandNavbar = forwardRef(({
     style,
@@ -18,6 +19,16 @@ const BrandNavbar = forwardRef(({
     inline
 }, ref) => {
 
+    const navItemsHrefPath = navItems.map( (item) => {
+        const hrefPath = item.href + location.pathname + location.hash;
+        return {
+            ...item,
+            href: hrefPath
+        };
+    });
+    console.log('Route');
+    console.log(Route);
+    console.log(location);
     const centerNode = useRef();
     const centerWidth = centerNode.current
         ? centerNode.current.getBoundingClientRect().width
@@ -51,7 +62,7 @@ const BrandNavbar = forwardRef(({
                     {centerWidth >= centerMinWidth && children}
                 </div>}
                 <Menu
-                    items={[...navItems].reverse()}
+                    items={[...navItemsHrefPath].reverse()}
                     containerClass={`gn-brand-navbar-right-side`}
                     childrenClass={`gn-user-dropdown`}
                     alignRight
