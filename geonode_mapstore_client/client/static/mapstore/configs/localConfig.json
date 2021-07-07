@@ -383,13 +383,13 @@
                 {
                     "labelId": "gnhome.register",
                     "type": "link",
-                    "href": "/account/signup/?next=",
+                    "href": "/account/signup/?next=/",
                     "authenticated": false
                 },
                 {
                     "labelId": "gnhome.signIn",
                     "type": "link",
-                    "href": "/account/signup/?next=",
+                    "href": "/account/login/?next=",
                     "authenticated": false
                 },
                 {
