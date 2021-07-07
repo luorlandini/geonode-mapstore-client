@@ -21,7 +21,7 @@ const BrandNavbar = forwardRef(({
 
 
     const navItemsHrefPath = navItems.map( (item) => {
-        const hrefPath = (item.href.slice(-1) === '=')
+        const hrefPath = (item?.href?.slice(-1) === '=')
             ? item.href + location.pathname + location.hash
             : item.href;
         return {
