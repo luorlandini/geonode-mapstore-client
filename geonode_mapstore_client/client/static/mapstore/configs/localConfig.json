@@ -2618,6 +2618,10 @@
                                     "labelId": "gnviewer.editData"
                                 }
                             ]
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "Detail"
                         }
                     ]
                 }
