@@ -201,7 +201,7 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
                             return Observable.of(
                                 setResource({...response, thumbnail_url: `${response.thumbnail_url}?${Math.random()}`} ),
                                 clearSave(),
-                                ...([successNotification({title: res, message: res})])
+                                ...([successNotification({title: "gnviewer.thumbnailsaved", message: "gnviewer.thumbnailsaved"})])
 
                             );
                         });
@@ -209,7 +209,7 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
                 .catch((error) => {
                     return Observable.of(
                         saveError(error.data),
-                        errorNotification({title: error.data, message: error.data})
+                        errorNotification({title: "gnviewer.thumbnailnotsaved", message: "gnviewer.thumbnailnotsaved"})
                     );
                 })
                 .startWith(savingResource());
