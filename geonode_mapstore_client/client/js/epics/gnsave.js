@@ -189,9 +189,10 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
             const contentType = state.gnresource?.data?.resource_type || 'map';
             const resourceIDThumbnail = (state.gnresource?.data?.resource_type === 'layer') ? state?.gnresource?.data?.alternate  : state?.gnresource?.id;
             const resourceId = state?.gnresource?.id;
+            const map =  mapSelector(state) || {};
             const body = {
-                srid: state.map.present.bbox.crs,
-                bbox: Object.values(state.map.present.bbox.bounds)
+                srid: map.bbox.crs,
+                bbox: Object.values(map.bbox.bounds)
             };
             return Observable.defer(() => setMapLikeThumbnail(resourceIDThumbnail, body, contentType))
                 .switchMap((res) => {
