@@ -193,22 +193,22 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
                 srid: state.map.present.bbox.crs,
                 bbox: Object.values(state.map.present.bbox.bounds)
             };
-            return Observable.defer(() => axios.all([
-                setMapLikeThumbnail(resourceIDThumbnail, body, contentType),
-                getResourceByPk(resourceId)
-            ]))
-                .flatMap((response) => {
-                    const [, resource] = response;
-                    setResource(resource);
-                    location.reload();
-                    return Observable.of(
-                        clearSave()
-                    );
+            return Observable.defer(() => setMapLikeThumbnail(resourceIDThumbnail, body, contentType))
+                .switchMap((res) => {
+                    return Observable.defer(() => getResourceByPk(resourceId))
+                        .switchMap((response) => {
+                            return Observable.of(
+                                setResource({...response, thumbnail_url: `${response.thumbnail_url}?${Math.random()}`} ),
+                                clearSave(),
+                                ...([successNotification({title: res, message: res})])
+
+                            );
+                        });
                 })
                 .catch((error) => {
                     return Observable.of(
-                        saveError(error.data || error.message),
-                        errorNotification({title: "map.mapError.errorTitle", message: error.data || error.message || "map.mapError.errorDefault"})
+                        saveError(error.data),
+                        errorNotification({title: error.data, message: error.data})
                     );
                 })
                 .startWith(savingResource());
