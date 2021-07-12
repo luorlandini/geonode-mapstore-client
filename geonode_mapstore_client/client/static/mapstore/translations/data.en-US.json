@@ -129,7 +129,8 @@
             "editStyle": "Edit Style",
             "editData": "Edit Data",
             "backToDataset": "Back to Dataset",
-            "uploadImage": "Click or drag and drop an image"
+            "uploadImage": "Click or drag and drop an image",
+            "save": "Save"
         }
     }
 }
