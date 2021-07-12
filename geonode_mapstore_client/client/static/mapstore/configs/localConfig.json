@@ -3101,12 +3101,18 @@
                                 {
                                     "type": "plugin",
                                     "name": "Save",
-                                    "labelId": "gnviewer.save"
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
                                 },
                                 {
                                     "type": "plugin",
                                     "name": "SaveAs",
-                                    "labelId": "gnviewer.saveAs"
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
                                 }
                             ]
                         },
