@@ -64,7 +64,7 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
         />);
     }
 
-    if (type === 'custom' && Component) {
+    if ((type === 'custom' || type === 'plugin') && Component) {
         return <Component />;
     }
 
