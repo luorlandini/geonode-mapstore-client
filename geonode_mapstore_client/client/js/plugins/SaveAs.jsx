@@ -136,7 +136,6 @@ export default createPlugin('SaveAs', {
         },
         ActionNavbar: {
             name: 'SaveAs',
-            target: 'leftMenuItem',
             Component: ConnectedSaveAsButton
         }
     },
