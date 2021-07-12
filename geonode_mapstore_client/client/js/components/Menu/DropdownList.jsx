@@ -84,7 +84,7 @@ const DropdownList = ({
         .map((itm, idx) => {
 
             if (itm.type === 'plugin' && itm.Component) {
-                return (<li><itm.Component /></li>);
+                return (<li><itm.Component style={itm?.style || ""} variant={itm?.variant || ""} /></li>);
             }
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
@@ -126,7 +126,6 @@ const DropdownList = ({
                 toogleIcon ? <FaIcon name={toogleIcon} />
                     : undefined
             }
-
             {labelId && <Message msgId={labelId} /> || label}
             {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
         </Dropdown.Toggle>
