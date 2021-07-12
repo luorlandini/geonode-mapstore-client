@@ -43,7 +43,7 @@ const Menu = forwardRef(({
                     return (
                         <li key={idx}>
                             <MenuItem
-                                variant={variant}
+                                variant={item?.variant || variant}
                                 item={{ ...item, id: item.id || idx }}
                                 size={size}
                                 alignRight={alignRight}
