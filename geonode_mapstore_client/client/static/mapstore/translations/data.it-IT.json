@@ -130,7 +130,8 @@
             "editData": "Modifica Dati",
             "backToDataset": "Torna al Dataset",
             "uploadImage": "Clicca o trascina un'immagine",
-            "save": "Salva"
+            "save": "Salva",
+            "share": "Condividi"
         }
     }
 }
