@@ -3094,6 +3094,23 @@
                 "cfg": {
                     "leftMenuItems": [
                         {
+                            "labelId": "gnviewer.save",
+                            "type": "dropdown",
+                            "id": "save",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Save",
+                                    "labelId": "gnviewer.save"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "SaveAs",
+                                    "labelId": "gnviewer.saveAs"
+                                }
+                            ]
+                        },
+                        {
                             "type": "link",
                             "href": "{(state('gnResourceData') || {}).detail_url + '/metadata'}",
                             "labelId": "gnviewer.editMetadata",

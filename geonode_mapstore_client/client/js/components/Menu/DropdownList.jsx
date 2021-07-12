@@ -82,6 +82,10 @@ const DropdownList = ({
 
     const dropdownItems = items
         .map((itm, idx) => {
+
+            if (itm.type === 'plugin' && itm.Component) {
+                return (<li><itm.Component /></li>);
+            }
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
             }

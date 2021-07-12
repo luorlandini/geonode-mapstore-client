@@ -22,6 +22,7 @@ function checkResourcePerms(menuItem, resourcePerms) {
     }
     return true;
 }
+
 function ActionNavbarPlugin({
     items,
     leftMenuItems,
@@ -29,8 +30,18 @@ function ActionNavbarPlugin({
     resourcePerms
 }, context) {
 
+
     const { loadedPlugins } = context;
     const configuredItems = usePluginItems({ items, loadedPlugins });
+
+    const leftMenuItemsPlugins = reduceArrayRecursive(leftMenuItems, (item) => {
+        configuredItems.find(plugin => {
+            if (plugin.name === item.name && item.type === 'plugin') {
+                item.Component = plugin.Component;
+            }
+        });
+        return (item);
+    });
     const leftMenuConfiguredItems = configuredItems
         .filter(({ target }) => target === 'leftMenuItem')
         .map(({ Component }) => ({ type: 'custom', labelId: "gnviewer.edit", Component }));
@@ -40,7 +51,7 @@ function ActionNavbarPlugin({
         .map(({ Component }) => ({ type: 'custom',  Component }));
 
     const leftItems = reduceArrayRecursive(
-        [...leftMenuConfiguredItems, ...leftMenuItems],
+        [...leftMenuConfiguredItems, ...leftMenuItemsPlugins],
         menuItem => checkResourcePerms(menuItem, resourcePerms)
     );
     const rightItems = reduceArrayRecursive(
