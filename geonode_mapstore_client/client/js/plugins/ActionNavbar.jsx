@@ -36,8 +36,8 @@ function ActionNavbarPlugin({
 
     const leftMenuItemsPlugins = reduceArrayRecursive(leftMenuItems, (item) => {
         configuredItems.find(plugin => {
-            if (plugin.name === item.name && item.type === 'plugin') {
-                item.Component = plugin.Component;
+            if ( item.type === 'plugin' && plugin.name === item.name ) {
+                item.Component = plugin?.Component;
             }
         });
         return (item);
