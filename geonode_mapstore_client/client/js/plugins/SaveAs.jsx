@@ -90,11 +90,12 @@ const SaveAsPlugin = connect(
 
 function SaveAsButton({
     enabled,
-    onClick
+    onClick,
+    variant
 }) {
     return enabled
         ? <Button
-            variant="primary"
+            variant={variant || "primary"}
             onClick={() => onClick()}
         >
             <Message msgId="saveAs"/>
