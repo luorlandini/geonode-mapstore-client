@@ -1,6 +1,6 @@
 {
   "name": "geonode-mapstore-client",
-  "version": "2.0.9",
+  "version": "4.0.0",
   "description": "MapStore 2 Api bundle specific to geonode framework",
   "main": "api.js",
   "eslintConfig": {
@@ -39,7 +39,7 @@
   "geonode": {
     "devServer": {
       "host": "localhost",
-      "proxyTargetHost": "localhost:8000",
+      "proxyTargetHost": "192.168.8.165:8000",
       "protocol": "http"
     }
   }

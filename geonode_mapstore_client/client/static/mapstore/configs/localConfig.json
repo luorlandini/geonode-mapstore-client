@@ -22,7 +22,7 @@
     ],
     "defaultLayerFormat": "image/png",
     "geoNodeApi": {
-        "endpointAdapter": "/mapstore/rest",
+        "endpointAdapter": "/mapstore/rest/",
         "endpointAutocomplete": "/base/autocomplete_response",
         "endpointV1": "/api",
         "endpointV2": "/api/v2"
@@ -389,7 +389,7 @@
                 {
                     "labelId": "gnhome.signIn",
                     "type": "link",
-                    "href": "/account/login/?next=/",
+                    "href": "/account/login/?next=",
                     "authenticated": false
                 },
                 {
@@ -520,6 +520,9 @@
                             "perms": [{ "type": "user", "value": "add_resource" }]
                         }
                     ]
+                },
+                {
+                    "type": "divider"
                 },
                 {
                     "labelId": "gnhome.maps",
