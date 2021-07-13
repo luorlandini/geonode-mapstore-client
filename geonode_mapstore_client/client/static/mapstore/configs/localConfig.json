@@ -3636,7 +3636,8 @@
                                 {
                                     "type": "link",
                                     "href": "{(state('gnResourceData') || {}).detail_url + '/metadata'}",
-                                    "labelId": "gnviewer.editMetadata"
+                                    "labelId": "gnviewer.editMetadata",
+                                    "perms": [{ "type": "resource", "value": "change_resourcebase" }]
                                 }
                             ]
                         },
@@ -3805,7 +3806,8 @@
                                 {
                                     "type": "link",
                                     "href": "{(state('gnResourceData') || {}).detail_url + '/metadata'}",
-                                    "labelId": "gnviewer.editMetadata"
+                                    "labelId": "gnviewer.editMetadata",
+                                    "perms": [{ "type": "resource", "value": "change_resourcebase" }]
                                 }
                             ]
                         },
