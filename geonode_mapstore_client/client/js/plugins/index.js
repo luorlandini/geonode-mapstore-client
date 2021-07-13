@@ -89,7 +89,7 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'LayerDownload',
-                    target: 'leftMenuItem',
+                    //target: 'leftMenuItem',
                     Component: LayerDownloadActionButton
                 }
             }

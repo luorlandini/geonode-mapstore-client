@@ -2601,6 +2601,32 @@
                 "cfg": {
                     "leftMenuItems": [
                         {
+                            "labelId": "gnviewer.save",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Save",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "SaveAs",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "ButtonViewer"
+                        },
+                        {
                             "labelId": "gnviewer.edit",
                             "type": "dropdown",
                             "perms": [{ "type": "resource", "value": "change_resourcebase" }],
@@ -2621,8 +2647,56 @@
                                     "labelId": "gnviewer.editData"
                                 }
                             ]
+                        },
+                        {
+                            "labelId": "gnviewer.share",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Share",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "divider",
+                            "authenticated": true
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "Print"
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "LayerDownload"
                         }
+
                     ]
+                }
+            },
+            {
+                "name": "Print"
+            },
+            {
+                "name": "SaveAs",
+                "cfg": {
+                    "disablePermission": true
+                }
+            },
+            {
+                "name": "Save",
+                "cfg": {
+                    "disablePermission": true
+                }
+            },
+            {
+                "name": "Share",
+                "cfg": {
+                    "pathTemplate": "/maps/{id}/embed"
                 }
             },
             {
