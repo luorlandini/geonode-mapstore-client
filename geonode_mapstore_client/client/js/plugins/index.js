@@ -108,7 +108,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Catalog',
-                    //target: 'leftMenuItem',
                     Component: CatalogActionButton,
                     priority: 1
                 },
@@ -156,7 +155,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Measure',
-                    //target: 'leftMenuItem',
                     Component: MeasureActionButton
                 }
             }
@@ -265,7 +263,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Print',
-                    //target: 'leftMenuItem',
                     Component: PrintActionButton,
                     priority: 5,
                     doNotHide: true
