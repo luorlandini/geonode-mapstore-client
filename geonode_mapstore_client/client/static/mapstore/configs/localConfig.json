@@ -3646,17 +3646,77 @@
                 "cfg": {
                     "leftMenuItems": [
                         {
+                            "labelId": "gnviewer.save",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Save",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "SaveAs",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "ButtonViewer"
+                        },
+                        {
+                            "labelId": "gnviewer.edit",
+                            "type": "dropdown",
+                            "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                            "items": [
+                                {
+                                    "type": "link",
+                                    "href": "{(state('gnResourceData') || {}).detail_url + '/metadata'}",
+                                    "labelId": "gnviewer.editMetadata"
+                                }
+                            ]
+                        },
+                        {
+                            "labelId": "gnviewer.share",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Share",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "divider",
+                            "authenticated": true
+                        },
+                        {
                             "type": "link",
-                            "href": "{(state('gnResourceData') || {}).detail_url + '/metadata'}",
-                            "labelId": "gnviewer.editMetadata",
+                            "href": "{(state('gnResourceData')) && (state('gnResourceData').href)}",
+                            "labelId": "gnviewer.download",
                             "perms": [{ "type": "resource", "value": "change_resourcebase" }]
                         }
+
                     ]
                 }
             },
             { "name": "BrandNavbar" },
             { "name": "DetailViewer"},
+            { "name": "ButtonViewer"},
             { "name": "Save" },
+            { "name": "SaveAs" },
+            { "name": "Share" },
             {"name": "MediaViewer"}
         ]
     }
