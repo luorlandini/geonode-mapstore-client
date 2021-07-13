@@ -34,6 +34,7 @@ function ActionNavbarPlugin({
     const { loadedPlugins } = context;
     const configuredItems = usePluginItems({ items, loadedPlugins });
 
+
     const leftMenuItemsPlugins = reduceArrayRecursive(leftMenuItems, (item) => {
         configuredItems.find(plugin => {
             if ( item.type === 'plugin' && plugin.name === item.name ) {
@@ -42,6 +43,8 @@ function ActionNavbarPlugin({
         });
         return (item);
     });
+
+
     const leftMenuConfiguredItems = configuredItems
         .filter(({ target }) => target === 'leftMenuItem')
         .map(({ Component }) => ({ type: 'custom', labelId: "gnviewer.edit", Component }));
@@ -58,6 +61,9 @@ function ActionNavbarPlugin({
         [...rightMenuConfiguredItems, ...rightMenuItems],
         menuItem => checkResourcePerms(menuItem, resourcePerms)
     );
+
+    console.log('leftMenuItems');
+    console.log(leftItems);
 
     return (
 

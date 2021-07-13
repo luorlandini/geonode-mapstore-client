@@ -44,7 +44,8 @@ const MenuItem = ({ item, menuItemsProps, containerNode, tabIndex, draggable, cl
 
     const { formatHref, query } = menuItemsProps;
     const { id, type, label, labelId = '', items = [], href, style, badge = '', image, Component, target } = item;
-
+    console.log('item');
+    console.log(item);
     const badgeValue = badge;
     if (type === 'dropdown') {
         return (<DropdownList
