@@ -62,9 +62,6 @@ function ActionNavbarPlugin({
         menuItem => checkResourcePerms(menuItem, resourcePerms)
     );
 
-    console.log('leftMenuItems');
-    console.log(leftItems);
-
     return (
 
         <ActionNavbar
