@@ -3604,15 +3604,61 @@
                 "cfg": {
                     "leftMenuItems": [
                         {
-                            "type": "link",
-                            "href": "{(state('gnResourceData') || {}).detail_url + '/metadata'}",
-                            "labelId": "gnviewer.editMetadata",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }]
+                            "labelId": "gnviewer.save",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Save",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "SaveAs",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "ButtonViewer"
+                        },
+                        {
+                            "labelId": "gnviewer.edit",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "link",
+                                    "href": "{(state('gnResourceData') || {}).detail_url + '/metadata'}",
+                                    "labelId": "gnviewer.editMetadata"
+                                }
+                            ]
+                        },
+                        {
+                            "labelId": "gnviewer.share",
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Share",
+                                    "variant": "default",
+                                    "style": {
+                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
             },
             { "name": "BrandNavbar" },
+            { "name": "ButtonViewer" },
             { "name": "DetailViewer"},
             {
                 "name": "GeoStory",
@@ -3707,7 +3753,10 @@
                 "name": "Notifications"
             },
             {
-                "name": "Save"
+                "name": "Save",
+                "cfg": {
+                    "disablePermission": true
+                }
             },
             {
                 "name": "SaveAs"
@@ -3773,16 +3822,6 @@
                                     }
                                 }
                             ]
-                        },
-                        {
-                            "type": "divider",
-                            "authenticated": true
-                        },
-                        {
-                            "type": "link",
-                            "href": "{(state('gnResourceData')) && (state('gnResourceData').href)}",
-                            "labelId": "gnviewer.download",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }]
                         }
 
                     ]
