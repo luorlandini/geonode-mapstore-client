@@ -131,7 +131,9 @@
             "backToDataset": "Volver al Conjunto de Datos",
             "uploadImage": "Haga clic o arrastre y suelte una imagen",
             "save": "Ahorrar",
-            "share": "Cuota"
+            "share": "Cuota",
+            "download": "Descargar"
+
         }
 
 

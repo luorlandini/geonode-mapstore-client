@@ -129,7 +129,9 @@
             "backToDataset": "Zurück zum Datensatz",
             "uploadImage": "Klicken oder ziehen Sie ein Bild und legen Sie es ab",
             "save": "Speichern",
-            "share": "Teilen"
+            "share": "Teilen",
+            "download": "Herunterladen"
+
         }
 
     }

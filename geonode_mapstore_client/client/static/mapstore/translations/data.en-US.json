@@ -131,7 +131,8 @@
             "backToDataset": "Back to Dataset",
             "uploadImage": "Click or drag and drop an image",
             "save": "Save",
-            "share": "Share"
+            "share": "Share",
+            "download": "Download"
         }
     }
 }
