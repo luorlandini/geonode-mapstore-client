@@ -2606,19 +2606,11 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "Save",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "Save"
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "SaveAs",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "SaveAs"
                                 }
                             ]
                         },
@@ -2654,11 +2646,7 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "Share",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "Share"
                                 }
                             ]
                         },
@@ -3176,19 +3164,11 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "Save",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "Save"
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "SaveAs",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "SaveAs"
                                 }
                             ]
                         },
@@ -3214,11 +3194,7 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "Share",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "Share"
                                 }
                             ]
                         },
@@ -3609,19 +3585,11 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "Save",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "Save"
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "SaveAs",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "SaveAs"
                                 }
                             ]
                         },
@@ -3647,11 +3615,7 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "Share",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "Share"
                                 }
                             ]
                         }
@@ -3778,19 +3742,11 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "Save",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "Save"
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "SaveAs",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "SaveAs"
                                 }
                             ]
                         },
@@ -3817,11 +3773,7 @@
                             "items": [
                                 {
                                     "type": "plugin",
-                                    "name": "Share",
-                                    "variant": "default",
-                                    "style": {
-                                        "backgroundColor": "var(--gn-main-bg, #ffffff)"
-                                    }
+                                    "name": "Share"
                                 }
                             ]
                         }

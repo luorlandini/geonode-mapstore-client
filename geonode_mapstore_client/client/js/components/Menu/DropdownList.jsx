@@ -84,7 +84,7 @@ const DropdownList = ({
         .map((itm, idx) => {
 
             if (itm.type === 'plugin' && itm.Component) {
-                return (<li><itm.Component style={itm?.style || ""} variant={itm?.variant || ""} /></li>);
+                return (<li><itm.Component variant="default" /></li>);
             }
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;

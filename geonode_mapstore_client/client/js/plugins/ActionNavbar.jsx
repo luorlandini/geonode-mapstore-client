@@ -26,14 +26,12 @@ function checkResourcePerms(menuItem, resourcePerms) {
 function ActionNavbarPlugin({
     items,
     leftMenuItems,
-    rightMenuItems,
     resourcePerms
 }, context) {
 
 
     const { loadedPlugins } = context;
     const configuredItems = usePluginItems({ items, loadedPlugins });
-
 
     const leftMenuItemsPlugins = reduceArrayRecursive(leftMenuItems, (item) => {
         configuredItems.find(plugin => {
@@ -44,21 +42,8 @@ function ActionNavbarPlugin({
         return (item);
     });
 
-
-    const leftMenuConfiguredItems = configuredItems
-        .filter(({ target }) => target === 'leftMenuItem')
-        .map(({ Component }) => ({ type: 'custom', labelId: "gnviewer.edit", Component }));
-
-    const rightMenuConfiguredItems = configuredItems
-        .filter(({ target }) => target === 'rightMenuItem')
-        .map(({ Component }) => ({ type: 'custom',  Component }));
-
     const leftItems = reduceArrayRecursive(
-        [...leftMenuConfiguredItems, ...leftMenuItemsPlugins],
-        menuItem => checkResourcePerms(menuItem, resourcePerms)
-    );
-    const rightItems = reduceArrayRecursive(
-        [...rightMenuConfiguredItems, ...rightMenuItems],
+        [...leftMenuItemsPlugins],
         menuItem => checkResourcePerms(menuItem, resourcePerms)
     );
 
@@ -66,21 +51,18 @@ function ActionNavbarPlugin({
 
         <ActionNavbar
             leftItems={leftItems}
-            rightItems={rightItems}
         />
     );
 }
 
 ActionNavbarPlugin.propTypes = {
     items: PropTypes.array,
-    leftMenuItems: PropTypes.array,
-    rightMenuItems: PropTypes.array
+    leftMenuItems: PropTypes.array
 };
 
 ActionNavbarPlugin.defaultProps = {
     items: [],
-    leftMenuItems: [],
-    rightMenuItems: []
+    leftMenuItems: []
 };
 
 const ConnectedActionNavbarPlugin = connect(
