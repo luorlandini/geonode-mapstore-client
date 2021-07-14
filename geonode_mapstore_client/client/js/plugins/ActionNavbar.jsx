@@ -43,7 +43,7 @@ function ActionNavbarPlugin({
     });
 
     const leftItems = reduceArrayRecursive(
-        [...leftMenuItemsPlugins],
+        leftMenuItemsPlugins,
         menuItem => checkResourcePerms(menuItem, resourcePerms)
     );
 
