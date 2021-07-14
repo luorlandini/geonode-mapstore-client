@@ -21,10 +21,10 @@ ms2_config_converter = GeoNodeMapStore2ConfigConverter()
 
 
 def resource_list_url(resource_type):
-    return '/#/search/?filter{resource_type.in}' + '={}'.format(resource_type)
+    return '/catalogue/#/search/?filter{resource_type.in}' + '={}'.format(resource_type)
 
 def resource_detail_url(resource_type, resource_id):
-    return '/viewer/#/{}/{}'.format(resource_type, resource_id)
+    return '/catalogue/#/{}/{}'.format(resource_type, resource_id)
 
 
 class MapStoreHookSet(BaseHookSet):
@@ -56,7 +56,7 @@ class MapStoreHookSet(BaseHookSet):
     def isEditLayer(self, context):
         if context:
             req = self.get_request(context)
-            if req.GET.get("layer") and req.GET.get("storeType"):
+            if req.GET.get("layer") and req.GET.get("subtype"):
                 return True
         return False
 

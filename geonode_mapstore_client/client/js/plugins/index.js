@@ -89,7 +89,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'LayerDownload',
-                    target: 'leftMenuItem',
                     Component: LayerDownloadActionButton
                 }
             }
@@ -118,7 +117,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Catalog',
-                    target: 'leftMenuItem',
                     Component: CatalogActionButton,
                     priority: 1
                 },
@@ -166,7 +164,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Measure',
-                    target: 'leftMenuItem',
                     Component: MeasureActionButton
                 }
             }
@@ -275,7 +272,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Print',
-                    target: 'leftMenuItem',
                     Component: PrintActionButton,
                     priority: 5,
                     doNotHide: true
@@ -310,10 +306,6 @@ export const plugins = {
     ActionNavbarPlugin: toLazyPlugin(
         'ActionNavbar',
         import(/* webpackChunkName: 'plugins/action-navbar-plugin' */ '@js/plugins/ActionNavbar')
-    ),
-    BrandNavbarPlugin: toLazyPlugin(
-        'BrandNavbar',
-        import(/* webpackChunkName: 'plugins/brand-navbar-plugin' */ '@js/plugins/BrandNavbar')
     ),
     DetailViewerPlugin: toLazyPlugin(
         'DetailViewer',

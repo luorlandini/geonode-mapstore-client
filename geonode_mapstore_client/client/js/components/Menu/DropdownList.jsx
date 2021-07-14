@@ -14,7 +14,7 @@ import Dropdown from '@js/components/Dropdown';
 import Badge from '@js/components/Badge';
 import NavLink from './NavLink';
 import { createPortal } from 'react-dom';
-import FaIcon from '@js/components/home/FaIcon';
+import FaIcon from '@js/components/FaIcon';
 import {
     isValidBadgeValue
 } from '@js/utils/MenuUtils';
@@ -82,6 +82,10 @@ const DropdownList = ({
 
     const dropdownItems = items
         .map((itm, idx) => {
+
+            if (itm.type === 'plugin' && itm.Component) {
+                return (<li><itm.Component variant="default" /></li>);
+            }
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
             }
@@ -122,7 +126,6 @@ const DropdownList = ({
                 toogleIcon ? <FaIcon name={toogleIcon} />
                     : undefined
             }
-
             {labelId && <Message msgId={labelId} /> || label}
             {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
         </Dropdown.Toggle>
