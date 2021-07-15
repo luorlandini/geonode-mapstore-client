@@ -313,7 +313,7 @@ export const updateGeoStory = (pk, body) => {
 
 export const updateLayer = (pk, body) => {
     return axios.patch(parseDevHostname(`${endpoints[LAYERS]}/${pk}`), body)
-        .then(({ data }) => console.log(data));
+        .then(({ data }) => (data.layer));
 };
 
 export const updateDocument = (pk, body) => {
