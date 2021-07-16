@@ -67,7 +67,7 @@ import {
 } from '@js/epics';
 import gnviewerEpics from '@js/epics/gnviewer';
 import gnsearchEpics from '@js/epics/gnsearch';
-import gnlocaleEpics from '@js/epics/gnlocale';
+import favoriteEpics from '@js/epics/favorite';
 import maplayout from '@mapstore/framework/reducers/maplayout';
 
 import pluginsDefinition from '@js/plugins/index';
@@ -236,7 +236,7 @@ Promise.all([
                         ...pluginsDefinition.epics,
                         ...gnviewerEpics,
                         ...gnsearchEpics,
-                        ...gnlocaleEpics
+                        ...favoriteEpics
                     },
                     geoNodeConfiguration,
                     initialActions: [
