@@ -10,6 +10,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import FaIcon from '@js/components/FaIcon';
 import Button from '@js/components/Button';
+import Tabs from '@js/components/Tabs';
 import Spinner from '@js/components/Spinner';
 import Message from '@mapstore/framework/components/I18N/Message';
 import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
@@ -88,6 +89,21 @@ function ThumbnailPreview({
     );
 }
 
+const InfoList = ({ listitems }) => {
+
+    const items = listitems.map( item => {
+        return (
+            <li><strong>{`${item.label}:`}</strong> {`${item.value}`}</li>
+        );
+    });
+    return (
+        <ul>
+            {items}
+        </ul>
+    );
+};
+
+
 function DetailsPanel({
     resource,
     formatHref,
@@ -153,6 +169,58 @@ function DetailsPanel({
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
     const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
+
+    const infoField = [
+        {
+            "label": "Title",
+            "value": resource.title
+        },
+        {
+            "label": "Abstract",
+            "value": resource.raw_abstract
+        },
+        {
+            "label": "Owner",
+            "value": resource.owner.username
+        },
+        {
+            "label": "Created",
+            "value": moment(resource.created).format('MMMM Do YYYY')
+        },
+        {
+            "label": "Published",
+            "value": moment(resource.date).format('MMMM Do YYYY')
+        },
+        {
+            "label": "Last Modified",
+            "value": moment(resource.last_updated).format('MMMM Do YYYY')
+        },
+        {
+            "label": "Resource Type",
+            "value": resource.resource_type + " " + resource.subtype
+        },
+        {
+            "label": "Category",
+            "value": resource.category
+        },
+        {
+            "label": "Keywords",
+            "value": resource.keywords
+        },
+        {
+            "label": "Regions",
+            "value": resource.regions
+        }
+    ];
+
+
+    const itemsTab = [
+        {
+            title: "Info",
+            data: <InfoList listitems={infoField} />
+        }
+    ]
+
 
     return (
         <div
@@ -313,6 +381,8 @@ function DetailsPanel({
                         {activeEditMode && !editModeAbstract && <span onClick={handleEditModeAbstract} ><FaIcon name={'edit'} /></span>}
                     </div>
 
+
+                    <Tabs itemsTab={itemsTab} />
                     <p>
                         {resource?.category?.identifier && <div>
                             <Message msgId="gnhome.category" />:{' '}
