@@ -199,10 +199,62 @@ function DetailsPanel({
         }
     ];
 
+    const extraItemsList = [
+        {
+            "label": "Point of Contact",
+            "value": (resource?.poc?.first_name + resource?.poc?.last_name || resource?.poc?.username)
+        },
+        {
+            "label": "License",
+            "value": resource?.license?.name_long
+        },
+        {
+            "label": "Attribution",
+            "value": resource?.attribution
+        },
+        {
+            "label": "Restriction",
+            "value": resource?.restriction_code_type?.identifier
+        },
+        {
+            "label": "Edition",
+            "value": resource?.edition
+        },
+        {
+            "label": "Maintenance Frequency",
+            "value": resource?.maintenance_frequency
+        },
+        {
+            "label": "Language",
+            "value": resource?.language
+        },
+        {
+            "label": "Purpose",
+            "value": resource?.raw_purpose
+        },
+        {
+            "label": "Data Quality",
+            "value": resource?.raw_data_quality_statement
+        },
+        {
+            "label": "Temporal extent",
+            "value": resource?.temporal_extent_start + " - " + resource?.temporal_extent_end
+        },
+        {
+            "label": "Spatial Representation Type",
+            "value": resource?.spatial_representation_type?.identifier
+        },
+        {
+            "label": "Supplemental Information",
+            "value": resource?.raw_supplemental_information
+        }
+    ];
+
+
     const itemsTab = [
         {
             title: "Info",
-            data: <DefinitionList itemslist={infoField} />
+            data: <DefinitionList itemslist={infoField} extraItemsList={extraItemsList} />
         }
     ];
 
