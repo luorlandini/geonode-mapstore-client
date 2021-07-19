@@ -206,7 +206,7 @@ function DetailsPanel({
         },
         {
             "label": "Keywords",
-            "value": resource?.keywords
+            "value": resource?.keywords?.join(" ")
         },
         {
             "label": "Regions",
