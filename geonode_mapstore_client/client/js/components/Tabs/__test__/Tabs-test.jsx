@@ -3,13 +3,6 @@ import ReactDOM from 'react-dom';
 import expect from 'expect';
 import Tabs from '../Tabs';
 
-const itemsTab = [
-    {
-        title: "Info",
-        data: "Hello!"
-    }
-];
-
 describe('Test GeoNode tabs component', () => {
     beforeEach((done) => {
         document.body.innerHTML = '<div id="container"></div>';
@@ -21,10 +14,20 @@ describe('Test GeoNode tabs component', () => {
         setTimeout(done);
     });
     it('should render Tabs component', () => {
-        ReactDOM.render( <Tabs itemsTab={itemsTab} />, document.getElementById("container"));
+        ReactDOM.render( <Tabs itemsTab={[{
+            title: "Info"
+        }]} />, document.getElementById("container"));
         const el = document.querySelector('.tabs-info');
         expect(el).toExist();
     });
 
+    it('should label first tab same first array obj tittle', () => {
+        ReactDOM.render( <Tabs itemsTab={[{
+            title: "Info"
+        }]} />, document.getElementById("container"));
+        const el = document.querySelector("ul > li > a");
+        expect(el).toExist();
+        expect(el.innerHTML).toBe("Info");
+    });
 
 });
