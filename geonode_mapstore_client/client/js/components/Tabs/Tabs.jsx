@@ -15,7 +15,7 @@ const Tabs = ({itemsTab, transition = true }) => {
 
     return (
         <TabsRB
-            defaultActiveKey="info"
+            defaultActiveKey={itemsTab.shift().title}
             transition={transition}
             className={"tabs-info"}
         >
