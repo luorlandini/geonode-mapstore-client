@@ -11,6 +11,7 @@ import DOMPurify from 'dompurify';
 import FaIcon from '@js/components/FaIcon';
 import Button from '@js/components/Button';
 import Tabs from '@js/components/Tabs';
+import DefinitionList from '@js/components/DefinitionList';
 import Spinner from '@js/components/Spinner';
 import Message from '@mapstore/framework/components/I18N/Message';
 import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
@@ -173,53 +174,52 @@ function DetailsPanel({
     const infoField = [
         {
             "label": "Title",
-            "value": resource.title
+            "value": resource?.title
         },
         {
             "label": "Abstract",
-            "value": resource.raw_abstract
+            "value": resource?.raw_abstract
         },
         {
             "label": "Owner",
-            "value": resource.owner.username
+            "value": resource?.owner?.username
         },
         {
             "label": "Created",
-            "value": moment(resource.created).format('MMMM Do YYYY')
+            "value": moment(resource?.created).format('MMMM Do YYYY')
         },
         {
             "label": "Published",
-            "value": moment(resource.date).format('MMMM Do YYYY')
+            "value": moment(resource?.date).format('MMMM Do YYYY')
         },
         {
             "label": "Last Modified",
-            "value": moment(resource.last_updated).format('MMMM Do YYYY')
+            "value": moment(resource?.last_updated).format('MMMM Do YYYY')
         },
         {
             "label": "Resource Type",
-            "value": resource.resource_type + " " + resource.subtype
+            "value": resource?.resource_type + " " + resource.subtype
         },
         {
             "label": "Category",
-            "value": resource.category
+            "value": resource?.category
         },
         {
             "label": "Keywords",
-            "value": resource.keywords
+            "value": resource?.keywords
         },
         {
             "label": "Regions",
-            "value": resource.regions
+            "value": resource?.regions?.map(map => map.name + " ")
         }
     ];
-
 
     const itemsTab = [
         {
             title: "Info",
-            data: <InfoList listitems={infoField} />
+            data: <DefinitionList itemslist={infoField} />
         }
-    ]
+    ];
 
 
     return (

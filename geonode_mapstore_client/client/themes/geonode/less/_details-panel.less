@@ -29,7 +29,12 @@
             .background-color-var(@theme-vars[placeholder-bg]);
         }
     }
-
+    .gn-details-panel-content {
+        .DList-cell--medium {
+            .background-color-var(@theme-vars[main-variant-bg]);
+            .border-color-var(@theme-vars[main-border-color]);
+      }
+    }
     .gn-edit-toogle {
         .background-color-var(@theme-vars[placeholder-bg]);
     }
@@ -130,9 +135,26 @@
     .tabs-info {
         margin-top: 2em;
         .tab-content{
-            padding: 0 0 65px 0;
+            padding: 2em;
         }
     }
+
+    .DList {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 0 3em 0;
+        padding: 0;
+      }
+      .DList-cell {
+        box-sizing: border-box;
+        flex-grow: 1;
+        width: 100%;  // Default to full width
+        padding: 0.8em 1.2em;
+        overflow: hidden; // Or flex might break
+        list-style: none;
+      }
+      .DList--2cols > .DList-cell  { width: 50%; }
+
 }
 
 .gn-details-panel-title {
