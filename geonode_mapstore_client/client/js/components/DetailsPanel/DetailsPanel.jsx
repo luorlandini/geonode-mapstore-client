@@ -367,7 +367,7 @@ function DetailsPanel({
                     </div>
 
 
-                    <Tabs itemsTab={itemsTab} />
+                    {editTitle && <Tabs itemsTab={itemsTab} />}
                     <p>
                         {resource?.category?.identifier && <div>
                             <Message msgId="gnhome.category" />:{' '}
