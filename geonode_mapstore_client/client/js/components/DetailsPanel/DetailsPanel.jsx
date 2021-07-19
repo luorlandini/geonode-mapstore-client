@@ -90,21 +90,6 @@ function ThumbnailPreview({
     );
 }
 
-const InfoList = ({ listitems }) => {
-
-    const items = listitems.map( item => {
-        return (
-            <li><strong>{`${item.label}:`}</strong> {`${item.value}`}</li>
-        );
-    });
-    return (
-        <ul>
-            {items}
-        </ul>
-    );
-};
-
-
 function DetailsPanel({
     resource,
     formatHref,
