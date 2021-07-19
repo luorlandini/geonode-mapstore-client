@@ -4,22 +4,22 @@ import {Tabs as TabsRB, Tab} from "react-bootstrap";
 
 const Tabs = ({itemsTab, transition = true }) => {
 
-    const tabs = itemsTab.map(tabInfo =>{
-
+    const alltabs = itemsTab.map( (tabInfo, index) => {
         return (
-            <Tab eventKey={tabInfo.title} title={tabInfo.title}>
-                {tabInfo.data}
+            <Tab  key={index} eventKey={tabInfo?.title} title={tabInfo?.title}>
+                {tabInfo?.data}
             </Tab>
         );
     });
 
     return (
         <TabsRB
-            defaultActiveKey={itemsTab.shift().title}
+            defaultActiveKey={itemsTab?.shift()?.title}
             transition={transition}
             className={"tabs-info"}
+            id={"tabs-info"}
         >
-            {tabs}
+            {alltabs}
         </TabsRB>
 
     );
