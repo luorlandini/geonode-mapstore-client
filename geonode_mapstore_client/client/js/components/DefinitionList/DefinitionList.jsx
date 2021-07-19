@@ -15,7 +15,7 @@ const DefinitionList = ({itemslist}) => {
 
     return (
 
-        <dl className="DList DList--2cols DList--collapse">
+        <dl className="DList DList--2cols">
             {items}
         </dl>
 
