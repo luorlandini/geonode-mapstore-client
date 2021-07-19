@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 const DefinitionList = ({itemslist}) => {
 
@@ -21,5 +21,14 @@ const DefinitionList = ({itemslist}) => {
 
     );
 };
+
+DefinitionList.propTypes = {
+    itemslist: PropTypes.array
+};
+
+DefinitionList.defaultProps = {
+    itemslist: []
+};
+
 
 export default DefinitionList;

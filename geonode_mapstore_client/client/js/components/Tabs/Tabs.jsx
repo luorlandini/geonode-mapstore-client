@@ -1,8 +1,8 @@
 import React from 'react';
 import {Tabs as TabsRB, Tab} from "react-bootstrap";
+import PropTypes from 'prop-types';
 
-
-const Tabs = ({itemsTab, transition = true }) => {
+const Tabs = ({itemsTab, transition}) => {
 
     const alltabs = itemsTab.map( (tabInfo, index) => {
         return (
@@ -24,6 +24,17 @@ const Tabs = ({itemsTab, transition = true }) => {
 
     );
 
+};
+
+
+Tabs.propTypes = {
+    itemsTab: PropTypes.array,
+    transition: PropTypes.bool
+};
+
+Tabs.defaultProps = {
+    itemsTab: [],
+    transition: true
 };
 
 export default Tabs;
