@@ -11,7 +11,7 @@ const Tabs = ({itemsTab, transition = true }) => {
                 {tabInfo.data}
             </Tab>
         );
-    })
+    });
 
     return (
         <TabsRB
