@@ -32,6 +32,9 @@
     .gn-details-panel-content {
         .DList-cell--medium {
             .background-color-var(@theme-vars[main-variant-bg]);
+      }
+
+      .DList, .DList-cell {
             .border-color-var(@theme-vars[main-border-color]);
       }
     }
@@ -144,14 +147,18 @@
         flex-wrap: wrap;
         margin: 0 0 3em 0;
         padding: 0;
+        border-width: 1px 1px 0px 1px;
+        border-style: solid;
       }
       .DList-cell {
         box-sizing: border-box;
         flex-grow: 1;
-        width: 100%;  // Default to full width
+        width: 100%;
         padding: 0.8em 1.2em;
-        overflow: hidden; // Or flex might break
+        overflow: hidden;
         list-style: none;
+        border-bottom: 1px solid;
+
       }
       .DList--2cols > .DList-cell  { width: 50%; }
 
