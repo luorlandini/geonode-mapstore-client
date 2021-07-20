@@ -90,6 +90,28 @@ function ThumbnailPreview({
     );
 }
 
+
+const DefinitionListMoreItem = ({itemslist, extraItemsList}) => {
+
+    const [extraItems, setExtraItems] = useState(false);
+    const handleMoreInfo = () => {
+        setExtraItems(!extraItems);
+    };
+
+    return (
+        <div className="DList-containner">
+            <DefinitionList itemslist={itemslist} />
+
+            { extraItemsList.length > 0 && <a className={"moreinfo"} href="javascript:void(0);"  onClick={handleMoreInfo}><Message msgId={"gnviewer.moreinfo"} /></a> }
+
+            {extraItemsList.length > 0 && extraItems && <DefinitionList itemslist={extraItemsList} />}
+        </div>
+
+
+    );
+};
+
+
 function DetailsPanel({
     resource,
     formatHref,
@@ -254,7 +276,7 @@ function DetailsPanel({
     const itemsTab = [
         {
             title: "Info",
-            data: <DefinitionList itemslist={infoField} extraItemsList={extraItemsList} />
+            data: <DefinitionListMoreItem itemslist={infoField} extraItemsList={extraItemsList} />
         }
     ];
 
