@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 /*
  * Copyright 2020, GeoSolutions Sas.
  * All rights reserved.
