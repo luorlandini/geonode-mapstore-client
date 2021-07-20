@@ -225,14 +225,14 @@ function DetailsPanel({
                     </div>}
                 </div>}
 
-                {activeEditMode && editThumbnail && <div className="gn-details-panel-preview inediting"> <EditThumbnail onEdit={editThumbnail} image={resource?.thumbnail_url} /> </div>}
-
-
                 <div className="gn-details-panel-content">
                     {editThumbnail && <div className="gn-details-panel-content-img">
-                        <ThumbnailPreview src={resource?.thumbnail_url} />
+                        {!activeEditMode && <ThumbnailPreview src={resource?.thumbnail_url} />}
+                        {activeEditMode && <div className="gn-details-panel-preview inediting"> <EditThumbnail onEdit={editThumbnail} image={resource?.thumbnail_url} /> </div>}
                     </div>
                     }
+
+
                     <div className="gn-details-panel-content-text">
                         <div className="gn-details-panel-title" >
 
