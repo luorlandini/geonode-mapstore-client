@@ -260,7 +260,7 @@ function DetailsPanel({
         },
         {
             "label": "Temporal extent",
-            "value": resource?.temporal_extent_start + " - " + resource?.temporal_extent_end
+            "value": (resource?.temporal_extent_start) ? resource?.temporal_extent_start + " - " : undefined  + (resource?.temporal_extent_end) ? resource?.temporal_extent_end : undefined
         },
         {
             "label": "Spatial Representation Type",
