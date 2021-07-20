@@ -123,12 +123,22 @@
 .gn-details-panel-content {
     padding: 1rem;
     font-size: 0.9em;
+    display: flex;
+    flex: 1 1 auto;
     .fa-edit, .fa-check-circle{
         font-size: 0.9rem;
         margin: 0.2em 0 0 0;
     }
 }
 
+.gn-details-panel-content-img {
+    margin: 0 1.2em 0 0;
+    img {
+        width: 250px;
+        height: auto;
+        object-fit: cover;
+    }
+}
 .gn-details-panel-title {
     display: flex;
     margin-bottom: 1rem;
