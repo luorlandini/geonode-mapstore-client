@@ -132,7 +132,11 @@
             "uploadImage": "Clicca o trascina un'immagine",
             "setMapLikeThumbnail": "Imposta immagine mappa",
             "thumbnailsaved": "Immagine salvata",
-            "thumbnailnotsaved": "Errore immagine non salvata"
+            "thumbnailnotsaved": "Errore immagine non salvata",
+            "save": "Salva",
+            "share": "Condividi",
+            "download": "Scarica",
+            "moreinfo": "Maggiori informazioni"
         }
     }
 }

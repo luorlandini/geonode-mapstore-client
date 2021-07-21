@@ -20,6 +20,13 @@ from mapstore2_adapter.plugins.geonode import GeoNodeMapStore2ConfigConverter
 ms2_config_converter = GeoNodeMapStore2ConfigConverter()
 
 
+def resource_list_url(resource_type):
+    return '/catalogue/#/search/?filter{resource_type.in}' + '={}'.format(resource_type)
+
+def resource_detail_url(resource_type, resource_id):
+    return '/catalogue/#/{}/{}'.format(resource_type, resource_id)
+
+
 class MapStoreHookSet(BaseHookSet):
 
     def get_request(self, context):
@@ -49,7 +56,7 @@ class MapStoreHookSet(BaseHookSet):
     def isEditLayer(self, context):
         if context:
             req = self.get_request(context)
-            if req.GET.get("layer") and req.GET.get("storeType"):
+            if req.GET.get("layer") and req.GET.get("subtype"):
                 return True
         return False
 
@@ -95,32 +102,32 @@ class MapStoreHookSet(BaseHookSet):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/layer_detail.html'
+        return 'geonode-mapstore-client/legacy/layer_detail.html'
 
     def layer_new_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/layer_detail.html'
+        return 'geonode-mapstore-client/legacy/layer_detail.html'
 
     def layer_view_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/layer_detail.html'
+        return 'geonode-mapstore-client/legacy/layer_detail.html'
 
     # -- Not implemented yet
     # def layer_edit_template(self, context=None):
     #    self.initialize_context(
     #        context,
     #        callback=ms2_config_converter.convert)
-    #    return 'geonode-mapstore-client/map_new.html'
+    #    return 'geonode-mapstore-client/legacy/map_new.html'
 
     def layer_update_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/layer_detail.html'
+        return 'geonode-mapstore-client/legacy/layer_detail.html'
 
     def layer_embed_template(self, context=None):
         self.initialize_context(
@@ -132,43 +139,49 @@ class MapStoreHookSet(BaseHookSet):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/layer_detail.html'
+        return 'geonode-mapstore-client/legacy/layer_detail.html'
 
     def layer_style_edit_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/layer_style_edit.html'
+        return 'geonode-mapstore-client/legacy/layer_style_edit.html'
+
+    def layer_list_url(self):
+        return resource_list_url('layer')
+
+    def layer_detail_url(self, resource):
+        return resource_detail_url('layer', resource.id)
 
     # Maps
     def map_detail_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/map_detail.html'
+        return 'geonode-mapstore-client/legacy/map_detail.html'
 
     def map_new_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
         if self.isEditLayer(context):
-            return 'geonode-mapstore-client/layer_data_edit.html'
+            return 'geonode-mapstore-client/legacy/layer_data_edit.html'
         elif self.isViewLayer(context):
-            return 'geonode-mapstore-client/layer_view.html'
+            return 'geonode-mapstore-client/legacy/layer_view.html'
         else:
-            return 'geonode-mapstore-client/map_new.html'
+            return 'geonode-mapstore-client/legacy/map_new.html'
 
     def map_view_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/map_view.html'
+        return 'geonode-mapstore-client/legacy/map_view.html'
 
     def map_edit_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/map_edit.html'
+        return 'geonode-mapstore-client/legacy/map_edit.html'
 
     def map_embed_template(self, context=None):
         self.initialize_context(
@@ -176,42 +189,55 @@ class MapStoreHookSet(BaseHookSet):
             callback=ms2_config_converter.convert)
         return 'geonode-mapstore-client/map_embed.html'
 
+    def map_list_url(self):
+        return resource_list_url('map')
+
+    def map_detail_url(self, resource):
+        return resource_detail_url('map', resource.id)
+
     # def map_download_template(self, context=None):
     #    self.initialize_context(
     #        context,
     #        callback=ms2_config_converter.convert)
-    #    return 'geonode-mapstore-client/map_view.html'
+    #    return 'geonode-mapstore-client/legacy/map_view.html'
+
+    # Documents
+    def document_list_url(self):
+        return resource_list_url('document')
+
+    def document_detail_url(self, resource):
+        return resource_detail_url('document', resource.id)
 
     # GeoApps
     def geoapp_list_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/app_list.html'
+        return 'geonode-mapstore-client/legacy/app_list.html'
 
     def geoapp_new_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/app_new.html'
+        return 'geonode-mapstore-client/legacy/app_new.html'
 
     def geoapp_view_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/app_view.html'
+        return 'geonode-mapstore-client/legacy/app_view.html'
 
     def geoapp_edit_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/app_edit.html'
+        return 'geonode-mapstore-client/legacy/app_edit.html'
 
     def geoapp_update_template(self, context=None):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/app_update.html'
+        return 'geonode-mapstore-client/legacy/app_update.html'
 
     def geoapp_embed_template(self, context=None):
         self.initialize_context(
@@ -223,7 +249,13 @@ class MapStoreHookSet(BaseHookSet):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/app_download.html'
+        return 'geonode-mapstore-client/legacy/app_download.html'
+
+    def geoapp_list_url(self):
+        return resource_list_url('geostory')
+
+    def geoapp_detail_url(self, resource):
+        return resource_detail_url(resource.resource_type, resource.id)
 
     # Map Persisting
     def viewer_json(self, conf, context=None):
@@ -236,4 +268,11 @@ class MapStoreHookSet(BaseHookSet):
     def update_from_viewer(self, conf, context=None):
         conf = self.viewer_json(conf, context=context)
         context['config'] = conf
-        return 'geonode-mapstore-client/edit_map.html'
+        return 'geonode-mapstore-client/legacy/edit_map.html'
+
+    def metadata_update_redirect(self, url):
+        url = url.replace('/metadata', '')
+        resource_identifier = url.split('/')[-1]
+        resource_type = url.split('/')[-2]
+        resource_type = resource_type[0:len(resource_type) - 1]
+        return resource_detail_url(resource_type, resource_identifier)

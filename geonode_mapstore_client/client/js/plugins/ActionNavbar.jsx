@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import ActionNavbar from '@js/components/ActionNavbar';
 import usePluginItems from '@js/hooks/usePluginItems';
-import { getResourcePerms } from '@js/selectors/gnresource';
+import { getResourcePerms, canAddResource } from '@js/selectors/gnresource';
 import { hasPermissionsTo, reduceArrayRecursive } from '@js/utils/MenuUtils';
 
 function checkResourcePerms(menuItem, resourcePerms) {
@@ -22,58 +22,58 @@ function checkResourcePerms(menuItem, resourcePerms) {
     }
     return true;
 }
+
 function ActionNavbarPlugin({
     items,
     leftMenuItems,
-    rightMenuItems,
     resourcePerms
 }, context) {
 
     const { loadedPlugins } = context;
     const configuredItems = usePluginItems({ items, loadedPlugins });
-    const leftMenuConfiguredItems = configuredItems
-        .filter(({ target }) => target === 'leftMenuItem')
-        .map(({ Component }) => ({ type: 'custom', labelId: "gnviewer.edit", Component }));
 
-    const rightMenuConfiguredItems = configuredItems
-        .filter(({ target }) => target === 'rightMenuItem')
-        .map(({ Component }) => ({ type: 'custom',  Component }));
+    const leftMenuItemsPlugins = reduceArrayRecursive(leftMenuItems, (item) => {
+        configuredItems.find(plugin => {
+            if ( item.type === 'plugin' && plugin.name === item.name ) {
+                item.Component = plugin?.Component;
+            }
+        });
+        return (item);
+    });
 
     const leftItems = reduceArrayRecursive(
-        [...leftMenuConfiguredItems, ...leftMenuItems],
+        leftMenuItemsPlugins,
         menuItem => checkResourcePerms(menuItem, resourcePerms)
     );
-    const rightItems = reduceArrayRecursive(
-        [...rightMenuConfiguredItems, ...rightMenuItems],
-        menuItem => checkResourcePerms(menuItem, resourcePerms)
-    );
-
     return (
 
         <ActionNavbar
             leftItems={leftItems}
-            rightItems={rightItems}
+            variant="default"
+            size="sm"
         />
     );
 }
 
 ActionNavbarPlugin.propTypes = {
     items: PropTypes.array,
-    leftMenuItems: PropTypes.array,
-    rightMenuItems: PropTypes.array
+    leftMenuItems: PropTypes.array
 };
 
 ActionNavbarPlugin.defaultProps = {
     items: [],
-    leftMenuItems: [],
-    rightMenuItems: []
+    leftMenuItems: []
 };
 
 const ConnectedActionNavbarPlugin = connect(
     createSelector([
-        getResourcePerms
-    ], (resourcePerms) => ({
-        resourcePerms
+        getResourcePerms,
+        canAddResource
+    ], (resourcePerms, userCanAddResource) => ({
+        resourcePerms: (resourcePerms.length > 0 ) ?
+            resourcePerms : ((userCanAddResource)
+                ? [ "change_resourcebase"] : [] ),
+        canAddResource
     }))
 )(ActionNavbarPlugin);
 

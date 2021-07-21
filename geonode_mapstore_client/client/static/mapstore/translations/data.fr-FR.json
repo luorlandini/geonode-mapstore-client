@@ -130,8 +130,11 @@
             "uploadImage": "Cliquez ou faites glisser et déposez une image",
             "setMapLikeThumbnail": "Définir la vignette de la carte",
             "thumbnailsaved": "Vignette enregistrée",
-            "thumbnailnotsaved": "Miniature d'erreur non enregistrée"
-
+            "thumbnailnotsaved": "Miniature d'erreur non enregistrée",
+            "save": "Sauver",
+            "share": "Partager",
+            "download": "Télécharger",
+            "moreinfo": "Plus d'informations"
         }
     }
 }

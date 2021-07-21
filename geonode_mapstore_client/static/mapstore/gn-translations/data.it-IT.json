@@ -128,7 +128,12 @@
             "editMetadata": "Modifica Metadati",
             "editStyle": "Modifica Stile",
             "editData": "Modifica Dati",
-            "backToDataset": "Torna al Dataset"
+            "backToDataset": "Torna al Dataset",
+            "uploadImage": "Clicca o trascina un'immagine",
+            "save": "Salva",
+            "share": "Condividi",
+            "download": "Scarica",
+            "moreinfo": "Maggiori informazioni"
         }
     }
 }

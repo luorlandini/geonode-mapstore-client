@@ -12,7 +12,8 @@ import { extendPluginsDefinition } from '@extend/jsapi/plugins';
 import {
     PrintActionButton,
     CatalogActionButton,
-    MeasureActionButton
+    MeasureActionButton,
+    LayerDownloadActionButton
 } from '@js/plugins/actionnavbar/buttons';
 
 function toLazyPlugin(name, imp, overrides) {
@@ -83,7 +84,15 @@ function splitLazyAndStaticPlugins(pluginsDefinition) {
 export const plugins = {
     LayerDownloadPlugin: toLazyPlugin(
         'LayerDownload',
-        import(/* webpackChunkName: 'plugins/layer-download' */ '@mapstore/framework/plugins/LayerDownload')
+        import(/* webpackChunkName: 'plugins/layer-download' */ '@mapstore/framework/plugins/LayerDownload'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'LayerDownload',
+                    Component: LayerDownloadActionButton
+                }
+            }
+        }
     ),
     SwipePlugin: toLazyPlugin(
         'Swipe',
@@ -108,7 +117,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Catalog',
-                    target: 'leftMenuItem',
                     Component: CatalogActionButton,
                     priority: 1
                 },
@@ -156,7 +164,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Measure',
-                    target: 'leftMenuItem',
                     Component: MeasureActionButton
                 }
             }
@@ -269,7 +276,6 @@ export const plugins = {
             containers: {
                 ActionNavbar: {
                     name: 'Print',
-                    target: 'leftMenuItem',
                     Component: PrintActionButton,
                     priority: 5,
                     doNotHide: true
@@ -304,10 +310,6 @@ export const plugins = {
     ActionNavbarPlugin: toLazyPlugin(
         'ActionNavbar',
         import(/* webpackChunkName: 'plugins/action-navbar-plugin' */ '@js/plugins/ActionNavbar')
-    ),
-    BrandNavbarPlugin: toLazyPlugin(
-        'BrandNavbar',
-        import(/* webpackChunkName: 'plugins/brand-navbar-plugin' */ '@js/plugins/BrandNavbar')
     ),
     DetailViewerPlugin: toLazyPlugin(
         'DetailViewer',

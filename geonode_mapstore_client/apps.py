@@ -9,7 +9,7 @@
 #
 #########################################################################
 import os
-from django.apps import AppConfig as BaseAppConfig
+from django.apps import apps, AppConfig as BaseAppConfig
 from django.views.generic import TemplateView
 
 def run_setup_hooks(*args, **kwargs):
@@ -23,7 +23,7 @@ def run_setup_hooks(*args, **kwargs):
     urlpatterns += [
         url(r'^mapstore/', include('mapstore2_adapter.urls')),
         url(r'^', include('mapstore2_adapter.geoapps.geostories.api.urls')),
-        url(r'^viewer/', TemplateView.as_view(template_name='geonode-mapstore-client/viewer.html')),
+        url(r'^catalogue/', TemplateView.as_view(template_name='geonode-mapstore-client/catalogue.html')),
     ]
 
 
@@ -33,5 +33,6 @@ class AppConfig(BaseAppConfig):
     label = "geonode_mapstore_client"
 
     def ready(self):
-        run_setup_hooks()
+        if not apps.ready:
+            run_setup_hooks()
         super(AppConfig, self).ready()

@@ -22,10 +22,6 @@ import { currentStorySelector } from '@mapstore/framework/selectors/geostory';
 import { userSelector } from '@mapstore/framework/selectors/security';
 import { error as errorNotification, success as successNotification } from '@mapstore/framework/actions/notifications';
 import {
-    creatMapStoreMap,
-    updateMapStoreMap
-} from '@js/api/geonode/adapter';
-import {
     SAVE_CONTENT,
     UPDATE_RESOURCE_BEFORE_SAVE,
     saveSuccess,
@@ -49,7 +45,10 @@ import {
     updateGeoStory,
     updateDocument,
     setFavoriteResource,
-    setMapLikeThumbnail
+    setMapLikeThumbnail,
+    updateLayer,
+    createMap,
+    updateMap
 } from '@js/api/geonode/v2';
 import { parseDevHostname } from '@js/utils/APIUtils';
 import uuid from 'uuid';
@@ -77,40 +76,19 @@ const SaveAPI = {
             bookmarkSearchConfig,
             additionalOptions
         );
-        const name = metadata.name;
-        const description = metadata.description;
-        const thumbnail = metadata.thumbnail;
         const body = {
-            name,
-            data,
-            attributes: [{
-                type: 'string',
-                name: 'title',
-                value: name,
-                label: 'Title'
-            },
-            {
-                type: 'string',
-                name: 'abstract',
-                value: description,
-                label: 'Abstract'
-            },
-            ...(thumbnail
-                ? [{
-                    type: 'string',
-                    name: 'thumbnail',
-                    value: thumbnail,
-                    label: 'Thumbnail'
-                }]
-                : [])
-            ]
+            "title": metadata.name,
+            "abstract": metadata.description,
+            "thumbnail_url": metadata.thumbnail,
+            "data": data
         };
         return id
-            ? updateMapStoreMap(id, { ...body, id })
-            : creatMapStoreMap(body)
+            ? updateMap(id, { ...body, id })
+            : createMap(body)
                 .then((response) => {
                     if (reload) {
-                        window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}maps/${response.id}/edit`);
+                        window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}viewer/#/map/${response.pk}`);
+                        window.location.reload();
                     }
                     return response.data;
                 });
@@ -121,8 +99,8 @@ const SaveAPI = {
         const body = {
             'title': metadata.name,
             'abstract': metadata.description,
-            'data': JSON.stringify(story),
-            'thumbnail_url': metadata.thumbnail
+            'thumbnail_url': metadata.thumbnail,
+            'data': story
         };
         return id
             ? updateGeoStory(id, body)
@@ -132,7 +110,8 @@ const SaveAPI = {
                 ...body
             }).then((response) => {
                 if (reload) {
-                    window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}apps/${response.pk}/edit`);
+                    window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}viewer/#/geostory/${response.pk}`);
+                    window.location.reload();
                 }
                 return response.data;
             });
@@ -146,6 +125,14 @@ const SaveAPI = {
 
         return id ? updateDocument(id, body) : false;
 
+    },
+    layer: (state, id, metadata) => {
+        const body = {
+            'title': metadata.name,
+            'abstract': metadata.description,
+            'thumbnail_url': metadata.thumbnail
+        };
+        return id ? updateLayer(id, body) : false;
     }
 };
 
@@ -268,32 +255,9 @@ export const gnUpdateResource = (action$, store) =>
                 .startWith(resourceLoading());
         });
 
-export const gnSaveFavoriteContent = (action$, store) =>
-    action$.ofType(SET_FAVORITE_RESOURCE)
-        .switchMap((action) => {
-            const state = store.getState();
-            const pk = state?.gnresource?.data.pk;
-            const favorite =  action.favorite;
-            return Observable
-                .defer(() => setFavoriteResource(pk, favorite))
-                .switchMap(() => {
-                    return Observable.of(
-                        updateResourceProperties({
-                            'favorite': favorite
-                        })
-                    );
-                })
-                .catch((error) => {
-                    return Observable.of(resourceError(error.data || error.message));
-                });
-
-        });
-
-
 export default {
     gnSaveContent,
     gnUpdateResource,
     gnSaveDirectContent,
-    gnSaveFavoriteContent,
     gnSetMapLikeThumbnail
 };

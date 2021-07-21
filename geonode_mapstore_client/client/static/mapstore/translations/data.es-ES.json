@@ -111,7 +111,6 @@
             "myResources": "Mis recursos",
             "pendingApproval": "Aprobación pendiente",
             "featuredList": "Presentada"
-
         },
         "viewer":{
             "document": {
@@ -120,7 +119,6 @@
             "errors": {
                 "noPermissions": "No tienes permisos para agregar una geohistoria"
             }
-
         },
         "gnviewer":{
             "edit": "Editar",
@@ -132,7 +130,12 @@
             "uploadImage": "Haga clic o arrastre y suelte una imagen",
             "setMapLikeThumbnail": "Establecer miniatura de mapa",
             "thumbnailsaved": "Miniatura guardada",
-            "thumbnailnotsaved": "Miniatura de error no guardada"
+            "thumbnailnotsaved": "Miniatura de error no guardada",
+            "save": "Ahorrar",
+            "share": "Cuota",
+            "download": "Descargar",
+            "moreinfo": "Más información"
+
         }
 
 

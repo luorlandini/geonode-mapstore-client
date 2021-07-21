@@ -19,14 +19,14 @@ import isString from 'lodash/isString';
 import isObject from 'lodash/isObject';
 import castArray from 'lodash/castArray';
 import get from 'lodash/get';
-import { getUserInfo } from '@js/api/geonode/v1';
+import { getUserInfo } from '@js/api/geonode/user';
 import { setFilterById } from '@js/utils/GNSearchUtils';
 
 let endpoints = {
     // default values
     'resources': '/api/v2/resources',
     'documents': '/api/v2/documents',
-    'layers': '/api/v2/layers',
+    'layers': '/api/v2/datasets',
     'maps': '/api/v2/maps',
     'geoapps': '/api/v2/geoapps',
     'geostories': '/api/v2/geostories',
@@ -320,6 +320,12 @@ export const updateGeoStory = (pk, body) => {
         .then(({ data }) => data.geostory);
 };
 
+
+export const updateLayer = (pk, body) => {
+    return axios.patch(parseDevHostname(`${endpoints[LAYERS]}/${pk}`), body)
+        .then(({ data }) => (data.layer));
+};
+
 export const updateDocument = (pk, body) => {
     return axios.patch(parseDevHostname(`${endpoints[DOCUMENTS]}/${pk}`), body)
         .then(({ data }) => data.document);
@@ -459,6 +465,55 @@ export const getResourcesTotalCount = () => {
         });
 };
 
+/**
+* Create a new MapStore map configuration
+* @memberof api.geonode.adapter
+* @param {object} body new map configuration
+* @return {promise} it returns an object with the success map object response
+*/
+export const createMap = (body = {}) => {
+    return axios.post(parseDevHostname(`${endpoints[MAPS]}`),
+        body,
+        {
+            timeout: 10000
+        })
+        .then(({ data }) => data?.map);
+};
+
+/**
+* Update an existing MapStore map configuration
+* @memberof api.geonode.adapter
+* @param {number|string} id resource id
+* @param {object} body map configuration
+* @return {promise} it returns an object with the success map object response
+*/
+export const updateMap = (id, body = {}) => {
+    return axios.patch(parseDevHostname(`${endpoints[MAPS]}/${id}/`),
+        body,
+        {
+            params: {
+                include: ['data']
+            }
+        })
+        .then(({ data }) => data?.map);
+};
+
+/**
+* Get a map configuration
+* @memberof api.geonode.adapter
+* @param {number|string} id resource id
+* @return {promise} it returns an object with the success map object response
+*/
+export const getMapByPk = (pk) => {
+    return axios.get(parseDevHostname(`${endpoints[MAPS]}/${pk}/`),
+        {
+            params: {
+                include: ['data']
+            }
+        })
+        .then(({ data }) => data?.map);
+};
+
 export const getFeaturedResources = (page = 1, page_size =  4) => {
     return axios.get(parseDevHostname(endpoints[RESOURCES]), {
         params: {
@@ -563,8 +618,6 @@ export const getKeywords = ({ q, idIn, ...params }, filterKey =  'keywords') => 
             const results = (data?.HierarchicalKeywords || [])
                 .map((result) => {
 
-
-
                     const selectOption = {
                         value: result.slug,
                         label: addCountToLabel(result.slug, result.count)
@@ -588,6 +641,7 @@ export default {
     createGeoStory,
     getGeoStoryByPk,
     updateGeoStory,
+    updateLayer,
     getMaps,
     getDocumentsByDocType,
     getUserByPk,
@@ -597,6 +651,9 @@ export default {
     getResourcesTotalCount,
     getLayerByPk,
     getDocumentByPk,
+    createMap,
+    updateMap,
+    getMapByPk,
     getCategories,
     getRegions,
     getOwners,

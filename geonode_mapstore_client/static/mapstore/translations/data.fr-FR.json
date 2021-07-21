@@ -126,7 +126,12 @@
             "editMetadata": "Modifier les Métadonnées",
             "editStyle": "Modifier le Style",
             "editData": "Modifier les Données",
-            "backToDataset": "Retour à l'Ensemble de Données"
+            "backToDataset": "Retour à l'Ensemble de Données",
+            "uploadImage": "Cliquez ou faites glisser et déposez une image",
+            "save": "Sauver",
+            "share": "Partager",
+            "download": "Télécharger",
+            "moreinfo": "Plus d'informations"
         }
     }
 }

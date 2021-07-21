@@ -108,7 +108,7 @@ export function setupConfiguration({
     );
     const supportedLocales = defaultSupportedLocales || getSupportedLocales();
     setSupportedLocales(supportedLocales);
-    const locale = supportedLocales[geoNodePageConfig.languageCode]?.code;
+    const locale = supportedLocales[geoNodePageConfig.languageCode]?.code || 'en';
     setConfigProp('locale', locale);
     const geoNodeResourcesInfo = getConfigProp('geoNodeResourcesInfo') || {};
     setConfigProp('geoNodeResourcesInfo', { ...geoNodeResourcesInfo, ...resourcesTotalCount });
@@ -179,7 +179,7 @@ export function setupConfiguration({
     };
 }
 
-export function getPageSize(width) {
+export function getThemeLayoutSize(width) {
     if (width < 968) {
         return 'sm';
     }
