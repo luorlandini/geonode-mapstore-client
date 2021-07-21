@@ -15,7 +15,7 @@ import ActionNavbar from '@js/components/ActionNavbar';
 import usePluginItems from '@js/hooks/usePluginItems';
 import { getResourcePerms } from '@js/selectors/gnresource';
 import { hasPermissionsTo, reduceArrayRecursive } from '@js/utils/MenuUtils';
-
+import { isLoggedIn } from '@mapstore/framework/selectors/security';
 function checkResourcePerms(menuItem, resourcePerms) {
     if (menuItem.type && menuItem.perms) {
         return hasPermissionsTo(resourcePerms, menuItem.perms, 'resource');
@@ -28,7 +28,6 @@ function ActionNavbarPlugin({
     leftMenuItems,
     resourcePerms
 }, context) {
-
 
     const { loadedPlugins } = context;
     const configuredItems = usePluginItems({ items, loadedPlugins });
@@ -46,7 +45,6 @@ function ActionNavbarPlugin({
         leftMenuItemsPlugins,
         menuItem => checkResourcePerms(menuItem, resourcePerms)
     );
-
     return (
 
         <ActionNavbar
@@ -69,9 +67,14 @@ ActionNavbarPlugin.defaultProps = {
 
 const ConnectedActionNavbarPlugin = connect(
     createSelector([
-        getResourcePerms
-    ], (resourcePerms) => ({
-        resourcePerms
+        getResourcePerms,
+        (state) => state?.security?.user?.perms?.includes("add_resource"),
+        isLoggedIn
+    ], (resourcePerms, canAddResource, isLogged) => ({
+        resourcePerms: (resourcePerms.length > 0 ) ?
+            resourcePerms : ((canAddResource && isLogged)
+                ? [ "change_resourcebase"] : [] ),
+        canAddResource
     }))
 )(ActionNavbarPlugin);
 
