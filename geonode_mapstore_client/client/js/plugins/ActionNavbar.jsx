@@ -13,9 +13,9 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import ActionNavbar from '@js/components/ActionNavbar';
 import usePluginItems from '@js/hooks/usePluginItems';
-import { getResourcePerms } from '@js/selectors/gnresource';
+import { getResourcePerms, canAddResource } from '@js/selectors/gnresource';
 import { hasPermissionsTo, reduceArrayRecursive } from '@js/utils/MenuUtils';
-import { isLoggedIn } from '@mapstore/framework/selectors/security';
+
 function checkResourcePerms(menuItem, resourcePerms) {
     if (menuItem.type && menuItem.perms) {
         return hasPermissionsTo(resourcePerms, menuItem.perms, 'resource');
@@ -68,11 +68,10 @@ ActionNavbarPlugin.defaultProps = {
 const ConnectedActionNavbarPlugin = connect(
     createSelector([
         getResourcePerms,
-        (state) => state?.security?.user?.perms?.includes("add_resource"),
-        isLoggedIn
-    ], (resourcePerms, canAddResource, isLogged) => ({
+        canAddResource
+    ], (resourcePerms, userCanAddResource) => ({
         resourcePerms: (resourcePerms.length > 0 ) ?
-            resourcePerms : ((canAddResource && isLogged)
+            resourcePerms : ((userCanAddResource)
                 ? [ "change_resourcebase"] : [] ),
         canAddResource
     }))
