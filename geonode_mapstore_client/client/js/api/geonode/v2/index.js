@@ -40,7 +40,7 @@ let endpoints = {
 
 let pathApiThumbnail = {
     map: 'api/v2/maps',
-    layer: 'layers'
+    dataset: 'api/v2/datasets'
 };
 
 
