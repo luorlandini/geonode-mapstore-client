@@ -26,7 +26,7 @@ let endpoints = {
     // default values
     'resources': '/api/v2/resources',
     'documents': '/api/v2/documents',
-    'layers': '/api/v2/datasets',
+    'datasets': '/api/v2/datasets',
     'maps': '/api/v2/maps',
     'geoapps': '/api/v2/geoapps',
     'geostories': '/api/v2/geostories',
@@ -39,14 +39,14 @@ let endpoints = {
 };
 
 let pathApiThumbnail = {
-    map: 'maps',
+    map: 'api/v2/maps',
     layer: 'layers'
 };
 
 
 const RESOURCES = 'resources';
 const DOCUMENTS = 'documents';
-const LAYERS = 'layers';
+const DATASETS = 'datasets';
 const MAPS = 'maps';
 const GEOAPPS = 'geoapps';
 const GEOSTORIES = 'geostories';
@@ -248,9 +248,9 @@ export const getDocumentsByDocType = (docType = 'image', {
             };
         }));
 };
-
+//datasets/{pk}/set_thumbnail_from_bbox
 export const setMapLikeThumbnail = (pk, body, type) => {
-    return axios.post(parseDevHostname(`/${pathApiThumbnail[type]}/${pk}/thumbnail`), body)
+    return axios.patch(parseDevHostname(`/${pathApiThumbnail[type]}/set_thumbnail_from_bbox`), body)
         .then(({ data }) => (data));
 };
 
@@ -265,9 +265,9 @@ export const getResourceByPk = (pk) => {
         .then(({ data }) => data.resource);
 };
 
-export const getLayerByPk = (pk) => {
-    return axios.get(parseDevHostname(`${endpoints[LAYERS]}/${pk}`))
-        .then(({ data }) => data.layer);
+export const getDatasetByPk = (pk) => {
+    return axios.get(parseDevHostname(`${endpoints[DATASETS]}/${pk}`))
+        .then(({ data }) => data.dataset);
 };
 
 export const getDocumentByPk = (pk) => {
@@ -321,9 +321,9 @@ export const updateGeoStory = (pk, body) => {
 };
 
 
-export const updateLayer = (pk, body) => {
-    return axios.patch(parseDevHostname(`${endpoints[LAYERS]}/${pk}`), body)
-        .then(({ data }) => (data.layer));
+export const updateDataset = (pk, body) => {
+    return axios.patch(parseDevHostname(`${endpoints[DATASETS]}/${pk}`), body)
+        .then(({ data }) => (data.dataset));
 };
 
 export const updateDocument = (pk, body) => {
@@ -413,21 +413,21 @@ export const getResourceTypes = ({}, filterKey = 'resource-types') => {
         });
 };
 
-export const getLayerByName = name => {
-    const url = parseDevHostname(`${endpoints[LAYERS]}/?filter{alternate}=${name}`);
+export const getDatasetByName = name => {
+    const url = parseDevHostname(`${endpoints[DATASETS]}/?filter{alternate}=${name}`);
     return axios.get(url)
-        .then(({data}) => data?.layers[0]);
+        .then(({data}) => data?.datasets[0]);
 };
 
-export const getLayersByName = names => {
-    const url = parseDevHostname(endpoints[LAYERS]);
+export const getDatasetsByName = names => {
+    const url = parseDevHostname(endpoints[DATASETS]);
     return axios.get(url, {
         params: {
             page_size: names.length,
             'filter{alternate.in}': names
         }
     })
-        .then(({data}) => data?.layers);
+        .then(({data}) => data?.datasets);
 };
 
 export const getResourcesTotalCount = () => {
@@ -436,7 +436,7 @@ export const getResourcesTotalCount = () => {
     };
     const types = [
         DOCUMENTS,
-        LAYERS,
+        DATASETS,
         MAPS,
         GEOSTORIES,
         GEOAPPS
@@ -450,14 +450,14 @@ export const getResourcesTotalCount = () => {
     )
         .then(([
             documentsTotalCount,
-            layersTotalCount,
+            datasetsTotalCount,
             mapsTotalCount,
             geostoriesTotalCount,
             geoappsTotalCount
         ]) => {
             return {
                 documentsTotalCount,
-                layersTotalCount,
+                datasetsTotalCount,
                 mapsTotalCount,
                 geostoriesTotalCount,
                 geoappsTotalCount
@@ -641,7 +641,7 @@ export default {
     createGeoStory,
     getGeoStoryByPk,
     updateGeoStory,
-    updateLayer,
+    updateDataset,
     getMaps,
     getDocumentsByDocType,
     getUserByPk,
@@ -649,7 +649,7 @@ export default {
     getConfiguration,
     getResourceTypes,
     getResourcesTotalCount,
-    getLayerByPk,
+    getDatasetByPk,
     getDocumentByPk,
     createMap,
     updateMap,

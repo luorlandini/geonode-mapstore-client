@@ -36,7 +36,6 @@ import {
     setResource,
     resourceError,
     updateResourceProperties,
-    SET_FAVORITE_RESOURCE,
     SET_MAP_LIKE_THUMBNAIL
 } from '@js/actions/gnresource';
 import {
@@ -44,9 +43,8 @@ import {
     createGeoStory,
     updateGeoStory,
     updateDocument,
-    setFavoriteResource,
     setMapLikeThumbnail,
-    updateLayer,
+    updateDataset,
     createMap,
     updateMap
 } from '@js/api/geonode/v2';
@@ -87,7 +85,7 @@ const SaveAPI = {
             : createMap(body)
                 .then((response) => {
                     if (reload) {
-                        window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}viewer/#/map/${response.pk}`);
+                        window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}catalogue/#/map/${response.pk}`);
                         window.location.reload();
                     }
                     return response.data;
@@ -110,7 +108,7 @@ const SaveAPI = {
                 ...body
             }).then((response) => {
                 if (reload) {
-                    window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}viewer/#/geostory/${response.pk}`);
+                    window.location.href = parseDevHostname(`${getConfigProp('geonodeUrl')}catalogue/#/geostory/${response.pk}`);
                     window.location.reload();
                 }
                 return response.data;
@@ -126,13 +124,13 @@ const SaveAPI = {
         return id ? updateDocument(id, body) : false;
 
     },
-    layer: (state, id, metadata) => {
+    dataset: (state, id, metadata) => {
         const body = {
             'title': metadata.name,
             'abstract': metadata.description,
             'thumbnail_url': metadata.thumbnail
         };
-        return id ? updateLayer(id, body) : false;
+        return id ? updateDataset(id, body) : false;
     }
 };
 
@@ -178,13 +176,17 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
             const resourceId = state?.gnresource?.id;
             const map =  mapSelector(state) || {};
             const body = {
+                id: resourceId,
                 srid: map.bbox.crs,
                 bbox: Object.values(map.bbox.bounds)
             };
             return Observable.defer(() => setMapLikeThumbnail(resourceIDThumbnail, body, contentType))
                 .switchMap((res) => {
+                    console.log('res')
+                    console.log(res)
                     return Observable.defer(() => getResourceByPk(resourceId))
                         .switchMap((response) => {
+                            console.log(response);
                             return Observable.of(
                                 setResource({...response, thumbnail_url: `${response.thumbnail_url}?${Math.random()}`} ),
                                 clearSave(),

@@ -20,7 +20,7 @@ import gnresource from '@js/reducers/gnresource';
 import gnsave from '@js/reducers/gnsave';
 import gnsaveEpics from '@js/epics/gnsave';
 import { setMapLikeThumbnail } from '@js/actions/gnresource';
-import {toggleControl} from '@mapstore/framework/actions/controls';
+
 import {
     isNewResource,
     canEditResource
@@ -79,9 +79,9 @@ const ConnectedMapLikeThumbnailButton = connect(
 export default createPlugin('MapLikeThumbnail', {
     component: MapLikeThumbnailPlugin,
     containers: {
-        ActionNavbar: {
+        DetailViewer: {
             name: 'MapLikeThumbnail',
-            target: 'leftMenuItem',
+            target: 'saveThumbnailMap',
             Component: ConnectedMapLikeThumbnailButton
         }
     },
