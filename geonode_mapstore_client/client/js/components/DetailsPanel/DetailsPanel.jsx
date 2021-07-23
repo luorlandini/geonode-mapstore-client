@@ -424,7 +424,7 @@ function DetailsPanel({
                                 </div>
                             }
 
-                            <p>{buttonSaveThumbnailMap}</p>
+
                         </div>
 
 
