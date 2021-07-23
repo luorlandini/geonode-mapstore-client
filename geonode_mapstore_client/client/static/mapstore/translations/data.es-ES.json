@@ -131,7 +131,10 @@
             "save": "Ahorrar",
             "share": "Cuota",
             "download": "Descargar",
-            "moreinfo": "Más información"
+            "moreinfo": "Más información",
+            "setMapLikeThumbnail": "Establecer miniatura de mapa",
+            "thumbnailsaved": "Miniatura guardada",
+            "thumbnailnotsaved": "Miniatura de error no guardada"
 
         }
 

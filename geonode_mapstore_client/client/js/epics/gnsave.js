@@ -27,13 +27,15 @@ import {
     saveError,
     savingResource,
     SAVE_DIRECT_CONTENT,
+    clearSave,
     saveContent
 } from '@js/actions/gnsave';
 import {
     resourceLoading,
     setResource,
     resourceError,
-    updateResourceProperties
+    updateResourceProperties,
+    SET_MAP_LIKE_THUMBNAIL
 } from '@js/actions/gnresource';
 import {
     getResourceByPk,
@@ -42,7 +44,8 @@ import {
     updateDataset,
     createMap,
     updateMap,
-    updateDocument
+    updateDocument,
+    setMapLikeThumbnail
 } from '@js/api/geonode/v2';
 import { parseDevHostname } from '@js/utils/APIUtils';
 import uuid from 'uuid';
@@ -162,7 +165,42 @@ export const gnSaveContent = (action$, store) =>
                 .startWith(savingResource());
 
         });
+export const gnSetMapLikeThumbnail = (action$, store) =>
+    action$.ofType(SET_MAP_LIKE_THUMBNAIL)
+        .switchMap(() => {
+            const state = store.getState();
+            const contentType = state.gnresource?.data?.resource_type || 'map';
+            const resourceIDThumbnail = (state.gnresource?.data?.resource_type === 'layer') ? state?.gnresource?.data?.alternate  : state?.gnresource?.id;
+            const resourceId = state?.gnresource?.id;
+            const map =  mapSelector(state) || {};
+            const body = {
+                pk: resourceId,
+                srid: map.bbox.crs,
+                bbox: Object.values(map.bbox.bounds)
+            };
+            return Observable.defer(() => setMapLikeThumbnail(resourceIDThumbnail, body, contentType))
+                .switchMap((res) => {
+                    console.log('res');
+                    console.log(res);
+                    return Observable.defer(() => getResourceByPk(resourceId))
+                        .switchMap((response) => {
+                            console.log(response);
+                            return Observable.of(
+                                setResource({...response, thumbnail_url: `${response.thumbnail_url}?${Math.random()}`} ),
+                                clearSave(),
+                                ...([successNotification({title: "gnviewer.thumbnailsaved", message: "gnviewer.thumbnailsaved"})])
 
+                            );
+                        });
+                })
+                .catch((error) => {
+                    return Observable.of(
+                        saveError(error.data),
+                        errorNotification({title: "gnviewer.thumbnailnotsaved", message: "gnviewer.thumbnailnotsaved"})
+                    );
+                })
+                .startWith(savingResource());
+        });
 export const gnSaveDirectContent = (action$, store) =>
     action$.ofType(SAVE_DIRECT_CONTENT)
         .switchMap(() => {
@@ -218,5 +256,6 @@ export const gnUpdateResource = (action$, store) =>
 export default {
     gnSaveContent,
     gnUpdateResource,
-    gnSaveDirectContent
+    gnSaveDirectContent,
+    gnSetMapLikeThumbnail
 };

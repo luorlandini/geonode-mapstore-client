@@ -127,7 +127,8 @@ function DetailsPanel({
     closePanel,
     favorite,
     onFavorite,
-    enableFavorite
+    enableFavorite,
+    buttonSaveThumbnailMap
 }) {
 
     const [editModeTitle, setEditModeTitle] = useState(false);
@@ -288,6 +289,7 @@ function DetailsPanel({
             className={`gn-details-panel${loading ? ' loading' : ''}`}
             style={{ width: sectionStyle?.width }}
         >
+          <p>-{buttonSaveThumbnailMap}-</p>
             <section style={sectionStyle}>
                 {<div className="gn-details-panel-header">
                     <Button

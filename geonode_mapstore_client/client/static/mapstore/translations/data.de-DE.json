@@ -131,7 +131,10 @@
             "save": "Speichern",
             "share": "Teilen",
             "download": "Herunterladen",
-            "moreinfo": "Mehr Info"
+            "moreinfo": "Mehr Info",
+            "setMapLikeThumbnail": "Kartenminiatur einstellen",
+            "thumbnailsaved": "Miniaturansicht gespeichert",
+            "thumbnailnotsaved": "Fehler-Thumbnail nicht gespeicher"
 
 
         }

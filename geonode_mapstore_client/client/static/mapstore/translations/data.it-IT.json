@@ -133,7 +133,10 @@
             "save": "Salva",
             "share": "Condividi",
             "download": "Scarica",
-            "moreinfo": "Maggiori informazioni"
+            "moreinfo": "Maggiori informazioni",
+            "setMapLikeThumbnail": "Imposta immagine mappa",
+            "thumbnailsaved": "Immagine salvata",
+            "thumbnailnotsaved": "Errore immagine non salvata"
         }
     }
 }

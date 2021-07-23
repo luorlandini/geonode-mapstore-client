@@ -18,7 +18,7 @@ export const EDIT_TITLE_RESOURCE = 'GEONODE:EDIT_TITLE_RESOURCE';
 export const EDIT_ABSTRACT_RESOURCE = 'GEONODE:EDIT_ABSTRACT_RESOURCE';
 export const EDIT_THUMBNAIL_RESOURCE = 'GEONODE:EDIT_THUMBNAIL_RESOURCE';
 export const SET_FAVORITE_RESOURCE = 'GEONODE:SET_FAVORITE_RESOURCE';
-
+export const SET_MAP_LIKE_THUMBNAIL = 'GEONODE:SET_MAP_LIKE_THUMBNAIL';
 export const SET_SELECTED_DATASET_PERMISSIONS = "GEONODE:SET_SELECTED_DATASET_PERMISSIONS";
 
 
@@ -188,4 +188,17 @@ export function setFavoriteResource(favorite) {
         type: SET_FAVORITE_RESOURCE,
         favorite
     };
+}
+
+
+/**
+* Set map like thumbnail to map or layer (trigger epic gnSaveDirectContent)
+* @memberof actions.gnresource
+*/
+
+export function setMapLikeThumbnail() {
+    return {
+        type: SET_MAP_LIKE_THUMBNAIL
+    };
+
 }

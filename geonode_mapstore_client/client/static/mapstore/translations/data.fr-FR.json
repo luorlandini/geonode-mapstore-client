@@ -131,7 +131,10 @@
             "save": "Sauver",
             "share": "Partager",
             "download": "Télécharger",
-            "moreinfo": "Plus d'informations"
+            "moreinfo": "Plus d'informations",
+            "setMapLikeThumbnail": "Définir la vignette de la carte",
+            "thumbnailsaved": "Vignette enregistrée",
+            "thumbnailnotsaved": "Miniature d'erreur non enregistrée"
         }
     }
 }
