@@ -180,11 +180,8 @@ export const gnSetMapLikeThumbnail = (action$, store) =>
             };
             return Observable.defer(() => setMapLikeThumbnail(resourceIDThumbnail, body, contentType))
                 .switchMap((res) => {
-                    console.log('res');
-                    console.log(res);
                     return Observable.defer(() => getResourceByPk(resourceId))
                         .switchMap((response) => {
-                            console.log(response);
                             return Observable.of(
                                 setResource({...response, thumbnail_url: `${response.thumbnail_url}?${Math.random()}`} ),
                                 clearSave(),
