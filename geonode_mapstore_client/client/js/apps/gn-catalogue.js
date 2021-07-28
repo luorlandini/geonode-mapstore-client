@@ -34,14 +34,16 @@ import mapPopups from '@mapstore/framework/reducers/mapPopups';
 import catalog from '@mapstore/framework/reducers/catalog';
 import searchconfig from '@mapstore/framework/reducers/searchconfig';
 import widgets from '@mapstore/framework/reducers/widgets';
+import annotations from '@mapstore/framework/reducers/annotations';
 // end
 
 import SearchRoute from '@js/routes/Search';
 import DetailRoute from '@js/routes/Detail';
-import LayerViewerRoute from '@js/routes/LayerViewer';
+import DatasetViewerRoute from '@js/routes/DatasetViewer';
 import MapViewerRoute from '@js/routes/MapViewer';
 import GeoStoryViewerRoute from '@js/routes/GeoStoryViewer';
 import DocumentViewerRoute from '@js/routes/DocumentViewer';
+import DashboardViewerRoute from '@js/routes/DashboardViewer';
 
 import gnsearch from '@js/reducers/gnsearch';
 import gnresource from '@js/reducers/gnresource';
@@ -62,8 +64,8 @@ import {
 import { updateGeoNodeSettings } from '@js/actions/gnsettings';
 
 import {
-    gnCheckSelectedLayerPermissions,
-    gnSetLayersPermissions
+    gnCheckSelectedDatasetPermissions,
+    gnSetDatasetsPermissions
 } from '@js/epics';
 import gnviewerEpics from '@js/epics/gnviewer';
 import gnsearchEpics from '@js/epics/gnsearch';
@@ -78,6 +80,8 @@ import { registerMediaAPI } from '@mapstore/framework/api/media';
 import * as geoNodeMediaApi from '@js/observables/media/geonode';
 registerMediaAPI('geonode', geoNodeMediaApi);
 
+import '@js/observables/persistence';
+
 const requires = {
     ReactSwipe,
     SwipeHeader
@@ -90,25 +94,25 @@ const ConnectedRouter = connect((state) => ({
 
 const routes = [
     {
-        name: 'layer_viewer',
+        name: 'dataset_viewer',
         path: [
-            '/layer/:pk'
+            '/dataset/:pk'
         ],
-        component: LayerViewerRoute
+        component: DatasetViewerRoute
     },
     {
-        name: 'layer_edit_data_viewer',
+        name: 'dataset_edit_data_viewer',
         path: [
-            '/layer/:pk/edit/data'
+            '/dataset/:pk/edit/data'
         ],
-        component: LayerViewerRoute
+        component: DatasetViewerRoute
     },
     {
-        name: 'layer_edit_style_viewer',
+        name: 'dataset_edit_style_viewer',
         path: [
-            '/layer/:pk/edit/style'
+            '/dataset/:pk/edit/style'
         ],
-        component: LayerViewerRoute
+        component: DatasetViewerRoute
     },
     {
         name: 'map_viewer',
@@ -130,6 +134,13 @@ const routes = [
             '/document/:pk'
         ],
         component: DocumentViewerRoute
+    },
+    {
+        name: 'dashboard_viewer',
+        path: [
+            '/dashboard/:pk'
+        ],
+        component: DashboardViewerRoute
     },
     {
         name: 'resources',
@@ -190,6 +201,13 @@ Promise.all([
                             ...securityState,
                             maptype: {
                                 mapType
+                            },
+                            annotations: {
+                                config: {
+                                    multiGeometry: true,
+                                    validationErrors: {}
+                                },
+                                defaultTextAnnotation: 'New'
                             }
                         }
                     },
@@ -226,13 +244,14 @@ Promise.all([
                         widgets,
                         geostory,
                         gnsearch,
+                        annotations,
                         ...pluginsDefinition.reducers
                     },
                     appEpics: {
                         ...standardEpics,
                         ...configEpics,
-                        gnCheckSelectedLayerPermissions,
-                        gnSetLayersPermissions,
+                        gnCheckSelectedDatasetPermissions,
+                        gnSetDatasetsPermissions,
                         ...pluginsDefinition.epics,
                         ...gnviewerEpics,
                         ...gnsearchEpics,

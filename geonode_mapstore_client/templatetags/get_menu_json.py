@@ -5,8 +5,6 @@ from geonode.base.models import Configuration, Menu, MenuItem
 
 register = template.Library()
 
-config = Configuration.load()
-
 
 def _handle_single_item(menu_item):
     m_item = {}
@@ -23,17 +21,20 @@ def get_base_left_topbar_menu():
 
     return [
         {
-            "type": "link",
-            "href": "/catalogue/#/search/?filter{resource_type.in}=layer",
-            "label": "Datasets"
-        },
-        {
-            "type": "link",
-            "href": "/catalogue/#/search/?filter{resource_type.in}=document",
-            "label": "Documents"
-        },
-        {
-            "type": "divider"
+            "label": "Data",
+            "type": "dropdown",
+            "items": [
+                {
+                    "type": "link",
+                    "href": "/catalogue/#/search/?filter{resource_type.in}=dataset",
+                    "label": "Datasets"
+                },
+                {
+                    "type": "link",
+                    "href": "/catalogue/#/search/?filter{resource_type.in}=document",
+                    "label": "Documents"
+                }
+            ]
         },
         {
             "type": "link",
@@ -44,6 +45,11 @@ def get_base_left_topbar_menu():
             "type": "link",
             "href": "/catalogue/#/search/?filter{resource_type.in}=geostory",
             "label": "GeoStories"
+        },
+        {
+            "type": "link",
+            "href": "/catalogue/#/search/?filter{resource_type.in}=dashboard",
+            "label": "Dashboards"
         }
     ]
 
@@ -64,20 +70,10 @@ def get_base_right_topbar_menu(context):
                     "type": "link",
                     "href": "/groups/",
                     "label": "Groups"
-                },
-                {
-                    "type": "link",
-                    "href": "/groups/categories/",
-                    "label": "Groups categories"
-                },
-                {
-                    "type": "link",
-                    "href": "/announcements/",
-                    "label": "Announcements"
-                },
+                }
             ]
         }
-    if user.is_authenticated and not config.read_only:
+    if user.is_authenticated and not Configuration.load().read_only:
         about['items'].extend([
             {
                 "type": "divider"
@@ -111,7 +107,7 @@ def get_user_menu(context):
                 "label": "Register",
                 "type": "link",
                 "href": "/account/signup/?next=/"
-            } if settings.ACCOUNT_OPEN_SIGNUP and not config.read_only else None,
+            } if settings.ACCOUNT_OPEN_SIGNUP and not Configuration.load().read_only else None,
             {
                 "label": "Sign in",
                 "type": "link",
@@ -141,7 +137,7 @@ def get_user_menu(context):
             },
             {
                 "type": "link",
-                "href": "/favourite/list/",
+                "href": "/catalogue/#/search/?f=favorite",
                 "label": "Favorites"
             },
             {

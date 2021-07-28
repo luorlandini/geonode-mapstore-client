@@ -18,10 +18,16 @@ import {
     EDIT_TITLE_RESOURCE,
     EDIT_ABSTRACT_RESOURCE,
     EDIT_THUMBNAIL_RESOURCE,
-    SET_SELECTED_LAYER_PERMISSIONS
+    SET_SELECTED_DATASET_PERMISSIONS
 } from '@js/actions/gnresource';
 
-function gnresource(state = {selectedLayerPermissions: [], data: {}}, action) {
+const defaultState = {
+    selectedLayerPermissions: [],
+    data: {},
+    permissions: []
+};
+
+function gnresource(state = defaultState, action) {
     switch (action.type) {
     case RESOURCE_LOADING: {
         return {
@@ -63,9 +69,8 @@ function gnresource(state = {selectedLayerPermissions: [], data: {}}, action) {
     }
     case SET_NEW_RESOURCE: {
         return {
-            ...state,
-            isNew: true,
-            data: {}
+            ...defaultState,
+            isNew: true
         };
     }
     case SET_RESOURCE_ID: {
@@ -112,7 +117,7 @@ function gnresource(state = {selectedLayerPermissions: [], data: {}}, action) {
         };
     }
 
-    case SET_SELECTED_LAYER_PERMISSIONS:
+    case SET_SELECTED_DATASET_PERMISSIONS:
         return {
             ...state,
             selectedLayerPermissions: action.permissions

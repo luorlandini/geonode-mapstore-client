@@ -24,8 +24,8 @@
             "zA": "Z A",
             "mostPopular": "Most popular",
             "data": "Dati",
-            "layer": "Dataset",
-            "layers": "Datasets",
+            "dataset": "Dataset",
+            "datasets": "Datasets",
             "document": "Document",
             "documents": "Documents",
             "remoteServices": "Remote services",
@@ -33,6 +33,7 @@
             "geostory": "GeoStory",
             "geostories": "GeoStories",
             "createGeostory": "Create geostory",
+            "createDashboard": "Create dashboard",
             "createNew": "Create new",
             "maps": "Maps",
             "about": "About",
@@ -40,12 +41,13 @@
             "groups": "Groups",
             "groupsCategories": "Groups categories",
             "view": "View",
-            "viewLayer": "View dataset",
+            "viewDataset": "View dataset",
             "viewMap": "View map",
             "viewGeoStory": "View GeoStory",
             "viewDocument": "View document",
             "viewImage": "View image",
             "viewVideo": "View video",
+            "viewDashboard": "View dashboard",
             "author": "Author",
             "publication": "Publication",
             "creation": "Creation",
@@ -93,6 +95,7 @@
             "addRemoteService": "Add remote service",
             "exploreMaps": "Explore maps",
             "createMap": "Create map",
+            "dashboard": "Dashboard",
             "apps": "Apps",
             "createApp": "Create app",
             "announcements": "Announcements",
@@ -111,6 +114,7 @@
             "myResources": "My resources",
             "pendingApproval": "Pending approval",
             "featuredList": "Featured"
+
         },
         "viewer":{
             "document": {
@@ -130,7 +134,8 @@
             "uploadImage": "Click or drag and drop an image",
             "save": "Save",
             "share": "Share",
-            "download": "Download"
+            "download": "Download",
+            "moreinfo": "More info"
         }
     }
 }

@@ -21,7 +21,7 @@ try:
     from urllib.parse import urlparse, parse_qs
 except ImportError:
     from urlparse import urlparse, parse_qs
-from geonode.layers.models import Layer
+from geonode.layers.models import Dataset
 from geonode.base.bbox_utils import BBOXHelper
 
 is_analytics_enabled = False
@@ -37,33 +37,6 @@ logger = logging.getLogger(__name__)
 
 
 class GeoNodeSerializer(object):
-
-    @classmethod
-    def update_attributes(cls, serializer, attributes):
-        for _a in attributes:
-            serializer.validated_data[_a['name']] = _a['value']
-        serializer.save()
-
-    def get_queryset(self, caller, queryset):
-        allowed_map_ids = []
-        for _q in queryset:
-            mapid = _q.id
-            try:
-                from geonode.maps.views import (_resolve_map,
-                                                _PERMISSION_MSG_VIEW)
-                map_obj = _resolve_map(
-                    caller.request,
-                    str(mapid),
-                    'base.view_resourcebase',
-                    _PERMISSION_MSG_VIEW)
-                if map_obj:
-                    allowed_map_ids.append(mapid)
-            except Exception:
-                tb = traceback.format_exc()
-                logger.debug(tb)
-
-        queryset = queryset.filter(id__in=allowed_map_ids)
-        return queryset
 
     def get_geonode_map(self, caller, serializer):
         from geonode.maps.views import _PERMISSION_MSG_SAVE
@@ -97,7 +70,7 @@ class GeoNodeSerializer(object):
                     "title": _map_title,
                     "abstract": _map_abstract}
                 _map_conf['sources'] = {}
-                from geonode.layers.views import layer_detail
+                from geonode.layers.views import dataset_detail
                 _map_obj = data.pop('map', None)
                 if _map_obj:
                     _map_bbox = []
@@ -107,11 +80,11 @@ class GeoNodeSerializer(object):
                         if not _lyr_store:
                             try:
                                 _url = urlparse(_lyr['catalogURL'])
-                                _lyr_store = Layer.objects.get(
+                                _lyr_store = Dataset.objects.get(
                                     uuid=parse_qs(_url.query)['id'][0]).store
                             except Exception:
                                 try:
-                                    _lyr_store = Layer.objects.get(
+                                    _lyr_store = Dataset.objects.get(
                                         alternate=_lyr['name'],
                                         remote_service__base_url=_lyr['url']).store
                                 except Exception:
@@ -120,7 +93,7 @@ class GeoNodeSerializer(object):
                         _lyr_name = f"{_lyr_store}:{_lyr['name']}" if _lyr_store else _lyr['name']
                         try:
                             # Retrieve the Layer Params back from GeoNode
-                            _gn_layer = layer_detail(
+                            _gn_layer = dataset_detail(
                                 caller.request,
                                 _lyr_name)
                             if _gn_layer and _gn_layer.context_data:
