@@ -34,6 +34,7 @@ import mapPopups from '@mapstore/framework/reducers/mapPopups';
 import catalog from '@mapstore/framework/reducers/catalog';
 import searchconfig from '@mapstore/framework/reducers/searchconfig';
 import widgets from '@mapstore/framework/reducers/widgets';
+import annotations from '@mapstore/framework/reducers/annotations';
 // end
 
 import SearchRoute from '@js/routes/Search';
@@ -42,6 +43,7 @@ import DatasetViewerRoute from '@js/routes/DatasetViewer';
 import MapViewerRoute from '@js/routes/MapViewer';
 import GeoStoryViewerRoute from '@js/routes/GeoStoryViewer';
 import DocumentViewerRoute from '@js/routes/DocumentViewer';
+import DashboardViewerRoute from '@js/routes/DashboardViewer';
 
 import gnsearch from '@js/reducers/gnsearch';
 import gnresource from '@js/reducers/gnresource';
@@ -77,6 +79,8 @@ import SwipeHeader from '@mapstore/framework/components/data/identify/SwipeHeade
 import { registerMediaAPI } from '@mapstore/framework/api/media';
 import * as geoNodeMediaApi from '@js/observables/media/geonode';
 registerMediaAPI('geonode', geoNodeMediaApi);
+
+import '@js/observables/persistence';
 
 const requires = {
     ReactSwipe,
@@ -130,6 +134,13 @@ const routes = [
             '/document/:pk'
         ],
         component: DocumentViewerRoute
+    },
+    {
+        name: 'dashboard_viewer',
+        path: [
+            '/dashboard/:pk'
+        ],
+        component: DashboardViewerRoute
     },
     {
         name: 'resources',
@@ -190,6 +201,13 @@ Promise.all([
                             ...securityState,
                             maptype: {
                                 mapType
+                            },
+                            annotations: {
+                                config: {
+                                    multiGeometry: true,
+                                    validationErrors: {}
+                                },
+                                defaultTextAnnotation: 'New'
                             }
                         }
                     },
@@ -226,6 +244,7 @@ Promise.all([
                         widgets,
                         geostory,
                         gnsearch,
+                        annotations,
                         ...pluginsDefinition.reducers
                     },
                     appEpics: {

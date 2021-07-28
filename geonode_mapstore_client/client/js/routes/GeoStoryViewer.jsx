@@ -17,7 +17,7 @@ import { getMonitoredState } from '@mapstore/framework/utils/PluginsUtils';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 import PluginsContainer from '@mapstore/framework/components/plugins/PluginsContainer';
 import useLazyPlugins from '@js/hooks/useLazyPlugins';
-import { requestGeoStoryConfig, requestNewGeostoryConfig } from '@js/actions/gnviewer';
+import { requestGeoStoryConfig, requestNewGeoStoryConfig } from '@js/actions/gnviewer';
 import MetaTags from "@js/components/MetaTags";
 
 const urlQuery = url.parse(window.location.href, true).query;
@@ -96,11 +96,11 @@ GeoStoryViewerRoute.propTypes = {
 const ConnectedGeoStoryViewerRoute = connect(
     createSelector([
         state => state?.gnresource?.data,
-        state => state?.localConfig?.siteName || "Geonode"
+        state => state?.gnsettings?.siteName || "Geonode"
     ], (resource, siteName) => ({resource, siteName})),
     {
         onUpdate: requestGeoStoryConfig,
-        onCreate: requestNewGeostoryConfig
+        onCreate: requestNewGeoStoryConfig
     }
 )(GeoStoryViewerRoute);
 
