@@ -20,7 +20,14 @@ export const EDIT_THUMBNAIL_RESOURCE = 'GEONODE:EDIT_THUMBNAIL_RESOURCE';
 export const SET_FAVORITE_RESOURCE = 'GEONODE:SET_FAVORITE_RESOURCE';
 export const SET_MAP_LIKE_THUMBNAIL = 'GEONODE:SET_MAP_LIKE_THUMBNAIL';
 export const SET_SELECTED_DATASET_PERMISSIONS = "GEONODE:SET_SELECTED_DATASET_PERMISSIONS";
-
+export const REQUEST_RESOURCE_CONFIG = 'GEONODE:REQUEST_RESOURCE_CONFIG';
+export const REQUEST_NEW_RESOURCE_CONFIG = 'GEONODE:REQUEST_NEW_RESOURCE_CONFIG';
+export const LOADING_RESOURCE_CONFIG = 'GEONODE:LOADING_RESOURCE_CONFIG';
+export const RESET_RESOURCE_STATE = 'GEONODE:RESET_RESOURCE_STATE';
+export const RESOURCE_CONFIG_ERROR = 'GEONODE:RESOURCE_CONFIG_ERROR';
+export const SET_RESOURCE_COMPACT_PERMISSIONS = 'GEONODE:SET_RESOURCE_COMPACT_PERMISSIONS';
+export const UPDATE_RESOURCE_COMPACT_PERMISSIONS = 'GEONODE:UPDATE_RESOURCE_COMPACT_PERMISSIONS';
+export const RESET_GEO_LIMITS = 'GEONODE:RESET_GEO_LIMITS';
 
 /**
 * Actions for GeoNode resource
@@ -200,5 +207,59 @@ export function setMapLikeThumbnail() {
     return {
         type: SET_MAP_LIKE_THUMBNAIL
     };
+}
 
+export function requestResourceConfig(resourceType, pk, options) {
+    return {
+        type: REQUEST_RESOURCE_CONFIG,
+        resourceType,
+        pk,
+        options
+    };
+}
+export function requestNewResourceConfig(resourceType) {
+    return {
+        type: REQUEST_NEW_RESOURCE_CONFIG,
+        resourceType
+    };
+}
+
+export function loadingResourceConfig(loading) {
+    return {
+        type: LOADING_RESOURCE_CONFIG,
+        loading
+    };
+}
+
+export function resourceConfigError(message) {
+    return {
+        type: RESOURCE_CONFIG_ERROR,
+        message
+    };
+}
+
+export function resetResourceState() {
+    return {
+        type: RESET_RESOURCE_STATE
+    };
+}
+
+export function setResourceCompactPermissions(compactPermissions) {
+    return {
+        type: SET_RESOURCE_COMPACT_PERMISSIONS,
+        compactPermissions
+    };
+}
+
+export function updateResourceCompactPermissions(compactPermissions) {
+    return {
+        type: UPDATE_RESOURCE_COMPACT_PERMISSIONS,
+        compactPermissions
+    };
+}
+
+export function resetGeoLimits() {
+    return {
+        type: RESET_GEO_LIMITS
+    };
 }

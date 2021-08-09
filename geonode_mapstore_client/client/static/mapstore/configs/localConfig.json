@@ -193,7 +193,6 @@
                 {
                     "type": "group",
                     "labelId": "gnhome.customFiltersTitle",
-                    "authenticated": true,
                     "items": [
                         {
                             "id": "my-resources",
@@ -214,6 +213,80 @@
                             "authenticated": true
                         },
                         {
+                            "id": "dataset",
+                            "labelId": "gnhome.datasets",
+                            "type": "filter",
+                            "query": {
+                                "filter{resource_type.in}": "dataset"
+                            },
+                            "items": [
+                                {
+                                    "id": "store-vector",
+                                    "labelId": "gnhome.vector",
+                                    "type": "filter",
+                                    "query": {
+                                        "filter{subtype.in}": "vector"
+                                    }
+                                },
+                                {
+                                    "id": "store-raster",
+                                    "labelId": "gnhome.raster",
+                                    "type": "filter",
+                                    "query": {
+                                        "filter{subtype.in}": "raster"
+                                    }
+                                },
+                                {
+                                    "id": "store-remote",
+                                    "labelId": "gnhome.remote",
+                                    "type": "filter",
+                                    "query": {
+                                        "filter{subtype.in}": "remote"
+                                    }
+                                },
+                                {
+                                    "id": "store-time-series",
+                                    "labelId": "gnhome.timeSeries",
+                                    "type": "filter",
+                                    "query": {
+                                        "filter{subtype.in}": "vector_time"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "document",
+                            "labelId": "gnhome.documents",
+                            "type": "filter",
+                            "query": {
+                                "filter{resource_type.in}": "document"
+                            }
+                        },
+                        {
+                            "id": "map",
+                            "labelId": "gnhome.maps",
+                            "type": "filter",
+                            "query": {
+                                "filter{resource_type.in}": "map"
+                            }
+                        },
+                        {
+                            "id": "geostory",
+                            "labelId": "gnhome.geostories",
+                            "type": "filter",
+                            "query": {
+                                "filter{resource_type.in}": "geostory"
+                            }
+                        },
+                        {
+                            "id": "dashboard",
+                            "labelId": "gnhome.dashboards",
+                            "type": "filter",
+                            "query": {
+                                "filter{resource_type.in}": "dashboard"
+                            }
+                        },
+                        {
                             "id": "favorite",
                             "labelId": "gnhome.favorites",
                             "type": "filter",
@@ -227,12 +300,6 @@
                 {
                     "type": "divider",
                     "authenticated": true
-                },
-                {
-                    "labelId": "gnhome.resourceTypes",
-                    "placeholderId": "gnhome.resourceTypesPlaceholder",
-                    "type": "select",
-                    "suggestionsRequestKey": "resourceTypes"
                 },
                 {
                     "labelId": "gnhome.categories",
@@ -317,7 +384,12 @@
                     "labelId": "gnhome.createNew",
                     "authenticated": true,
                     "type": "dropdown",
-                    "perms": [{ "type": "user", "value": "add_resource" }],
+                    "perms": [
+                        {
+                            "type": "user",
+                            "value": "add_resource"
+                        }
+                    ],
                     "items": [
                         {
                             "labelId": "gnhome.dataset",
@@ -325,7 +397,12 @@
                             "type": "link",
                             "href": "/datasets/upload",
                             "authenticated": true,
-                            "perms": [{ "type": "user", "value": "add_resource" }]
+                            "perms": [
+                                {
+                                    "type": "user",
+                                    "value": "add_resource"
+                                }
+                            ]
                         },
                         {
                             "labelId": "gnhome.document",
@@ -333,7 +410,12 @@
                             "type": "link",
                             "href": "/documents/upload",
                             "authenticated": true,
-                            "perms": [{ "type": "user", "value": "add_resource" }]
+                            "perms": [
+                                {
+                                    "type": "user",
+                                    "value": "add_resource"
+                                }
+                            ]
                         },
                         {
                             "labelId": "gnhome.map",
@@ -341,7 +423,12 @@
                             "type": "link",
                             "href": "/catalogue/#/map/new",
                             "authenticated": true,
-                            "perms": [{ "type": "user", "value": "add_resource" }]
+                            "perms": [
+                                {
+                                    "type": "user",
+                                    "value": "add_resource"
+                                }
+                            ]
                         },
                         {
                             "labelId": "gnhome.geostory",
@@ -349,45 +436,82 @@
                             "type": "link",
                             "href": "/catalogue/#/geostory/new",
                             "authenticated": true,
-                            "perms": [{ "type": "user", "value": "add_resource" }]
+                            "perms": [
+                                {
+                                    "type": "user",
+                                    "value": "add_resource"
+                                }
+                            ]
+                        },
+                        {
+                            "labelId": "gnhome.dashboard",
+                            "value": "dashboard",
+                            "type": "link",
+                            "href": "/catalogue/#/dashboard/new",
+                            "authenticated": true,
+                            "perms": [
+                                {
+                                    "type": "user",
+                                    "value": "add_resource"
+                                }
+                            ]
                         }
-
                     ]
                 },
                 {
                     "type": "divider",
                     "authenticated": true,
-                    "perms": [{ "type": "user", "value": "add_resource" }]
+                    "perms": [
+                        {
+                            "type": "user",
+                            "value": "add_resource"
+                        }
+                    ]
                 }
             ]
         },
         "cardOptions": {
-            "items":[
+            "items": [
                 {
                     "type": "link",
                     "href": "${detail_url}",
                     "labelId": "gnhome.open",
                     "icon": "edit",
-                    "perms": [{ "type": "resource", "value": "view_resourcebase" }]
+                    "perms": [
+                        {
+                            "type": "resource",
+                            "value": "view_resourcebase"
+                        }
+                    ]
                 },
                 {
                     "type": "link",
-                    "href":"${detail_url}/metadata_advanced",
+                    "href": "${detail_url}/metadata_advanced",
                     "labelId": "gnhome.update",
                     "icon": "paste",
                     "authenticated": true,
-                    "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                    "perms": [
+                        {
+                            "type": "resource",
+                            "value": "change_resourcebase"
+                        }
+                    ],
                     "allowedGroups": [
                         "admin"
                     ]
                 },
                 {
                     "type": "link",
-                    "href":"${detail_url}/remove",
+                    "href": "${detail_url}/remove",
                     "labelId": "gnhome.delete",
                     "icon": "trash",
                     "authenticated": true,
-                    "perms": [{ "type": "resource", "value": "delete_resourcebase" }],
+                    "perms": [
+                        {
+                            "type": "resource",
+                            "value": "delete_resourcebase"
+                        }
+                    ],
                     "allowedGroups": [
                         "admin"
                     ]
@@ -2301,7 +2425,12 @@
                         {
                             "type": "plugin",
                             "name": "Save",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }]
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ]
                         },
                         {
                             "type": "plugin",
@@ -2310,7 +2439,12 @@
                         {
                             "labelId": "gnviewer.edit",
                             "type": "dropdown",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
                             "items": [
                                 {
                                     "type": "link",
@@ -2330,14 +2464,8 @@
                             ]
                         },
                         {
-                            "labelId": "gnviewer.share",
-                            "type": "dropdown",
-                            "items": [
-                                {
-                                    "type": "plugin",
-                                    "name": "Share"
-                                }
-                            ]
+                            "type": "plugin",
+                            "name": "Share"
                         },
                         {
                             "type": "divider",
@@ -2350,8 +2478,11 @@
                         {
                             "type": "plugin",
                             "name": "LayerDownload"
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "Measure"
                         }
-
                     ]
                 }
             },
@@ -2370,7 +2501,8 @@
             {
                 "name": "Share",
                 "cfg": {
-                    "pathTemplate": "/maps/{id}/embed"
+                    "pathTemplate": "/maps/{id}/embed",
+                    "enableGeoLimits": true
                 }
             },
             {
@@ -2472,8 +2604,7 @@
                 "name": "MapFooter",
                 "override": {
                     "ViewerLayout": {
-                        "priority": 1,
-                        "target": "footer"
+                        "priority": 1
                     }
                 }
             },
@@ -2703,8 +2834,7 @@
                 "name": "MapFooter",
                 "override": {
                     "ViewerLayout": {
-                        "priority": 1,
-                        "target": "footer"
+                        "priority": 1
                     }
                 }
             },
@@ -2804,8 +2934,7 @@
                 "name": "MapFooter",
                 "override": {
                     "ViewerLayout": {
-                        "priority": 1,
-                        "target": "footer"
+                        "priority": 1
                     }
                 }
             },
@@ -2845,14 +2974,21 @@
             }
         ],
         "map_viewer": [
-            { "name": "ViewerLayout" },
+            {
+                "name": "ViewerLayout"
+            },
             {
                 "name": "ActionNavbar",
                 "cfg": {
                     "leftMenuItems": [
                         {
                             "labelId": "gnviewer.save",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
                             "type": "dropdown",
                             "items": [
                                 {
@@ -2872,7 +3008,12 @@
                         {
                             "labelId": "gnviewer.edit",
                             "type": "dropdown",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
                             "items": [
                                 {
                                     "type": "link",
@@ -2882,14 +3023,8 @@
                             ]
                         },
                         {
-                            "labelId": "gnviewer.share",
-                            "type": "dropdown",
-                            "items": [
-                                {
-                                    "type": "plugin",
-                                    "name": "Share"
-                                }
-                            ]
+                            "type": "plugin",
+                            "name": "Share"
                         },
                         {
                             "type": "divider",
@@ -2898,12 +3033,25 @@
                         {
                             "type": "plugin",
                             "name": "Catalog"
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "Print"
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "Annotations"
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "Measure"
                         }
-
                     ]
                 }
             },
-            { "name": "DetailViewer"},
+            {
+                "name": "DetailViewer"
+            },
             {
                 "name": "Map",
                 "cfg": {
@@ -3008,8 +3156,7 @@
                 "name": "MapFooter",
                 "override": {
                     "ViewerLayout": {
-                        "priority": 1,
-                        "target": "footer"
+                        "priority": 1
                     }
                 }
             },
@@ -3268,17 +3415,31 @@
                     "editingAllowedRoles": null,
                     "enableSetDefaultStyle": true
                 }
+            },
+            {
+                "name": "Annotations",
+                "cfg": {
+                    "measurementAnnotationEdit": false,
+                    "geodesic": false
+                }
             }
         ],
         "geostory_viewer": [
-            { "name": "ViewerLayout" },
+            {
+                "name": "ViewerLayout"
+            },
             {
                 "name": "ActionNavbar",
                 "cfg": {
                     "leftMenuItems": [
                         {
                             "labelId": "gnviewer.save",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
                             "type": "dropdown",
                             "items": [
                                 {
@@ -3298,7 +3459,12 @@
                         {
                             "labelId": "gnviewer.edit",
                             "type": "dropdown",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
                             "items": [
                                 {
                                     "type": "link",
@@ -3308,19 +3474,15 @@
                             ]
                         },
                         {
-                            "labelId": "gnviewer.share",
-                            "type": "dropdown",
-                            "items": [
-                                {
-                                    "type": "plugin",
-                                    "name": "Share"
-                                }
-                            ]
+                            "type": "plugin",
+                            "name": "Share"
                         }
                     ]
                 }
             },
-            { "name": "DetailViewer"},
+            {
+                "name": "DetailViewer"
+            },
             {
                 "name": "GeoStory",
                 "cfg": {
@@ -3427,7 +3589,9 @@
             }
         ],
         "document_viewer": [
-            { "name": "ViewerLayout" },
+            {
+                "name": "ViewerLayout"
+            },
             {
                 "name": "ActionNavbar",
                 "cfg": {
@@ -3435,7 +3599,12 @@
                         {
                             "labelId": "gnviewer.save",
                             "type": "dropdown",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
                             "items": [
                                 {
                                     "type": "plugin",
@@ -3454,7 +3623,12 @@
                         {
                             "labelId": "gnviewer.edit",
                             "type": "dropdown",
-                            "perms": [{ "type": "resource", "value": "change_resourcebase" }],
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
                             "items": [
                                 {
                                     "type": "link",
@@ -3464,24 +3638,150 @@
                             ]
                         },
                         {
-                            "labelId": "gnviewer.share",
-                            "type": "dropdown",
-                            "items": [
-                                {
-                                    "type": "plugin",
-                                    "name": "Share"
-                                }
-                            ]
+                            "type": "plugin",
+                            "name": "Share"
                         }
-
                     ]
                 }
             },
-            { "name": "DetailViewer"},
-            { "name": "Save" },
-            { "name": "SaveAs" },
-            { "name": "Share" },
-            {"name": "MediaViewer"}
+            {
+                "name": "DetailViewer"
+            },
+            {
+                "name": "Save"
+            },
+            {
+                "name": "SaveAs"
+            },
+            {
+                "name": "Share"
+            },
+            {
+                "name": "MediaViewer"
+            }
+        ],
+        "dashboard_viewer": [
+            {
+                "name": "ViewerLayout"
+            },
+            {
+                "name": "ActionNavbar",
+                "cfg": {
+                    "leftMenuItems": [
+                        {
+                            "labelId": "gnviewer.save",
+                            "type": "dropdown",
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Save"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "SaveAs"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "DetailViewerButton"
+                        },
+                        {
+                            "labelId": "gnviewer.edit",
+                            "type": "dropdown",
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "change_resourcebase"
+                                }
+                            ],
+                            "items": [
+                                {
+                                    "type": "link",
+                                    "href": "{(state('gnResourceData') || {}).detail_url + '/metadata'}",
+                                    "labelId": "gnviewer.editMetadata"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "plugin",
+                            "name": "Share"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "DetailViewer"
+            },
+            {
+                "name": "Save"
+            },
+            {
+                "name": "SaveAs"
+            },
+            {
+                "name": "Share"
+            },
+            {
+                "name": "DashboardEditor",
+                "cfg": {
+                    "disablePluginIf": "{state('gnResourceData') && state('gnResourceData').perms && state('gnResourceData').perms.indexOf('change_resourcebase') === -1 ? true : false}",
+                    "selectedService": "{state('settings') && state('settings').catalogueSelectedService ? state('settings').catalogueSelectedService : ''}",
+                    "services": "{state('settings') && state('settings').catalogueServices ? state('settings').catalogueServices : {}}",
+                    "disableEmptyMap": true
+                },
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 2,
+                        "target": "leftColumn"
+                    }
+                }
+            },
+            {
+                "name": "QueryPanel",
+                "cfg": {
+                    "toolsOptions": {
+                        "hideCrossLayer": true,
+                        "hideSpatialFilter": true
+                    }
+                },
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 2,
+                        "target": "leftColumn"
+                    }
+                }
+            },
+            {
+                "name": "Dashboard",
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 2
+                    }
+                }
+            },
+            {
+                "name": "Notifications"
+            }
+        ],
+        "dashboard_embed": [
+            {
+                "name": "ViewerLayout"
+            },
+            {
+                "name": "Dashboard",
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 2
+                    }
+                }
+            }
         ]
     }
 }

@@ -13,7 +13,7 @@ import { FormGroup, Checkbox } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import Message from '@mapstore/framework/components/I18N/Message';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
-import { getFilterLabelById } from '@js/utils/GNSearchUtils';
+import { getFilterLabelById } from '@js/utils/SearchUtils';
 const SelectSync = localizedProps('placeholder')(ReactSelect);
 const SelectAsync = localizedProps('placeholder')(ReactSelect.Async);
 
@@ -96,7 +96,34 @@ function FilterItems({
                 }
                 if (field.type === 'filter') {
                     const customFilters = castArray(values.f || []);
+                    const filterChild = () => {
+                        return field.items && field.items.map((item) => {
+                            const active = customFilters.find(value => value === item.id);
+                            return (
+                                <Checkbox
+                                    type="checkbox"
+                                    checked={!!active}
+                                    value={item.id}
+                                    onChange={() => {
+                                        onChange({
+                                            f: active
+                                                ? customFilters.filter(value => value !== item.id)
+                                                : [...customFilters, item.id]
+                                        });
+                                    }}
+                                >
+                                    <Message msgId={item.labelId}/>
+                                </Checkbox>
+                            );
+                        } );
+                    };
                     const active = customFilters.find(value => value === field.id);
+                    const parentFilterIds = [
+                        field.id,
+                        ...(field.items
+                            ? field.items.map((item) => item.id)
+                            : [])
+                    ];
                     return (
                         <FormGroup controlId={'gn-radio-filter-' + field.id}>
                             <Checkbox
@@ -106,11 +133,12 @@ function FilterItems({
                                 onChange={() => {
                                     onChange({
                                         f: active
-                                            ? customFilters.filter(value => value !== field.id)
+                                            ? customFilters.filter(value => !parentFilterIds.includes(value))
                                             : [...customFilters, field.id]
                                     });
                                 }}>
                                 <Message msgId={field.labelId}/>
+                                {!!active && filterChild()}
                             </Checkbox>
                         </FormGroup>
                     );

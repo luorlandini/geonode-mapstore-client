@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Spinner from '@js/components/Spinner';
 import HTML from '@mapstore/framework/components/I18N/HTML';
 import FaIcon from '@js/components/FaIcon';
@@ -14,6 +14,7 @@ import ResourceCard from '@js/components/ResourceCard';
 import { withResizeDetector } from 'react-resize-detector';
 import useLocalStorage from '@js/hooks/useLocalStorage';
 import { hasPermissionsTo } from '@js/utils/MenuUtils';
+import useInfiniteScroll from '@js/hooks/useInfiniteScroll';
 
 const Cards = withResizeDetector(({
     resources,
@@ -84,9 +85,9 @@ const Cards = withResizeDetector(({
             style={cardLayoutStyle === 'list' ? {} : containerStyle}
         >
             {resources.map((resource, idx) => {
-
-                const allowedOptions = options
-                    .filter((opt) => hasPermissionsTo(resource?.perms, opt?.perms, 'resource'));
+                // enable allowedOptions (menu cards) only for list layout
+                const allowedOptions =  (cardLayoutStyle === 'list') ? options
+                    .filter((opt) => hasPermissionsTo(resource?.perms, opt?.perms, 'resource')) : [];
 
                 return (
                     <li
@@ -125,34 +126,13 @@ const CardGrid = ({
     scrollContainer
 }) => {
 
-    const updateOnScroll = useRef({});
-    updateOnScroll.current = () => {
-        const scrollTop = scrollContainer
-            ? scrollContainer.scrollTop
-            : document.body.scrollTop || document.documentElement.scrollTop;
-        const clientHeight = scrollContainer
-            ? scrollContainer.clientHeight
-            : window.innerHeight;
-        const scrollHeight = scrollContainer
-            ? scrollContainer.scrollHeight
-            : document.body.scrollHeight || document.documentElement.scrollHeight;
-        const offset = 200;
-        const isScrolled = scrollTop + clientHeight >= scrollHeight - offset;
-        if (isScrolled && !loading && isNextPageAvailable) {
+    useInfiniteScroll({
+        scrollContainer: scrollContainer,
+        shouldScroll: () => !loading && isNextPageAvailable,
+        onLoad: () => {
             onLoad(page + 1);
         }
-    };
-
-    useEffect(() => {
-        let target = scrollContainer || window;
-        function onScroll() {
-            updateOnScroll.current();
-        }
-        target.addEventListener('scroll', onScroll);
-        return () => {
-            target.removeEventListener('scroll', onScroll);
-        };
-    }, [scrollContainer]);
+    });
 
     const hasResources = resources?.length > 0;
 
@@ -182,7 +162,7 @@ const CardGrid = ({
                             {loading && <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>}
-                            {hasResources && !isNextPageAvailable && !loading && <FaIcon name="dot-circle" />}
+                            {hasResources && !isNextPageAvailable && !loading && <FaIcon name="dot-circle-o" />}
                         </div>
                     </div>
                 </div>

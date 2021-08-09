@@ -46,6 +46,7 @@
             "viewDocument": "Voir document",
             "viewImage": "Voir images",
             "viewVideo": "Voir video",
+            "viewDashboard": "Voir dashboard",
             "author": "Auteur",
             "publication": "Publication",
             "creation": "Création",
@@ -61,6 +62,10 @@
             "register": "S'inscrire",
             "signIn": "Connexion",
             "filters": "Filtres",
+            "vector": "Vecteur",
+            "raster": "Raster",
+            "remote": "Reculé",
+            "timeSeries": "Des séries chronologiques",
             "filtersCount": "{count, plural, =0 { Filtres } other {Filtres (#)}}",
             "admin": "Administration",
             "logOut": "Se déconnecter",
@@ -71,7 +76,6 @@
             "advancedSearch": "Recherche vvancée",
             "apply": "Appliquer",
             "clearFilters": "Effacer les filtres",
-
             "categoriesPlaceholder": "Sélectionner des catégories",
             "resourceTypes": "Types de ressources",
             "resourceTypesPlaceholder": "Sélectionnez les types de ressources",
@@ -81,7 +85,6 @@
             "regionsPlaceholder": "Sélectionnez des régions",
             "owners": "Propriétaires",
             "ownersPlaceholder": "Sélectionnez les propriétaires",
-
             "profile": "Profil",
             "recentActivity": "Activité récente",
             "favorites": "Favoris",
@@ -93,6 +96,8 @@
             "addRemoteService": "Ajouter un service à distance",
             "exploreMaps": "Explorer les cartes",
             "createMap": "Créer une carte",
+            "dashboard": "Dashboard",
+            "dashboards": "Dashboards",
             "apps": "Apps",
             "createApp": "Créer une app",
             "announcements": "Annonces",
@@ -112,7 +117,7 @@
             "pendingApproval": "En attente de validation",
             "featuredList": "Mis en exergue"
         },
-        "viewer":{
+        "viewer": {
             "document": {
                 "unSupportedMedia": "Le format multimédia n'est pas pris en charge"
             },
@@ -120,7 +125,7 @@
                 "noPermissions": "Vous n'êtes pas autorisé à ajouter une géohistoire"
             }
         },
-        "gnviewer":{
+        "gnviewer": {
             "edit": "Éditer",
             "details": "Des détails",
             "editMetadata": "Modifier les Métadonnées",
@@ -134,7 +139,30 @@
             "moreinfo": "Plus d'informations",
             "setMapLikeThumbnail": "Définir la vignette de la carte",
             "thumbnailsaved": "Vignette enregistrée",
-            "thumbnailnotsaved": "Miniature d'erreur non enregistrée"
+            "thumbnailnotsaved": "Miniature d'erreur non enregistrée",
+            "info": "Info",
+            "attributeName": "Nom d'attribut",
+            "label": "Étiqueter",
+            "description": "La description",
+            "attributes": "Les attributs",
+            "filterBy": "Filtrer...",
+            "addPermissionsEntry": "Ajouter des utilisateurs/groupes",
+            "groups": "Groupes",
+            "users": "Utilisateurs",
+            "permissionNone": "Rien",
+            "permissionView": "View",
+            "permissionDownload": "Télécharger",
+            "permissionEdit": "Edit",
+            "permissionManage": "Gérer",
+            "permissionOwner": "Propriétaire",
+            "filterByNameOrPermissions": "Filtrer par nom ou autorisations",
+            "permissionsName": "Nom",
+            "permissions": "Autorisations",
+            "anonymous": "Personne",
+            "registered-members": "Contributeurs",
+            "permissionsEntriesNoResults": "Aucun résultat...",
+            "shareThisResource": "Partager cette ressource",
+            "embed": "Intégrer"
         }
     }
 }

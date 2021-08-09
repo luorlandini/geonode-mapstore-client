@@ -46,6 +46,7 @@
             "viewDocument": "Ver documento",
             "viewImage": "Ver imágenes",
             "viewVideo": "Ver video",
+            "viewDashboard": "Ver dashboard",
             "author": "Autor",
             "publication": "Publicación",
             "creation": "Creación",
@@ -61,6 +62,10 @@
             "register": "Registrarse",
             "signIn": "Ingresar",
             "filters": "Filtros",
+            "vector": "Vector",
+            "raster": "Raster",
+            "remote": "Remota",
+            "timeSeries": "Series de tiempo",
             "filtersCount": "{count, plural, =0 { Filtros } other {Filtros (#)}}",
             "admin": "Administración",
             "logOut": "Salir",
@@ -71,7 +76,6 @@
             "advancedSearch": "Búsqueda avanzada",
             "apply": "Aplicar",
             "clearFilters": "Quitar filtros",
-
             "categoriesPlaceholder": "Seleccionar categorías",
             "resourceTypes": "Tipos de recursos",
             "resourceTypesPlaceholder": "Seleccionar tipos de recursos",
@@ -81,7 +85,6 @@
             "regionsPlaceholder": "Seleccionar regiones",
             "owners": "Dueños",
             "ownersPlaceholder": "Seleccionar dueños",
-
             "profile": "Perfil",
             "recentActivity": "Reciente actividad",
             "favorites": "Favoritos",
@@ -93,6 +96,8 @@
             "addRemoteService": "Agregar servicio remoto",
             "exploreMaps": "Explora mapas",
             "createMap": "Crear mapa",
+            "dashboard": "Dashboard",
+            "dashboards": "Dashboards",
             "apps": "Apps",
             "createApp": "Crear app",
             "announcements": "Anuncios",
@@ -112,7 +117,7 @@
             "pendingApproval": "Aprobación pendiente",
             "featuredList": "Presentada"
         },
-        "viewer":{
+        "viewer": {
             "document": {
                 "unSupportedMedia": "El formato de medios no es compatible"
             },
@@ -120,7 +125,7 @@
                 "noPermissions": "No tienes permisos para agregar una geohistoria"
             }
         },
-        "gnviewer":{
+        "gnviewer": {
             "edit": "Editar",
             "details": "Detalles",
             "editMetadata": "Editar Metadatos",
@@ -134,10 +139,30 @@
             "moreinfo": "Más información",
             "setMapLikeThumbnail": "Establecer miniatura de mapa",
             "thumbnailsaved": "Miniatura guardada",
-            "thumbnailnotsaved": "Miniatura de error no guardada"
-
+            "thumbnailnotsaved": "Miniatura de error no guardada",
+            "info": "Info",
+            "attributeName": "Nombre del Atributo",
+            "label": "Etiqueta",
+            "description": "Descripción",
+            "attributes": "Atributos",
+            "filterBy": "Filtro ...",
+            "addPermissionsEntry": "Agregar usuarios / grupos",
+            "groups": "Grupos",
+            "users": "Usuarios",
+            "permissionNone": "Ninguno",
+            "permissionView": "Ver",
+            "permissionDownload": "Descargar",
+            "permissionEdit": "Editar",
+            "permissionManage": "Administrar",
+            "permissionOwner": "Propietario",
+            "filterByNameOrPermissions": "Filtrar por nombre o permisos",
+            "permissionsName": "Nombre",
+            "permissions": "Permisos",
+            "anonymous": "Cualquiera",
+            "registered-members": "Colaboradores",
+            "permissionsEntriesNoResults": "Sin resultados ...",
+            "shareThisResource": "Comparte este recurso",
+            "embed": "Insertar"
         }
-
-
     }
 }

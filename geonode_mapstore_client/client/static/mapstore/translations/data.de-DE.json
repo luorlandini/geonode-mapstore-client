@@ -46,6 +46,7 @@
             "viewDocument": "Dokument ansehen",
             "viewImage": "Bild ansehen",
             "viewVideo": "Video ansehen",
+            "viewDashboard": "Dashboard ansehen",
             "author": "Autor",
             "publication": "Veröffentlichung",
             "creation": "Erstellungsdatum",
@@ -61,6 +62,10 @@
             "register": "Registrieren",
             "signIn": "Anmelden",
             "filters": "Filter",
+            "vector": "Vektor",
+            "raster": "Raster",
+            "remote": "Remote",
+            "timeSeries": "Zeitfolgen",
             "filtersCount": "{count, plural, =0 { Filter } other {Filter (#)}}",
             "admin": "Admin",
             "logOut": "Ausloggen",
@@ -71,7 +76,6 @@
             "advancedSearch": "Erweiterte suche",
             "apply": "Anwenden",
             "clearFilters": "Filter löschen",
-
             "categoriesPlaceholder": "Wählen sie kategorien aus",
             "resourceTypes": "Ressourcentypen",
             "resourceTypesPlaceholder": "Ressourcentypen auswählen",
@@ -81,7 +85,6 @@
             "regionsPlaceholder": "Regionen auswählen",
             "owners": "Eigentümer",
             "ownersPlaceholder": "Eigentümer auswählen",
-
             "profile": "Profil",
             "recentActivity": "Letzte aktivitäten",
             "favorites": "Favoriten",
@@ -93,6 +96,8 @@
             "addRemoteService": "Remote Service hinzufügen",
             "exploreMaps": "Karten erkunden",
             "createMap": "Karte erstellen",
+            "dashboard": "Dashboard",
+            "dashboards": "Dashboards",
             "apps": "app",
             "createApp": "Karte app",
             "announcements": "Ankündigungen",
@@ -112,7 +117,7 @@
             "pendingApproval": "Ausstehende Genehmigung",
             "featuredList": "Vorgestellt"
         },
-        "viewer":{
+        "viewer": {
             "document": {
                 "unSupportedMedia": "Das Medienformat wird nicht unterstützt"
             },
@@ -120,7 +125,7 @@
                 "noPermissions": "Sie sind nicht berechtigt, eine Geostory hinzuzufügen"
             }
         },
-        "gnviewer":{
+        "gnviewer": {
             "edit": "Bearbeiten",
             "details": "Einzelheiten",
             "editMetadata": "Metadaten bearbeiten",
@@ -134,10 +139,30 @@
             "moreinfo": "Mehr Info",
             "setMapLikeThumbnail": "Kartenminiatur einstellen",
             "thumbnailsaved": "Miniaturansicht gespeichert",
-            "thumbnailnotsaved": "Fehler-Thumbnail nicht gespeicher"
-
-
+            "thumbnailnotsaved": "Fehler-Thumbnail nicht gespeicher",
+            "info": "Info",
+            "attributeName": "Attributname",
+            "label": "Etikett",
+            "description": "Beschreibung",
+            "attributes": "Attribute",
+            "filterBy": "Filtern...",
+            "addPermissionsEntry": "Benutzer / Gruppen hinzufügen",
+            "groups": "Gruppen",
+            "users": "Benutzer",
+            "permissionNone": "Keiner",
+            "permissionView": "Ansicht",
+            "permissionDownload": "Herunterladen",
+            "permissionEdit": "Bearbeiten",
+            "permissionManage": "Verwalten",
+            "permissionOwner": "Eigentümer",
+            "filterByNameOrPermissions": "Nach Namen oder Berechtigungen filtern",
+            "permissionsName": "Name",
+            "permissions": "Berechtigungen",
+            "anonymous": "Jeder",
+            "registered-members": "Mitwirkende",
+            "permissionsEntriesNoResults": "Keine Ergebnisse...",
+            "shareThisResource": "Diese Ressource teilen",
+            "embed": "Einbetten"
         }
-
     }
 }

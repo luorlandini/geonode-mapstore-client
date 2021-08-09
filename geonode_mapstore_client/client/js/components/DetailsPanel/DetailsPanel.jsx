@@ -13,17 +13,15 @@ import FaIcon from '@js/components/FaIcon';
 import Button from '@js/components/Button';
 import Tabs from '@js/components/Tabs';
 import DefinitionList from '@js/components/DefinitionList';
+import Table from '@js/components/Table';
 import Spinner from '@js/components/Spinner';
 import Message from '@mapstore/framework/components/I18N/Message';
 import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
 import moment from 'moment';
-import {
-    getUserName,
-    getResourceTypesInfo
-} from '@js/utils/GNSearchUtils';
+import { getUserName } from '@js/utils/SearchUtils';
+import { getResourceTypesInfo } from '@js/utils/ResourceUtils';
 import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
-import url from 'url';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
 
 const CopyToClipboard = tooltip(CopyToClipboardCmp);
@@ -55,9 +53,7 @@ function formatResourceLinkUrl(resourceUrl = '') {
     if (resourceUrl.indexOf('http') === 0) {
         return resourceUrl;
     }
-    const { path } = url.parse(resourceUrl);
-    const { protocol, host } = window.location;
-    return `${protocol}://${host}${path}`;
+    return window.location.href;
 }
 
 function ThumbnailPreview({
@@ -130,7 +126,6 @@ function DetailsPanel({
     enableFavorite,
     buttonSaveThumbnailMap
 }) {
-
     const [editModeTitle, setEditModeTitle] = useState(false);
     const [editModeAbstract, setEditModeAbstract] = useState(false);
 
@@ -175,11 +170,12 @@ function DetailsPanel({
         formatDetailUrl = res => res?.detail_url,
         icon,
         name
-    } = resource && (types[resource.doc_type] || types[resource.resource_type]) || {};
+    } = resource && (types[resource.subtype] || types[resource.resource_type]) || {};
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
     const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
 
+    const attributeSet = resource?.attribute_set;
     const infoField = [
         {
             "label": "Title",
@@ -277,11 +273,29 @@ function DetailsPanel({
 
     const itemsTab = [
         {
-            title: "Info",
+            title: <Message msgId={"gnviewer.info"} />,
             data: <DefinitionListMoreItem itemslist={infoField} extraItemsList={extraItemsList} />
         }
+
     ];
 
+    const tableHead = [{
+        key: "attribute",
+        value: <Message msgId={"gnviewer.attributeName"} />
+    },
+    {
+        key: "attribute_label",
+        value: <Message msgId={"gnviewer.label"} />
+    },
+    {
+        key: "description",
+        value: <Message msgId={"gnviewer.description"} />
+    }];
+
+    (attributeSet) ? itemsTab.push({
+        title: <Message msgId={"gnviewer.attributes"} />,
+        data: <Table head={tableHead} body={attributeSet} />
+    }) : undefined;
 
     return (
         <div
@@ -371,7 +385,7 @@ function DetailsPanel({
                                 {resource?.title}
                             </h1>
                             }
-                            {activeEditMode && !editModeTitle && <span onClick={handleEditModeTitle} ><FaIcon name={'edit'} /></span>}
+                            {activeEditMode && !editModeTitle && <span onClick={handleEditModeTitle} ><FaIcon name={'pencil-square-o'} /></span>}
 
 
                             {editModeTitle && <h1>
@@ -386,7 +400,7 @@ function DetailsPanel({
                                     <Button
                                         variant="default"
                                         onClick={debounce(handleFavorite, 500)}>
-                                        <FaIcon stylePrefix={favorite ? `fa` : `far`} name="star" />
+                                        <FaIcon name={favorite ? 'star' : 'star-o'} />
                                     </Button>
                                     }
                                     {documentDownloadUrl &&
@@ -446,7 +460,7 @@ function DetailsPanel({
                                     <span className="gn-details-panel-text" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
                                     : null
                             }
-                            {activeEditMode && !editModeAbstract && <span onClick={handleEditModeAbstract} ><FaIcon name={'edit'} /></span>}
+                            {activeEditMode && !editModeAbstract && <span onClick={handleEditModeAbstract} ><FaIcon name={'pencil-square-o'} /></span>}
                         </div>
 
                         <p>
