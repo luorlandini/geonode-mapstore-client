@@ -14,7 +14,7 @@ import isEqual from 'lodash/isEqual';
 import { resizeMap } from '@mapstore/framework/actions/map';
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import usePluginItems from '@js/hooks/usePluginItems';
-import { getResourceId } from '@js/selectors/gnresource';
+import { getResourceId } from '@js/selectors/resource';
 import { withResizeDetector } from 'react-resize-detector';
 
 // ensure the map trigger the force update/resize
@@ -92,6 +92,19 @@ function ViewerLayout({
                         .filter(({ target }) => target === 'rightColumn')
                         .map(({ Component, name }) => <Component key={name} />)}
                 </div>
+            </div>
+            <div
+                className="gn-viewer-right-overlay shadow-far"
+                style={{
+                    position: 'absolute',
+                    right: 0,
+                    height: '100%',
+                    zIndex: 2000,
+                    transform: 'all 0.3s'
+                }}>
+                {configuredItems
+                    .filter(({ target }) => target === 'rightOverlay')
+                    .map(({ Component, name }) => <Component key={name} />)}
             </div>
             <footer>
                 {configuredItems

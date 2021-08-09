@@ -29,7 +29,7 @@ import {
     getFilterById,
     clearQueryParams,
     getQueryFilters
-} from '@js/utils/GNSearchUtils';
+} from '@js/utils/SearchUtils';
 import { withResizeDetector } from 'react-resize-detector';
 
 import { getResourceTypes, getCategories, getRegions, getOwners, getKeywords } from '@js/api/geonode/v2';
@@ -281,7 +281,7 @@ const ConnectedSearch = connect(
         state => state?.controls?.gnFiltersPanel?.enabled || null,
         getParsedGeoNodeConfiguration,
         state => state?.gnsearch?.total || 0,
-        state => state?.localConfig?.siteName || "Geonode"
+        state => state?.gnsettings?.siteName || "Geonode"
     ], (params, user, resource, isFiltersPanelEnabled, config, totalResources, siteName) => ({
         params,
         user,

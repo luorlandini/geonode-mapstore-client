@@ -34,14 +34,12 @@ import mapPopups from '@mapstore/framework/reducers/mapPopups';
 import catalog from '@mapstore/framework/reducers/catalog';
 import searchconfig from '@mapstore/framework/reducers/searchconfig';
 import widgets from '@mapstore/framework/reducers/widgets';
+import annotations from '@mapstore/framework/reducers/annotations';
 // end
 
 import SearchRoute from '@js/routes/Search';
 import DetailRoute from '@js/routes/Detail';
-import DatasetViewerRoute from '@js/routes/DatasetViewer';
-import MapViewerRoute from '@js/routes/MapViewer';
-import GeoStoryViewerRoute from '@js/routes/GeoStoryViewer';
-import DocumentViewerRoute from '@js/routes/DocumentViewer';
+import ViewerRoute from '@js/routes/Viewer';
 
 import gnsearch from '@js/reducers/gnsearch';
 import gnresource from '@js/reducers/gnresource';
@@ -58,14 +56,17 @@ import {
     initializeApp,
     getPluginsConfiguration
 } from '@js/utils/AppUtils';
-
+import { ResourceTypes } from '@js/utils/ResourceUtils';
 import { updateGeoNodeSettings } from '@js/actions/gnsettings';
-
 import {
     gnCheckSelectedDatasetPermissions,
-    gnSetDatasetsPermissions
+    gnSetDatasetsPermissions,
+    // to make the current layout work we need this epic
+    // we should improve the layout to avoid the use of side effect to manage the page structure
+    updateMapLayoutEpic
 } from '@js/epics';
-import gnviewerEpics from '@js/epics/gnviewer';
+
+import gnresourceEpics from '@js/epics/gnresource';
 import gnsearchEpics from '@js/epics/gnsearch';
 import favoriteEpics from '@js/epics/favorite';
 import maplayout from '@mapstore/framework/reducers/maplayout';
@@ -78,15 +79,19 @@ import { registerMediaAPI } from '@mapstore/framework/api/media';
 import * as geoNodeMediaApi from '@js/observables/media/geonode';
 registerMediaAPI('geonode', geoNodeMediaApi);
 
+import '@js/observables/persistence';
+
 const requires = {
     ReactSwipe,
     SwipeHeader
 };
 
 const DEFAULT_LOCALE = {};
-const ConnectedRouter = connect((state) => ({
-    locale: state?.locale || DEFAULT_LOCALE
-}))(Router);
+const ConnectedRouter = connect(
+    (state) => ({
+        locale: state?.locale || DEFAULT_LOCALE
+    })
+)(Router);
 
 const routes = [
     {
@@ -94,42 +99,70 @@ const routes = [
         path: [
             '/dataset/:pk'
         ],
-        component: DatasetViewerRoute
+        pageConfig: {
+            resourceType: ResourceTypes.DATASET
+        },
+        component: ViewerRoute
     },
     {
         name: 'dataset_edit_data_viewer',
         path: [
             '/dataset/:pk/edit/data'
         ],
-        component: DatasetViewerRoute
+        pageConfig: {
+            resourceType: ResourceTypes.DATASET
+        },
+        component: ViewerRoute
     },
     {
         name: 'dataset_edit_style_viewer',
         path: [
             '/dataset/:pk/edit/style'
         ],
-        component: DatasetViewerRoute
+        pageConfig: {
+            resourceType: ResourceTypes.DATASET
+        },
+        component: ViewerRoute
     },
     {
         name: 'map_viewer',
         path: [
             '/map/:pk'
         ],
-        component: MapViewerRoute
+        pageConfig: {
+            resourceType: ResourceTypes.MAP
+        },
+        component: ViewerRoute
     },
     {
         name: 'geostory_viewer',
         path: [
             '/geostory/:pk'
         ],
-        component: GeoStoryViewerRoute
+        pageConfig: {
+            resourceType: ResourceTypes.GEOSTORY
+        },
+        component: ViewerRoute
     },
     {
         name: 'document_viewer',
         path: [
             '/document/:pk'
         ],
-        component: DocumentViewerRoute
+        pageConfig: {
+            resourceType: ResourceTypes.DOCUMENT
+        },
+        component: ViewerRoute
+    },
+    {
+        name: 'dashboard_viewer',
+        path: [
+            '/dashboard/:pk'
+        ],
+        pageConfig: {
+            resourceType: ResourceTypes.DASHBOARD
+        },
+        component: ViewerRoute
     },
     {
         name: 'resources',
@@ -190,6 +223,13 @@ Promise.all([
                             ...securityState,
                             maptype: {
                                 mapType
+                            },
+                            annotations: {
+                                config: {
+                                    multiGeometry: true,
+                                    validationErrors: {}
+                                },
+                                defaultTextAnnotation: 'New'
                             }
                         }
                     },
@@ -226,6 +266,7 @@ Promise.all([
                         widgets,
                         geostory,
                         gnsearch,
+                        annotations,
                         ...pluginsDefinition.reducers
                     },
                     appEpics: {
@@ -234,9 +275,10 @@ Promise.all([
                         gnCheckSelectedDatasetPermissions,
                         gnSetDatasetsPermissions,
                         ...pluginsDefinition.epics,
-                        ...gnviewerEpics,
+                        ...gnresourceEpics,
                         ...gnsearchEpics,
-                        ...favoriteEpics
+                        ...favoriteEpics,
+                        updateMapLayoutEpic
                     },
                     geoNodeConfiguration,
                     initialActions: [

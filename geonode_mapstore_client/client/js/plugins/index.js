@@ -8,13 +8,30 @@
 
 import isFunction from 'lodash/isFunction';
 import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 import { extendPluginsDefinition } from '@extend/jsapi/plugins';
 import {
     PrintActionButton,
     CatalogActionButton,
     MeasureActionButton,
-    LayerDownloadActionButton
+    LayerDownloadActionButton,
+    AnnotationsActionButton
 } from '@js/plugins/actionnavbar/buttons';
+
+const EXCLUDED_EPICS_NAMES = [
+    'loadGeostoryEpic',
+    'reloadGeoStoryOnLoginLogout',
+    'loadStoryOnHistoryPop',
+    'saveGeoStoryResource'
+];
+
+function cleanEpics(epics, excludedNames = EXCLUDED_EPICS_NAMES) {
+    const containsExcludedEpic = !!excludedNames.find((epicName) => epics[epicName]);
+    if (containsExcludedEpic) {
+        return omit(epics, excludedNames);
+    }
+    return epics;
+}
 
 function toLazyPlugin(name, imp, overrides) {
     const getLazyPlugin = () => {
@@ -33,7 +50,7 @@ function toLazyPlugin(name, imp, overrides) {
                         name,
                         component: impl[pluginName],
                         reducers: impl.reducers || {},
-                        epics: impl.epics || {},
+                        epics: cleanEpics(impl.epics || {}),
                         containers,
                         disablePluginIf,
                         enabler,
@@ -46,7 +63,7 @@ function toLazyPlugin(name, imp, overrides) {
                     name,
                     component: impl[pluginName],
                     reducers: impl.reducers || {},
-                    epics: impl.epics || {},
+                    epics: cleanEpics(impl.epics || {}),
                     containers: impl.containers || {}
                 }, overrides)
             };
@@ -318,8 +335,31 @@ export const plugins = {
     FitBoundsPlugin: toLazyPlugin(
         'FitBounds',
         import(/* webpackChunkName: 'plugins/fit-bounds-plugin' */ '@js/plugins/FitBounds')
+    ),
+    DashboardEditorPlugin: toLazyPlugin(
+        'DashboardEditor',
+        import(/* webpackChunkName: 'plugins/dashboard-editor-plugin' */ '@mapstore/framework/plugins/DashboardEditor')
+    ),
+    DashboardPlugin: toLazyPlugin(
+        'Dashboard',
+        import(/* webpackChunkName: 'plugins/dashboard-plugin' */ '@mapstore/framework/plugins/Dashboard')
+    ),
+    AnnotationsPlugin: toLazyPlugin(
+        'Annotations',
+        import(/* webpackChunkName: 'plugins/annotations-plugin' */ '@mapstore/framework/plugins/Annotations'),
+        {
+            containers: {
+                ViewerLayout: {
+                    priority: 2
+                },
+                ActionNavbar: {
+                    name: 'Annotations',
+                    Component: AnnotationsActionButton,
+                    priority: 2
+                }
+            }
+        }
     )
-
 
 };
 

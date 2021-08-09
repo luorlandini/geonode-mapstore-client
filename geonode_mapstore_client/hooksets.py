@@ -16,6 +16,7 @@ except ImportError:
 
 from geonode.client.hooksets import BaseHookSet
 from mapstore2_adapter.plugins.geonode import GeoNodeMapStore2ConfigConverter
+from geonode.base.models import ResourceBase
 
 ms2_config_converter = GeoNodeMapStore2ConfigConverter()
 
@@ -243,7 +244,11 @@ class MapStoreHookSet(BaseHookSet):
         self.initialize_context(
             context,
             callback=ms2_config_converter.convert)
-        return 'geonode-mapstore-client/app_embed.html'
+        if context['appType'] == 'dashboard':
+            return 'geonode-mapstore-client/dashboard_embed.html'
+        if context['appType'] == 'geostory':
+            return 'geonode-mapstore-client/geostory_embed.html'
+        return 'geonode-mapstore-client/legacy/app_embed.html'
 
     def geoapp_download_template(self, context=None):
         self.initialize_context(
@@ -273,6 +278,5 @@ class MapStoreHookSet(BaseHookSet):
     def metadata_update_redirect(self, url):
         url = url.replace('/metadata', '')
         resource_identifier = url.split('/')[-1]
-        resource_type = url.split('/')[-2]
-        resource_type = resource_type[0:len(resource_type) - 1]
+        resource_type = ResourceBase.objects.get(id=int(resource_identifier)).resource_type
         return resource_detail_url(resource_type, resource_identifier)

@@ -21,27 +21,35 @@ def get_base_left_topbar_menu():
 
     return [
         {
-            "type": "link",
-            "href": "/catalogue/#/search/?filter{resource_type.in}=dataset",
-            "label": "Datasets"
+            "label": "Data",
+            "type": "dropdown",
+            "items": [
+                {
+                    "type": "link",
+                    "href": "/catalogue/#/search/?f=dataset",
+                    "label": "Datasets"
+                },
+                {
+                    "type": "link",
+                    "href": "/catalogue/#/search/?f=document",
+                    "label": "Documents"
+                }
+            ]
         },
         {
             "type": "link",
-            "href": "/catalogue/#/search/?filter{resource_type.in}=document",
-            "label": "Documents"
-        },
-        {
-            "type": "divider"
-        },
-        {
-            "type": "link",
-            "href": "/catalogue/#/search/?filter{resource_type.in}=map",
+            "href": "/catalogue/#/search/?f=map",
             "label": "Maps"
         },
         {
             "type": "link",
-            "href": "/catalogue/#/search/?filter{resource_type.in}=geostory",
+            "href": "/catalogue/#/search/?f=geostory",
             "label": "GeoStories"
+        },
+        {
+            "type": "link",
+            "href": "/catalogue/#/search/?f=dashboard",
+            "label": "Dashboards"
         }
     ]
 
@@ -62,17 +70,7 @@ def get_base_right_topbar_menu(context):
                     "type": "link",
                     "href": "/groups/",
                     "label": "Groups"
-                },
-                {
-                    "type": "link",
-                    "href": "/groups/categories/",
-                    "label": "Groups categories"
-                },
-                {
-                    "type": "link",
-                    "href": "/announcements/",
-                    "label": "Announcements"
-                },
+                }
             ]
         }
     if user.is_authenticated and not Configuration.load().read_only:
@@ -139,7 +137,7 @@ def get_user_menu(context):
             },
             {
                 "type": "link",
-                "href": "/favourite/list/",
+                "href": "/catalogue/#/search/?f=favorite",
                 "label": "Favorites"
             },
             {
