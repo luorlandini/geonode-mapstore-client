@@ -8,7 +8,6 @@
  */
 
 import React, { useRef, useState, useEffect } from 'react';
-import DOMPurify from 'dompurify';
 import FaIcon from '@js/components/FaIcon';
 import Button from '@js/components/Button';
 import Tabs from '@js/components/Tabs';
