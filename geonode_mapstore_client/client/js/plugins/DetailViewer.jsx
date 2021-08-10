@@ -100,8 +100,7 @@ function DetailViewer({
 
     const { loadedPlugins } = context;
     const configuredItems = usePluginItems({ items, loadedPlugins });
-
-    const buttonSaveThumbnailMap = configuredItems.filter(({ name }) => name === "MapLikeThumbnail")
+    const buttonSaveThumbnailMap = configuredItems.filter(({ name }) => name === "MapThumbnail")
         .map(({ Component, name }) => <Component key={name} />);
 
     const handleTitleValue = (val) => {

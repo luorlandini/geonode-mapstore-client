@@ -10,6 +10,7 @@ import React, { useState, useEffect } from 'react';
 import Thumbnail from '@mapstore/framework/components/misc/Thumbnail';
 import FaIcon from '@js/components/FaIcon';
 import Message from '@mapstore/framework/components/I18N/Message';
+import Button from '@js/components/Button';
 
 const ThumbnailEditable = ({
     defaultImage,
@@ -32,9 +33,12 @@ const ThumbnailEditable = ({
                 }}
                 message={<Message msgId="gnviewer.uploadImage"/>}
             />
-            <div className={`icon-image-preview`} >
+            <Button
+                variant="default"
+
+            >
                 <FaIcon name="upload" />
-            </div>
+            </Button>
         </>
     );
 };

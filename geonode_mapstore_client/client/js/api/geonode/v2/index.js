@@ -40,8 +40,8 @@ let endpoints = {
 };
 
 let pathApiThumbnail = {
-    map: 'api/v2/maps',
-    dataset: 'api/v2/datasets'
+    map: '/api/v2/resources',
+    dataset: '/api/v2/datasets'
 };
 
 
@@ -249,8 +249,8 @@ export const getDocumentsByDocType = (docType = 'image', {
         }));
 };
 
-export const setMapLikeThumbnail = (pk, body, type) => {
-    return axios.patch(parseDevHostname(`/${pathApiThumbnail[type]}/set_thumbnail_from_bbox`), body)
+export const setMapThumbnail = (pk, body, type) => {
+    return axios.post(parseDevHostname(`${pathApiThumbnail[type]}/${pk}/set_thumbnail_from_bbox`), body)
         .then(({ data }) => (data));
 };
 

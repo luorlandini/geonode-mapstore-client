@@ -2509,7 +2509,7 @@
                 "name": "DetailViewer"
             },
             {
-                "name": "MapLikeThumbnail",
+                "name": "MapThumbnail",
                 "cfg": {
                     "disablePermission": true
                 }
@@ -3376,7 +3376,7 @@
                 }
             },
             {
-                "name": "MapLikeThumbnail",
+                "name": "MapThumbnail",
                 "cfg": {
                     "disablePermission": true
                 }

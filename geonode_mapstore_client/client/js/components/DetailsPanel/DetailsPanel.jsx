@@ -303,7 +303,6 @@ function DetailsPanel({
             className={`gn-details-panel${loading ? ' loading' : ''}`}
             style={{ width: sectionStyle?.width }}
         >
-          <p>-{buttonSaveThumbnailMap}-</p>
             <section style={sectionStyle}>
                 {<div className="gn-details-panel-header">
                     <Button
@@ -372,7 +371,13 @@ function DetailsPanel({
                 <div className="gn-details-panel-content">
                     {editThumbnail && <div className="gn-details-panel-content-img">
                         {!activeEditMode && <ThumbnailPreview src={resource?.thumbnail_url} />}
-                        {activeEditMode && <div className="gn-details-panel-preview inediting"> <EditThumbnail onEdit={editThumbnail} image={resource?.thumbnail_url} /> </div>}
+                        {activeEditMode && <div className="gn-details-panel-preview inediting">
+                            <EditThumbnail
+                                onEdit={editThumbnail}
+                                image={resource?.thumbnail_url}
+                            />
+                            { buttonSaveThumbnailMap }
+                        </div>}
                     </div>
                     }
 

@@ -10,7 +10,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
-import Message from '@mapstore/framework/components/I18N/Message';
+import FaIcon from '@js/components/FaIcon';
 import { mapInfoSelector } from '@mapstore/framework/selectors/map';
 import Loader from '@mapstore/framework/components/misc/Loader';
 import Button from '@js/components/Button';
@@ -19,15 +19,15 @@ import controls from '@mapstore/framework/reducers/controls';
 import gnresource from '@js/reducers/gnresource';
 import gnsave from '@js/reducers/gnsave';
 import gnsaveEpics from '@js/epics/gnsave';
-import { setMapLikeThumbnail } from '@js/actions/gnresource';
+import { setMapThumbnail } from '@js/actions/gnresource';
 
 import {
     isNewResource,
     canEditResource
-} from '@js/selectors/gnresource';
+} from '@js/selectors/resource';
 
 
-function MapLikeThumbnail(props) {
+function MapThumbnail(props) {
     return props.saving ? (<div
         style={{ position: 'absolute', width: '100%',
             height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.75)',
@@ -37,31 +37,31 @@ function MapLikeThumbnail(props) {
     </div>) : null;
 }
 
-const MapLikeThumbnailPlugin = connect(
+const MapThumbnailPlugin = connect(
     createSelector([
         state => state?.gnsave?.saving
     ], (saving) => ({
         saving
     }))
-)(MapLikeThumbnail);
+)(MapThumbnail);
 
-function MapLikeThumbnailButton({
+function MapThumbnailButton({
     enabled,
     onClick
 }) {
     return enabled
         ? <Button
-            variant="primary"
+            variant="default"
             onClick={() => onClick()}
         >
-            <Message msgId="gnviewer.setMapLikeThumbnail"/>
+            <FaIcon name="camera" />
         </Button>
         : null
     ;
 }
 
 
-const ConnectedMapLikeThumbnailButton = connect(
+const ConnectedMapThumbnailButton = connect(
     createSelector(
         isLoggedIn,
         isNewResource,
@@ -72,17 +72,17 @@ const ConnectedMapLikeThumbnailButton = connect(
         })
     ),
     {
-        onClick: setMapLikeThumbnail
+        onClick: setMapThumbnail
     }
-)((MapLikeThumbnailButton));
+)((MapThumbnailButton));
 
-export default createPlugin('MapLikeThumbnail', {
-    component: MapLikeThumbnailPlugin,
+export default createPlugin('MapThumbnail', {
+    component: MapThumbnailPlugin,
     containers: {
         DetailViewer: {
-            name: 'MapLikeThumbnail',
+            name: 'MapThumbnail',
             target: 'saveThumbnailMap',
-            Component: ConnectedMapLikeThumbnailButton
+            Component: ConnectedMapThumbnailButton
         }
     },
     epics: {

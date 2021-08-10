@@ -234,9 +234,9 @@ export const plugins = {
         'SaveAs',
         import(/* webpackChunkName: 'plugins/save-as-plugin' */ '@js/plugins/SaveAs')
     ),
-    MapLikeThumbnailPlugin: toLazyPlugin(
-        'MapLikeThumbnail',
-        import(/* webpackChunkName: 'plugins/save-plugin' */ '@js/plugins/MapLikeThumbnail')
+    MapThumbnailPlugin: toLazyPlugin(
+        'MapThumbnail',
+        import(/* webpackChunkName: 'plugins/save-plugin' */ '@js/plugins/MapThumbnail')
     ),
     SearchPlugin: toLazyPlugin(
         'Search',
