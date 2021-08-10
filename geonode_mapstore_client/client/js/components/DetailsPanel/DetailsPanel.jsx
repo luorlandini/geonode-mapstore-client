@@ -379,8 +379,9 @@ function DetailsPanel({
 
                     <div className="gn-details-panel-content-text">
                         <div className="gn-details-panel-title" >
+                            <span className="gn-details-panel-title-icon" ><FaIcon name={icon} /> </span> <EditTitle disabled={!editModeTitle} tagName="h1"  title={resource?.title} onEdit={editTitle} >
 
-                            <EditTitle disabled={!editModeTitle} tagName="h1"  title={resource?.title} onEdit={editTitle} />
+                            </EditTitle>
 
                             {
                                 <div className="gn-details-panel-tools">
