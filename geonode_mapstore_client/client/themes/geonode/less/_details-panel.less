@@ -86,8 +86,10 @@
     .editContainer {
         flex: 1;
         [contenteditable] {
-            padding: 0.5em 0;
-            outline: 0px solid transparent;
+            padding: 0.5em 0.2em;
+        }
+        [contenteditable]:focus-visible {
+            outline-color: @gn-editable-border;
         }
         &.imagepreview {
             width: 250px;
@@ -125,6 +127,9 @@
 }
 .gn-details-panel-content-text {
     flex: 1;
+    p{
+        margin-left: 0.2rem;
+    }
 }
 .gn-details-panel-info{
     .tabs-info {
