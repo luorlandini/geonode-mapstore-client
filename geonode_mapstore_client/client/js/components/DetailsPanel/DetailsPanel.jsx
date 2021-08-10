@@ -135,8 +135,6 @@ function DetailsPanel({
     onFavorite,
     enableFavorite
 }) {
-    const [editModeTitle, setEditModeTitle] = useState(activeEditMode);
-    const [editModeAbstract, setEditModeAbstract] = useState(activeEditMode);
 
     const detailsContainerNode = useRef();
     const isMounted = useRef();
@@ -379,7 +377,7 @@ function DetailsPanel({
 
                     <div className="gn-details-panel-content-text">
                         <div className="gn-details-panel-title" >
-                            <span className="gn-details-panel-title-icon" ><FaIcon name={icon} /> </span> <EditTitle disabled={!editModeTitle} tagName="h1"  title={resource?.title} onEdit={editTitle} >
+                            <span className="gn-details-panel-title-icon" ><FaIcon name={icon} /> </span> <EditTitle disabled={!activeEditMode} tagName="h1"  title={resource?.title} onEdit={editTitle} >
 
                             </EditTitle>
 
@@ -438,7 +436,7 @@ function DetailsPanel({
                             && <>{' '}/{' '}{moment(resource.date).format('MMMM Do YYYY')}</>}
                         </p>
                         }
-                        <EditAbstract disabled={!editModeAbstract} tagName="span"  abstract={resource?.abstract} onEdit={editAbstract} />
+                        <EditAbstract disabled={!activeEditMode} tagName="span"  abstract={resource?.abstract} onEdit={editAbstract} />
                         <p>
                             {resource?.category?.identifier && <div>
                                 <Message msgId="gnhome.category" />:{' '}
