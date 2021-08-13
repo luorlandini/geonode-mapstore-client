@@ -22,6 +22,8 @@ import { getResourceTypesInfo } from '@js/utils/ResourceUtils';
 import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
+import ResourceStatus from '@js/components/ResourceStatus/';
+
 
 const CopyToClipboard = tooltip(CopyToClipboardCmp);
 
@@ -173,11 +175,6 @@ function DetailsPanel({
     const detailUrl = resource?.pk && formatDetailUrl(resource);
     const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
     const attributeSet = resource?.attribute_set;
-    const statusItem = (!resource?.is_approved) ?
-        ({messageId: "gnviewer.underApproval", className: "underApproval" }) :
-        ((resource?.is_approved && !resource?.is_published) ?
-            ({messageId: "gnviewer.unpublish", className: "unpublish" }) : undefined);
-
     const infoField = [
         {
             "label": "Title",
@@ -428,12 +425,12 @@ function DetailsPanel({
 
                         </div>
                         {
-                            statusItem && <p>
-                                <span className={statusItem.className} >
-                                    <Message msgId={statusItem.messageId} />
-                                </span>
+                            (!resource?.is_approved || !resource?.is_published) &&
+                            <p>
+                                <ResourceStatus
+                                    isApproved={resource?.is_approved}
+                                    isPublished={resource?.is_published}/>
                             </p>
-
                         }
 
                         {<p>
