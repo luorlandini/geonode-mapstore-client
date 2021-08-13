@@ -172,8 +172,12 @@ function DetailsPanel({
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
     const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
-
     const attributeSet = resource?.attribute_set;
+    const statusItem = (!resource?.is_approved) ?
+        ({messageId: "gnviewer.underApproval", className: "underApproval" }) :
+        ((resource?.is_approved && !resource?.is_published) ?
+            ({messageId: "gnviewer.unpublish", className: "unpublish" }) : undefined);
+
     const infoField = [
         {
             "label": "Title",
@@ -423,7 +427,14 @@ function DetailsPanel({
 
 
                         </div>
+                        {
+                            statusItem && <p>
+                                <span className={statusItem.className} >
+                                    <Message msgId={statusItem.messageId} />
+                                </span>
+                            </p>
 
+                        }
 
                         {<p>
                             {resource?.owner && <><a href={formatHref({
@@ -435,6 +446,7 @@ function DetailsPanel({
                             && <>{' '}/{' '}{moment(resource.date).format('MMMM Do YYYY')}</>}
                         </p>
                         }
+
                         <EditAbstract disabled={!activeEditMode} tagName="span"  abstract={resource?.abstract} onEdit={editAbstract} />
                         <p>
                             {resource?.category?.identifier && <div>
@@ -446,7 +458,6 @@ function DetailsPanel({
                                 })}>{resource.category.identifier}</a>
                             </div>}
                         </p>
-
                     </div>
                 </div>
                 {editTitle && <div className="gn-details-panel-info"><Tabs itemsTab={itemsTab} /></div>}
