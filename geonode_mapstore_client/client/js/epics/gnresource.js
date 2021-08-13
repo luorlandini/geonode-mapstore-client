@@ -86,6 +86,7 @@ const resourceTypes = {
                         ...(extent
                             ? [ setControlProperty('fitBounds', 'geometry', extent) ]
                             : []),
+                        setControlProperty('toolbar', 'expanded', false),
                         selectNode(newLayer.id, 'layer', false),
                         setResource(gnLayer),
                         setResourceId(pk),
@@ -114,6 +115,7 @@ const resourceTypes = {
                     const { data, ...resource }  = response;
                     return Observable.of(
                         configureMap(data),
+                        setControlProperty('toolbar', 'expanded', false),
                         setResource(resource),
                         setResourceId(pk)
                     );
@@ -122,7 +124,8 @@ const resourceTypes = {
             Observable.defer(() => getNewMapConfiguration())
                 .switchMap((response) => {
                     return Observable.of(
-                        configureMap(response)
+                        configureMap(response),
+                        setControlProperty('toolbar', 'expanded', false)
                     );
                 })
     },
@@ -197,6 +200,13 @@ const resourceTypes = {
     }
 };
 
+// collect all the reset action needed before changing a viewer
+const getResetActions = () => [
+    resetControls(),
+    resetResourceState(),
+    setControlProperty('rightOverlay', 'enabled', false)
+];
+
 export const gnViewerRequestNewResourceConfig = (action$, store) =>
     action$.ofType(REQUEST_NEW_RESOURCE_CONFIG)
         .switchMap((action) => {
@@ -215,16 +225,14 @@ export const gnViewerRequestNewResourceConfig = (action$, store) =>
 
             if (!newResourceObservable) {
                 return Observable.of(
-                    resetControls(),
-                    resetResourceState(),
+                    ...getResetActions(),
                     loadingResourceConfig(false)
                 );
             }
 
             return Observable.concat(
                 Observable.of(
-                    resetControls(),
-                    resetResourceState(),
+                    ...getResetActions(),
                     loadingResourceConfig(true),
                     setNewResource(),
                     setResourceType(action.resourceType)
@@ -236,8 +244,7 @@ export const gnViewerRequestNewResourceConfig = (action$, store) =>
             )
                 .catch((error) => {
                     return Observable.of(
-                        resetControls(),
-                        resetResourceState(),
+                        ...getResetActions(),
                         resourceConfigError(error?.data?.detail || error?.statusText || error?.message)
                     );
                 });
@@ -251,16 +258,14 @@ export const gnViewerRequestResourceConfig = (action$) =>
 
             if (!resourceObservable) {
                 return Observable.of(
-                    resetControls(),
-                    resetResourceState(),
+                    ...getResetActions(),
                     loadingResourceConfig(false)
                 );
             }
 
             return Observable.concat(
                 Observable.of(
-                    resetControls(),
-                    resetResourceState(),
+                    ...getResetActions(),
                     loadingResourceConfig(true),
                     setResourceType(action.resourceType)
                 ),
@@ -278,8 +283,7 @@ export const gnViewerRequestResourceConfig = (action$) =>
             )
                 .catch((error) => {
                     return Observable.of(
-                        resetControls(),
-                        resetResourceState(),
+                        ...getResetActions(),
                         resourceConfigError(error?.data?.detail || error?.statusText || error?.message)
                     );
                 });

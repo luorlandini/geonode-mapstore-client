@@ -14,7 +14,11 @@ import isEqual from 'lodash/isEqual';
 import { resizeMap } from '@mapstore/framework/actions/map';
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import usePluginItems from '@js/hooks/usePluginItems';
-import { getResourceId } from '@js/selectors/resource';
+import {
+    getResourceId,
+    getSelectedLayerPermissions,
+    isNewResource
+} from '@js/selectors/resource';
 import { withResizeDetector } from 'react-resize-detector';
 
 // ensure the map trigger the force update/resize
@@ -44,10 +48,17 @@ const ConnectedCenter = connect(
 )(withResizeDetector(Center));
 function ViewerLayout({
     items,
-    resourcePk
+    resourcePk,
+    selectedLayerPermissions,
+    header
 }, context) {
     const { loadedPlugins } = context;
-    const configuredItems = usePluginItems({ items, loadedPlugins }, [resourcePk]);
+    const configuredItems = usePluginItems({ items, loadedPlugins }, [resourcePk, selectedLayerPermissions]);
+    const headerOrder = header?.order || [];
+    const headerItems = configuredItems
+        .filter(({ target }) => target === 'header')
+        .sort((a, b) => headerOrder.indexOf(a.name) - headerOrder.indexOf(b.name))
+        .map(({ Component, name }) => <Component key={name} />);
     return (
         <div
             className="gn-viewer-layout"
@@ -61,9 +72,7 @@ function ViewerLayout({
                 flexDirection: 'column'
             }}>
             <header>
-                {configuredItems
-                    .filter(({ target }) => target === 'header')
-                    .map(({ Component, name }) => <Component key={name} />)}
+                {headerItems}
             </header>
             <div
                 className="gn-viewer-layout-body"
@@ -127,9 +136,12 @@ const MemoizeViewerLayout = memo(ViewerLayout, arePropsEqual);
 
 const ViewerLayoutPlugin = connect(
     createSelector([
-        getResourceId
-    ], (resourcePk) => ({
-        resourcePk
+        getResourceId,
+        getSelectedLayerPermissions,
+        isNewResource
+    ], (resourcePk, selectedLayerPermissions, isNew) => ({
+        resourcePk: isNew ? 'new' : resourcePk,
+        selectedLayerPermissions
     })),
     {}
 )(MemoizeViewerLayout);

@@ -117,7 +117,9 @@
             "customFiltersTitle": "Risorse",
             "myResources": "Le mie risorse",
             "pendingApproval": "In attesa di approvazione",
-            "featuredList": "In primo piano"
+            "featuredList": "In primo piano",
+            "uploadDataset": "Carica dataset",
+            "createDataset": "Crea dataset"
         },
         "viewer": {
             "document": {
@@ -161,7 +163,12 @@
             "registered-members": "Collaboratori",
             "permissionsEntriesNoResults": "Nessun risultato...",
             "shareThisResource": "Condividi questa risorsa",
-            "embed": "Incorpora"
+            "embed": "Incorpora",
+            "deleteResourceTitle": "{count, plural, =1 {Sei sicuro di voler eliminare questa risorsa?} other {Sei sicuro di voler eliminare queste risorse?}}",
+            "deleteResourceNo": "{count, plural, =1 {No, non eliminarlo} other {No, non eliminarli}}",
+            "deleteResourceYes": "Sì, sono sicuro",
+            "underApproval": "In approvazione",
+            "unpublish": "Non pubblicato"
         }
     }
 }

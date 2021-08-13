@@ -95,7 +95,8 @@ export function resourceToPermissionEntry(type, resource) {
             id: resource.id || resource.pk,
             avatar: resource.avatar,
             name: resource.username,
-            permissions: resource.permissions
+            permissions: resource.permissions,
+            parsed: true
         };
     }
     return {
@@ -103,7 +104,8 @@ export function resourceToPermissionEntry(type, resource) {
         id: resource.id || resource?.group?.pk,
         name: resource.title,
         avatar: resource.logo,
-        permissions: resource.permissions
+        permissions: resource.permissions,
+        parsed: true
     };
 }
 
@@ -124,11 +126,11 @@ export function permissionsListsToCompact({ groups, entries }) {
 export function permissionsCompactToLists({ groups, users, organizations }) {
     return {
         groups: [
-            ...(groups || []).map((entry) => ({ ...entry, type: 'group', name: entry.name, avatar: entry.logo }))
+            ...(groups || []).map((entry) => ({ ...entry, type: 'group', ...(!entry.parsed && { name: entry.name, avatar: entry.logo }) }))
         ],
         entries: [
-            ...(users || []).map((entry) => ({ ...entry, type: 'user', name: entry.username, avatar: entry.avatar })),
-            ...(organizations || []).map((entry) => ({ ...entry, type: 'group', name: entry.title, avatar: entry.logo }))
+            ...(users || []).map((entry) => ({ ...entry, type: 'user', ...(!entry.parsed && { name: entry.username, avatar: entry.avatar }) })),
+            ...(organizations || []).map((entry) => ({ ...entry, type: 'group', ...(!entry.parsed && { name: entry.title, avatar: entry.logo }) }))
         ]
     };
 }
@@ -171,37 +173,48 @@ export const getResourceTypesInfo = () => ({
     [ResourceTypes.DATASET]: {
         icon: 'database',
         formatEmbedUrl: (resource) => parseDevHostname(updateUrlQueryParameter(resource.embed_url, {
-            config: 'layer_preview',
-            theme: 'preview'
+            config: 'dataset_preview'
         })),
         formatDetailUrl: (resource) => (`/catalogue/#/dataset/${resource.pk}`),
-        name: 'Dataset'
+        name: 'Dataset',
+        formatMetadataUrl: (resource) => (`/datasets/${resource.alternate}/metadata`)
     },
     [ResourceTypes.MAP]: {
         icon: 'map',
         name: 'Map',
         formatEmbedUrl: (resource) => parseDevHostname(updateUrlQueryParameter(resource.embed_url, {
-            config: 'map_preview',
-            theme: 'preview'
+            config: 'map_preview'
         })),
-        formatDetailUrl: (resource) => (`/catalogue/#/map/${resource.pk}`)
+        formatDetailUrl: (resource) => (`/catalogue/#/map/${resource.pk}`),
+        formatMetadataUrl: (resource) => (`/maps/${resource.pk}/metadata`)
     },
     [ResourceTypes.DOCUMENT]: {
         icon: 'file',
         name: 'Document',
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
-        formatDetailUrl: (resource) => (`/catalogue/#/document/${resource.pk}`)
+        formatDetailUrl: (resource) => (`/catalogue/#/document/${resource.pk}`),
+        formatMetadataUrl: (resource) => (`/documents/${resource.pk}/metadata`)
     },
     [ResourceTypes.GEOSTORY]: {
         icon: 'book',
         name: 'GeoStory',
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
-        formatDetailUrl: (resource) => (`/catalogue/#/geostory/${resource.pk}`)
+        formatDetailUrl: (resource) => (`/catalogue/#/geostory/${resource.pk}`),
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
     },
     [ResourceTypes.DASHBOARD]: {
         icon: 'dashboard',
         name: 'Dashboard',
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
-        formatDetailUrl: (resource) => (`/catalogue/#/dashboard/${resource.pk}`)
+        formatDetailUrl: (resource) => (`/catalogue/#/dashboard/${resource.pk}`),
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
     }
 });
+
+export const getMetadataUrl = (resource) => {
+    if (resource) {
+        const { formatMetadataUrl = () => '' } = getResourceTypesInfo()[resource?.resource_type] || {};
+        return formatMetadataUrl(resource);
+    }
+    return '';
+};

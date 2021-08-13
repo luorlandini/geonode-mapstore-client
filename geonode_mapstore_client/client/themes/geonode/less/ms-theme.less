@@ -9,42 +9,20 @@
 @ms-font-family-sans-serif: @gn-font-family-sans-serif;
 @ms-font-family-base: @gn-font-family-base;
 
-// @icon-size: 26px;
-// @square-btn-size: 40px;
+@icon-size: 24px;
+@square-btn-size: 40px;
 
-// @icon-size-md: 16px;
-// @square-btn-medium-size: 28px;
+@icon-size-md: 15px;
+@square-btn-medium-size: 30px;
 
 #drawer-menu-button {
     z-index: 5;
 }
 #mapstore-navbar-container {
+    z-index: 10;
+}
+#navigationBar-container {
     z-index: 5;
-}
-
-.page-geostory-viewer {
-    .gn-viewer-layout-center {
-        display: flex;
-        flex-direction: column;
-    }
-    .ms-geostory {
-        flex: 1;
-    }
-}
-
-.page-map-viewer {
-    .gn-viewer-layout-body {
-        // needed to compute the position of ma toolbar and background selector
-        // when the attribute table is open
-        transform: translate(0, 0);
-    }
-}
-
-.page-dashboard-viewer {
-    .gn-viewer-layout-center {
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
 }
 
 .gn-embed {
@@ -118,5 +96,38 @@
     }
     .modal-footer {
         display: none;
+    }
+}
+
+.gn-simple-dialog {
+    .ms-resizable-modal > .modal-content > .modal-header {
+        height: auto;
+    }
+    .ms-resizable-modal > .modal-content > .modal-header .modal-title .ms-title {
+        text-overflow: initial;
+        height: auto;
+        line-height: initial;
+        white-space: normal;
+    }
+}
+
+// remove fixed height to display the complete text
+.mapstore-side-card .ms-head {
+    height: auto;
+    min-height: 80px;
+}
+
+.mapstore-side-card.ms-sm .ms-head {
+    height: auto;
+    min-height: 40px;
+}
+
+// fix global spinner
+div#mapstore-globalspinner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &.ms2-loading .sk-circle-wrapper {
+        margin: auto !important;
     }
 }

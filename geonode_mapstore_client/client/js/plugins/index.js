@@ -17,6 +17,7 @@ import {
     LayerDownloadActionButton,
     AnnotationsActionButton
 } from '@js/plugins/actionnavbar/buttons';
+import { getMetadataUrl } from '@js/utils/ResourceUtils';
 
 const EXCLUDED_EPICS_NAMES = [
     'loadGeostoryEpic',
@@ -359,13 +360,18 @@ export const plugins = {
                 }
             }
         }
+    ),
+    DeleteResourcePlugin: toLazyPlugin(
+        'DeleteResource',
+        import(/* webpackChunkName: 'plugins/delete-resource-plugin' */ '@js/plugins/DeleteResource')
     )
-
 };
 
 const pluginsDefinition = {
     plugins,
-    requires: {},
+    requires: {
+        getMetadataUrl
+    },
     epics: {},
     reducers: {}
 };
