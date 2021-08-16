@@ -166,7 +166,8 @@
             "deleteResourceNo": "{count, plural, =1 {Non, ne le supprime pas} other {Non, ne les supprime pas}}",
             "deleteResourceYes": "Oui, je suis sûr",
             "underApproval": "En cours d'approbation",
-            "unpublish": "Dépublier"
+            "unpublish": "Dépublier",
+            "fullscreen": "Plein écran"
         }
     }
 }
