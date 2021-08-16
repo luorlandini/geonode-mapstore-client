@@ -81,7 +81,7 @@ export const MeasureActionButton = connect(
 
 export const FullScreenActionButton = connect(
     () => ({}),
-    { onClick: toggleFullscreen.bind(null, true, "#page-map-viewer") }
+    { onClick: toggleFullscreen.bind(null, true, "#ms-container") }
 )(({
     onClick,
     variant,
