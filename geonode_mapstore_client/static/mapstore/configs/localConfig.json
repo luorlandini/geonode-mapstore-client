@@ -686,6 +686,9 @@
         ],
         "geostory_embed": [
             {
+                "name": "ViewerLayout"
+            },
+            {
                 "name": "GeoStory",
                 "cfg": {
                     "mediaEditorSettings": {
@@ -737,12 +740,21 @@
                             }
                         }
                     }
+                },
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 1
+                    }
                 }
             },
             {
                 "name": "GeoStoryNavigation",
-                "cfg": {
-                    "containerPosition": "header"
+                "override": {
+                    "ViewerLayout": {
+                        "priority": 1,
+                        "target": "header",
+                        "name": "GeoStoryNavigation"
+                    }
                 }
             },
             {
@@ -862,7 +874,6 @@
             {
                 "name": "Share",
                 "cfg": {
-                    "pathTemplate": "/datasets/{id}/embed",
                     "enableGeoLimits": true
                 }
             },
@@ -1716,10 +1727,7 @@
                 "name": "Notifications"
             },
             {
-                "name": "Share",
-                "cfg": {
-                    "pathTemplate": "/maps/{id}/embed"
-                }
+                "name": "Share"
             },
             {
                 "name": "Swipe"
@@ -1783,7 +1791,12 @@
         ],
         "geostory_viewer": [
             {
-                "name": "ViewerLayout"
+                "name": "ViewerLayout",
+                "cfg": {
+                    "header": {
+                        "order": [ "ActionNavbar", "GeoStoryNavigation" ]
+                    }
+                }
             },
             {
                 "name": "ActionNavbar",
@@ -1934,12 +1947,10 @@
             },
             {
                 "name": "GeoStoryNavigation",
-                "cfg": {
-                    "containerPosition": "header"
-                },
                 "override": {
                     "ViewerLayout": {
-                        "priority": 1
+                        "priority": 1,
+                        "target": "header"
                     }
                 }
             },
