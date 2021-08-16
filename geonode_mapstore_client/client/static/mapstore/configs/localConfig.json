@@ -848,6 +848,10 @@
                         },
                         {
                             "type": "plugin",
+                            "name": "FullScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -982,6 +986,9 @@
                 "name": "Measure"
             },
             {
+                "name": "FullScreen"
+            },
+            {
                 "name": "Print",
                 "cfg": {
                     "useFixedScales": true,
@@ -1103,7 +1110,7 @@
                 "name": "FullScreen",
                 "override": {
                     "Toolbar": {
-                        "alwaysVisible": false
+                        "alwaysVisible": true
                     }
                 }
             },
@@ -1411,6 +1418,10 @@
                         },
                         {
                             "type": "plugin",
+                            "name": "FullScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -1538,6 +1549,9 @@
             },
             {
                 "name": "Measure"
+            },
+            {
+                "name": "FullScreen"
             },
             {
                 "name": "Print",
@@ -1854,6 +1868,10 @@
                         },
                         {
                             "type": "plugin",
+                            "name": "FullScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -1867,6 +1885,10 @@
             },
             {
                 "name": "DetailViewer"
+            },
+            {
+                "type": "plugin",
+                "name": "FullScreen"
             },
             {
                 "name": "DeleteResource"
@@ -2029,6 +2051,10 @@
                         },
                         {
                             "type": "plugin",
+                            "name": "FullScreen"
+                        },
+                        {
+                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -2039,6 +2065,10 @@
                         }
                     ]
                 }
+            },
+            {
+                "type": "plugin",
+                "name": "FullScreen"
             },
             {
                 "name": "DetailViewer"

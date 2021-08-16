@@ -11,6 +11,10 @@ import {
     toggleControl,
     setControlProperty
 } from '@mapstore/framework/actions/controls';
+import {
+    toggleFullscreen
+} from '@mapstore/framework/actions/fullscreen';
+
 import Message from '@mapstore/framework/components/I18N/Message';
 import Button from '@js/components/Button';
 
@@ -71,6 +75,25 @@ export const MeasureActionButton = connect(
             onClick={() => onClick()}
         >
             <Message msgId="measureComponent.Measure"/>
+        </Button>
+    );
+});
+
+export const FullScreenActionButton = connect(
+    () => ({}),
+    { onClick: toggleFullscreen.bind(true, true, "#page-map-viewer") }
+)(({
+    onClick,
+    variant,
+    size
+}) => {
+    return (
+        <Button
+            variant={variant}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="gnviewer.fullscreen"/>
         </Button>
     );
 });
