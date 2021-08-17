@@ -10,11 +10,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Message from '@mapstore/framework/components/I18N/Message';
-import { Dropdown, Badge } from 'react-bootstrap-v1';
-import isNil from 'lodash/isNil';
+import Dropdown from '@js/components/Dropdown';
+import Badge from '@js/components/Badge';
+import NavLink from './NavLink';
 import { createPortal } from 'react-dom';
+import FaIcon from '@js/components/FaIcon';
+import {
+    isValidBadgeValue
+} from '@js/utils/MenuUtils';
 
-const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
+const itemElement = ({ labelId, href, badge, target }) =>  (
+    <>
+        <NavLink href={href} target={target}>{labelId && <Message msgId={labelId} />}
+            { isValidBadgeValue(badge) && <Badge>{badge}</Badge>}
+        </NavLink>
+    </>);
+
+const itemsList = (items) => ( items && items.map(({ labelId, href, badge, target }) => itemElement({ labelId, href, badge, target })));
+
 /**
  * DropdownList component
  * @name DropdownList
@@ -26,6 +39,7 @@ const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
  * @prop {string} labelId alternative to labe
  * @prop {object} toogleStyle inline style to apply to toogle comp
  * @prop {string} toogleImage image to apply to toogle comp
+ * @prop {string} toogleIcon icon to apply to toogle comp
  * @prop {string} dropdownClass the css class to apply to the comp
  * @prop {number} tabIndex define navigation order
  * @prop {number} badgeValue to apply the value to the item in list
@@ -38,6 +52,7 @@ const isValidBadgeValue = value => !!(value !== '' && !isNil(value));
  *           labelId={labelId}
  *           toogleStyle={style}
  *           toogleImage={image}
+ *           toogleIcon={icon}
  *           state={state}
  *           dropdownClass={classItem}
  *           tabIndex={tabIndex}
@@ -55,40 +70,61 @@ const DropdownList = ({
     labelId,
     toogleStyle,
     toogleImage,
+    toogleIcon,
     dropdownClass,
     tabIndex,
     badgeValue,
-    containerNode
+    containerNode,
+    size,
+    alignRight,
+    variant
 }) => {
-
 
     const dropdownItems = items
         .map((itm, idx) => {
+
+            if (itm.type === 'plugin' && itm.Component) {
+                return (<li><itm.Component variant="default" /></li>);
+            }
             if (itm.type === 'divider') {
                 return <Dropdown.Divider key={idx} />;
             }
             return (
-                <Dropdown.Item
-                    key={idx}
-                    href={itm.href}
-                    style={itm.style}
-                >
-                    {itm.labelId && <Message msgId={itm.labelId} /> || itm.label}
-                    {isValidBadgeValue(itm.badge) && <Badge>{itm.badge}</Badge>}
-                </Dropdown.Item>
+                <>
+                    <Dropdown.Item
+                        key={idx}
+                        href={itm.href}
+                        style={itm.style}
+                        as={itm?.items ? 'span' : 'a' }
+                        target={itm.target}
+                    >
+                        {itm.labelId && <Message msgId={itm.labelId} /> || itm.label}
+                        {isValidBadgeValue(itm.badge) && <Badge>{itm.badge}</Badge>}
+                    </Dropdown.Item>
+
+                    {itm?.items && <div className={`gn-sub-flat-menu-block`}>
+                        {itemsList(itm?.items)}
+                    </div>}
+                </>
             );
         });
 
     const DropdownToogle = (
         <Dropdown.Toggle
-            id={'gn-toggle-dropdown-' + id}
-            variant="default"
+            id={ `gn-toggle-dropdown-${id}`}
+            bsStyle={variant}
             tabIndex={tabIndex}
             style={toogleStyle}
+            bsSize={size}
+            noCaret
         >
             {toogleImage
                 ? <img src={toogleImage} />
-                : null
+                : undefined
+            }
+            {
+                toogleIcon ? <FaIcon name={toogleIcon} />
+                    : undefined
             }
             {labelId && <Message msgId={labelId} /> || label}
             {isValidBadgeValue(badgeValue) && <Badge>{badgeValue}</Badge>}
@@ -100,6 +136,7 @@ const DropdownList = ({
     return (
         <Dropdown
             className={`${dropdownClass}`}
+            pullRight={alignRight}
         >
             {DropdownToogle}
             {containerNode

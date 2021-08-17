@@ -6,6 +6,7 @@
  * LICENSE file in the root directory of this source tree.
 */
 
+import isEqual from 'lodash/isEqual';
 import {
     RESOURCE_LOADING,
     SET_RESOURCE,
@@ -14,11 +15,49 @@ import {
     SET_RESOURCE_TYPE,
     SET_NEW_RESOURCE,
     SET_RESOURCE_ID,
-    SET_RESOURCE_PERMISSIONS
+    SET_RESOURCE_PERMISSIONS,
+    EDIT_TITLE_RESOURCE,
+    EDIT_ABSTRACT_RESOURCE,
+    EDIT_THUMBNAIL_RESOURCE,
+    SET_SELECTED_DATASET_PERMISSIONS,
+    RESET_RESOURCE_STATE,
+    LOADING_RESOURCE_CONFIG,
+    RESOURCE_CONFIG_ERROR,
+    SET_RESOURCE_COMPACT_PERMISSIONS,
+    UPDATE_RESOURCE_COMPACT_PERMISSIONS,
+    RESET_GEO_LIMITS
 } from '@js/actions/gnresource';
 
-function gnresource(state = {}, action) {
+import {
+    cleanCompactPermissions,
+    getGeoLimitsFromCompactPermissions
+} from '@js/utils/ResourceUtils';
+
+const defaultState = {
+    selectedLayerPermissions: [],
+    data: {},
+    permissions: []
+};
+
+function gnresource(state = defaultState, action) {
     switch (action.type) {
+    case RESET_RESOURCE_STATE: {
+        return defaultState;
+    }
+    case LOADING_RESOURCE_CONFIG: {
+        return {
+            ...state,
+            configError: undefined,
+            loadingResourceConfig: action.loading
+        };
+    }
+    case RESOURCE_CONFIG_ERROR: {
+        return {
+            ...state,
+            loading: false,
+            configError: action.message
+        };
+    }
     case RESOURCE_LOADING: {
         return {
             ...state,
@@ -30,7 +69,8 @@ function gnresource(state = {}, action) {
             ...state,
             error: null,
             data: action.data,
-            loading: false
+            loading: false,
+            isNew: false
         };
     }
     case RESOURCE_ERROR: {
@@ -58,7 +98,7 @@ function gnresource(state = {}, action) {
     }
     case SET_NEW_RESOURCE: {
         return {
-            ...state,
+            ...defaultState,
             isNew: true
         };
     }
@@ -74,6 +114,76 @@ function gnresource(state = {}, action) {
             permissions: action.permissions
         };
     }
+
+    case EDIT_TITLE_RESOURCE: {
+        return {
+            ...state,
+            data: {
+                ...state?.data,
+                title: action?.title,
+                name: action?.title
+            }
+        };
+    }
+
+    case EDIT_ABSTRACT_RESOURCE: {
+        return {
+            ...state,
+            data: {
+                ...state?.data,
+                "abstract": action?.abstract
+            }
+        };
+    }
+
+    case EDIT_THUMBNAIL_RESOURCE: {
+        return {
+            ...state,
+            data: {
+                ...state?.data,
+                thumbnail_url: action?.thumbnailUrl
+            }
+        };
+    }
+
+    case SET_SELECTED_DATASET_PERMISSIONS:
+        return {
+            ...state,
+            selectedLayerPermissions: action.permissions
+        };
+
+    case SET_RESOURCE_COMPACT_PERMISSIONS:
+        return {
+            ...state,
+            initialCompactPermissions: action.compactPermissions,
+            compactPermissions: action.compactPermissions,
+            geoLimits: []
+        };
+
+    case UPDATE_RESOURCE_COMPACT_PERMISSIONS:
+        return {
+            ...state,
+            compactPermissions: action.compactPermissions,
+            isCompactPermissionsChanged: !isEqual(
+                cleanCompactPermissions(state.initialCompactPermissions),
+                cleanCompactPermissions(action.compactPermissions)
+            ),
+            geoLimits: getGeoLimitsFromCompactPermissions(action.compactPermissions)
+        };
+    case RESET_GEO_LIMITS:
+        if (state.compactPermissions) {
+            const { users, organizations, groups } = state.compactPermissions;
+            return {
+                ...state,
+                compactPermissions: {
+                    users: users.map(({ features, ...properties }) => properties),
+                    organizations: organizations.map(({ features, ...properties }) => properties),
+                    groups: groups.map(({ features, ...properties }) => properties)
+                },
+                geoLimits: []
+            };
+        }
+        return state;
     default:
         return state;
     }

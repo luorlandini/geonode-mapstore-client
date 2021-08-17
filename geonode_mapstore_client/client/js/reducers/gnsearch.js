@@ -9,33 +9,25 @@
 import isNil from 'lodash/isNil';
 
 import {
-    UPDATE_SUGGESTIONS,
-    LOADING_SUGGESTIONS,
     SEARCH_RESOURCES,
     UPDATE_RESOURCES,
     LOADING_RESOURCES,
-    UPDATE_RESOURCES_METADATA
+    UPDATE_RESOURCES_METADATA,
+    SET_FEATURED_RESOURCES
 } from '@js/actions/gnsearch';
 
-function gnsearch(state = {
+const defaultState = {
     resources: [],
     params: {},
     previousParams: {},
-    isFirstRequest: true
-}, action) {
+    isFirstRequest: true,
+    featuredResources: {
+        resources: []
+    }
+};
+
+function gnsearch(state = defaultState, action) {
     switch (action.type) {
-    case UPDATE_SUGGESTIONS: {
-        return {
-            ...state,
-            suggestions: action.suggestions
-        };
-    }
-    case LOADING_SUGGESTIONS: {
-        return {
-            ...state,
-            loading: action.loading
-        };
-    }
     case SEARCH_RESOURCES: {
         return {
             ...state,
@@ -57,6 +49,7 @@ function gnsearch(state = {
     case UPDATE_RESOURCES_METADATA: {
         return {
             ...state,
+            total: action.metadata.total,
             isNextPageAvailable: action.metadata.isNextPageAvailable,
             ...(action.metadata.params &&
                 {
@@ -80,6 +73,14 @@ function gnsearch(state = {
             loading: action.loading
         };
     }
+    case SET_FEATURED_RESOURCES:
+        return {
+            ...state,
+            featuredResources: {
+                ...state.featuredResources,
+                ...action.data
+            }
+        };
     default:
         return state;
     }

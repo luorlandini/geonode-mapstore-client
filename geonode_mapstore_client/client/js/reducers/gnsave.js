@@ -10,14 +10,27 @@ import {
     SAVING_RESOURCE,
     SAVE_SUCCESS,
     SAVE_ERROR,
-    CLEAR_SAVE
+    CLEAR_SAVE,
+    SAVE_DIRECT_CONTENT
 } from '@js/actions/gnsave';
 
-function gnsave(state = {}, action) {
+import {
+    RESET_RESOURCE_STATE
+} from '@js/actions/gnresource';
+
+const defaultState = {};
+
+function gnsave(state = defaultState, action) {
     switch (action.type) {
-    case SAVING_RESOURCE: {
+    case RESET_RESOURCE_STATE: {
+        return defaultState;
+    }
+    case SAVING_RESOURCE :
+    case SAVE_DIRECT_CONTENT: {
         return {
-            saving: true
+            saving: true,
+            error: undefined,
+            success: undefined
         };
     }
     case SAVE_SUCCESS: {

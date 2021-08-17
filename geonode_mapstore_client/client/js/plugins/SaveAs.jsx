@@ -15,6 +15,7 @@ import Message from '@mapstore/framework/components/I18N/Message';
 import { Glyphicon } from 'react-bootstrap';
 import { mapInfoSelector } from '@mapstore/framework/selectors/map';
 import { isLoggedIn } from '@mapstore/framework/selectors/security';
+import Button from '@js/components/Button';
 import {
     saveContent,
     clearSave,
@@ -25,6 +26,11 @@ import gnresource from '@js/reducers/gnresource';
 import gnsave from '@js/reducers/gnsave';
 import gnsaveEpics from '@js/epics/gnsave';
 import SaveModal from '@js/plugins/save/SaveModal';
+import {
+    canAddResource,
+    getResourceId,
+    getResourceData
+} from '@js/selectors/resource';
 
 /**
  * Plugin for SaveAs modal
@@ -55,7 +61,9 @@ function SaveAs(props) {
     return (
         <SaveModal
             {...props}
-            labelId="saveAs"
+            // add key to reset the component when a new resource is returned
+            key={props?.resource?.pk || 'new'}
+            labelId="save"
         />
     );
 }
@@ -64,12 +72,12 @@ const SaveAsPlugin = connect(
     createSelector([
         state => state?.controls?.saveAs?.enabled,
         mapInfoSelector,
-        state => state?.gnresource?.data,
+        getResourceData,
         state => state?.gnresource?.loading,
         state => state?.gnsave?.saving,
         state => state?.gnsave?.error,
         state => state?.gnsave?.success,
-        state => state?.gnresource?.id
+        getResourceId
     ], (enabled, mapInfo, resource, loading, saving, error, success, contentId) => ({
         enabled,
         contentId: contentId || mapInfo?.id,
@@ -87,6 +95,37 @@ const SaveAsPlugin = connect(
     }
 )(SaveAs);
 
+function SaveAsButton({
+    enabled,
+    onClick,
+    variant,
+    size
+}) {
+    return enabled
+        ? <Button
+            variant={variant || "primary"}
+            size={size}
+            onClick={() => onClick()}
+        >
+            <Message msgId="saveAs"/>
+        </Button>
+        : null
+    ;
+}
+
+const ConnectedSaveAsButton = connect(
+    createSelector(
+        isLoggedIn,
+        canAddResource,
+        (loggedIn, userCanAddResource) => ({
+            enabled: loggedIn && userCanAddResource
+        })
+    ),
+    {
+        onClick: toggleControl.bind(null, 'saveAs', null)
+    }
+)((SaveAsButton));
+
 export default createPlugin('SaveAs', {
     component: SaveAsPlugin,
     containers: {
@@ -98,10 +137,15 @@ export default createPlugin('SaveAs', {
             action: toggleControl.bind(null, 'saveAs', null),
             selector: createSelector(
                 isLoggedIn,
-                (loggedIn) => ({
-                    style: loggedIn ? {} : { display: 'none' }
+                canAddResource,
+                (loggedIn, userCanAddResource) => ({
+                    style: (loggedIn && userCanAddResource) ? {} : { display: 'none' }
                 })
             )
+        },
+        ActionNavbar: {
+            name: 'SaveAs',
+            Component: ConnectedSaveAsButton
         }
     },
     epics: {

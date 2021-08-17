@@ -7,9 +7,34 @@
  */
 
 import isFunction from 'lodash/isFunction';
+import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 import { extendPluginsDefinition } from '@extend/jsapi/plugins';
+import {
+    PrintActionButton,
+    CatalogActionButton,
+    MeasureActionButton,
+    LayerDownloadActionButton,
+    AnnotationsActionButton
+} from '@js/plugins/actionnavbar/buttons';
+import { getMetadataUrl } from '@js/utils/ResourceUtils';
 
-function toLazyPlugin(name, imp) {
+const EXCLUDED_EPICS_NAMES = [
+    'loadGeostoryEpic',
+    'reloadGeoStoryOnLoginLogout',
+    'loadStoryOnHistoryPop',
+    'saveGeoStoryResource'
+];
+
+function cleanEpics(epics, excludedNames = EXCLUDED_EPICS_NAMES) {
+    const containsExcludedEpic = !!excludedNames.find((epicName) => epics[epicName]);
+    if (containsExcludedEpic) {
+        return omit(epics, excludedNames);
+    }
+    return epics;
+}
+
+function toLazyPlugin(name, imp, overrides) {
     const getLazyPlugin = () => {
         return imp.then((mod) => {
             const impl = mod.default;
@@ -22,26 +47,26 @@ function toLazyPlugin(name, imp) {
                     ...containers
                 } = impl[pluginName];
                 return {
-                    'default': {
+                    'default': merge({
                         name,
                         component: impl[pluginName],
                         reducers: impl.reducers || {},
-                        epics: impl.epics || {},
+                        epics: cleanEpics(impl.epics || {}),
                         containers,
                         disablePluginIf,
                         enabler,
                         loadPlugin
-                    }
+                    }, overrides)
                 };
             }
             return {
-                'default': {
+                'default': merge({
                     name,
                     component: impl[pluginName],
                     reducers: impl.reducers || {},
-                    epics: impl.epics || {},
+                    epics: cleanEpics(impl.epics || {}),
                     containers: impl.containers || {}
-                }
+                }, overrides)
             };
         });
     };
@@ -77,7 +102,15 @@ function splitLazyAndStaticPlugins(pluginsDefinition) {
 export const plugins = {
     LayerDownloadPlugin: toLazyPlugin(
         'LayerDownload',
-        import(/* webpackChunkName: 'plugins/layer-download' */ '@mapstore/framework/plugins/LayerDownload')
+        import(/* webpackChunkName: 'plugins/layer-download' */ '@mapstore/framework/plugins/LayerDownload'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'LayerDownload',
+                    Component: LayerDownloadActionButton
+                }
+            }
+        }
     ),
     SwipePlugin: toLazyPlugin(
         'Swipe',
@@ -97,7 +130,22 @@ export const plugins = {
     ),
     MetadataExplorerPlugin: toLazyPlugin(
         'MetadataExplorer',
-        import(/* webpackChunkName: 'plugins/metadata-explorer' */ '@mapstore/framework/plugins/MetadataExplorer')
+        import(/* webpackChunkName: 'plugins/metadata-explorer' */ '@mapstore/framework/plugins/MetadataExplorer'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Catalog',
+                    Component: CatalogActionButton,
+                    priority: 1
+                },
+                ViewerLayout: {
+                    priority: 1
+                },
+                TOC: {
+                    priority: 1
+                }
+            }
+        }
     ),
     QueryPanelPlugin: toLazyPlugin(
         'QueryPanel',
@@ -129,7 +177,15 @@ export const plugins = {
     ),
     MeasurePlugin: toLazyPlugin(
         'Measure',
-        import(/* webpackChunkName: 'plugins/measure-plugin' */ '@mapstore/framework/plugins/Measure')
+        import(/* webpackChunkName: 'plugins/measure-plugin' */ '@mapstore/framework/plugins/Measure'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Measure',
+                    Component: MeasureActionButton
+                }
+            }
+        }
     ),
     FullScreenPlugin: toLazyPlugin(
         'FullScreen',
@@ -229,7 +285,17 @@ export const plugins = {
     ),
     PrintPlugin: toLazyPlugin(
         'Print',
-        import(/* webpackChunkName: 'plugins/print-plugin' */ '@mapstore/framework/plugins/Print')
+        import(/* webpackChunkName: 'plugins/print-plugin' */ '@mapstore/framework/plugins/Print'),
+        {
+            containers: {
+                ActionNavbar: {
+                    name: 'Print',
+                    Component: PrintActionButton,
+                    priority: 5,
+                    doNotHide: true
+                }
+            }
+        }
     ),
     TimelinePlugin: toLazyPlugin(
         'Timeline',
@@ -259,15 +325,53 @@ export const plugins = {
         'ActionNavbar',
         import(/* webpackChunkName: 'plugins/action-navbar-plugin' */ '@js/plugins/ActionNavbar')
     ),
-    BrandNavbarPlugin: toLazyPlugin(
-        'BrandNavbar',
-        import(/* webpackChunkName: 'plugins/brand-navbar-plugin' */ '@js/plugins/BrandNavbar')
+    DetailViewerPlugin: toLazyPlugin(
+        'DetailViewer',
+        import(/* webpackChunkName: 'plugins/detail-viewer-plugin' */ '@js/plugins/DetailViewer')
+    ),
+    MediaViewerPlugin: toLazyPlugin(
+        'MediaViewer',
+        import(/* webpackChunkName: 'plugins/media-viewer-plugin' */ '@js/plugins/MediaViewer')
+    ),
+    FitBoundsPlugin: toLazyPlugin(
+        'FitBounds',
+        import(/* webpackChunkName: 'plugins/fit-bounds-plugin' */ '@js/plugins/FitBounds')
+    ),
+    DashboardEditorPlugin: toLazyPlugin(
+        'DashboardEditor',
+        import(/* webpackChunkName: 'plugins/dashboard-editor-plugin' */ '@mapstore/framework/plugins/DashboardEditor')
+    ),
+    DashboardPlugin: toLazyPlugin(
+        'Dashboard',
+        import(/* webpackChunkName: 'plugins/dashboard-plugin' */ '@mapstore/framework/plugins/Dashboard')
+    ),
+    AnnotationsPlugin: toLazyPlugin(
+        'Annotations',
+        import(/* webpackChunkName: 'plugins/annotations-plugin' */ '@mapstore/framework/plugins/Annotations'),
+        {
+            containers: {
+                ViewerLayout: {
+                    priority: 2
+                },
+                ActionNavbar: {
+                    name: 'Annotations',
+                    Component: AnnotationsActionButton,
+                    priority: 2
+                }
+            }
+        }
+    ),
+    DeleteResourcePlugin: toLazyPlugin(
+        'DeleteResource',
+        import(/* webpackChunkName: 'plugins/delete-resource-plugin' */ '@js/plugins/DeleteResource')
     )
 };
 
 const pluginsDefinition = {
     plugins,
-    requires: {},
+    requires: {
+        getMetadataUrl
+    },
     epics: {},
     reducers: {}
 };

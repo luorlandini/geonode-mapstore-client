@@ -7,21 +7,20 @@
  */
 
 import main from '@mapstore/framework/components/app/main';
-import Router, { withRoutes } from '@js/components/app/Router';
-import MainLoader from '@js/components/app/MainLoader';
+import Router, { withRoutes } from '@js/components/Router';
+import MainLoader from '@js/components/MainLoader';
 import { connect } from 'react-redux';
 
 import security from '@mapstore/framework/reducers/security';
-
+import controls from '@mapstore/framework/reducers/controls';
 import Home from '@js/routes/Home';
-import SearchRoute from '@js/routes/Search';
-import DetailRoute from '@js/routes/Detail';
 
 import gnsearch from '@js/reducers/gnsearch';
 import gnresource from '@js/reducers/gnresource';
+import resourceservice from '@js/reducers/resourceservice';
 import gnsearchEpics from '@js/epics/gnsearch';
-import gnlocaleEpics from '@js/epics/gnlocale';
-import gnfiltersPanel from '@js/reducers/gnfiltersPanel';
+import gnsaveEpics from '@js/epics/gnsave';
+import resourceServiceEpics from '@js/epics/resourceservice';
 
 import {
     getConfiguration,
@@ -35,12 +34,6 @@ import {
     initializeApp
 } from '@js/utils/AppUtils';
 
-// TODO: we should compile .scss as .less file in MapStore
-// and add a link tag with the compiled css in the template
-// this will ensure more control on override or custom css
-import '../../themes/geonode/scss/geonode.scss';
-
-
 const DEFAULT_LOCALE = {};
 const ConnectedRouter = connect((state) => ({
     locale: state?.locale || DEFAULT_LOCALE
@@ -51,23 +44,7 @@ const routes = [
         name: 'homepage',
         path: '/',
         component: Home
-    },
-    {
-        name: 'resources',
-        path: [
-            '/search/'
-        ],
-        component: SearchRoute
-    },
-    {
-        name: 'detail',
-        path: [
-            '/detail/:pk',
-            '/detail/:ctype/:pk'
-        ],
-        component: DetailRoute
     }
-
 ];
 
 initializeApp();
@@ -79,7 +56,6 @@ Promise.all([
     getEndpoints()
 ])
     .then(([localConfig, user, resourcesTotalCount]) => {
-
         const {
             securityState,
             geoNodeConfiguration
@@ -103,12 +79,14 @@ Promise.all([
             appReducers: {
                 gnsearch,
                 gnresource,
-                gnfiltersPanel,
-                security
+                resourceservice,
+                security,
+                controls
             },
             appEpics: {
                 ...gnsearchEpics,
-                ...gnlocaleEpics
+                ...gnsaveEpics,
+                ...resourceServiceEpics
             },
             geoNodeConfiguration
         });

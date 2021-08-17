@@ -1,3 +1,11 @@
+/*
+ * Copyright 2021, GeoSolutions Sas.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { useEffect, useState } from 'react';
 
 export default (key, initialValue) => {
@@ -12,7 +20,7 @@ export default (key, initialValue) => {
             return item ? JSON.parse(item) : initialValue;
         } catch (error) {
             // Todo log error in persistent solution
-            console.log(`Error to get item key “${key}”:`, error);
+            console.log(`Error to get item key “${key}”:`, error); // eslint-disable-line no-console
             return initialValue;
         }
     };
@@ -28,7 +36,7 @@ export default (key, initialValue) => {
             window.dispatchEvent(new Event('localStorage'));
         } catch (error) {
             // Todo log error in persistent solution
-            console.log(`Error “${key}”:`, error);
+            console.log(`Error “${key}”:`, error); // eslint-disable-line no-console
         }
     };
 

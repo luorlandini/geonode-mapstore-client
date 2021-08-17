@@ -1,93 +1,36 @@
 # GeoNode MapStore Client Project
 
 This directory is the root folder where to initialize all the npm scripts. See the main [README.md](../../README.md) for more information about this directory.
+## Configuration
 
-This project contains following applications:
+The configuration file is located in [localConfig.json](static/mapstore/configs/localConfig.json) and it exposes specific properties to customize:
 
-- [MapStore js API](#mapStore-js-api)
-- [GeoStory](#geostory)
-- [Homepage](#homepage)
+### localConfig.json
 
-## MapStore js API
-Api used inside django templates to show map and layer viewers
+| property | type | description |  |
+| --- | --- | --- | --- |
+| `supportedLocales` | {object} |  |  |
+| `geoNodeConfiguration` | {object} | contains all the configuration needed to change the theme, filters and navbar structures | [see available properties](#geonode-configuration) |
 
-## GeoStory
-This application allow to show and edit stories with map and geospatial data
-## Homepage
+### GeoNode configuration
 
-This single application is an alternative homepage that interact with the GeoNode API v2 and shows available resources. You can enable this app by replacing the content of the index.html of a GeoNode project with the [home.html](home.html) template.
+[localConfig](#geonode-configuration).geoNodeConfiguration
 
-The homepage configuration file is located in [localConfig.json](static/mapstore/configs/localConfig.json) and it exposes specific properties to customize the homepage theme and structure:
-
-- @prop {object} `geoNodeApi`
-- @prop {object} `supportedLocales`
-- @prop {object} `geoNodeConfiguration` general configuration of the homepage app
-- @prop {object} geoNodeConfiguration.`theme` general theme configuration of the homepage app
-  - @prop {string} geoNodeConfiguration.`theme.variant` "light" or "dark"
-  - @prop {string} geoNodeConfiguration.`theme.color` main theme color (menu index)
-  - @prop {object} geoNodeConfiguration.`theme.navbar` navbar theme properties
-  - @prop {object} geoNodeConfiguration.`theme.navbar.style` a css style object to apply on the navbar container node
-  - @prop {object} geoNodeConfiguration.`theme.hero` hero image theme properties
-  - @prop {object} geoNodeConfiguration.`theme.hero.style` a css style object to apply on the hero image container node, use backgroundImage css property to apply a background image
-  - @prop {object} geoNodeConfiguration.`theme.jumbotron` jumbotron text content theme properties
-  - @prop {object} geoNodeConfiguration.`theme.jumbotron.style` a css style object to apply on the jumbotron container node
-  - @prop {object} geoNodeConfiguration.`theme.languageSelector` language selector theme properties
-  - @prop {boolean} geoNodeConfiguration.`theme.languageSelector.inline` shows languages as inline text if true, default false shows a dropdown
-  - @prop {object} geoNodeConfiguration.`theme.footer` footer theme properties
-  - @prop {string} geoNodeConfiguration.`theme.footer.color` footer text color (css variable --gn-footer-color)
-  - @prop {string} geoNodeConfiguration.`theme.footer.bg` footer background color (css variable --gn-footer-bg)
-  - @prop {object} geoNodeConfiguration.`theme.footer.link` theme for footer link
-  - @prop {string} geoNodeConfiguration.`theme.footer.link.color` footer link text color (css variable --gn-footer-link-color)
-  - @prop {string} geoNodeConfiguration.`theme.footer.link.hoverColor` footer link text color on hover (css variable --gn-footer-link-hover-color)
-  - @prop {object} geoNodeConfiguration.`theme.footer.style` a css style object to apply on the footer container node
-- @prop {object} geoNodeConfiguration.`filters` configuration of filter filter
-  - @prop {object} geoNodeConfiguration.`filters.fields` configuration of filter filter select inputs
-  - @prop {object} geoNodeConfiguration.`filters.fields.options` list of [filter object](#filter-object) options
-  - @prop {object} geoNodeConfiguration.`filters.order` configuration of order dropdown
-  - @prop {object} geoNodeConfiguration.`filters.order.defaultLabelId` default label to use for the order dropdown button
-  - @prop {object} geoNodeConfiguration.`filters.order.options` list of [order object](#order-object) options
-  - @prop {object} geoNodeConfiguration.`filters.extent` configuration of extent filter
-  - @prop {object} geoNodeConfiguration.`filters.extent.layers` a list of MapStore layers object used as extent background
-  - @prop {object} geoNodeConfiguration.`filters.extent.style` a MapStore vector style object
-- @prop {object} geoNodeConfiguration.`navbar` configuration of the brand navbar (top)
-  - @prop {object} geoNodeConfiguration.`navbar.logo` list of [logo items](#logo-item)
-  - @prop {object} geoNodeConfiguration.`navbar.items` list of [menu items object](#menu-item-object), right placement
-- @prop {object} geoNodeConfiguration.`menu` configuration of the main menu
-  - @prop {object} geoNodeConfiguration.`menu.items` list of [menu items object](#menu-item-object), left placement
-  - @prop {object} geoNodeConfiguration.`menu.leftItems` list of [menu items object](#menu-item-object), left placement
-  - @prop {object} geoNodeConfiguration.`menu.rightItems` list of [menu items object](#menu-item-object), right placement
-- @prop {object} geoNodeConfiguration.`footer` configuration of the footer
-  - @prop {object} geoNodeConfiguration.`footer.items` list of [menu items object](#menu-item-object)
-
-### Filter Object
-
-Filter object contains properties for a select input rendered inside the filter form. Configurations:
-
-- properties for select input with static options:
-```js
-{
-  "id": "title", // filter id used for the request filter{title.in}=
-  "labelId": "gnhome.labelId", // message id for select label
-  "placeholderId": "gnhome.placeholderId", // message id for select placeholder
-  "type": "select", // supported only 'select' inputs
-  "options": [ // list of string values
-      "Title 1",
-      "Title 2",
-      "Title 3",
-      "Title 4"
-  ]
-}
-```
-
-- properties for select input with suggestions request:
-```js
-{
-  "labelId": "gnhome.resourceTypes", // message id for select label
-  "placeholderId": "gnhome.resourceTypesPlaceholder", // message id for select placeholder
-  "type": "select", // supported only 'select' inputs
-  "suggestionsRequestKey": "resourceTypes" // available 'resourceTypes', 'categories', 'keywords', 'regions' or 'owners'
-}
-```
+| property | type | description |  |
+| --- | --- | --- | --- |
+| `filters` | {object} | configuration of filter | |
+| `filters.order` | {object} | configuration of order dropdown | |
+| `filters.order.defaultLabelId` | {string} | label id to use for the order dropdown button | |
+| `filters.order.options` | {array} | label id to use for the order dropdown button | [order object entry](#order-object) |
+| `filters.extent` | {object} | configuration of extent filter | |
+| `filters.extent.layers` | {array} | a list of MapStore layers object used as extent background | |
+| `filters.extent.style` | {object} | a MapStore vector style object | |
+| `cardsMenu` | {object} | configuration of the menu of resource cards | |
+| `cardsMenu.items` | {array} | list of menu item objects, right placement | [menu item object entry](#menu-item-object) |
+| `cardOptions` | {object} | configuration of the resource cards dropdown | |
+| `cardOptions.items` | {array} | list of menu item objects, dropdown placement | [menu item object entry](#menu-item-object) |
+| `filtersForm` | {object} | configuration of the resource cards dropdown | |
+| `filtersForm.items` | {array} | list of filter objects, panel placement | [filter object](#filter-object) |
 
 ### Order Object
 
@@ -99,31 +42,6 @@ Order object contains properties for an entry of the order dropdown. Configurati
   "value": "title" // value used in the sort filter
 }
 ```
-### Logo Item
-
-Logo item contains properties for an image rendered in the top navbar. Configuration:
-
-```js
-{
-  "src": "path/to/image.png", // image source
-  "href": "#/", // logo href
-  "style": { // default css style object
-    "minHeight": 80
-  },
-  "sm": { // page size key small screen
-    "style": { // small screen css style object
-      "minHeight": 40
-    }
-  },
-  "md": { // page size key medium screen
-    "style": {} // medium screen css style object
-  },
-  "lg": { // page size key large screen
-    "style": {} // large screen css style object
-  }
-}
-```
-
 ### Menu Item Object
 
 Menu item object contains properties for a list item rendered in a menu. Configuration:
@@ -134,10 +52,11 @@ Menu item object contains properties for a list item rendered in a menu. Configu
   "labelId": "gnhome.register", // label message id
   "type": "link", // one of 'link', 'dropdown', 'divider' or 'filter'
   "href": "/account/signup/?next=/",
-  "badge": "{state.layersTotalCount}", // (menu configuration only) counter badge. variable available: layersTotalCount, mapsTotalCount,
+  "badge": "{state.datasetsTotalCount}", // (menu configuration only) counter badge. variable available: datasetsTotalCount, mapsTotalCount,
   "authenticated": true, // true shows the item only when user authenticated while false only for anonymous user, if undefined the item is always visible
-  "permissions": [], // the value in array define the access to the contents
+  "perms": [], // the value in array define the access to the contents
   "allowedRoles": [] // user roles to access  to the contents
+
 }
 ```
 
@@ -148,7 +67,7 @@ Menu item object contains properties for a list item rendered in a menu. Configu
   "image": "", //the toogle image
   "type": "dropdown", // one of 'link', 'dropdown', 'divider' or 'filter'
   "authenticated": true, // true shows the item only when user authenticated while false only for anonymous user, if undefined the item is always visible
-  "permissions": [], // the value in array define the access to the contents
+  "perms": [], // the value in array define the access to the contents
   "allowedRoles": [], // user roles to access  to the contents
   "items": []  // menu items of type link or divider
 }
@@ -159,7 +78,7 @@ Menu item object contains properties for a list item rendered in a menu. Configu
 {
   "type": "divider", // one of 'link', 'dropdown', 'divider' or 'filter'
   "authenticated": true, // true shows the item only when user authenticated while false only for anonymous user, if undefined the item is always visible
-  "permissions": [], // the value in array define the access to the contents
+  "perms": [], // the value in array define the access to the contents
   "allowedRoles": [], // user roles to access  to the contents
 }
 ```
@@ -171,7 +90,7 @@ Menu item object contains properties for a list item rendered in a menu. Configu
   "id": "landuse", // unique id of the filter
   "labelId": "gnhome.customFilterExample", // label message id
   "authenticated": true, // true shows the item only when user authenticated while false only for anonymous user, if undefined the item is always visible
-  "permissions": [], // the value in array define the access to the contents
+  "perms": [], // the value in array define the access to the contents
   "allowedRoles": [],  // user roles to access  to the contents
   "query": { // query filter to use
     "filter{regions.name.in}": [
@@ -180,3 +99,46 @@ Menu item object contains properties for a list item rendered in a menu. Configu
   }
 }
 ```
+
+### Filter Object
+
+Filter object contains properties for a select input rendered inside the filter form. Configurations:
+
+- type select
+  - properties for select input with static options:
+  ```js
+  {
+    "id": "title", // filter id used for the request filter{title.in}=
+    "labelId": "gnhome.labelId", // message id for select label
+    "placeholderId": "gnhome.placeholderId", // message id for select placeholder
+    "type": "select",
+    "options": [ // list of string values
+        "Title 1",
+        "Title 2",
+        "Title 3",
+        "Title 4"
+    ]
+  }
+  ```
+
+  - properties for select input with suggestions request:
+  ```js
+  {
+    "labelId": "gnhome.resourceTypes", // message id for select label
+    "placeholderId": "gnhome.resourceTypesPlaceholder", // message id for select placeholder
+    "type": "select",
+    "suggestionsRequestKey": "resourceTypes" // available 'resourceTypes', 'categories', 'keywords', 'regions' or 'owners'
+  }
+  ```
+- type group
+```js
+{
+  "type": "group",
+  "labelId": "gnhome.customFiltersTitle", // label message id
+  "authenticated": true, // true shows the item only when user authenticated while false only for anonymous user, if undefined the item is always visible
+  "items": [
+    //... list of filter objects excluding type group
+  ]
+}
+```
+Filter items supports also the following types from [menu object configuration](#menu-item-object): filter, divider and link.

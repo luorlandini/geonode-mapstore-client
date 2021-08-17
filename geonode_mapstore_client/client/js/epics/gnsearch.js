@@ -11,21 +11,18 @@ import isEqual from 'lodash/isEqual';
 import isArray from 'lodash/isArray';
 import isNil from 'lodash/isNil';
 import {
-    autocomplete
-} from '@js/api/geonode/v1';
-import {
     getResources,
-    getResourceByPk
+    getResourceByPk,
+    getFeaturedResources
 } from '@js/api/geonode/v2';
 import {
-    FETCH_SUGGESTIONS,
-    updateSuggestions,
-    loadingSuggestions,
     SEARCH_RESOURCES,
     REQUEST_RESOURCE,
     updateResources,
     loadingResources,
-    updateResourcesMetadata
+    updateResourcesMetadata,
+    setFeaturedResources,
+    UPDATE_FEATURED_RESOURCES
 } from '@js/actions/gnsearch';
 import {
     resourceLoading,
@@ -39,8 +36,9 @@ import {
 import {
     getQueryKeys,
     getPageSize
-} from '@js/utils/GNSearchUtils';
+} from '@js/utils/SearchUtils';
 import url from 'url';
+import { getCustomMenuFilters } from '@js/selectors/config';
 
 const UPDATE_RESOURCES_REQUEST = 'GEONODE_SEARCH:UPDATE_RESOURCES_REQUEST';
 const updateResourcesRequest = (payload) => ({
@@ -68,20 +66,19 @@ const getParams = (locationSearch = '', params, defaultPage = 1) => {
     ];
 };
 
-export const gnsFetchSuggestionsEpic = (action$) =>
-    action$.ofType(FETCH_SUGGESTIONS)
-        .debounceTime(300)
-        .switchMap(({ text }) => {
-            return Observable
-                .defer(() => autocomplete({ q: text }))
-                .switchMap(({ suggestions }) => {
-                    return Observable.of(
-                        updateSuggestions(suggestions),
-                        loadingSuggestions(false)
-                    );
-                })
-                .startWith(loadingSuggestions(true));
-        });
+const getNextPage = (action, state) => {
+    if (!action) {
+        return 1;
+    }
+    const currentPage = state.gnsearch?.featuredResources?.page || 1;
+    const isNextPageAvailable =  state.gnsearch?.featuredResources?.isNextPageAvailable;
+    if (action === 'next' && isNextPageAvailable) {
+        return currentPage + 1;
+    }
+    const isPreviousPageAvailable = state.gnsearch?.featuredResources?.isPreviousPageAvailable;
+
+    return isPreviousPageAvailable ? currentPage - 1 : 1;
+};
 
 export const gnsSearchResourcesEpic = (action$, store) =>
     action$.ofType(SEARCH_RESOURCES)
@@ -120,11 +117,17 @@ const requestResourcesObservable = ({
     pageSize,
     reset,
     location
-}) => {
+}, store) => {
+    const customFilters = getCustomMenuFilters(store.getState());
     return Observable
-        .defer(() => getResources({ ...params, pageSize }))
+        .defer(() => getResources({
+            ...params,
+            pageSize,
+            customFilters
+        }))
         .switchMap(({
             resources,
+            total,
             isNextPageAvailable
         }) => {
             return Observable.of(
@@ -133,13 +136,13 @@ const requestResourcesObservable = ({
                     isNextPageAvailable,
                     params,
                     locationSearch: location.search,
-                    locationPathname: location.pathname
+                    locationPathname: location.pathname,
+                    total
                 }),
                 loadingResources(false)
             );
         })
         .startWith(
-            updateSuggestions([]),
             loadingResources(true)
         );
 };
@@ -174,7 +177,7 @@ export const gnsSearchResourcesOnLocationChangeEpic = (action$, store) =>
                     pageSize: PAGE_SIZE,
                     reset: true,
                     location
-                });
+                }, store);
             }
 
             const resourcesLength = state.gnsearch?.resources.length || 0;
@@ -189,7 +192,7 @@ export const gnsSearchResourcesOnLocationChangeEpic = (action$, store) =>
                 pageSize: PAGE_SIZE,
                 reset: resetSearch,
                 location
-            });
+            }, store);
         });
 
 export const gnsSelectResourceEpic = (action$, store) =>
@@ -217,9 +220,24 @@ export const gnsSelectResourceEpic = (action$, store) =>
                 );
         });
 
+export const getFeaturedResourcesEpic = (action$, {getState = () => {}}) =>
+    action$.ofType(UPDATE_FEATURED_RESOURCES)
+        .switchMap(({action, pageSize}) => {
+            const page = getNextPage(action, getState());
+            return Observable.defer( () => getFeaturedResources(page, pageSize))
+                .switchMap((data) => {
+                    return Observable.of(setFeaturedResources({...data,
+                        isNextPageAvailable: !!data?.links?.next,
+                        isPreviousPageAvailable: !!data?.links.previous, loading: false}));
+                }).catch((error) => {
+                    return Observable.of(resourceError(error.data || error.message), setFeaturedResources({loading: false}));
+                }).startWith(setFeaturedResources({loading: true}));
+        });
+
+
 export default {
-    gnsFetchSuggestionsEpic,
     gnsSearchResourcesEpic,
     gnsSearchResourcesOnLocationChangeEpic,
-    gnsSelectResourceEpic
+    gnsSelectResourceEpic,
+    getFeaturedResourcesEpic
 };
