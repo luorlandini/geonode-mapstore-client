@@ -351,7 +351,7 @@ The extended _geonode_config.html template should set the `__GEONODE_CONFIG__.ov
         */
         /*
             var cfgPluginOverride is the object to extend or override the localconfig.
-            The first level keys, are the geonode sections: map_viewer / dataset_viewer / document_viewer / geostory_viewer, each section you can extend or override  override the plugin configuration
+            The first level keys, are the geonode sections: map_viewer / dataset_viewer / document_viewer / geostory_viewer, for each section, you can extend or override the plugin configuration
 
             in the example below, we extend the configuration of the search plugin for the maps section
 
