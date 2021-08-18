@@ -1,6 +1,6 @@
 # GeoNode MapStore Client [![Build Status](https://travis-ci.org/GeoNode/geonode-mapstore-client.svg?branch=master)](https://travis-ci.org/GeoNode/geonode-mapstore-client) [![Code Climate](https://codeclimate.com/github/GeoNode/geonode-viewer/badges/gpa.svg)](https://codeclimate.com/github/GeoNode/geonode-viewer) [![Test Coverage](https://codecov.io/gh/GeoNode/geonode/branch/master/graph/badge.svg)](https://codecov.io/gh/GeoNode/geonode/branch/master)
 
-MapStore is an Open Source WebGIS framework based on ReactJS and it can be integrated inside GeoNode as maps, layers and apps viewer. GeoNode 
+MapStore is an Open Source WebGIS framework based on ReactJS and it can be integrated inside GeoNode as maps, layers and apps viewer. GeoNode
 
 - [Structure of directories](#structure-of-directories)
 - [Running in developer mode](#running-in-developer-mode)
@@ -349,21 +349,77 @@ The extended _geonode_config.html template should set the `__GEONODE_CONFIG__.ov
             get
         }
         */
-        return _.mergeWith(localConfig, {
-            /* 
-            ... my custom configuration
-            */
-        }, function(objValue, srcValue, key) {
-            if (_.isArray(objValue)) {
-                return srcValue;
-            }
-            // supportedLocales is an object so it's merged with the default one
-            // so to remove the default languages we should take only the supportedLocales from override
-            if (key === 'supportedLocales') {
-                return srcValue;
-            }
-        });
+        /*
+            var cfgPluginOverride is the object to extend or override the localconfig.
+            The first level keys, are the geonode section: map_viewer / dataset_viewer / document_viewer / geostory_viewer, each section you can extend or override  override the plugin configuration
+
+            in the example below, we extend the configuration of the search plugin for the maps section
+
+        */
+
+        var cfgPluginOverride = {
+                "map_viewer":[
+                    {
+                        "name":"Search",
+                        "cfg":{
+                            "showCoordinatesSearchOption":false,
+                            "maxResults":20,
+                            "searchOptions":{
+                            "services":[
+                                {
+                                    "type":"wfs",
+                                    "priority":3,
+                                    "displayName":"${properties.propToDisplay}",
+                                    "subTitle":" (a subtitle for the results coming from this service [ can contain expressions like ${properties.propForSubtitle}])",
+                                    "options":{
+                                        "url":"/geoserver/wfs",
+                                        "typeName":"workspace:layer",
+                                        "queriableAttributes":[
+                                        "attribute_to_query"
+                                        ],
+                                        "sortBy":"id",
+                                        "srsName":"EPSG:4326",
+                                        "maxFeatures":20,
+                                        "blacklist":[
+                                        "... an array of strings to exclude from  the final search filter "
+                                        ]
+                                    }
+                                ]
+                            }
+                            }
+                        }
+                    ]
+        }
+
     };
+
+    /*
+
+        This script parse localConfig and cfgPluginOverride
+        if match the plungin name for the geonode section, extend or override it
+
+        if the plugin is new, add it to localconfig
+        */
+        if(localConfig.plugins){
+            for (key in cfgPluginOverride) {
+                if(localConfig.plugins[key]){
+                    for(idx in localConfig.plugins[key]){
+                        for(index in cfgPluginOverride[key]){
+                            if(localConfig.plugins[key][idx].name === cfgPluginOverride[key][index].name){
+                                // extend the plugin configuration or overtide existent property
+                                localConfig.plugins[key][idx] = _.merge(localConfig.plugins[key][idx], cfgPluginOverride[key][index]);
+                            }
+                            // add new obect plugin
+                            if(localConfig.plugins[key].indexOf(cfgPluginOverride[key][index]) == -1){
+                                localConfig.plugins[key].push(cfgPluginOverride[key][index])
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    return localConfig
 </script>
 {% endblock %}
 ```
@@ -379,7 +435,7 @@ Expected version in requirement.txt
 
 ## Integrating into GeoNode/Django
 
-### WARNING: 
+### WARNING:
 
 - **Deprecated** `django-mapstore-adapter`; this library has been now merged into `django-geonode-mapstore-client`
 - You don't have to change anything on your `settings.py` but you will have to **remove** `django-mapstore-adapter` from `requirements.txt` and `setup.cfg`
