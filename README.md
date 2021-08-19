@@ -332,6 +332,10 @@ geonode-project/
 ```
 The extended _geonode_config.html template should set the `__GEONODE_CONFIG__.overrideLocalConfig` function and return the modified localConfig.
 
+Some examples:
+
+- override localConfig properties
+
 ```html
 {% extends 'geonode-mapstore-client/_geonode_config.html' %}
 {% block override_local_config %}
@@ -349,77 +353,122 @@ The extended _geonode_config.html template should set the `__GEONODE_CONFIG__.ov
             get
         }
         */
-        /*
-            var cfgPluginOverride is the object to extend or override the localconfig.
-            The first level keys, are the geonode sections: map_viewer / dataset_viewer / document_viewer / geostory_viewer, for each section, you can extend or override the plugin configuration
-
-            in the example below, we extend the configuration of the search plugin for the maps section
-
-        */
-
-        var cfgPluginOverride = {
-                "map_viewer":[
-                    {
-                        "name":"Search",
-                        "cfg":{
-                            "showCoordinatesSearchOption":false,
-                            "maxResults":20,
-                            "searchOptions":{
-                            "services":[
-                                {
-                                    "type":"wfs",
-                                    "priority":3,
-                                    "displayName":"${properties.propToDisplay}",
-                                    "subTitle":" (a subtitle for the results coming from this service [ can contain expressions like ${properties.propForSubtitle}])",
-                                    "options":{
-                                        "url":"/geoserver/wfs",
-                                        "typeName":"workspace:layer",
-                                        "queriableAttributes":[
-                                        "attribute_to_query"
-                                        ],
-                                        "sortBy":"id",
-                                        "srsName":"EPSG:4326",
-                                        "maxFeatures":20,
-                                        "blacklist":[
-                                        "... an array of strings to exclude from  the final search filter "
-                                        ]
-                                    }
-                                ]
-                            }
-                            }
-                        }
-                    ]
-        }
-
+        return _.mergeWith(localConfig, {
+            /*
+            ... my custom configuration
+            */
+        }, function(objValue, srcValue, key) {
+            if (_.isArray(objValue)) {
+                return srcValue;
+            }
+            // supportedLocales is an object so it's merged with the default one
+            // so to remove the default languages we should take only the supportedLocales from override
+            if (key === 'supportedLocales') {
+                return srcValue;
+            }
+        });
     };
 
-    /*
+    return localConfig
+</script>
+{% endblock %}
+```
+- enable plugin
 
-        This script parse localConfig and cfgPluginOverride
-        if match the plungin name for the geonode section, extend or override it
-
-        if the plugin is new, add it to localconfig
+```html
+{% extends 'geonode-mapstore-client/_geonode_config.html' %}
+{% block override_local_config %}
+<script>
+    window.__GEONODE_CONFIG__.overrideLocalConfig = function(localConfig) {
+        /*
+        "SearchServicesConfig" has been disabled by default but still available
+        inside the list of imported plugin.
+        It should be enabled only in the pages that contains the "Search" plugin.
         */
-        if(localConfig.plugins){
-            for (key in cfgPluginOverride) {
-                if(localConfig.plugins[key]){
-                    for(idx in localConfig.plugins[key]){
-                        for(index in cfgPluginOverride[key]){
-                            if(localConfig.plugins[key][idx].name === cfgPluginOverride[key][index].name){
-                                // extend the plugin configuration or overtide existent property
-                                localConfig.plugins[key][idx] = _.merge(localConfig.plugins[key][idx], cfgPluginOverride[key][index]);
-                            }
-                            // add new obect plugin
-                            if(localConfig.plugins[key].indexOf(cfgPluginOverride[key][index]) == -1){
-                                localConfig.plugins[key].push(cfgPluginOverride[key][index])
-                            }
-                        }
+        // map_edit page used for path /maps/{pk}/edit
+        localConfig.plugins.map_edit.push({ "name": "SearchServicesConfig" });
+        // map_view page used for path /maps/{pk}/view
+        localConfig.plugins.map_view.push({ "name": "SearchServicesConfig" });
+
+        return localConfig;
+    };
+</script>
+{% endblock %}
+```
+- update plugin configuration
+
+```html
+{% extends 'geonode-mapstore-client/_geonode_config.html' %}
+{% block override_local_config %}
+<script>
+    window.__GEONODE_CONFIG__.overrideLocalConfig = function(localConfig, _) {
+        /**
+        * this is an example of function used to merge new plugin configuration in the default localConfig
+        * if match the plugin name for the GeoNode section, extend or override it
+        * if the plugin is new, add it to localConfig
+        * Note: you can create your on function or manipulate the localConfig to get your expected final configuration
+        * @param {object} config localConfig to update
+        * @param {string[]} options.pages array of page keys to target
+        * @param {string} options.name name of plugin
+        * @param {object} options.cfg new cfg to apply
+        */
+        function mergePluginConfig(config, options) {
+            var pages = options.pages;
+            var pluginName = options.name;
+            var pluginCfg = options.cfg;
+            for (var j = 0; j < pages.length; j++ ) {
+                var page = pages[j];
+                var plugins = config.plugins[page];
+                var merged = false;
+                for (var i = 0; i < config.plugins[page].length; i++ ) {
+                    var plugin = plugins[i];
+                    if (plugin.name === pluginName) {
+                        plugin.cfg = _.merge(plugin.cfg, pluginCfg);
+                        merged = true;
+                        break;
                     }
+                }
+                if (!merged) {
+                    plugins.push({
+                        name: pluginName,
+                        cfg: pluginCfg
+                    })
                 }
             }
         }
 
-    return localConfig
+        mergePluginConfig(localConfig, {
+            pages: [ 'map_edit', 'map_view' ],
+            name: 'Search',
+            cfg: {
+                "searchOptions": {
+                    "services": [
+                        // { "type": "nominatim", "priority": 5 }, // default service
+                        {
+                            "type": "wfs",
+                            "priority": 3,
+                            "displayName": "${properties.propToDisplay}",
+                            "subTitle": " (a subtitle for the results coming from this service [ can contain expressions like ${properties.propForSubtitle}])",
+                            "options": {
+                                "url": "{state('settings') && state('settings').geoserverUrl ? state('settings').geoserverUrl + '/wfs' : '/geoserver/wfs'}",
+                                "typeName": "workspace:layer",
+                                "queriableAttributes": [
+                                    "attribute_to_query"
+                                ],
+                                "sortBy": "id",
+                                "srsName": "EPSG:4326",
+                                "maxFeatures": 20,
+                                "blacklist": [
+                                    "... an array of strings to exclude from  the final search filter "
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        });
+        return localConfig;
+    };
 </script>
 {% endblock %}
 ```
