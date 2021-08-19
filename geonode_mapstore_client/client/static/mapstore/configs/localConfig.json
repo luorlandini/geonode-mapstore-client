@@ -848,10 +848,6 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "FullScreen"
-                        },
-                        {
-                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -859,6 +855,12 @@
                                     "value": "delete_resourcebase"
                                 }
                             ]
+                        }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
                         }
                     ]
                 }
@@ -1418,10 +1420,6 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "FullScreen"
-                        },
-                        {
-                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -1430,7 +1428,14 @@
                                 }
                             ]
                         }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
+                        }
                     ]
+
                 }
             },
             {
@@ -1868,10 +1873,6 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "FullScreen"
-                        },
-                        {
-                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -1879,6 +1880,12 @@
                                     "value": "delete_resourcebase"
                                 }
                             ]
+                        }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
                         }
                     ]
                 }
@@ -2051,10 +2058,6 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "FullScreen"
-                        },
-                        {
-                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -2062,6 +2065,12 @@
                                     "value": "delete_resourcebase"
                                 }
                             ]
+                        }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
                         }
                     ]
                 }
