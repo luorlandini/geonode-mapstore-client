@@ -52,31 +52,16 @@ const LeftContentMenu = ({ items, formatHref, query, variant, size }) => {
 };
 
 
-const RightContentMenu = ({ items, formatHref, query, parentRef, cfg, variant, size }) => {
+const RightContentMenu = ({ items, formatHref, query, variant, size }) => {
 
-    const navbarContentRight = useRef();
     const navbarRight = useRef();
-    const { width: widthNavbarRight } = useResizeElement(navbarRight);
-    const { width: widthParent } = useResizeElement(parentRef);
-    const { width: widthNavbarContentRight } = useResizeElement(navbarContentRight);
-    const isSpaceRight = (cfg?.style) ? widthNavbarRight >= widthNavbarContentRight :  widthNavbarRight >= widthParent;
-    const [switchToBurgerMenu, setSwitchToBurgerMenu] = useState(false);
-    useEffect(() => {
-        setSwitchToBurgerMenu(isSpaceRight);
-    }, [isSpaceRight]);
 
     return (
         <div
-            ref={navbarContentRight}
             className={`gn-menu-content-right`}
-            style={cfg?.style}
         >
 
-            {
-                (switchToBurgerMenu) && items && <BurgerMenu items={items} variant={variant}/>
-            }
-
-            {(!switchToBurgerMenu) && items &&
+            {items &&
                 <Menu
                     ref={navbarRight}
                     items={items}
@@ -139,8 +124,6 @@ const ActionNavbar = forwardRef(({
                             items={rightItems}
                             formatHref={formatHref}
                             query={query}
-                            parentRef={ref}
-                            cfg={cfg?.rightContents}
                             variant={variant}
                             size={size}
                         />
