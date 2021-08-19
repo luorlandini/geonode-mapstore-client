@@ -88,7 +88,6 @@ const ActionNavbar = forwardRef(({
     rightItems,
     query,
     formatHref,
-    cfg,
     variant,
     size,
     children
