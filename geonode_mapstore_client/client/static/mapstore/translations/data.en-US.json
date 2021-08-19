@@ -168,7 +168,9 @@
             "deleteResourceYes": "Yes, I am sure",
             "underApproval": "Under approval",
             "unpublish": "Unpublish",
-            "fullscreen": "Full screen"
+            "fullscreen": "Full screen",
+            "nativescreen": "Exit full screen mode"
+
         }
     }
 }

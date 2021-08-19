@@ -167,7 +167,8 @@
             "deleteResourceYes": "Ja, ich bin sicher",
             "underApproval": "In Genehmigung",
             "unpublish": "Nicht veröffentlicht",
-            "fullscreen": "Vollbild"
+            "fullscreen": "Vollbild",
+            "nativescreen": "Vollbildmodus beenden"
         }
     }
 }

@@ -169,7 +169,8 @@
             "deleteResourceYes": "Sì, sono sicuro",
             "underApproval": "In approvazione",
             "unpublish": "Non pubblicato",
-            "fullscreen": "Schermo intero"
+            "fullscreen": "Schermo intero",
+            "nativescreen": "Esci da modalità schermo intero"
         }
     }
 }
