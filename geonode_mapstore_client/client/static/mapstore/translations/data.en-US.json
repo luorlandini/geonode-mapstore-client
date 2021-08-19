@@ -118,7 +118,8 @@
             "pendingApproval": "Pending approval",
             "featuredList": "Featured",
             "uploadDataset": "Upload dataset",
-            "createDataset": "Create dataset"
+            "createDataset": "Create dataset",
+            "search": "Search..."
         },
         "viewer": {
             "document": {
@@ -169,8 +170,12 @@
             "underApproval": "Under approval",
             "unpublish": "Unpublish",
             "fullscreen": "Full screen",
-            "nativescreen": "Exit full screen mode"
-
+            "nativescreen": "Exit full screen mode",
+            "prompPendingChanges": "There are unsaved changes, are you sure you want to leave?",
+            "errorCompactPermissionsTitle": "Error on permission update",
+            "errorCompactPermissionsMessage": "It was not possible to update the permissions",
+            "warningGeoLimitsSaveTitle": "Incomplete saving process",
+            "warningGeoLimitsSaveMessage": "It was not possible to update the new geo limits"
         }
     }
 }

@@ -788,6 +788,7 @@
                         {
                             "type": "plugin",
                             "name": "Save",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
@@ -880,7 +881,6 @@
             {
                 "name": "Share",
                 "cfg": {
-                    "pathTemplate": "/datasets/{id}/embed",
                     "enableGeoLimits": true
                 }
             },
@@ -1354,6 +1354,7 @@
                     "leftMenuItems": [
                         {
                             "labelId": "gnviewer.save",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
@@ -1747,10 +1748,7 @@
                 "name": "Notifications"
             },
             {
-                "name": "Share",
-                "cfg": {
-                    "pathTemplate": "/maps/{id}/embed"
-                }
+                "name": "Share"
             },
             {
                 "name": "Swipe"
@@ -1827,6 +1825,7 @@
                     "leftMenuItems": [
                         {
                             "labelId": "gnviewer.save",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
@@ -2014,6 +2013,7 @@
                         {
                             "labelId": "gnviewer.save",
                             "type": "dropdown",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
@@ -2109,6 +2109,7 @@
                         {
                             "labelId": "gnviewer.save",
                             "type": "dropdown",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",

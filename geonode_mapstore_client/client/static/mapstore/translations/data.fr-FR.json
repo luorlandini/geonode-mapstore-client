@@ -117,7 +117,8 @@
             "pendingApproval": "En attente de validation",
             "featuredList": "Mis en exergue",
             "uploadDataset": "Télécharger l'ensemble de données",
-            "createDataset": "Créer un ensemble de données"
+            "createDataset": "Créer un ensemble de données",
+            "search": "Chercher..."
         },
         "viewer": {
             "document": {
@@ -168,7 +169,12 @@
             "underApproval": "En cours d'approbation",
             "unpublish": "Dépublier",
             "fullscreen": "Plein écran",
-            "nativescreen": "Quitter le mode plein écran"
+            "nativescreen": "Quitter le mode plein écran",
+            "prompPendingChanges": "Il y a des modifications non enregistrées, voulez-vous vraiment quitter?",
+            "errorCompactPermissionsTitle": "Erreur lors de la mise à jour des autorisations",
+            "errorCompactPermissionsMessage": "Il n'a pas été possible de mettre à jour les autorisations",
+            "warningGeoLimitsSaveTitle": "Processus de sauvegarde incomplet",
+            "warningGeoLimitsSaveMessage": "Il n'a pas été possible de mettre à jour les nouvelles limites géographiques"
         }
     }
 }

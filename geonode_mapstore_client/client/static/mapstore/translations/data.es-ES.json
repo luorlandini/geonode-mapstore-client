@@ -117,7 +117,8 @@
             "pendingApproval": "Aprobación pendiente",
             "featuredList": "Presentada",
             "uploadDataset": "Subir conjunto de datos",
-            "createDataset": "Crear conjunto de datos"
+            "createDataset": "Crear conjunto de datos",
+            "search": "Buscar..."
         },
         "viewer": {
             "document": {
@@ -168,7 +169,12 @@
             "underApproval": "Bajo aprobación",
             "unpublish": "No publicado",
             "fullscreen": "Pantalla completa",
-            "nativescreen": "Salir del modo de pantalla completa"
+            "nativescreen": "Salir del modo de pantalla completa",
+            "prompPendingChanges": "Hay cambios sin guardar, ¿está seguro de que desea salir?",
+            "errorCompactPermissionsTitle": "Error en la actualización de permisos",
+            "errorCompactPermissionsMessage": "No fue posible actualizar los permisos",
+            "warningGeoLimitsSaveTitle": "Proceso de guardado incompleto",
+            "warningGeoLimitsSaveMessage": "No fue posible actualizar los nuevos límites geográficos"
         }
     }
 }
