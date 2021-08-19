@@ -85,7 +85,6 @@ function ActionNavbarPlugin({
             rightItems={rightItems}
             variant="default"
             size="sm"
-            cfg={{rightContents: {style: {width: "40px"}}}}
         >
             <h1 className="gn-action-navbar-title">{icon && <FaIcon name={icon}/>}{'  '}{resource?.title}</h1>
         </ActionNavbar>
