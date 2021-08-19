@@ -100,7 +100,7 @@ export const FullScreenActionButton = connect(createSelector([
     const FullScreenButton = tooltip(Button);
     return (
         <FullScreenButton
-            tooltipPosition={enabled ? "right" : "top"}
+            tooltipPosition={enabled ? "left" : "top"}
             tooltip={ enabled ?  <Message msgId="gnviewer.nativescreen"/> : <Message msgId="gnviewer.fullscreen"/>  }
             variant={variant}
             size={size}
