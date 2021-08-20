@@ -788,6 +788,7 @@
                         {
                             "type": "plugin",
                             "name": "Save",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
@@ -855,6 +856,12 @@
                                     "value": "delete_resourcebase"
                                 }
                             ]
+                        }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
                         }
                     ]
                 }
@@ -981,6 +988,9 @@
                 "name": "Measure"
             },
             {
+                "name": "FullScreen"
+            },
+            {
                 "name": "Print",
                 "cfg": {
                     "useFixedScales": true,
@@ -1102,7 +1112,7 @@
                 "name": "FullScreen",
                 "override": {
                     "Toolbar": {
-                        "alwaysVisible": false
+                        "alwaysVisible": true
                     }
                 }
             },
@@ -1344,6 +1354,7 @@
                     "leftMenuItems": [
                         {
                             "labelId": "gnviewer.save",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
@@ -1418,7 +1429,14 @@
                                 }
                             ]
                         }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
+                        }
                     ]
+
                 }
             },
             {
@@ -1537,6 +1555,9 @@
             },
             {
                 "name": "Measure"
+            },
+            {
+                "name": "FullScreen"
             },
             {
                 "name": "Print",
@@ -1804,6 +1825,7 @@
                     "leftMenuItems": [
                         {
                             "labelId": "gnviewer.save",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
@@ -1858,11 +1880,21 @@
                                 }
                             ]
                         }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
+                        }
                     ]
                 }
             },
             {
                 "name": "DetailViewer"
+            },
+            {
+                "type": "plugin",
+                "name": "FullScreen"
             },
             {
                 "name": "DeleteResource"
@@ -1981,6 +2013,7 @@
                         {
                             "labelId": "gnviewer.save",
                             "type": "dropdown",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
@@ -2033,8 +2066,18 @@
                                 }
                             ]
                         }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
+                        }
                     ]
                 }
+            },
+            {
+                "type": "plugin",
+                "name": "FullScreen"
             },
             {
                 "name": "DetailViewer"
@@ -2066,6 +2109,7 @@
                         {
                             "labelId": "gnviewer.save",
                             "type": "dropdown",
+                            "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
