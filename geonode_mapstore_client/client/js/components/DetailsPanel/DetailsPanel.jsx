@@ -121,7 +121,7 @@ const DefinitionListMoreItem = ({itemslist, extraItemsList}) => {
 
 const EditingRating = ({rating, resourceType, onRating}) => (
     <div className={`gn-details-panel-content-rating`} >
-        <p><Message msgId={"gnviewer.rating"} /> {resourceType} </p>
+        <p><Message msgId={"gnviewer.rating"} /> <Message msgId={`gnhome.${resourceType}`} /></p>
         <Rating
             onChange={(rate) => onRating(rate)}
             emptySymbol={<FaIcon name="star-o" />}
@@ -129,7 +129,7 @@ const EditingRating = ({rating, resourceType, onRating}) => (
 
 
         />
-        <p><Message msgId={"gnviewer.averageRating"} /> {resourceType} </p>
+        <p><Message msgId={"gnviewer.averageRating"} /></p>
         <Rating
             initialRating={rating}
             emptySymbol={<FaIcon name="star-o" />}
