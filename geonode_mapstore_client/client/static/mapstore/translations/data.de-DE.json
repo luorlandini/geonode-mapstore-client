@@ -174,7 +174,10 @@
             "errorCompactPermissionsTitle": "Fehler beim Berechtigungsupdate",
             "errorCompactPermissionsMessage": "Es war nicht möglich die Berechtigungen zu aktualisieren",
             "warningGeoLimitsSaveTitle": "Unvollständiger Speichervorgang",
-            "warningGeoLimitsSaveMessage": "Es war nicht möglich die neuen Geolimits zu aktualisieren"
+            "warningGeoLimitsSaveMessage": "Es war nicht möglich die neuen Geolimits zu aktualisieren",
+            "rating": "Bewerte diese",
+            "rate": "Bewerte",
+            "averageRating": "Average rating"
         }
     }
 }

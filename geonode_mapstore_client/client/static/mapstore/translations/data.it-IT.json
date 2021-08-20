@@ -176,7 +176,10 @@
             "errorCompactPermissionsTitle": "Errore nell'aggiornamento delle autorizzazioni",
             "errorCompactPermissionsMessage": "Non è stato possibile aggiornare i permessi",
             "warningGeoLimitsSaveTitle": "Processo di salvataggio incompleto",
-            "warningGeoLimitsSaveMessage": "Non è stato possibile aggiornare i nuovi limiti geografici"
+            "warningGeoLimitsSaveMessage": "Non è stato possibile aggiornare i nuovi limiti geografici",
+            "rating": "Valuta questa",
+            "rate": "Valuta",
+            "averageRating": "Valutazione media"
         }
     }
 }

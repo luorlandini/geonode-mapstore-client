@@ -175,7 +175,10 @@
             "errorCompactPermissionsTitle": "Error on permission update",
             "errorCompactPermissionsMessage": "It was not possible to update the permissions",
             "warningGeoLimitsSaveTitle": "Incomplete saving process",
-            "warningGeoLimitsSaveMessage": "It was not possible to update the new geo limits"
+            "warningGeoLimitsSaveMessage": "It was not possible to update the new geo limits",
+            "rating": "Rate this",
+            "rate": "Rate",
+            "averageRating": "Average rating"
         }
     }
 }

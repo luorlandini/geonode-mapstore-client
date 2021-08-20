@@ -174,7 +174,10 @@
             "errorCompactPermissionsTitle": "Erreur lors de la mise à jour des autorisations",
             "errorCompactPermissionsMessage": "Il n'a pas été possible de mettre à jour les autorisations",
             "warningGeoLimitsSaveTitle": "Processus de sauvegarde incomplet",
-            "warningGeoLimitsSaveMessage": "Il n'a pas été possible de mettre à jour les nouvelles limites géographiques"
+            "warningGeoLimitsSaveMessage": "Il n'a pas été possible de mettre à jour les nouvelles limites géographiques",
+            "rating": "Evaluer cette",
+            "rate": "Evaluer",
+            "averageRating": "Note moyenne"
         }
     }
 }
