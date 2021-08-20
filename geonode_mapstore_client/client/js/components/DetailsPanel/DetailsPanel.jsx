@@ -23,7 +23,7 @@ import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
 import ResourceStatus from '@js/components/ResourceStatus/';
-
+import Rating from '@js/components/Rating';
 
 const CopyToClipboard = tooltip(CopyToClipboardCmp);
 
@@ -119,6 +119,26 @@ const DefinitionListMoreItem = ({itemslist, extraItemsList}) => {
     );
 };
 
+const EditingRating = ({rating, resourceType, onRating}) => (
+    <div className={`gn-details-panel-content-rating`} >
+        <p><Message msgId={"gnviewer.rating"} /> {resourceType} </p>
+        <Rating
+            onChange={(rate) => onRating(rate)}
+            emptySymbol={<FaIcon name="star-o" />}
+            fullSymbol={<FaIcon name="star" />}
+
+
+        />
+        <p><Message msgId={"gnviewer.averageRating"} /> {resourceType} </p>
+        <Rating
+            initialRating={rating}
+            emptySymbol={<FaIcon name="star-o" />}
+            fullSymbol={<FaIcon name="star" />}
+            readonly
+        />
+
+    </div>
+    )
 
 function DetailsPanel({
     resource,
@@ -134,9 +154,11 @@ function DetailsPanel({
     closePanel,
     favorite,
     onFavorite,
+    onRating,
     enableFavorite
 }) {
-
+    console.log('resource');
+    console.log(resource);
     const detailsContainerNode = useRef();
     const isMounted = useRef();
     const [copiedResourceLink, setCopiedResourceLink] = useState(false);
@@ -274,7 +296,11 @@ function DetailsPanel({
         {
             title: <Message msgId={"gnviewer.info"} />,
             data: <DefinitionListMoreItem itemslist={infoField} extraItemsList={extraItemsList} />
-        }
+        },
+        {
+            title: <Message msgId={"gnviewer.rate"} />,
+            data: <EditingRating rating={resource?.rating} resourceType={resource?.resource_type} onRating={onRating} />
+        },
 
     ];
 
@@ -377,10 +403,10 @@ function DetailsPanel({
 
                     <div className="gn-details-panel-content-text">
                         <div className="gn-details-panel-title" >
-                            <span className="gn-details-panel-title-icon" ><FaIcon name={icon} /> </span> <EditTitle disabled={!activeEditMode} tagName="h1"  title={resource?.title} onEdit={editTitle} >
-
-                            </EditTitle>
-
+                            <span className="gn-details-panel-title-icon" >
+                                <FaIcon name={icon} />
+                            </span>
+                            <EditTitle disabled={!activeEditMode} tagName="h1"  title={resource?.title} onEdit={editTitle} />
                             {
                                 <div className="gn-details-panel-tools">
                                     {

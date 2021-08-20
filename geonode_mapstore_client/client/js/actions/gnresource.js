@@ -28,6 +28,7 @@ export const SET_RESOURCE_COMPACT_PERMISSIONS = 'GEONODE:SET_RESOURCE_COMPACT_PE
 export const UPDATE_RESOURCE_COMPACT_PERMISSIONS = 'GEONODE:UPDATE_RESOURCE_COMPACT_PERMISSIONS';
 export const RESET_GEO_LIMITS = 'GEONODE:RESET_GEO_LIMITS';
 export const PROCESS_RESOURCES = 'GEONODE:PROCESS_RESOURCES';
+export const SET_RATING_RESOURCES = 'GEONODE:SET_RATING_RESOURCES';
 
 /**
 * Actions for GeoNode resource
@@ -196,6 +197,20 @@ export function setFavoriteResource(favorite) {
         favorite
     };
 }
+
+/**
+* Set the resource rating field
+* @memberof actions.gnresource
+* @param {number} rating resource data field
+*/
+export function setRatingResource(rating) {
+    return {
+        type: SET_RATING_RESOURCES,
+        rating
+    };
+}
+
+
 
 export function requestResourceConfig(resourceType, pk, options) {
     return {

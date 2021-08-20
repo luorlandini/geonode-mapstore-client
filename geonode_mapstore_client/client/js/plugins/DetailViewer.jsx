@@ -16,7 +16,9 @@ import {
     editTitleResource,
     editAbstractResource,
     editThumbnailResource,
-    setFavoriteResource
+    setFavoriteResource,
+    setRatingResource
+
 } from '@js/actions/gnresource';
 import controls from '@mapstore/framework/reducers/controls';
 import { setControlProperty } from '@mapstore/framework/actions/controls';
@@ -44,7 +46,8 @@ const ConnectedDetailsPanel = connect(
     })),
     {
         closePanel: setControlProperty.bind(null, 'rightOverlay', 'enabled', false),
-        onFavorite: setFavoriteResource
+        onFavorite: setFavoriteResource,
+        onRating: setRatingResource
     }
 )(DetailsPanel);
 

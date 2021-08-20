@@ -72,6 +72,7 @@ import resourceServiceEpics from '@js/epics/resourceservice';
 import gnsearchEpics from '@js/epics/gnsearch';
 import favoriteEpics from '@js/epics/favorite';
 import maplayout from '@mapstore/framework/reducers/maplayout';
+import ratingEpics from '@js/epics/rating';
 
 import pluginsDefinition from '@js/plugins/index';
 import ReactSwipe from 'react-swipeable-views';
@@ -282,6 +283,7 @@ Promise.all([
                         ...resourceServiceEpics,
                         ...gnsearchEpics,
                         ...favoriteEpics,
+                        ...ratingEpics,
                         updateMapLayoutEpic
                     },
                     geoNodeConfiguration,
