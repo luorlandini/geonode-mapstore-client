@@ -211,7 +211,6 @@ export function setRatingResource(rating) {
 }
 
 
-
 export function requestResourceConfig(resourceType, pk, options) {
     return {
         type: REQUEST_RESOURCE_CONFIG,

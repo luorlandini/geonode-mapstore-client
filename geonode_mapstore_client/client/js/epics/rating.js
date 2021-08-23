@@ -17,7 +17,8 @@ import {
     setRatingResource
 } from '@js/api/geonode/v2';
 */
-const gnSaveRatingContent = (action$, store) =>
+// eslint-disable-next-line spaced-comment
+const gnSaveRatingContent = (action$ /*, store*/) =>
     action$.ofType(SET_RATING_RESOURCES)
         .switchMap((action) => {
             // const state = store.getState();
