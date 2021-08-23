@@ -2057,6 +2057,19 @@
                             "name": "Share"
                         },
                         {
+                            "type": "link",
+                            "name": "DownResource",
+                            "labelId": "gnviewer.download",
+                            "href": "{context.getDownloadUrl(state('gnResourceData'))}",
+                            "authenticated": false,
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "download_resourcebase"
+                                }
+                            ]
+                        },
+                        {
                             "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
