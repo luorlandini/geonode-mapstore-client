@@ -481,7 +481,7 @@ function DetailsPanel({
                                 })}>{resource.category.identifier}</a>
                             </div>}
                         </p>
-                        {editThumbnail &&
+                        {!editThumbnail &&
                         <div className={`gn-details-panel-content-rating`} >
                             <Rating
                                 initialRating={resource?.rating}
