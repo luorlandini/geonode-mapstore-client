@@ -2057,11 +2057,8 @@
                             "name": "Share"
                         },
                         {
-                            "type": "link",
-                            "name": "DownResource",
-                            "labelId": "gnviewer.download",
-                            "href": "{context.getDownloadUrl(state('gnResourceData'))}",
-                            "authenticated": false,
+                            "type": "plugin",
+                            "name": "DownloadResource",
                             "perms": [
                                 {
                                     "type": "resource",
@@ -2091,6 +2088,10 @@
             {
                 "type": "plugin",
                 "name": "FullScreen"
+            },
+            {
+                "type": "plugin",
+                "name": "DownloadResource"
             },
             {
                 "name": "DetailViewer"
