@@ -138,7 +138,7 @@ const EditingRating = ({rating, resourceType, onRating}) => (
         />
 
     </div>
-    )
+);
 
 function DetailsPanel({
     resource,
@@ -300,7 +300,7 @@ function DetailsPanel({
         {
             title: <Message msgId={"gnviewer.rate"} />,
             data: <EditingRating rating={resource?.rating} resourceType={resource?.resource_type} onRating={onRating} />
-        },
+        }
 
     ];
 
@@ -481,6 +481,15 @@ function DetailsPanel({
                                 })}>{resource.category.identifier}</a>
                             </div>}
                         </p>
+                        <div className={`gn-details-panel-content-rating`} >
+                            <Rating
+                                initialRating={resource?.rating}
+                                emptySymbol={<FaIcon name="star-o" />}
+                                fullSymbol={<FaIcon name="star" />}
+                                readonly
+                            />
+                        </div>
+
                     </div>
                 </div>
                 {editTitle && <div className="gn-details-panel-info"><Tabs itemsTab={itemsTab} /></div>}
