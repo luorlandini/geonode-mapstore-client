@@ -218,7 +218,3 @@ export const getMetadataUrl = (resource) => {
     }
     return '';
 };
-
-export const getDownloadUrl = (resource) => {
-    return (resource && resource?.href) ? resource?.href : "";
-};
