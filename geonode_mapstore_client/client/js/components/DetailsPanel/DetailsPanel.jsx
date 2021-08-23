@@ -483,6 +483,7 @@ function DetailsPanel({
                         </p>
                         {!editThumbnail &&
                         <div className={`gn-details-panel-content-rating`} >
+                            <p><Message msgId={"gnviewer.averageRating"} /></p>
                             <Rating
                                 initialRating={resource?.rating}
                                 emptySymbol={<FaIcon name="star-o" />}
