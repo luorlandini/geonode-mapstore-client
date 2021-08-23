@@ -157,8 +157,6 @@ function DetailsPanel({
     onRating,
     enableFavorite
 }) {
-    console.log('resource');
-    console.log(resource);
     const detailsContainerNode = useRef();
     const isMounted = useRef();
     const [copiedResourceLink, setCopiedResourceLink] = useState(false);
