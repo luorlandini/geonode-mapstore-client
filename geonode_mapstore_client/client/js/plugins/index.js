@@ -9,7 +9,6 @@
 import isFunction from 'lodash/isFunction';
 import merge from 'lodash/merge';
 import omit from 'lodash/omit';
-import { extendPluginsDefinition } from '@extend/jsapi/plugins';
 import {
     PrintActionButton,
     CatalogActionButton,
@@ -374,7 +373,12 @@ export const plugins = {
     DeleteResourcePlugin: toLazyPlugin(
         'DeleteResource',
         import(/* webpackChunkName: 'plugins/delete-resource-plugin' */ '@js/plugins/DeleteResource')
+    ),
+    DownloadResourcePlugin: toLazyPlugin(
+        'DownloadResource',
+        import(/* webpackChunkName: 'plugins/download-resource-plugin' */ '@js/plugins/DownloadResource')
     )
+
 };
 
 const pluginsDefinition = {
@@ -386,10 +390,4 @@ const pluginsDefinition = {
     reducers: {}
 };
 
-const extendedPluginsDefinition = splitLazyAndStaticPlugins(
-    extendPluginsDefinition
-        ? extendPluginsDefinition(pluginsDefinition, { toLazyPlugin })
-        : pluginsDefinition
-);
-
-export default extendedPluginsDefinition;
+export default splitLazyAndStaticPlugins(pluginsDefinition);
