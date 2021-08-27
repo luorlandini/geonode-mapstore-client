@@ -12,29 +12,14 @@ import {
     UPDATE_ASYNC_PROCESS
 } from '@js/actions/resourceservice';
 
-import { ProcessStatus } from '@js/utils/ResourceServiceUtils';
+import {
+    PROCESS_RESOURCES
+} from '@js/actions/gnresource';
 
-const LOCAL_STORAGE_PROCESSES_KEY = 'gn.reducers.resourceservice.processes';
-
-function getLocalStorageProcesses() {
-    try {
-        const processes = JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROCESSES_KEY)) || [];
-        return processes.filter(({ completed, output }) => !(completed || output?.status === ProcessStatus.FINISHED || output?.status === ProcessStatus.FAILED));
-    } catch (e) {
-        return [];
-    }
-}
-
-function setLocalStorageProcesses(reducer) {
-    return (state, action) => {
-        const newState = reducer(state, action);
-        try {
-            localStorage.setItem(LOCAL_STORAGE_PROCESSES_KEY, JSON.stringify(newState.processes));
-        } catch (e) {/**/}
-
-        return newState;
-    };
-}
+import {
+    getLocalStorageProcesses,
+    setLocalStorageProcesses
+} from '@js/utils/LocalStorageUtils';
 
 const defaultState = {
     processes: getLocalStorageProcesses()
@@ -42,6 +27,20 @@ const defaultState = {
 
 function resourceservice(state = defaultState, action) {
     switch (action.type) {
+    case PROCESS_RESOURCES: {
+        return {
+            ...state,
+            processes: [
+                ...state.processes.filter((process) =>
+                    !action.resources.find((resource) =>
+                        process?.resource?.pk === resource?.pk
+                        && process?.processType === action.processType
+                    )
+                ),
+                ...action.resources.map((resource) => ({ resource, processType: action.processType }))
+            ]
+        };
+    }
     case START_ASYNC_PROCESS: {
         return {
             ...state,

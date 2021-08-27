@@ -12,9 +12,15 @@ import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import ActionNavbar from '@js/components/ActionNavbar';
+
 import FaIcon from '@js/components/FaIcon';
 import usePluginItems from '@js/hooks/usePluginItems';
-import { getResourcePerms, canAddResource, getResourceData } from '@js/selectors/resource';
+import {
+    getResourcePerms,
+    canAddResource,
+    getResourceData,
+    getResourceDirtyState
+} from '@js/selectors/resource';
 import { hasPermissionsTo, reduceArrayRecursive } from '@js/utils/MenuUtils';
 import { getResourceTypesInfo } from '@js/utils/ResourceUtils';
 
@@ -31,8 +37,10 @@ function checkResourcePerms(menuItem, resourcePerms) {
 function ActionNavbarPlugin({
     items,
     leftMenuItems,
+    rightMenuItems,
     resourcePerms,
-    resource
+    resource,
+    isDirtyState
 }, context) {
 
     const types = getResourceTypesInfo();
@@ -46,6 +54,17 @@ function ActionNavbarPlugin({
                 item.Component = plugin?.Component;
             }
         });
+
+        item.className = item.showPendingChangesIcon && isDirtyState ? 'gn-pending-changes-icon' : '';
+        return (item);
+    });
+
+    const rightMenuItemsPlugins = reduceArrayRecursive(rightMenuItems, (item) => {
+        configuredItems.find(plugin => {
+            if ( item.type === 'plugin' && plugin.name === item.name ) {
+                item.Component = plugin?.Component;
+            }
+        });
         return (item);
     });
 
@@ -53,10 +72,17 @@ function ActionNavbarPlugin({
         leftMenuItemsPlugins,
         menuItem => checkResourcePerms(menuItem, resourcePerms)
     );
+
+    const rightItems = reduceArrayRecursive(
+        rightMenuItemsPlugins,
+        menuItem => checkResourcePerms(menuItem, resourcePerms)
+    );
+
     return (
 
         <ActionNavbar
             leftItems={leftItems}
+            rightItems={rightItems}
             variant="default"
             size="sm"
         >
@@ -67,24 +93,28 @@ function ActionNavbarPlugin({
 
 ActionNavbarPlugin.propTypes = {
     items: PropTypes.array,
-    leftMenuItems: PropTypes.array
+    leftMenuItems: PropTypes.array,
+    rightMenuItems: PropTypes.array
 };
 
 ActionNavbarPlugin.defaultProps = {
     items: [],
-    leftMenuItems: []
+    leftMenuItems: [],
+    rightMenuItems: []
 };
 
 const ConnectedActionNavbarPlugin = connect(
     createSelector([
         getResourcePerms,
         canAddResource,
-        getResourceData
-    ], (resourcePerms, userCanAddResource, resource) => ({
+        getResourceData,
+        getResourceDirtyState
+    ], (resourcePerms, userCanAddResource, resource, dirtyState) => ({
         resourcePerms: (resourcePerms.length > 0 ) ?
             resourcePerms : ((userCanAddResource)
                 ? [ "change_resourcebase"] : [] ),
-        resource
+        resource,
+        isDirtyState: !!dirtyState
     }))
 )(ActionNavbarPlugin);
 

@@ -11,6 +11,7 @@ import uuid from 'uuid';
 import url from 'url';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 import { parseDevHostname } from '@js/utils/APIUtils';
+import { ProcessTypes, ProcessStatus } from '@js/utils/ResourceServiceUtils';
 
 function getExtentFromResource({ ll_bbox_polygon: llBboxPolygon }) {
     if (!llBboxPolygon) {
@@ -41,22 +42,24 @@ export const resourceToLayerConfig = (resource) => {
         alternate,
         links = [],
         featureinfo_custom_template: template,
-        title
+        title,
+        perms,
+        pk
     } = resource;
 
     const bbox = getExtentFromResource(resource);
 
     const { url: wfsUrl } = links.find(({ link_type: linkType }) => linkType === 'OGC:WFS') || {};
     const { url: wmsUrl } = links.find(({ link_type: linkType }) => linkType === 'OGC:WMS') || {};
-
+    const params = wmsUrl && url.parse(wmsUrl, true).query;
     const format = getConfigProp('defaultLayerFormat') || 'image/png';
     return {
-        perms: resource.perms,
+        perms,
         id: uuid(),
-        pk: resource.pk,
+        pk,
         type: 'wms',
         name: alternate,
-        url: wmsUrl,
+        url: wmsUrl || '',
         format,
         ...(wfsUrl && {
             search: {
@@ -73,7 +76,8 @@ export const resourceToLayerConfig = (resource) => {
         }),
         style: '',
         title,
-        visibility: true
+        visibility: true,
+        ...(params && { params })
     };
 };
 
@@ -175,7 +179,7 @@ export const getResourceTypesInfo = () => ({
         formatEmbedUrl: (resource) => parseDevHostname(updateUrlQueryParameter(resource.embed_url, {
             config: 'dataset_preview'
         })),
-        formatDetailUrl: (resource) => (`/catalogue/#/dataset/${resource.pk}`),
+        formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         name: 'Dataset',
         formatMetadataUrl: (resource) => (`/datasets/${resource.alternate}/metadata`)
     },
@@ -185,28 +189,28 @@ export const getResourceTypesInfo = () => ({
         formatEmbedUrl: (resource) => parseDevHostname(updateUrlQueryParameter(resource.embed_url, {
             config: 'map_preview'
         })),
-        formatDetailUrl: (resource) => (`/catalogue/#/map/${resource.pk}`),
+        formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => (`/maps/${resource.pk}/metadata`)
     },
     [ResourceTypes.DOCUMENT]: {
         icon: 'file',
         name: 'Document',
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
-        formatDetailUrl: (resource) => (`/catalogue/#/document/${resource.pk}`),
+        formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => (`/documents/${resource.pk}/metadata`)
     },
     [ResourceTypes.GEOSTORY]: {
         icon: 'book',
         name: 'GeoStory',
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
-        formatDetailUrl: (resource) => (`/catalogue/#/geostory/${resource.pk}`),
+        formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
     },
     [ResourceTypes.DASHBOARD]: {
         icon: 'dashboard',
         name: 'Dashboard',
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
-        formatDetailUrl: (resource) => (`/catalogue/#/dashboard/${resource.pk}`),
+        formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
     }
 });
@@ -217,4 +221,28 @@ export const getMetadataUrl = (resource) => {
         return formatMetadataUrl(resource);
     }
     return '';
+};
+
+export const getResourceStatuses = (resource) => {
+    const { processes } = resource || {};
+    const isProcessing = processes
+        ? !!processes.find(({ completed }) => !completed)
+        : false;
+    const deleteProcess = processes && processes.find(({ processType }) => processType === ProcessTypes.DELETE_RESOURCE);
+    const isDeleting = isProcessing && !!deleteProcess?.output?.status && !deleteProcess?.completed;
+    const isDeleted = deleteProcess?.output?.status === ProcessStatus.FINISHED;
+    const copyProcess = processes && processes.find(({ processType }) => processType === ProcessTypes.COPY_RESOURCE);
+    const isCopying = isProcessing && !!copyProcess?.output?.status && !copyProcess?.completed;
+    const isCopied = deleteProcess?.output?.status === ProcessStatus.FINISHED;
+    const isApproved = resource?.is_approved;
+    const isPublished = isApproved && resource?.is_published;
+    return {
+        isApproved,
+        isPublished,
+        isProcessing,
+        isDeleting,
+        isDeleted,
+        isCopying,
+        isCopied
+    };
 };

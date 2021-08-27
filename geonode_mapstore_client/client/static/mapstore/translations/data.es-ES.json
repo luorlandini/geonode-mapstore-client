@@ -159,7 +159,7 @@
             "permissionsName": "Nombre",
             "permissions": "Permisos",
             "anonymous": "Cualquiera",
-            "registered-members": "Colaboradores",
+            "registered-members": "Miembros registrados",
             "permissionsEntriesNoResults": "Sin resultados ...",
             "shareThisResource": "Comparte este recurso",
             "embed": "Insertar",
@@ -167,7 +167,20 @@
             "deleteResourceNo": "{count, plural, =1 {No, no lo borres} other {No, no los borres}}",
             "deleteResourceYes": "Sí, estoy seguro",
             "underApproval": "Bajo aprobación",
-            "unpublish": "No publicado"
+            "unpublish": "No publicado",
+            "deleted": "Eliminado",
+            "deleting": "Eliminando ...",
+            "cloning": "Clonación ...",
+            "clone": "Clonar",
+            "title": "Título",
+            "titlePlaceholder": "Escriba un título...",
+            "fullscreen": "Pantalla completa",
+            "nativescreen": "Salir del modo de pantalla completa",
+            "prompPendingChanges": "Hay cambios sin guardar, ¿está seguro de que desea salir?",
+            "errorCompactPermissionsTitle": "Error en la actualización de permisos",
+            "errorCompactPermissionsMessage": "No fue posible actualizar los permisos",
+            "warningGeoLimitsSaveTitle": "Proceso de guardado incompleto",
+            "warningGeoLimitsSaveMessage": "No fue posible actualizar los nuevos límites geográficos"
         }
     }
 }

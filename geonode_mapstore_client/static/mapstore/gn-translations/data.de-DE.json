@@ -159,7 +159,7 @@
             "permissionsName": "Name",
             "permissions": "Berechtigungen",
             "anonymous": "Jeder",
-            "registered-members": "Mitwirkende",
+            "registered-members": "Registrierte Mitglieder",
             "permissionsEntriesNoResults": "Keine Ergebnisse...",
             "shareThisResource": "Diese Ressource teilen",
             "embed": "Einbetten",
@@ -167,7 +167,14 @@
             "deleteResourceNo": "{count, plural, =1 {Nein, nicht löschen} other {Nein, lösche sie nicht}}",
             "deleteResourceYes": "Ja, ich bin sicher",
             "underApproval": "In Genehmigung",
-            "unpublish": "Nicht veröffentlicht"
+            "unpublish": "Nicht veröffentlicht",
+            "fullscreen": "Vollbild",
+            "nativescreen": "Vollbildmodus beenden",
+            "prompPendingChanges": "Es sind nicht gespeicherte Änderungen vorhanden. Möchten Sie wirklich gehen?",
+            "errorCompactPermissionsTitle": "Fehler beim Berechtigungsupdate",
+            "errorCompactPermissionsMessage": "Es war nicht möglich die Berechtigungen zu aktualisieren",
+            "warningGeoLimitsSaveTitle": "Unvollständiger Speichervorgang",
+            "warningGeoLimitsSaveMessage": "Es war nicht möglich die neuen Geolimits zu aktualisieren"
         }
     }
 }

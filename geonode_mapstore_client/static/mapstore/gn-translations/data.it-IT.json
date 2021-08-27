@@ -161,7 +161,7 @@
             "permissionsName": "Nome",
             "permissions": "Permessi",
             "anonymous": "Chiunque",
-            "registered-members": "Collaboratori",
+            "registered-members": "Membri registrati",
             "permissionsEntriesNoResults": "Nessun risultato...",
             "shareThisResource": "Condividi questa risorsa",
             "embed": "Incorpora",
@@ -169,7 +169,14 @@
             "deleteResourceNo": "{count, plural, =1 {No, non eliminarlo} other {No, non eliminarli}}",
             "deleteResourceYes": "Sì, sono sicuro",
             "underApproval": "In approvazione",
-            "unpublish": "Non pubblicato"
+            "unpublish": "Non pubblicato",
+            "fullscreen": "Schermo intero",
+            "nativescreen": "Esci da modalità schermo intero",
+            "prompPendingChanges": "Sono presenti modifiche non salvate, sei sicuro di voler uscire?",
+            "errorCompactPermissionsTitle": "Errore nell'aggiornamento delle autorizzazioni",
+            "errorCompactPermissionsMessage": "Non è stato possibile aggiornare i permessi",
+            "warningGeoLimitsSaveTitle": "Processo di salvataggio incompleto",
+            "warningGeoLimitsSaveMessage": "Non è stato possibile aggiornare i nuovi limiti geografici"
         }
     }
 }
