@@ -243,7 +243,7 @@ function DetailsPanel({
     const extraItemsList = [
         {
             "label": "Point of Contact",
-            "value": <a href={`/people/profile/${resource?.owner?.username}/`}> {(resource?.poc?.first_name + resource?.poc?.last_name || resource?.poc?.username)} </a>
+            "value": <a href={`/messages/create/${resource?.owner?.pk}/`}> {(resource?.poc?.first_name + resource?.poc?.last_name || resource?.poc?.username)} </a>
         },
         {
             "label": "License",
