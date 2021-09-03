@@ -25,14 +25,46 @@ export const gnSaveFavoriteContent = (action$, store) =>
         .switchMap((action) => {
             const state = store.getState();
             const pk = state?.gnresource?.data.pk;
+            const resource =  state?.gnresource?.data;
             const favorite =  action.favorite;
             const resources = store.getState().gnsearch?.resources || [];
             return Observable
                 .defer(() => setFavoriteResource(pk, favorite))
                 .switchMap(() => {
+                    let newResources;
+                    if (resources.some(item => item.pk === resource.pk)) {
+                        newResources = resources.filter((item) => item.pk !== resource.pk);
+                    } else {
+                        newResources = [...resources, resource];
+                    }
+                    return Observable.of(
+                        updateResourceProperties({
+                            'favorite': favorite
+                        }),
+                        updateResources(newResources, true)
+
+                    );
+
+                })
+                .catch((error) => {
+                    return Observable.of(resourceError(error.data || error.message));
+                });
+
+        });
+
+
+export default {
+    gnSaveFavoriteContent
+};
+
+
+        /*
+        return Observable
+                .defer(() => setFavoriteResource(pk, favorite))
+                .switchMap(() => {
                     return Observable
-                        .defer(() => getResourceByPk(pk))
-                        .switchMap((resource) => {
+                        //.defer(() => getResourceByPk(pk))
+                        .switchMap(() => {
                             let newResources;
                             if (resources.some(item => item.pk === resource.pk)) {
                                 newResources = resources.filter((item) => item.pk !== resource.pk);
@@ -53,8 +85,4 @@ export const gnSaveFavoriteContent = (action$, store) =>
                     return Observable.of(resourceError(error.data || error.message));
                 });
         });
-
-
-export default {
-    gnSaveFavoriteContent
-};
+*/
