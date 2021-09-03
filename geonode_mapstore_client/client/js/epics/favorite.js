@@ -56,33 +56,3 @@ export const gnSaveFavoriteContent = (action$, store) =>
 export default {
     gnSaveFavoriteContent
 };
-
-
-        /*
-        return Observable
-                .defer(() => setFavoriteResource(pk, favorite))
-                .switchMap(() => {
-                    return Observable
-                        //.defer(() => getResourceByPk(pk))
-                        .switchMap(() => {
-                            let newResources;
-                            if (resources.some(item => item.pk === resource.pk)) {
-                                newResources = resources.filter((item) => item.pk !== resource.pk);
-                            } else {
-                                newResources = [...resources, resource];
-                            }
-                            return Observable.of(
-                                updateResourceProperties({
-                                    'favorite': favorite
-                                }),
-                                updateResources(newResources, true)
-
-                            );
-
-                        });
-                })
-                .catch((error) => {
-                    return Observable.of(resourceError(error.data || error.message));
-                });
-        });
-*/
