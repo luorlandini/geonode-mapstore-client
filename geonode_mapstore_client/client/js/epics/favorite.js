@@ -16,8 +16,7 @@ import {
     updateResources
 } from '@js/actions/gnsearch';
 import {
-    setFavoriteResource,
-    getResourceByPk
+    setFavoriteResource
 } from '@js/api/geonode/v2';
 
 export const gnSaveFavoriteContent = (action$, store) =>
