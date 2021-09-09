@@ -23,7 +23,7 @@ export const gnSaveFavoriteContent = (action$, store) =>
     action$.ofType(SET_FAVORITE_RESOURCE)
         .switchMap((action) => {
             const state = store.getState();
-            const pk = state?.gnresource?.data.pk;
+            const pk = state?.gnresource?.data?.pk;
             const isFavoriteList = (state?.gnsearch?.params?.f?.includes('favorite')) ? true : false;
             const resource =  state?.gnresource?.data;
             const favorite =  action.favorite;
@@ -32,20 +32,23 @@ export const gnSaveFavoriteContent = (action$, store) =>
                 resources.filter((item) => item.pk !== resource.pk)
                 : [...resources, resource]) : resources;
 
-            return Observable
-                .defer(() => setFavoriteResource(pk, favorite))
-                .switchMap(() => {
-                    return Observable.of(
-                        updateResourceProperties({
-                            'favorite': favorite
-                        }),
-                        updateResources(newResources, true)
-                    );
-
-                })
-                .catch((error) => {
-                    return Observable.of(resourceError(error.data || error.message));
-                });
+            return Observable.concat(
+                Observable.of(updateResourceProperties({
+                    'favorite': favorite
+                }),
+                updateResources(newResources, true)),
+                Observable.defer(() => setFavoriteResource(pk, favorite))
+                    .switchMap(() => {
+                        return Observable.empty();
+                    })
+                    .catch((error) => {
+                        return Observable.of(
+                            updateResourceProperties({
+                                'favorite': !favorite
+                            }),
+                            updateResources(resources, true),
+                            resourceError(error.data || error.message));
+                    }));
 
         });
 
