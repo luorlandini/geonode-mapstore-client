@@ -32,25 +32,22 @@ export const gnSaveFavoriteContent = (action$, store) =>
                 resources.filter((item) => item.pk !== resource.pk)
                 : [...resources, resource]) : resources;
 
-            return Observable.concat(
-                Observable.of(updateResourceProperties({
-                    'favorite': favorite
-                }),
-                updateResources(newResources, true)
-                ),
-                Observable.defer(() => setFavoriteResource(pk, favorite))
-                    .switchMap(() => {
-                        return Observable.empty();
-                    })
-                    .catch((error) => {
-                        return Observable.of(
-                            resourceError(error.data || error.message));
-                    })
-            );
 
+            return Observable
+                .defer(() => setFavoriteResource(pk, favorite))
+                .switchMap(() => {
+                    return Observable.of(
+                        updateResourceProperties({
+                            'favorite': favorite
+                        }),
+                        updateResources(newResources, true)
+                    );
+                })
+                .catch((error) => {
+                    return Observable.of(resourceError(error.data || error.message));
+                });
 
         });
-
 
 export default {
     gnSaveFavoriteContent
