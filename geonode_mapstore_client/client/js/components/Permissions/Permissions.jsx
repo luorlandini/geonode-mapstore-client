@@ -21,6 +21,7 @@ import {
 } from '@js/utils/ResourceUtils';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
 import { getGeoLimits } from '@js/api/geonode/security';
+import Spinner from '@js/components/Spinner';
 
 const FormControl = localizedProps('placeholder')(FormControlRB);
 
@@ -34,7 +35,8 @@ function Permissions({
     defaultGroupOptions,
     enableGeoLimits,
     requestGeoLimits = getGeoLimits,
-    resourceId
+    resourceId,
+    loading
 }) {
 
     const { entries = [], groups = [] } = permissionsCompactToLists(compactPermissions);
@@ -165,78 +167,7 @@ function Permissions({
 
     return (
         <div className="gn-share-permissions-container">
-            <div className="gn-share-permissions-list-head">
-                <Popover
-                    placement="bottom"
-                    content={
-                        <div className="gn-add-permissions-entries-container">
-                            <Nav bsStyle="tabs" activeKey={activeTab}>
-                                {entriesTabs.map((tab) => {
-                                    return (
-                                        <NavItem
-                                            key={tab.id}
-                                            eventKey={tab.id}
-                                            onClick={() => setActiveTab(tab.id)}
-                                        >
-                                            <Message msgId={tab.labelId} />
-                                        </NavItem>
-                                    );
-                                })}
-                            </Nav>
-                            <div className="gn-add-permissions-entries-body">
-                                {entriesTabs
-                                    .filter(tab => tab.id === activeTab)
-                                    .map(tab => {
-                                        return (
-                                            <AddPermissionsEntriesPanel
-                                                key={tab.id}
-                                                request={(params) => tab.request({
-                                                    ...params,
-                                                    entries: permissionsEntires,
-                                                    groups: permissionsGroups
-                                                })}
-                                                onAdd={handleAddNewEntry}
-                                                onRemove={handleRemoveEntry}
-                                                responseToEntries={(response) =>
-                                                    tab.responseToEntries({ response, entries: permissionsEntires })
-                                                }
-                                            />
-                                        );
-                                    })}
-                            </div>
-                        </div>
-                    }>
-                    <Button size="sm">
-                        <FaIcon name="plus" />{' '}<Message msgId="gnviewer.addPermissionsEntry"/>
-                    </Button>
-                </Popover>
-                <div className="gn-share-filter">
-                    <FormControl
-                        placeholder="gnviewer.filterByNameOrPermissions"
-                        value={filter}
-                        onChange={event => setFilter(event.target.value)}
-                    />
-                    {filter && <Button onClick={() => setFilter('')}>
-                        <FaIcon name="times"/>
-                    </Button>}
-                </div>
-                <div className="gn-share-permissions-head">
-                    <div className="gn-share-permissions-row">
-                        <div className="gn-share-permissions-name">
-                            <Button onClick={sortEntries.bind(null, 'name')}>
-                                <Message msgId="gnviewer.permissionsName"/>
-                                {order[0] === 'name' && <>{' '}<FaIcon name={order[1] ? 'chevron-up' : 'chevron-down'} /></>}
-                            </Button>
-                        </div>
-                        <div className="gn-share-permissions-options">
-                            <Button onClick={sortEntries.bind(null, 'permissions')}>
-                                <Message msgId="gnviewer.permissions"/>
-                                {order[0] === 'permissions' && <>{' '}<FaIcon name={order[1] ? 'chevron-up' : 'chevron-down'} /></>}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <ul className="gn-share-permissions-list">
                 <li className="gn-share-permissions-pinned">
                     {permissionsGroups
@@ -253,7 +184,9 @@ function Permissions({
                             );
                         })}
                 </li>
+
                 {filteredEntries
+                    .filter((item) => item.permissions !== 'owner'  )
                     .map((entry, idx) => {
                         return (
                             <li
@@ -296,11 +229,89 @@ function Permissions({
                         );
                     })}
             </ul>
+            <div className="gn-share-permissions-list-head">
+                <Popover
+                    placement="bottom"
+                    content={
+                        <div className="gn-add-permissions-entries-container">
+                            <Nav bsStyle="tabs" activeKey={activeTab}>
+                                {entriesTabs.map((tab) => {
+                                    return (
+                                        <NavItem
+                                            key={tab.id}
+                                            eventKey={tab.id}
+                                            onClick={() => setActiveTab(tab.id)}
+                                        >
+                                            <Message msgId={tab.labelId} />
+                                        </NavItem>
+                                    );
+                                })}
+                            </Nav>
+                            <div className="gn-add-permissions-entries-body">
+                                {entriesTabs
+                                    .filter(tab => tab.id === activeTab)
+                                    .map(tab => {
+                                        return (
+                                            <AddPermissionsEntriesPanel
+                                                key={tab.id}
+                                                request={(params) => tab.request({
+                                                    ...params,
+                                                    entries: permissionsEntires,
+                                                    groups: permissionsGroups
+                                                })}
+                                                onAdd={handleAddNewEntry}
+                                                onRemove={handleRemoveEntry}
+                                                responseToEntries={(response) =>
+                                                    tab.responseToEntries({ response, entries: permissionsEntires })
+                                                }
+                                            />
+                                        );
+                                    })}
+                            </div>
+                        </div>
+                    }>
+                    <Button variant={'primary'} size="sm">
+                        <FaIcon name="plus" />{' '}<Message msgId="gnviewer.addPermissionsEntry"/>
+                    </Button>
+                </Popover>
+                <div className="gn-share-filter">
+                    <FormControl
+                        placeholder="gnviewer.filterByNameOrPermissions"
+                        value={filter}
+                        onChange={event => setFilter(event.target.value)}
+                    />
+                    {filter && <Button onClick={() => setFilter('')}>
+                        <FaIcon name="times"/>
+                    </Button>}
+                </div>
+
+                <div className="gn-share-permissions-head">
+                    <div className="gn-share-permissions-row">
+                        <div className="gn-share-permissions-name">
+                            <Button onClick={sortEntries.bind(null, 'name')}>
+                                <Message msgId="gnviewer.permissionsName"/>
+                                {order[0] === 'name' && <>{' '}<FaIcon name={order[1] ? 'chevron-up' : 'chevron-down'} /></>}
+                            </Button>
+                        </div>
+                        <div className="gn-share-permissions-options">
+                            <Button onClick={sortEntries.bind(null, 'permissions')}>
+                                <Message msgId="gnviewer.permissions"/>
+                                {order[0] === 'permissions' && <>{' '}<FaIcon name={order[1] ? 'chevron-up' : 'chevron-down'} /></>}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {(filteredEntries.length === 0) &&
                 <div className="gn-permissions-alert">
                     <Message msgId="gnviewer.permissionsEntriesNoResults" />
                 </div>
             }
+            {loading && (
+                <div className="gn-spinner-container">
+                    <Spinner />
+                </div>
+            )}
         </div>
     );
 }

@@ -19,6 +19,23 @@
         .color-var(@theme-vars[main-variant-color]);
         .background-color-var(@theme-vars[main-variant-bg]);
     }
+
+    .gn-resource-status-warning {
+        .background-color-var(@theme-vars[warning]);
+        .color-var(@theme-vars[warning-contrast]);
+    }
+    .gn-resource-status-danger {
+        .background-color-var(@theme-vars[danger]);
+        .color-var(@theme-vars[danger-contrast]);
+    }
+    .gn-resource-status-primary {
+        .background-color-var(@theme-vars[primary]);
+        .color-var(@theme-vars[primary-contrast]);
+    }
+    .gn-resource-status-success {
+        .background-color-var(@theme-vars[success]);
+        .color-var(@theme-vars[success-contrast]);
+    }
 }
 
 // **************
@@ -33,7 +50,7 @@
         width: 100%;
         min-height: 100vh;
     }
-    h3 { 
+    h3 {
         margin-left: 1rem;
         margin-top: 1rem;
         font-weight: 600;
@@ -78,6 +95,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 0.5rem;
         button, button:focus {
             color: black;
             background: none;
@@ -92,10 +110,17 @@
         flex: 1 1 auto;
         .card-img-left{
             width: 160px;
-            height: auto;
+            height: 135px;
             object-fit: cover;
         }
     }
+}
+
+.gn-resource-status {
+    padding: 0.2em 0.5em;
+    border-radius: 2px;
+    font-size: @font-size-sm;
+    margin-right: 0.25rem;
 }
 
 .gn-fixed-card-grid {

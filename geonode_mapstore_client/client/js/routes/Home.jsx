@@ -33,12 +33,15 @@ import {
 } from '@js/utils/AppUtils';
 
 import ConnectedCardGrid from '@js/routes/catalogue/ConnectedCardGrid';
-
-const DEFAULT_RESOURCES = [];
+import { getFeaturedResults, getTotalResources } from '@js/selectors/search';
+import DeleteResource from '@js/plugins/DeleteResource';
+import SaveAs from '@js/plugins/SaveAs';
+const { DeleteResourcePlugin } = DeleteResource;
+const { SaveAsPlugin } = SaveAs;
 
 const ConnectedFeatureList = connect(
     createSelector([
-        state => state?.gnsearch?.featuredResources?.resources || DEFAULT_RESOURCES,
+        getFeaturedResults,
         state => state?.gnsearch?.featuredResources?.page || 1,
         state => state?.gnsearch?.featuredResources?.isNextPageAvailable || false,
         state => state?.gnsearch?.featuredResources?.isPreviousPageAvailable || false,
@@ -142,6 +145,8 @@ function Home({
                     </ConnectedCardGrid>
                 </div>
             </div>
+            <DeleteResourcePlugin redirectTo={false} />
+            <SaveAsPlugin closeOnSave labelId="gnviewer.clone"/>
         </div>
     );
 }
@@ -169,7 +174,7 @@ const ConnectedHome = connect(
         state => state?.gnsearch?.params || DEFAULT_PARAMS,
         userSelector,
         getParsedGeoNodeConfiguration,
-        state => state?.gnsearch?.total || 0
+        getTotalResources
     ], (params, user, config, totalResources) => ({
         params,
         user,

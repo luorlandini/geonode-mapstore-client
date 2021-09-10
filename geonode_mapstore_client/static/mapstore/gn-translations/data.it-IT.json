@@ -57,6 +57,7 @@
             "noContentYetTitle": "Benvenuto su GeoNode",
             "noContentYetContent": "Questo catalogo non ha risorse pubblicate. <br/> Stiamo lavorando per aggiungere al catalogo nuove risorse.",
             "resourcesFound": "{count, plural, =0 {0 Risorse trovate} =1 {1 Risorsa trovata} other {# Risorse trovate}}",
+            "filterApplied": "{count, plural, =0 {0 filtri applicati} =1 {1 filtro applicato} other {# filtri applicati}}",
             "noResultsWithFilterTitle": "Nessun risultato",
             "noResultsWithFilterContent": "Non ci sono risultato per i filtri selezionati. <br/> Cancella tutti filtri e riprova con una nuova richiesta.",
             "register": "Registrati",
@@ -117,7 +118,10 @@
             "customFiltersTitle": "Risorse",
             "myResources": "Le mie risorse",
             "pendingApproval": "In attesa di approvazione",
-            "featuredList": "In primo piano"
+            "featuredList": "In primo piano",
+            "uploadDataset": "Carica dataset",
+            "createDataset": "Crea dataset",
+            "search": "Cerca..."
         },
         "viewer": {
             "document": {
@@ -158,10 +162,28 @@
             "permissionsName": "Nome",
             "permissions": "Permessi",
             "anonymous": "Chiunque",
-            "registered-members": "Collaboratori",
+            "registered-members": "Membri registrati",
             "permissionsEntriesNoResults": "Nessun risultato...",
-            "shareThisResource": "Condividi questa risorsa",
-            "embed": "Incorpora"
+            "shareThisResource": "Condividi con utenti e gruppi",
+            "embed": "Incorpora",
+            "deleteResourceTitle": "{count, plural, =1 {Sei sicuro di voler eliminare questa risorsa?} other {Sei sicuro di voler eliminare queste risorse?}}",
+            "deleteResourceNo": "{count, plural, =1 {No, non eliminarlo} other {No, non eliminarli}}",
+            "deleteResourceYes": "Sì, sono sicuro",
+            "underApproval": "In approvazione",
+            "unpublish": "Non pubblicato",
+            "deleted": "Eliminato",
+            "deleting": "Eliminazione in corso...",
+            "cloning": "Copia in corso...",
+            "clone": "Clona",
+            "title": "Titolo",
+            "titlePlaceholder": "Aggiungi un titolo...",
+            "fullscreen": "Schermo intero",
+            "nativescreen": "Esci da modalità schermo intero",
+            "prompPendingChanges": "Sono presenti modifiche non salvate, sei sicuro di voler uscire?",
+            "errorCompactPermissionsTitle": "Errore nell'aggiornamento delle autorizzazioni",
+            "errorCompactPermissionsMessage": "Non è stato possibile aggiornare i permessi",
+            "warningGeoLimitsSaveTitle": "Processo di salvataggio incompleto",
+            "warningGeoLimitsSaveMessage": "Non è stato possibile aggiornare i nuovi limiti geografici"
         }
     }
 }

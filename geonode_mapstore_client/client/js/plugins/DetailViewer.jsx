@@ -32,6 +32,10 @@ import Button from '@js/components/Button';
 import PropTypes from 'prop-types';
 import useDetectClickOut from '@js/hooks/useDetectClickOut';
 import OverlayContainer from '@js/components/OverlayContainer';
+import { withRouter } from 'react-router';
+import {
+    hashLocationToHref
+} from '@js/utils/SearchUtils';
 
 const ConnectedDetailsPanel = connect(
     createSelector([
@@ -65,7 +69,7 @@ const ButtonViewer = ({
             variant={variant}
             size={size}
             onClick={handleClickButton}
-        > <Message msgId="gnviewer.details"/>
+        > <Message msgId="gnviewer.info"/>
         </Button>)
         : null
     ;
@@ -87,6 +91,7 @@ const ConnectedButton = connect(
 
 function DetailViewer({
     items,
+    location,
     enabled,
     onEditResource,
     onEditAbstractResource,
@@ -121,6 +126,13 @@ function DetailViewer({
         }
     });
 
+    const handleFormatHref = (options) => {
+        return hashLocationToHref({
+            location,
+            ...options
+        });
+    };
+
     if (hide) {
         return null;
     }
@@ -140,6 +152,7 @@ function DetailViewer({
                 activeEditMode={enabled && canEdit}
                 buttonSaveThumbnailMap={buttonSaveThumbnailMap}
                 enableFavorite={!!user}
+                formatHref={handleFormatHref}
             />
         </OverlayContainer>
     );
@@ -172,7 +185,7 @@ const DetailViewerPlugin = connect(
         onEditThumbnail: editThumbnailResource,
         onClose: setControlProperty.bind(null, 'rightOverlay', 'enabled', false)
     }
-)(DetailViewer);
+)(withRouter(DetailViewer));
 
 
 export default createPlugin('DetailViewer', {

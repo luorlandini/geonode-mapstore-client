@@ -8,7 +8,6 @@
  */
 
 import React, { useRef, useState, useEffect } from 'react';
-import DOMPurify from 'dompurify';
 import FaIcon from '@js/components/FaIcon';
 import Button from '@js/components/Button';
 import Tabs from '@js/components/Tabs';
@@ -23,19 +22,30 @@ import { getResourceTypesInfo } from '@js/utils/ResourceUtils';
 import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
+import ResourceStatus from '@js/components/ResourceStatus/';
 
 const CopyToClipboard = tooltip(CopyToClipboardCmp);
 
-const EditTitle = ({ title, onEdit }) => {
+const EditTitle = ({ title, onEdit, tagName, disabled }) => {
     return (
         <div className="editContainer">
-            <TextEditable onEdit={onEdit} text={title} />
+            <TextEditable
+                tagName={tagName}
+                onEdit={onEdit}
+                text={title}
+                disabled={disabled}
+            />
         </div>);
 };
 
-const EditAbstract = ({ abstract, onEdit }) => (
+const EditAbstract = ({ abstract, onEdit, tagName, disabled }) => (
     <div className="editContainer">
-        <TextEditable onEdit={onEdit} text={abstract} />
+        <TextEditable
+            tagName={tagName}
+            onEdit={onEdit}
+            text={abstract}
+            disabled={disabled}
+        />
     </div>
 
 );
@@ -126,17 +136,6 @@ function DetailsPanel({
     enableFavorite,
     buttonSaveThumbnailMap
 }) {
-    const [editModeTitle, setEditModeTitle] = useState(false);
-    const [editModeAbstract, setEditModeAbstract] = useState(false);
-
-    const handleEditModeTitle = () => {
-        setEditModeTitle(!editModeTitle);
-    };
-
-    const handleEditModeAbstract = () => {
-        setEditModeAbstract(!editModeAbstract);
-    };
-
     const detailsContainerNode = useRef();
     const isMounted = useRef();
     const [copiedResourceLink, setCopiedResourceLink] = useState(false);
@@ -174,7 +173,6 @@ function DetailsPanel({
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
     const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
-
     const attributeSet = resource?.attribute_set;
     const infoField = [
         {
@@ -187,7 +185,7 @@ function DetailsPanel({
         },
         {
             "label": "Owner",
-            "value": resource?.owner?.username
+            "value": <a href={`/people/profile/${resource?.owner?.username}/`}> {resource?.owner?.username} </a>
         },
         {
             "label": "Created",
@@ -203,26 +201,50 @@ function DetailsPanel({
         },
         {
             "label": "Resource Type",
-            "value": resource?.resource_type
+            "value": <a href={formatHref({
+                pathname: '/search/filter/',
+                query: {
+                    'f': resource?.resource_type
+                }
+            })}>{resource?.resource_type}</a>
         },
         {
             "label": "Category",
-            "value": resource?.category
+            "value": <a href={formatHref({
+                pathname: '/search/filter/',
+                query: {
+                    'filter{category.identifier.in}': resource.category?.identifier
+                }
+            })}>{resource.category?.identifier}</a>
         },
         {
             "label": "Keywords",
-            "value": resource?.keywords?.join(" ")
+            "value": resource?.keywords?.map((map) => {
+                return (<a href={formatHref({
+                    pathname: '/search/filter/',
+                    query: {
+                        'filter{keywords.slug.in}': map.slug
+                    }
+                })}>{map.name + " "}</a>);
+            })
         },
         {
             "label": "Regions",
-            "value": resource?.regions?.map(map => map.name + " ")
+            "value": resource?.regions?.map((map) => {
+                return (<a href={formatHref({
+                    pathname: '/search/filter/',
+                    query: {
+                        'filter{regions.name.in}': map.name
+                    }
+                })}>{map.name + " "}</a>);
+            })
         }
     ];
 
     const extraItemsList = [
         {
             "label": "Point of Contact",
-            "value": (resource?.poc?.first_name + resource?.poc?.last_name || resource?.poc?.username)
+            "value": <a href={`/messages/create/${resource?.owner?.pk}/`}> {(resource?.poc?.first_name + resource?.poc?.last_name || resource?.poc?.username)} </a>
         },
         {
             "label": "License",
@@ -384,20 +406,10 @@ function DetailsPanel({
 
                     <div className="gn-details-panel-content-text">
                         <div className="gn-details-panel-title" >
+                            <span className="gn-details-panel-title-icon" ><FaIcon name={icon} /> </span> <EditTitle disabled={!activeEditMode} tagName="h1"  title={resource?.title} onEdit={editTitle} >
 
-                            {!editModeTitle && <h1>
-                                {icon && <><FaIcon name={icon} /></>}
-                                {resource?.title}
-                            </h1>
-                            }
-                            {activeEditMode && !editModeTitle && <span onClick={handleEditModeTitle} ><FaIcon name={'pencil-square-o'} /></span>}
+                            </EditTitle>
 
-
-                            {editModeTitle && <h1>
-                                <EditTitle title={resource?.title} onEdit={editTitle} />
-                                <span className="inEdit" onClick={handleEditModeTitle} ><FaIcon name={'check-circle'} /></span>
-                            </h1>
-                            }
                             {
                                 <div className="gn-details-panel-tools">
                                     {
@@ -441,10 +453,10 @@ function DetailsPanel({
 
 
                         </div>
-
-
+                        <ResourceStatus resource={resource} />
                         {<p>
                             {resource?.owner && <><a href={formatHref({
+                                pathname: editTitle && '/search/filter/',
                                 query: {
                                     'filter{owner.username.in}': resource.owner.username
                                 }
@@ -453,35 +465,22 @@ function DetailsPanel({
                             && <>{' '}/{' '}{moment(resource.date).format('MMMM Do YYYY')}</>}
                         </p>
                         }
-                        <div className="gn-details-panel-description">
-                            {editModeAbstract && <>
-                                <EditAbstract abstract={resource?.abstract} onEdit={editAbstract} />
-                                <span className="inEdit" onClick={handleEditModeAbstract} ><FaIcon name={'check-circle'} /></span>
 
-                            </>
-                            }
-                            {
-                                !editModeAbstract && resource?.abstract ?
-                                    <span className="gn-details-panel-text" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(resource.abstract) }} />
-                                    : null
-                            }
-                            {activeEditMode && !editModeAbstract && <span onClick={handleEditModeAbstract} ><FaIcon name={'pencil-square-o'} /></span>}
-                        </div>
-
+                        <EditAbstract disabled={!activeEditMode} tagName="span"  abstract={resource?.abstract} onEdit={editAbstract} />
                         <p>
                             {resource?.category?.identifier && <div>
                                 <Message msgId="gnhome.category" />:{' '}
                                 <a href={formatHref({
+                                    pathname: editTitle && '/search/filter/',
                                     query: {
                                         'filter{category.identifier.in}': resource.category.identifier
                                     }
                                 })}>{resource.category.identifier}</a>
                             </div>}
                         </p>
-
                     </div>
                 </div>
-                {editTitle && <div className="gn-details-panel-info"><Tabs itemsTab={itemsTab} /></div>}
+                { editTitle && <div className="gn-details-panel-info"><Tabs itemsTab={itemsTab} /></div>}
             </section>
         </div>
     );

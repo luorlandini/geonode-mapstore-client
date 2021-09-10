@@ -18,12 +18,12 @@ import Button from '@js/components/Button';
 import { mapInfoSelector } from '@mapstore/framework/selectors/map';
 import { layersSelector } from '@mapstore/framework/selectors/layers';
 import OverlayContainer from '@js/components/OverlayContainer';
-import url from 'url';
 import {
     isNewResource,
     getResourceId,
     getCompactPermissions,
-    canEditPermissions
+    canEditPermissions,
+    getResourceData
 } from '@js/selectors/resource';
 import { updateResourceCompactPermissions } from '@js/actions/gnresource';
 import FaIcon from '@js/components/FaIcon/FaIcon';
@@ -31,23 +31,7 @@ import Permissions from '@js/components/Permissions';
 import { getUsers, getGroups } from '@js/api/geonode/v2';
 import { resourceToPermissionEntry } from '@js/utils/ResourceUtils';
 import SharePageLink from '@js/plugins/share/SharePageLink';
-import ShareEmbedLink from '@js/plugins/share/ShareEmbedLink';
-
-function getShareUrl({
-    resourceId,
-    pathTemplate
-}) {
-    const {
-        host,
-        protocol
-    } = url.parse(location.href);
-    const pathname = pathTemplate.replace(/\{id\}/g, resourceId);
-    return url.format({
-        host,
-        protocol,
-        pathname
-    });
-}
+import { getCurrentResourcePermissionsLoading } from '@js/selectors/resourceservice';
 
 const entriesTabs = [
     {
@@ -101,7 +85,6 @@ function Share({
     width,
     permissionsOptions,
     resourceId,
-    pathTemplate,
     compactPermissions,
     layers,
     onChangePermissions,
@@ -109,13 +92,9 @@ function Share({
     onClose,
     canEdit,
     permissionsGroupOptions,
-    permissionsDefaultGroupOptions
+    permissionsDefaultGroupOptions,
+    permissionsLoading
 }) {
-
-    const shareUrl = getShareUrl({
-        resourceId,
-        pathTemplate
-    });
 
     return (
         <OverlayContainer
@@ -133,12 +112,7 @@ function Share({
                 </div>
                 <div className="gn-share-panel-body">
                     <SharePageLink />
-                    <div className="gn-share-panel-label"><label><Message msgId="gnviewer.embed" />:</label></div>
-                    <ShareEmbedLink
-                        shareUrl={shareUrl}
-                    />
                     {canEdit && <>
-                        <div className="gn-share-panel-label"><label><Message msgId="gnviewer.permissions" />:</label></div>
                         <Permissions
                             compactPermissions={compactPermissions}
                             layers={layers} entriesTabs={entriesTabs}
@@ -148,6 +122,7 @@ function Share({
                             resourceId={resourceId}
                             groupOptions={permissionsGroupOptions}
                             defaultGroupOptions={permissionsDefaultGroupOptions}
+                            loading={permissionsLoading}
                         />
                     </>}
                 </div>
@@ -158,7 +133,6 @@ function Share({
 
 Share.propTypes = {
     resourceId: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    pathTemplate: PropTypes.string,
     enabled: PropTypes.bool,
     onClose: PropTypes.func,
     width: PropTypes.number,
@@ -169,7 +143,6 @@ Share.propTypes = {
 
 Share.defaultProps = {
     resourceId: null,
-    pathTemplate: '/apps/{id}/embed',
     enabled: false,
     onClose: () => {},
     width: 800,
@@ -230,17 +203,21 @@ Share.defaultProps = {
 const SharePlugin = connect(
     createSelector([
         state => state?.controls?.rightOverlay?.enabled === 'Share',
-        state => state?.gnresource?.id,
+        getResourceId,
         mapInfoSelector,
         getCompactPermissions,
         layersSelector,
-        canEditPermissions
-    ], (enabled, resourceId, mapInfo, compactPermissions, layers, canEdit) => ({
+        canEditPermissions,
+        getCurrentResourcePermissionsLoading,
+        getResourceData
+    ], (enabled, resourceId, mapInfo, compactPermissions, layers, canEdit, permissionsLoading, resource) => ({
         enabled,
         resourceId: resourceId || mapInfo?.id,
         compactPermissions,
         layers,
-        canEdit
+        canEdit,
+        permissionsLoading,
+        embedUrl: resource?.embed_url
     })),
     {
         onClose: setControlProperty.bind(null, 'rightOverlay', 'enabled', false),

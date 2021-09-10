@@ -10,7 +10,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
-import {toggleControl} from '@mapstore/framework/actions/controls';
+import { setControlProperty } from '@mapstore/framework/actions/controls';
 import Message from '@mapstore/framework/components/I18N/Message';
 import { Glyphicon } from 'react-bootstrap';
 import { mapInfoSelector } from '@mapstore/framework/selectors/map';
@@ -18,15 +18,23 @@ import { isLoggedIn } from '@mapstore/framework/selectors/security';
 import Button from '@js/components/Button';
 import {
     saveContent,
-    clearSave,
-    updateResourceBeforeSave
+    clearSave
 } from '@js/actions/gnsave';
 import controls from '@mapstore/framework/reducers/controls';
 import gnresource from '@js/reducers/gnresource';
 import gnsave from '@js/reducers/gnsave';
 import gnsaveEpics from '@js/epics/gnsave';
 import SaveModal from '@js/plugins/save/SaveModal';
-import { canAddResource } from '@js/selectors/resource';
+import {
+    canAddResource,
+    getResourceId,
+    getResourceData,
+    isNewResource,
+    getResourceDirtyState
+} from '@js/selectors/resource';
+import { ProcessTypes } from '@js/utils/ResourceServiceUtils';
+import { processResources } from '@js/actions/gnresource';
+import { getCurrentResourceCopyLoading } from '@js/selectors/resourceservice';
 
 /**
  * Plugin for SaveAs modal
@@ -53,40 +61,70 @@ import { canAddResource } from '@js/selectors/resource';
  *   }
  * }
  */
-function SaveAs(props) {
+function SaveAs({
+    resources,
+    onSave,
+    onCopy,
+    isNew,
+    closeOnSave,
+    labelId,
+    ...props
+}) {
     return (
         <SaveModal
             {...props}
+            hideThumbnail={!isNew}
+            hideDescription={!isNew}
             // add key to reset the component when a new resource is returned
             key={props?.resource?.pk || 'new'}
-            labelId="save"
+            labelId={labelId || 'save'}
+            onSave={(id, metadata, reload) => {
+                if (isNew) {
+                    // only new resource follow the sync save
+                    onSave(id, metadata, reload);
+                } else {
+                    // existing resource are using the async copy workflow
+                    onCopy([
+                        {
+                            ...props?.resource,
+                            title: metadata.name || props?.resource?.title
+                        }
+                    ]);
+                }
+                // catalogue page must close the clone modal as soon as the user click on clone
+                if (closeOnSave) {
+                    props.onClose();
+                }
+            }}
         />
     );
 }
 
 const SaveAsPlugin = connect(
     createSelector([
-        state => state?.controls?.saveAs?.enabled,
+        state => state?.controls?.[ProcessTypes.COPY_RESOURCE]?.value,
         mapInfoSelector,
-        state => state?.gnresource?.data,
         state => state?.gnresource?.loading,
         state => state?.gnsave?.saving,
         state => state?.gnsave?.error,
         state => state?.gnsave?.success,
-        state => state?.gnresource?.id
-    ], (enabled, mapInfo, resource, loading, saving, error, success, contentId) => ({
-        enabled,
+        getResourceId,
+        isNewResource,
+        getCurrentResourceCopyLoading
+    ], (resources, mapInfo, loading, saving, error, success, contentId, isNew, processLoading) => ({
+        enabled: !!resources,
         contentId: contentId || mapInfo?.id,
-        resource,
-        loading,
+        resource: resources?.[0],
+        loading: processLoading || loading,
         saving,
         error,
-        success
+        success,
+        isNew
     })),
     {
-        onClose: toggleControl.bind(null, 'saveAs', null),
-        onInit: updateResourceBeforeSave,
+        onClose: setControlProperty.bind(null, ProcessTypes.COPY_RESOURCE, 'value', undefined),
         onSave: saveContent,
+        onCopy: processResources.bind(null, ProcessTypes.COPY_RESOURCE),
         onClear: clearSave
     }
 )(SaveAs);
@@ -95,13 +133,16 @@ function SaveAsButton({
     enabled,
     onClick,
     variant,
-    size
+    size,
+    resource,
+    disabled
 }) {
     return enabled
         ? <Button
             variant={variant || "primary"}
             size={size}
-            onClick={() => onClick()}
+            disabled={disabled}
+            onClick={() => onClick([ resource ])}
         >
             <Message msgId="saveAs"/>
         </Button>
@@ -113,12 +154,16 @@ const ConnectedSaveAsButton = connect(
     createSelector(
         isLoggedIn,
         canAddResource,
-        (loggedIn, userCanAddResource) => ({
-            enabled: loggedIn && userCanAddResource
+        getResourceData,
+        getResourceDirtyState,
+        (loggedIn, userCanAddResource, resource, dirtyState) => ({
+            enabled: loggedIn && userCanAddResource,
+            resource,
+            disabled: !!dirtyState
         })
     ),
     {
-        onClick: toggleControl.bind(null, 'saveAs', null)
+        onClick: setControlProperty.bind(null, ProcessTypes.COPY_RESOURCE, 'value')
     }
 )((SaveAsButton));
 
@@ -130,7 +175,7 @@ export default createPlugin('SaveAs', {
             position: 30,
             text: <Message msgId="saveAs"/>,
             icon: <Glyphicon glyph="floppy-open"/>,
-            action: toggleControl.bind(null, 'saveAs', null),
+            action: setControlProperty.bind(null, 'saveAs', null),
             selector: createSelector(
                 isLoggedIn,
                 canAddResource,

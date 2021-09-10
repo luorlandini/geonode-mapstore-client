@@ -38,54 +38,33 @@ import MetaTags from "@js/components/MetaTags";
 import {
     getThemeLayoutSize
 } from '@js/utils/AppUtils';
-
+import { getTotalResources } from '@js/selectors/search';
 import ConnectedCardGrid from '@js/routes/catalogue/ConnectedCardGrid';
+import DeleteResource from '@js/plugins/DeleteResource';
+import SaveAs from '@js/plugins/SaveAs';
+const { DeleteResourcePlugin } = DeleteResource;
+const { SaveAsPlugin } = SaveAs;
 
 const suggestionsRequestTypes = {
     resourceTypes: {
         filterKey: 'filter{resource_type.in}',
-        loadOptions: (q, params) => getResourceTypes({ ...params, q }, 'filter{resource_type.in}')
-            .then(results => ({
-                options: results
-                    .map(({ selectOption }) => selectOption)
-            }))
-            .catch(() => null)
+        loadOptions: params => getResourceTypes(params, 'filter{resource_type.in}')
     },
     categories: {
         filterKey: 'filter{category.identifier.in}',
-        loadOptions: (q, params) => getCategories({ ...params, q }, 'filter{category.identifier.in}')
-            .then(results => ({
-                options: results
-                    .map(({ selectOption }) => selectOption)
-            }))
-            .catch(() => null)
+        loadOptions: params => getCategories(params, 'filter{category.identifier.in}')
     },
     keywords: {
         filterKey: 'filter{keywords.slug.in}',
-        loadOptions: (q, params) => getKeywords({ ...params, q }, 'filter{keywords.slug.in}')
-            .then(results => ({
-                options: results
-                    .map(({ selectOption }) => selectOption)
-            }))
-            .catch(() => null)
+        loadOptions: params => getKeywords(params, 'filter{keywords.slug.in}')
     },
     regions: {
         filterKey: 'filter{regions.name.in}',
-        loadOptions: (q, params) => getRegions({ ...params, q }, 'filter{regions.name.in}')
-            .then(results => ({
-                options: results
-                    .map(({ selectOption }) => selectOption)
-            }))
-            .catch(() => null)
+        loadOptions: params => getRegions(params, 'filter{regions.name.in}')
     },
     owners: {
         filterKey: 'filter{owner.username.in}',
-        loadOptions: (q, params) => getOwners({ ...params, q }, 'filter{owner.username.in}')
-            .then(results => ({
-                options: results
-                    .map(({ selectOption }) => selectOption)
-            }))
-            .catch(() => null)
+        loadOptions: params => getOwners(params, 'filter{owner.username.in}')
     }
 };
 
@@ -179,7 +158,7 @@ function Search({
             if (suggestionRequest) {
                 const filtersToUpdate = castArray(state.current.query[queryKey]).filter((value) => !getFilterById(queryKey, value));
                 if (filtersToUpdate?.length > 0) {
-                    const request = suggestionRequest.loadOptions.bind(null, '', { idIn: filtersToUpdate });
+                    const request = suggestionRequest.loadOptions.bind(null, { includes: filtersToUpdate, pageSize: filtersToUpdate.length });
                     updateRequests.push(request);
                 }
             }
@@ -246,6 +225,8 @@ function Search({
                     </ConnectedCardGrid>
                 </div>
             </div>
+            <DeleteResourcePlugin redirectTo={false} />
+            <SaveAsPlugin closeOnSave labelId="gnviewer.clone"/>
         </>
     );
 }
@@ -280,7 +261,7 @@ const ConnectedSearch = connect(
         state => state?.gnresource?.data || null,
         state => state?.controls?.gnFiltersPanel?.enabled || null,
         getParsedGeoNodeConfiguration,
-        state => state?.gnsearch?.total || 0,
+        getTotalResources,
         state => state?.gnsettings?.siteName || "Geonode"
     ], (params, user, resource, isFiltersPanelEnabled, config, totalResources, siteName) => ({
         params,

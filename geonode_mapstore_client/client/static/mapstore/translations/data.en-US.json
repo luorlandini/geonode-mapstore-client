@@ -58,6 +58,7 @@
             "noContentYetTitle": "Welcome to GeoNode",
             "noContentYetContent": "This catalog doesn’t have published contents yet. <br/> We’re working to populate it with great resources. <br/><br/>Stay tuned!",
             "resourcesFound": "{count, plural, =0 {0 Resources found} =1 {1 Resource found} other {# Resources found}}",
+            "filterApplied": "{count, plural, =0 {0 filters applied} =1 {1 filter applied} other {# filters applied}}",
             "noResultsWithFilterTitle": "No results",
             "noResultsWithFilterContent": "There are not results for the selected filters. <br/> Clear all filters and try with a new request.",
             "register": "Register",
@@ -116,7 +117,10 @@
             "customFiltersTitle": "Resources",
             "myResources": "My resources",
             "pendingApproval": "Pending approval",
-            "featuredList": "Featured"
+            "featuredList": "Featured",
+            "uploadDataset": "Upload dataset",
+            "createDataset": "Create dataset",
+            "search": "Search..."
         },
         "viewer": {
             "document": {
@@ -128,7 +132,6 @@
         },
         "gnviewer": {
             "edit": "Edit",
-            "details": "Details",
             "editMetadata": "Edit Metadata",
             "editStyle": "Edit Style",
             "editData": "Edit Data",
@@ -160,10 +163,28 @@
             "permissionsName": "Name",
             "permissions": "Permissions",
             "anonymous": "Anyone",
-            "registered-members": "Contributors",
+            "registered-members": "Registered members",
             "permissionsEntriesNoResults": "No Results...",
-            "shareThisResource": "Share this resource",
-            "embed": "Embed"
+            "shareThisResource": "Share with people and groups",
+            "embed": "Embed",
+            "deleteResourceTitle": "{count, plural, =1 {Are you sure you want to delete this resource?} other {Are you sure you want to delete these resources?}}",
+            "deleteResourceNo": "{count, plural, =1 {No, don't delete it} other {No, don't delete them}}",
+            "deleteResourceYes": "Yes, I am sure",
+            "underApproval": "Under approval",
+            "unpublish": "Unpublish",
+            "deleted": "Deleted",
+            "deleting": "Deleting...",
+            "cloning": "Cloning...",
+            "clone": "Clone",
+            "title": "Title",
+            "titlePlaceholder": "Type a title...",
+            "fullscreen": "Full screen",
+            "nativescreen": "Exit full screen mode",
+            "prompPendingChanges": "There are unsaved changes, are you sure you want to leave?",
+            "errorCompactPermissionsTitle": "Error on permission update",
+            "errorCompactPermissionsMessage": "It was not possible to update the permissions",
+            "warningGeoLimitsSaveTitle": "Incomplete saving process",
+            "warningGeoLimitsSaveMessage": "It was not possible to update the new geo limits"
         }
     }
 }

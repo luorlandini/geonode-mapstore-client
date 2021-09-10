@@ -265,6 +265,15 @@ export const getResourceByPk = (pk) => {
         .then(({ data }) => data.resource);
 };
 
+export const getResourceByUuid = (uuid) => {
+    return axios.get(parseDevHostname(`${endpoints[RESOURCES]}`), {
+        params: {
+            'filter{uuid}': uuid
+        }
+    })
+        .then(({ data }) => data?.resources?.[0]);
+};
+
 export const getDatasetByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[DATASETS]}/${pk}`))
         .then(({ data }) => data.dataset);
@@ -549,12 +558,13 @@ export const getFeaturedResources = (page = 1, page_size =  4) => {
     }).then(({data}) => data);
 };
 
-export const getCategories = ({ q, idIn, ...params }, filterKey = 'categories') => {
+export const getCategories = ({ q, includes, page, pageSize, ...params }, filterKey = 'categories') => {
     return axios.get(parseDevHostname(`${endpoints[CATEGORIES]}`), {
         params: {
-            page_size: 9999,
+            page_size: pageSize || 9999,
+            page,
             ...params,
-            ...(idIn && {'filter{identifier.in}': idIn}),
+            ...(includes && {'filter{identifier.in}': includes}),
             ...(q && { 'filter{identifier.icontains}': q })
         }
     })
@@ -572,16 +582,21 @@ export const getCategories = ({ q, idIn, ...params }, filterKey = 'categories') 
                     setFilterById(filterKey + result.identifier, category);
                     return category;
                 });
-            return results;
+            return {
+                results,
+                total: data.total,
+                isNextPageAvailable: !!data.links.next
+            };
         });
 };
 
-export const getRegions = ({ q, idIn, ...params }, filterKey = 'regions') => {
+export const getRegions = ({ q, includes, page, pageSize, ...params }, filterKey = 'regions') => {
     return axios.get(parseDevHostname(`${endpoints[REGIONS]}`), {
         params: {
-            page_size: 9999,
+            page_size: pageSize || 9999,
+            page,
             ...params,
-            ...(idIn && {'filter{name.in}': idIn}),
+            ...(includes && {'filter{name.in}': includes}),
             ...(q && { 'filter{name.icontains}': q })
         }
     })
@@ -599,16 +614,21 @@ export const getRegions = ({ q, idIn, ...params }, filterKey = 'regions') => {
                     setFilterById(filterKey + result.name, region);
                     return region;
                 });
-            return results;
+            return {
+                results,
+                total: data.total,
+                isNextPageAvailable: !!data.links.next
+            };
         });
 };
 
-export const getOwners = ({ q, idIn, ...params }, filterKey = 'owners') => {
+export const getOwners = ({ q, includes, page, pageSize, ...params }, filterKey = 'owners') => {
     return axios.get(parseDevHostname(`${endpoints[OWNERS]}`), {
         params: {
-            page_size: 9999,
+            page_size: pageSize || 9999,
+            page,
             ...params,
-            ...(idIn && {'filter{username.in}': idIn}),
+            ...(includes && {'filter{username.in}': includes}),
             ...(q && { 'filter{username.icontains}': q })
         }
     })
@@ -626,16 +646,21 @@ export const getOwners = ({ q, idIn, ...params }, filterKey = 'owners') => {
                     setFilterById(filterKey + result.username, owner);
                     return owner;
                 });
-            return results;
+            return {
+                results,
+                total: data.total,
+                isNextPageAvailable: !!data.links.next
+            };
         });
 };
 
-export const getKeywords = ({ q, idIn, ...params }, filterKey =  'keywords') => {
+export const getKeywords = ({ q, includes, page, pageSize, ...params }, filterKey =  'keywords') => {
     return axios.get(parseDevHostname(`${endpoints[KEYWORDS]}`), {
         params: {
-            page_size: 9999,
+            page_size: pageSize || 9999,
+            page,
             ...params,
-            ...(idIn && {'filter{slug.in}': idIn}),
+            ...(includes && {'filter{slug.in}': includes}),
             ...(q && { 'filter{slug.icontains}': q })
         }
     })
@@ -653,7 +678,11 @@ export const getKeywords = ({ q, idIn, ...params }, filterKey =  'keywords') => 
                     setFilterById(filterKey + result.slug, keyword);
                     return keyword;
                 });
-            return results;
+            return {
+                results,
+                total: data.total,
+                isNextPageAvailable: !!data.links.next
+            };
         });
 };
 
@@ -667,10 +696,25 @@ export const updateCompactPermissionsByPk = (pk, body) => {
         .then(({ data }) => data);
 };
 
+export const deleteResource = (resource) => {
+    return axios.delete(parseDevHostname(`${endpoints[RESOURCES]}/${resource.pk}/delete`))
+        .then(({ data }) => data);
+};
+
+export const copyResource = (resource) => {
+    const defaults = {
+        title: resource.title,
+        ...(resource.data && { data: resource.data })
+    };
+    return axios.put(parseDevHostname(`${endpoints[RESOURCES]}/${resource.pk}/copy`), 'defaults=' + JSON.stringify(defaults))
+        .then(({ data }) => data);
+};
+
 export default {
     getEndpoints,
     getResources,
     getResourceByPk,
+    getResourceByUuid,
     createGeoApp,
     getGeoAppByPk,
     updateDataset,
@@ -693,5 +737,7 @@ export default {
     getOwners,
     getKeywords,
     getCompactPermissionsByPk,
-    updateCompactPermissionsByPk
+    updateCompactPermissionsByPk,
+    deleteResource,
+    copyResource
 };

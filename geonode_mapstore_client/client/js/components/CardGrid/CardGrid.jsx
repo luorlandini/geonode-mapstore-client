@@ -15,6 +15,7 @@ import { withResizeDetector } from 'react-resize-detector';
 import useLocalStorage from '@js/hooks/useLocalStorage';
 import { hasPermissionsTo } from '@js/utils/MenuUtils';
 import useInfiniteScroll from '@js/hooks/useInfiniteScroll';
+import { getResourceStatuses } from '@js/utils/ResourceUtils';
 
 const Cards = withResizeDetector(({
     resources,
@@ -23,7 +24,9 @@ const Cards = withResizeDetector(({
     containerWidth,
     width: detectedWidth,
     buildHrefByTemplate,
-    options
+    options,
+    actions,
+    onAction
 }) => {
 
     const width = containerWidth || detectedWidth;
@@ -85,9 +88,17 @@ const Cards = withResizeDetector(({
             style={cardLayoutStyle === 'list' ? {} : containerStyle}
         >
             {resources.map((resource, idx) => {
+                const {
+                    isProcessing,
+                    isDeleted
+                } = getResourceStatuses(resource);
                 // enable allowedOptions (menu cards) only for list layout
-                const allowedOptions =  (cardLayoutStyle === 'list') ? options
+                const allowedOptions =  (cardLayoutStyle === 'list' && !isProcessing) ? options
                     .filter((opt) => hasPermissionsTo(resource?.perms, opt?.perms, 'resource')) : [];
+
+                if (isDeleted) {
+                    return null;
+                }
 
                 return (
                     <li
@@ -95,12 +106,17 @@ const Cards = withResizeDetector(({
                         style={(layoutSpace(idx))}
                     >
                         <ResourceCard
+                            className={`${isDeleted ? 'deleted' : ''}`}
                             active={isCardActive(resource)}
                             data={resource}
                             formatHref={formatHref}
                             options={allowedOptions}
                             buildHrefByTemplate={buildHrefByTemplate}
                             layoutCardsStyle={cardLayoutStyle}
+                            actions={actions}
+                            onAction={onAction}
+                            loading={isProcessing}
+                            readOnly={isDeleted || isProcessing}
                         />
                     </li>
                 );
@@ -123,7 +139,10 @@ const CardGrid = ({
     messageId,
     children,
     buildHrefByTemplate,
-    scrollContainer
+    scrollContainer,
+    actions,
+    onAction,
+    onControl
 }) => {
 
     useInfiniteScroll({
@@ -157,6 +176,14 @@ const CardGrid = ({
                             isCardActive={isCardActive}
                             options={cardOptions}
                             buildHrefByTemplate={buildHrefByTemplate}
+                            actions={actions}
+                            onAction={(action, payload) => {
+                                if (action.isControlled) {
+                                    onControl(action.processType, 'value', payload);
+                                } else {
+                                    onAction(action.processType, payload, action.redirectTo);
+                                }
+                            }}
                         />
                         <div className="gn-card-grid-pagination">
                             {loading && <Spinner animation="border" role="status">
