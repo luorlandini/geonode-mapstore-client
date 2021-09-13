@@ -1810,12 +1810,6 @@
                 }
             },
             {
-                "name": "MapThumbnail",
-                "cfg": {
-                    "disablePermission": true
-                }
-            },
-            {
                 "name": "Save",
                 "cfg": {
                     "disablePermission": true
