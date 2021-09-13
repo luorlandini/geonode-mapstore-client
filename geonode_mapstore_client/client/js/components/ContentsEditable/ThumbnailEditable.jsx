@@ -10,9 +10,6 @@ import React, { useState, useEffect } from 'react';
 import Thumbnail from '@mapstore/framework/components/misc/Thumbnail';
 import FaIcon from '@js/components/FaIcon';
 import Button from '@js/components/Button';
-import Message from '@mapstore/framework/components/I18N/Message';
-import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
-const UploadImageButton = tooltip(Button);
 
 const ThumbnailEditable = ({
     defaultImage,
@@ -35,15 +32,12 @@ const ThumbnailEditable = ({
                 }}
 
             />
-            <UploadImageButton
+            <Button
                 variant="default"
                 className="upload-thumbnail"
-                tooltipPosition={"top"}
-                tooltip={  <Message msgId="gnviewer.uploadImage"/>  }
-
             >
                 <FaIcon name="upload" />
-            </UploadImageButton>
+            </Button>
         </>
     );
 };
