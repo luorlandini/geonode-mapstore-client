@@ -8,7 +8,7 @@
 
 import axios from '@mapstore/framework/libs/ajax';
 import { Observable } from 'rxjs';
-import { mapInfoSelector } from '@mapstore/framework/selectors/map';
+import { mapInfoSelector, mapSelector } from '@mapstore/framework/selectors/map';
 import { userSelector } from '@mapstore/framework/selectors/security';
 import {
     error as errorNotification,
@@ -26,11 +26,10 @@ import {
 } from '@js/actions/gnsave';
 import {
     setResource,
-    resourceError,
-    updateResourceProperties,
     SET_MAP_THUMBNAIL,
     resetGeoLimits,
     setResourceCompactPermissions,
+    updateResourceProperties,
     loadingResourceConfig
 } from '@js/actions/gnresource';
 import {
@@ -170,12 +169,16 @@ export const gnSetMapThumbnail = (action$, store) =>
             const map =  mapSelector(state) || {};
             const body = {
                 srid: map.bbox.crs,
-                bbox: Object.values(map.bbox.bounds)
+                bbox: [ Object.values(map.bbox.bounds)[2],
+                    Object.values(map.bbox.bounds)[0],
+                    Object.values(map.bbox.bounds)[3],
+                    Object.values(map.bbox.bounds)[1]
+                ]
             };
             return Observable.defer(() => setMapThumbnail(resourceIDThumbnail, body, contentType))
                 .switchMap((res) => {
                     return Observable.of(
-                        setResource({...currentResource, thumbnail_url: `${res.thumbnail_url}?${Math.random()}`} ),
+                        updateResourceProperties({...currentResource, thumbnail_url: `${res.thumbnail_url}?${Math.random()}`}),
                         clearSave(),
                         ...([successNotification({title: "gnviewer.thumbnailsaved", message: "gnviewer.thumbnailsaved"})])
 

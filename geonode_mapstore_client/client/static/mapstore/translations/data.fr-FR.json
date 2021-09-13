@@ -135,7 +135,7 @@
             "editStyle": "Modifier le Style",
             "editData": "Modifier les Données",
             "backToDataset": "Retour à l'Ensemble de Données",
-            "uploadImage": "Cliquez ou faites glisser et déposez une image",
+            "uploadImage": "Cliquez pour télécharger une image",
             "save": "Sauver",
             "share": "Partager",
             "download": "Télécharger",
@@ -183,7 +183,8 @@
             "errorCompactPermissionsTitle": "Erreur lors de la mise à jour des autorisations",
             "errorCompactPermissionsMessage": "Il n'a pas été possible de mettre à jour les autorisations",
             "warningGeoLimitsSaveTitle": "Processus de sauvegarde incomplet",
-            "warningGeoLimitsSaveMessage": "Il n'a pas été possible de mettre à jour les nouvelles limites géographiques"
+            "warningGeoLimitsSaveMessage": "Il n'a pas été possible de mettre à jour les nouvelles limites géographiques",
+            "saveMapThumbnail": "Voulez-vous enregistrer la carte sous forme de vignette ?"
         }
     }
 }

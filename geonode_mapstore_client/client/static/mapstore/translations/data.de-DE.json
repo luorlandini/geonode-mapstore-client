@@ -135,7 +135,7 @@
             "editStyle": "Stil Bearbeiten",
             "editData": "Daten Bearbeiten",
             "backToDataset": "Zurück zum Datensatz",
-            "uploadImage": "Klicken oder ziehen Sie ein Bild und legen Sie es ab",
+            "uploadImage": "Klicken Sie hier, um ein Bild hochzuladen",
             "save": "Speichern",
             "share": "Teilen",
             "download": "Herunterladen",
@@ -183,7 +183,8 @@
             "errorCompactPermissionsTitle": "Fehler beim Berechtigungsupdate",
             "errorCompactPermissionsMessage": "Es war nicht möglich die Berechtigungen zu aktualisieren",
             "warningGeoLimitsSaveTitle": "Unvollständiger Speichervorgang",
-            "warningGeoLimitsSaveMessage": "Es war nicht möglich die neuen Geolimits zu aktualisieren"
+            "warningGeoLimitsSaveMessage": "Es war nicht möglich die neuen Geolimits zu aktualisieren",
+            "saveMapThumbnail": "Möchten Sie die Karte als Miniaturansicht speichern?"
         }
     }
 }

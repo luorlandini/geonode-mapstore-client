@@ -136,7 +136,7 @@
             "editStyle": "Edit Style",
             "editData": "Edit Data",
             "backToDataset": "Back to Dataset",
-            "uploadImage": "Click or drag and drop an image",
+            "uploadImage": "Click to upload an image",
             "save": "Save",
             "share": "Share",
             "download": "Download",
@@ -184,7 +184,8 @@
             "errorCompactPermissionsTitle": "Error on permission update",
             "errorCompactPermissionsMessage": "It was not possible to update the permissions",
             "warningGeoLimitsSaveTitle": "Incomplete saving process",
-            "warningGeoLimitsSaveMessage": "It was not possible to update the new geo limits"
+            "warningGeoLimitsSaveMessage": "It was not possible to update the new geo limits",
+            "saveMapThumbnail": "Do you want save the map like thumbnail?"
         }
     }
 }

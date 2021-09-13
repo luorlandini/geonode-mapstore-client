@@ -35,6 +35,7 @@ function cleanEpics(epics, excludedNames = EXCLUDED_EPICS_NAMES) {
 }
 
 function toLazyPlugin(name, implFunc, overrides) {
+
     const getLazyPlugin = () => {
         return implFunc().then((mod) => {
             const impl = mod.default;
@@ -246,7 +247,7 @@ export const plugins = {
     ),
     MapThumbnailPlugin: toLazyPlugin(
         'MapThumbnail',
-        import(/* webpackChunkName: 'plugins/save-plugin' */ '@js/plugins/MapThumbnail')
+        () => import(/* webpackChunkName: 'plugins/map-thumbnail-plugin' */ '@js/plugins/MapThumbnail')
     ),
     SearchPlugin: toLazyPlugin(
         'Search',

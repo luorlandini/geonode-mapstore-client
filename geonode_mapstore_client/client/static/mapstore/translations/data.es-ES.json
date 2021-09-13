@@ -135,7 +135,7 @@
             "editStyle": "Editar Estilo",
             "editData": "Editar Datos",
             "backToDataset": "Volver al Conjunto de Datos",
-            "uploadImage": "Haga clic o arrastre y suelte una imagen",
+            "uploadImage": "Haz clic para subir una imagen",
             "save": "Ahorrar",
             "share": "Cuota",
             "download": "Descargar",
@@ -183,7 +183,8 @@
             "errorCompactPermissionsTitle": "Error en la actualización de permisos",
             "errorCompactPermissionsMessage": "No fue posible actualizar los permisos",
             "warningGeoLimitsSaveTitle": "Proceso de guardado incompleto",
-            "warningGeoLimitsSaveMessage": "No fue posible actualizar los nuevos límites geográficos"
+            "warningGeoLimitsSaveMessage": "No fue posible actualizar los nuevos límites geográficos",
+            "saveMapThumbnail": "¿Quieres guardar el mapa como miniatura?"
         }
     }
 }

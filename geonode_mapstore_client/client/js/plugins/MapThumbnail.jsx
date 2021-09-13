@@ -20,6 +20,9 @@ import gnresource from '@js/reducers/gnresource';
 import gnsave from '@js/reducers/gnsave';
 import gnsaveEpics from '@js/epics/gnsave';
 import { setMapThumbnail } from '@js/actions/gnresource';
+import Message from '@mapstore/framework/components/I18N/Message';
+import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
+const MapThumbnailButtonToolTip = tooltip(Button);
 
 import {
     isNewResource,
@@ -34,7 +37,9 @@ function MapThumbnail(props) {
             top: '0px', zIndex: 1000, display: 'flex',
             alignItems: 'center', justifyContent: 'center', right: '0px'}}>
         <Loader size={150}/>
-    </div>) : null;
+    </div>) : null
+
+    ;
 }
 
 const MapThumbnailPlugin = connect(
@@ -50,12 +55,19 @@ function MapThumbnailButton({
     onClick
 }) {
     return enabled
-        ? <Button
+        ?
+        <MapThumbnailButtonToolTip
             variant="default"
             onClick={() => onClick()}
+            className={"map-thumbnail"}
+            tooltip={  <Message msgId="gnviewer.saveMapThumbnail"/>  }
+            tooltipPosition={"top"}
+
         >
-            <FaIcon name="camera" />
-        </Button>
+            <FaIcon name="map" />
+
+        </MapThumbnailButtonToolTip>
+
         : null
     ;
 }

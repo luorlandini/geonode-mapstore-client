@@ -39,12 +39,6 @@ let endpoints = {
     'groups': '/api/v2/groups'
 };
 
-let pathApiThumbnail = {
-    map: '/api/v2/resources',
-    dataset: '/api/v2/datasets'
-};
-
-
 const RESOURCES = 'resources';
 const DOCUMENTS = 'documents';
 const DATASETS = 'datasets';
@@ -249,8 +243,8 @@ export const getDocumentsByDocType = (docType = 'image', {
         }));
 };
 
-export const setMapThumbnail = (pk, body, type) => {
-    return axios.post(parseDevHostname(`${pathApiThumbnail[type]}/${pk}/set_thumbnail_from_bbox`), body)
+export const setMapThumbnail = (pk, body) => {
+    return axios.post(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/set_thumbnail_from_bbox`), body)
         .then(({ data }) => (data));
 };
 
