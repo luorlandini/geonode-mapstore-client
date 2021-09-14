@@ -870,8 +870,7 @@
                                 {
                                     "type": "link",
                                     "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
-                                    "labelId": "gnviewer.viewMetadata",
-                                    "disableIf": "{state('gnResourceData') && state('gnResourceData').perms && state('gnResourceData').perms.indexOf('download_resourcebase') === -1 ? true : false}"
+                                    "labelId": "gnviewer.viewMetadata"
                                 },
                                 {
                                     "type": "link",
