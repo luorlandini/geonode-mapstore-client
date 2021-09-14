@@ -801,7 +801,7 @@
                         {
                             "labelId": "gnviewer.save",
                             "showPendingChangesIcon": true,
-                            "disableIf": "{context.resourseHasPermission(state('gnResourceData'), 'change_resourcebase')}",
+                            "disableIf": "{!context.resourseHasPermission(state('gnResourceData'), 'change_resourcebase')}",
                             "type": "dropdown",
                             "items": [
                                 {
