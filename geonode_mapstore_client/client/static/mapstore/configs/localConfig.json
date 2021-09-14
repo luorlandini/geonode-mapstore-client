@@ -1448,6 +1448,18 @@
                             ]
                         },
                         {
+                            "labelId": "gnviewer.view",
+                            "type": "dropdown",
+                            "disableIf": "{context.resourseHasPermission(state('gnResourceData', 'change_resourcebase'))}",
+                            "items": [
+                                {
+                                    "type": "link",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "labelId": "gnviewer.viewMetadata"
+                                }
+                            ]
+                        },
+                        {
                             "type": "plugin",
                             "name": "Share"
                         },
@@ -1919,6 +1931,18 @@
                             ]
                         },
                         {
+                            "labelId": "gnviewer.view",
+                            "type": "dropdown",
+                            "disableIf": "{context.resourseHasPermission(state('gnResourceData', 'change_resourcebase'))}",
+                            "items": [
+                                {
+                                    "type": "link",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "labelId": "gnviewer.viewMetadata"
+                                }
+                            ]
+                        },
+                        {
                             "type": "plugin",
                             "name": "Share"
                         },
@@ -2105,6 +2129,18 @@
                             ]
                         },
                         {
+                            "labelId": "gnviewer.view",
+                            "type": "dropdown",
+                            "disableIf": "{context.resourseHasPermission(state('gnResourceData', 'download_resourcebase'))}",
+                            "items": [
+                                {
+                                    "type": "link",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "labelId": "gnviewer.viewMetadata"
+                                }
+                            ]
+                        },
+                        {
                             "type": "plugin",
                             "name": "Share"
                         },
@@ -2212,6 +2248,18 @@
                                     "type": "link",
                                     "href": "{context.getMetadataUrl(state('gnResourceData'))}",
                                     "labelId": "gnviewer.editMetadata"
+                                }
+                            ]
+                        },
+                        {
+                            "labelId": "gnviewer.view",
+                            "type": "dropdown",
+                            "disableIf": "{context.resourseHasPermission(state('gnResourceData', 'change_resourcebase'))}",
+                            "items": [
+                                {
+                                    "type": "link",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "labelId": "gnviewer.viewMetadata"
                                 }
                             ]
                         },
