@@ -863,6 +863,24 @@
                             ]
                         },
                         {
+                            "labelId": "gnviewer.view",
+                            "type": "dropdown",
+                            "disableIf": "{state('gnResourceData') && state('gnResourceData').perms && state('gnResourceData').perms.indexOf('change_resourcebase') !== -1 ? true : false}",
+                            "items": [
+                                {
+                                    "type": "link",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "labelId": "gnviewer.viewMetadata",
+                                    "disableIf": "{state('gnResourceData') && state('gnResourceData').perms && state('gnResourceData').perms.indexOf('download_resourcebase') === -1 ? true : false}"
+                                },
+                                {
+                                    "type": "link",
+                                    "href": "{'#/dataset/' + (state('gnResourceData') || {}).pk + '/edit/data'}",
+                                    "labelId": "gnviewer.viewData"
+                                }
+                            ]
+                        },
+                        {
                             "type": "plugin",
                             "name": "Share"
                         },

@@ -17,7 +17,7 @@ import {
     AnnotationsActionButton,
     FullScreenActionButton
 } from '@js/plugins/actionnavbar/buttons';
-import { getMetadataUrl } from '@js/utils/ResourceUtils';
+import { getMetadataUrl, getMetadataDetailUrl } from '@js/utils/ResourceUtils';
 
 const EXCLUDED_EPICS_NAMES = [
     'loadGeostoryEpic',
@@ -384,7 +384,8 @@ export const plugins = {
 const pluginsDefinition = {
     plugins,
     requires: {
-        getMetadataUrl
+        getMetadataUrl,
+        getMetadataDetailUrl
     },
     epics: {},
     reducers: {}

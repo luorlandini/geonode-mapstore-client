@@ -238,6 +238,12 @@ export const getMetadataUrl = (resource) => {
     return '';
 };
 
+
+export const getMetadataDetailUrl = (resource) => {
+    return (getMetadataUrl(resource)) ? getMetadataUrl(resource) + '_detail' : '';
+};
+
+
 export const getResourceStatuses = (resource) => {
     const { processes } = resource || {};
     const isProcessing = processes
