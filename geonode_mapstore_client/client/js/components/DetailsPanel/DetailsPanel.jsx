@@ -18,7 +18,7 @@ import Message from '@mapstore/framework/components/I18N/Message';
 import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
 import moment from 'moment';
 import { getUserName } from '@js/utils/SearchUtils';
-import { getResourceTypesInfo } from '@js/utils/ResourceUtils';
+import { getResourceTypesInfo, getMetadataDetailUrl } from '@js/utils/ResourceUtils';
 import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
@@ -118,7 +118,6 @@ const DefinitionListMoreItem = ({itemslist, extraItemsList}) => {
     );
 };
 
-
 function DetailsPanel({
     resource,
     formatHref,
@@ -166,13 +165,16 @@ function DetailsPanel({
     const {
         formatEmbedUrl = res => res?.embed_url,
         formatDetailUrl = res => res?.detail_url,
+        canPreviewed,
         icon,
         name
     } = resource && (types[resource.subtype] || types[resource.resource_type]) || {};
     const embedUrl = resource?.embed_url && formatEmbedUrl(resource);
     const detailUrl = resource?.pk && formatDetailUrl(resource);
+    const resourceCanPreviewed = resource?.pk && canPreviewed && canPreviewed(resource);
     const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
     const attributeSet = resource?.attribute_set;
+    const metadataDetailUrl = resource?.pk && getMetadataDetailUrl(resource);
     const infoField = [
         {
             "label": "Title",
@@ -335,7 +337,7 @@ function DetailsPanel({
                     </Button>
                 </div>
                 }
-                {!activeEditMode && !editThumbnail && <div className="gn-details-panel-preview">
+                {resourceCanPreviewed && !activeEditMode && !editThumbnail && <div className="gn-details-panel-preview">
                     <div
                         className="gn-loader-placeholder"
                         style={{
@@ -437,9 +439,9 @@ function DetailsPanel({
                                     }
                                     {detailUrl && !editThumbnail && <Button
                                         variant="default"
-                                        href={detailUrl}
+                                        href={(resourceCanPreviewed) ? detailUrl : metadataDetailUrl}
                                         rel="noopener noreferrer">
-                                        <Message msgId={`gnhome.view${name || ''}`} />
+                                        <Message msgId={`gnhome.view${((resourceCanPreviewed) ? name : 'Metadata')}`} />
                                     </Button>}
                                 </div>
                             }
