@@ -172,7 +172,6 @@ function Permissions({
                     {filteredEntries
                         .filter((item) => item.permissions === 'owner'  )
                         .map((item) => {
-                            console.log(item);
                             return (<p className="gn-share-permissions-name" >
                                 <Message msgId="gnviewer.permissionOwner" />: {' '}
                                 <a href={`/people/profile/${item?.username}/`}>
