@@ -25,6 +25,7 @@ import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable
 import ResourceStatus from '@js/components/ResourceStatus/';
 import Rating from '@js/components/Rating';
 
+
 const CopyToClipboard = tooltip(CopyToClipboardCmp);
 
 const EditTitle = ({ title, onEdit, tagName, disabled }) => {
@@ -206,7 +207,7 @@ function DetailsPanel({
         },
         {
             "label": "Owner",
-            "value": resource?.owner?.username
+            "value": <a href={`/people/profile/${resource?.owner?.username}/`}> {resource?.owner?.username} </a>
         },
         {
             "label": "Created",
@@ -222,26 +223,50 @@ function DetailsPanel({
         },
         {
             "label": "Resource Type",
-            "value": resource?.resource_type
+            "value": <a href={formatHref({
+                pathname: '/search/filter/',
+                query: {
+                    'f': resource?.resource_type
+                }
+            })}>{resource?.resource_type}</a>
         },
         {
             "label": "Category",
-            "value": resource?.category
+            "value": <a href={formatHref({
+                pathname: '/search/filter/',
+                query: {
+                    'filter{category.identifier.in}': resource.category?.identifier
+                }
+            })}>{resource.category?.identifier}</a>
         },
         {
             "label": "Keywords",
-            "value": resource?.keywords?.join(" ")
+            "value": resource?.keywords?.map((map) => {
+                return (<a href={formatHref({
+                    pathname: '/search/filter/',
+                    query: {
+                        'filter{keywords.slug.in}': map.slug
+                    }
+                })}>{map.name + " "}</a>);
+            })
         },
         {
             "label": "Regions",
-            "value": resource?.regions?.map(map => map.name + " ")
+            "value": resource?.regions?.map((map) => {
+                return (<a href={formatHref({
+                    pathname: '/search/filter/',
+                    query: {
+                        'filter{regions.name.in}': map.name
+                    }
+                })}>{map.name + " "}</a>);
+            })
         }
     ];
 
     const extraItemsList = [
         {
             "label": "Point of Contact",
-            "value": (resource?.poc?.first_name + resource?.poc?.last_name || resource?.poc?.username)
+            "value": <a href={`/messages/create/${resource?.owner?.pk}/`}> {(resource?.poc?.first_name + resource?.poc?.last_name || resource?.poc?.username)} </a>
         },
         {
             "label": "License",
@@ -448,17 +473,10 @@ function DetailsPanel({
 
 
                         </div>
-                        {
-                            (!resource?.is_approved || !resource?.is_published) &&
-                            <p>
-                                <ResourceStatus
-                                    isApproved={resource?.is_approved}
-                                    isPublished={resource?.is_published}/>
-                            </p>
-                        }
-
+                        <ResourceStatus resource={resource} />
                         {<p>
                             {resource?.owner && <><a href={formatHref({
+                                pathname: editTitle && '/search/filter/',
                                 query: {
                                     'filter{owner.username.in}': resource.owner.username
                                 }
@@ -473,6 +491,7 @@ function DetailsPanel({
                             {resource?.category?.identifier && <div>
                                 <Message msgId="gnhome.category" />:{' '}
                                 <a href={formatHref({
+                                    pathname: editTitle && '/search/filter/',
                                     query: {
                                         'filter{category.identifier.in}': resource.category.identifier
                                     }
@@ -493,7 +512,7 @@ function DetailsPanel({
 
                     </div>
                 </div>
-                {editTitle && <div className="gn-details-panel-info"><Tabs itemsTab={itemsTab} /></div>}
+                { editTitle && <div className="gn-details-panel-info"><Tabs itemsTab={itemsTab} /></div>}
             </section>
         </div>
     );

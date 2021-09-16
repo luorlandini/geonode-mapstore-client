@@ -24,6 +24,9 @@
 #navigationBar-container {
     z-index: 5;
 }
+.timeline-plugin {
+    z-index: 5;
+}
 
 .gn-embed {
     // fix position of dashboard full screen button
@@ -130,4 +133,9 @@ div#mapstore-globalspinner {
     &.ms2-loading .sk-circle-wrapper {
         margin: auto !important;
     }
+}
+
+// height has an incorrect value in rem so we need to override it
+.feature-grid-container .ms2-border-layout-body .react-grid-HeaderRow .react-grid-HeaderCell .rw-datetimepicker.rw-widget input {
+    height: auto;
 }

@@ -13,7 +13,8 @@ import isNil from 'lodash/isNil';
 import {
     getResources,
     getResourceByPk,
-    getFeaturedResources
+    getFeaturedResources,
+    getResourceByUuid
 } from '@js/api/geonode/v2';
 import {
     SEARCH_RESOURCES,
@@ -39,11 +40,17 @@ import {
 } from '@js/utils/SearchUtils';
 import url from 'url';
 import { getCustomMenuFilters } from '@js/selectors/config';
+import { STOP_ASYNC_PROCESS } from '@js/actions/resourceservice';
+import {
+    ProcessTypes,
+    ProcessStatus
+} from '@js/utils/ResourceServiceUtils';
 
 const UPDATE_RESOURCES_REQUEST = 'GEONODE_SEARCH:UPDATE_RESOURCES_REQUEST';
-const updateResourcesRequest = (payload) => ({
+const updateResourcesRequest = (payload, reset) => ({
     type: UPDATE_RESOURCES_REQUEST,
-    payload
+    payload,
+    reset
 });
 
 const cleanParams = (params) => {
@@ -164,12 +171,12 @@ export const gnsSearchResourcesOnLocationChangeEpic = (action$, store) =>
             const [currentParams, currentPage] = getParams(location.search, nextParams || {});
 
             // history action performed while navigating the browser history
-            if (!nextParams) {
+            if (!nextParams || action.reset) {
                 const page = 1;
                 const params = { ...currentParams, page };
                 // avoid new request while browsing through history
                 // if the latest saved request is equal to the new request
-                if (!isFirstRendering && isEqual(previousParams, currentParams)) {
+                if (!isFirstRendering && isEqual(previousParams, currentParams) && !action.reset) {
                     return Observable.empty();
                 }
                 return requestResourcesObservable({
@@ -234,10 +241,36 @@ export const getFeaturedResourcesEpic = (action$, {getState = () => {}}) =>
                 }).startWith(setFeaturedResources({loading: true}));
         });
 
+export const gnWatchStopCopyProcessOnSearch = (action$, store) =>
+    action$.ofType(STOP_ASYNC_PROCESS)
+        .filter(action => action?.payload?.processType === ProcessTypes.COPY_RESOURCE)
+        .flatMap((action) => {
+            const isError = action?.payload?.error || action?.payload?.output?.status === ProcessStatus.FAILED;
+            if (isError) {
+                return Observable.empty();
+            }
+            const newResourceUuid = action?.payload?.output?.output_params?.output?.uuid;
+            if (newResourceUuid === undefined) {
+                return Observable.empty();
+            }
+            const pk = action?.payload?.output?.input_params?.instance;
+            return Observable.defer(() => getResourceByUuid(newResourceUuid))
+                .switchMap((resource) => {
+                    const resources = store.getState().gnsearch?.resources || [];
+                    const newResources = resources.reduce((acc, res) => {
+                        if (res.pk === (pk + '')) {
+                            return [...acc, { ...resource, '@temporary': true }, res];
+                        }
+                        return [...acc, res];
+                    }, []);
+                    return Observable.of(updateResources(newResources, true));
+                });
+        });
 
 export default {
     gnsSearchResourcesEpic,
     gnsSearchResourcesOnLocationChangeEpic,
     gnsSelectResourceEpic,
-    getFeaturedResourcesEpic
+    getFeaturedResourcesEpic,
+    gnWatchStopCopyProcessOnSearch
 };

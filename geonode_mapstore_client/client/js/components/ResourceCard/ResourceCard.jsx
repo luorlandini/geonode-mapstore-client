@@ -13,7 +13,7 @@ import Dropdown from '@js/components/Dropdown';
 import Spinner from '@js/components/Spinner';
 import { getUserName } from '@js/utils/SearchUtils';
 import { getResourceTypesInfo } from '@js/utils/ResourceUtils';
-import ResourceStatus from '@js/components/ResourceStatus/';
+import ResourceStatus from '@js/components/ResourceStatus';
 
 function ALink({ href, readOnly, children }) {
     return readOnly ? children : <a href={href}>{children}</a>;
@@ -74,13 +74,7 @@ const ResourceCard = forwardRef(({
                             {res.title}
                         </ALink>
                     </div>
-                    {
-                        (!res?.is_approved || !res?.is_published) &&
-                        <p><ResourceStatus
-                            isApproved={res?.is_approved}
-                            isPublished={res?.is_published}/>
-                        </p>
-                    }
+                    <ResourceStatus resource={res}/>
                     <p
                         className="card-text gn-card-description"
                     >
@@ -91,7 +85,7 @@ const ResourceCard = forwardRef(({
                     >
                         <Message msgId="gnhome.author"/>: <ALink readOnly={readOnly} href={formatHref({
                             query: {
-                                'filter{owner.username.in}': res.owner.username
+                                'filter{owner.username.in}': res?.owner?.username
                             }
                         })}>{getUserName(res.owner)}</ALink>
                     </p>
@@ -122,18 +116,11 @@ const ResourceCard = forwardRef(({
                                         </Dropdown.Item>
                                     );
                                 }
-                                const viewResourcebase = opt.perms.filter(obj => {
-                                    return obj.value === "view_resourcebase";
-                                });
 
                                 return (
                                     <Dropdown.Item
                                         key={opt.href}
-                                        href={
-                                            (viewResourcebase.length > 0 ) ? formatHref({
-                                                pathname: `/${res.resource_type}/${res.pk}`
-                                            }) : buildHrefByTemplate(res, opt.href)
-                                        }
+                                        href={buildHrefByTemplate(res, opt.href)}
                                     >
                                         <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
                                     </Dropdown.Item>
