@@ -35,7 +35,6 @@ function cleanEpics(epics, excludedNames = EXCLUDED_EPICS_NAMES) {
 }
 
 function toLazyPlugin(name, implFunc, overrides) {
-
     const getLazyPlugin = () => {
         return implFunc().then((mod) => {
             const impl = mod.default;
