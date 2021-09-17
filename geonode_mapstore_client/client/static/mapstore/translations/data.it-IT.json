@@ -186,7 +186,7 @@
             "errorCompactPermissionsMessage": "Non è stato possibile aggiornare i permessi",
             "warningGeoLimitsSaveTitle": "Processo di salvataggio incompleto",
             "warningGeoLimitsSaveMessage": "Non è stato possibile aggiornare i nuovi limiti geografici",
-            "saveMapThumbnail": "Vuoi salvare la mappa come immagine?"
+            "saveMapThumbnail": "Clicca per impostare la mappa come immagine"
         }
     }
 }

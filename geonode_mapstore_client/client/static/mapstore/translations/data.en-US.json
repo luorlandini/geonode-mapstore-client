@@ -185,7 +185,7 @@
             "errorCompactPermissionsMessage": "It was not possible to update the permissions",
             "warningGeoLimitsSaveTitle": "Incomplete saving process",
             "warningGeoLimitsSaveMessage": "It was not possible to update the new geo limits",
-            "saveMapThumbnail": "Do you want save the map like thumbnail?"
+            "saveMapThumbnail": "Click to set the map as an image"
         }
     }
 }
