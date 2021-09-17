@@ -432,6 +432,19 @@
                             "value": "delete_resourcebase"
                         }
                     ]
+                },
+                {
+                    "type": "button",
+                    "action": "copy",
+                    "labelId": "gnviewer.clone",
+                    "icon": "copy",
+                    "authenticated": true,
+                    "perms": [
+                        {
+                            "type": "resource",
+                            "value": "change_resourcebase"
+                        }
+                    ]
                 }
             ]
         }
@@ -786,13 +799,23 @@
                 "cfg": {
                     "leftMenuItems": [
                         {
-                            "type": "plugin",
-                            "name": "Save",
+                            "labelId": "gnviewer.save",
                             "showPendingChangesIcon": true,
                             "perms": [
                                 {
                                     "type": "resource",
                                     "value": "change_resourcebase"
+                                }
+                            ],
+                            "type": "dropdown",
+                            "items": [
+                                {
+                                    "type": "plugin",
+                                    "name": "Save"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "SaveAs"
                                 }
                             ]
                         },
@@ -818,12 +841,24 @@
                                 {
                                     "type": "link",
                                     "href": "{'#/dataset/' + (state('gnResourceData') || {}).pk + '/edit/style'}",
-                                    "labelId": "gnviewer.editStyle"
+                                    "labelId": "gnviewer.editStyle",
+                                    "perms": [
+                                        {
+                                            "type": "resource",
+                                            "value": "change_dataset_style"
+                                        }
+                                    ]
                                 },
                                 {
                                     "type": "link",
                                     "href": "{'#/dataset/' + (state('gnResourceData') || {}).pk + '/edit/data'}",
-                                    "labelId": "gnviewer.editData"
+                                    "labelId": "gnviewer.editData",
+                                    "perms": [
+                                        {
+                                            "type": "resource",
+                                            "value": "change_dataset_data"
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -2058,6 +2093,16 @@
                         },
                         {
                             "type": "plugin",
+                            "name": "DownloadResource",
+                            "perms": [
+                                {
+                                    "type": "resource",
+                                    "value": "download_resourcebase"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "plugin",
                             "name": "DeleteResource",
                             "perms": [
                                 {
@@ -2078,6 +2123,10 @@
             {
                 "type": "plugin",
                 "name": "FullScreen"
+            },
+            {
+                "type": "plugin",
+                "name": "DownloadResource"
             },
             {
                 "name": "DetailViewer"
@@ -2163,8 +2212,18 @@
                                 }
                             ]
                         }
+                    ],
+                    "rightMenuItems": [
+                        {
+                            "type": "plugin",
+                            "name": "FullScreen"
+                        }
                     ]
                 }
+            },
+            {
+                "type": "plugin",
+                "name": "FullScreen"
             },
             {
                 "name": "DetailViewer"

@@ -48,17 +48,23 @@ const FiltersMenu = forwardRef(({
                             size="sm"
                             onClick={onClick}
                         >
-                            <Message msgId="gnhome.filtersCount" msgParams={{ count: totalFilters }} />
+                            <FaIcon name="filter" />
                         </Button>
-                        {filtersActive && <Button
-                            variant="default"
-                            size="sm"
-                            onClick={onClear}
-                        >
-                            <Message msgId="gnhome.clearFilters"/>
-                        </Button>}
                         {' '}
-                        <Badge><Message msgId="gnhome.resourcesFound" msgParams={{ count: totalResources }}/></Badge>
+                        <Badge>
+                            <span className={"resources-count"}> <Message msgId="gnhome.resourcesFound" msgParams={{ count: totalResources }}/> </span>
+                            { totalFilters > 0 &&  <> {' '}|{' '}<span onClick={onClick} className={"resources-count"}> <Message msgId="gnhome.filterApplied" msgParams={{ count: totalFilters }}/></span> </>}
+                            {' '}
+                            { filtersActive &&
+
+                                <span className={"clear-pointer"}
+                                    onClick={onClear}
+                                ><FaIcon name={"trash"} className={"fa-sm"} />
+                                </span>
+
+                            }
+
+                        </Badge>
                     </div>
                     <Menu
                         items={cardsMenu}

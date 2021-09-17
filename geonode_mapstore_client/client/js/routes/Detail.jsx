@@ -35,10 +35,12 @@ import MetaTags from "@js/components/MetaTags";
 import {
     getThemeLayoutSize
 } from '@js/utils/AppUtils';
-
+import { getTotalResources } from '@js/selectors/search';
 import ConnectedCardGrid from '@js/routes/catalogue/ConnectedCardGrid';
 import DeleteResource from '@js/plugins/DeleteResource';
+import SaveAs from '@js/plugins/SaveAs';
 const { DeleteResourcePlugin } = DeleteResource;
+const { SaveAsPlugin } = SaveAs;
 
 const ConnectedDetailsPanel = connect(
     createSelector([
@@ -165,7 +167,12 @@ function Detail({
                     formatHref={handleFormatHref}
                 />}
             </div>
-            <DeleteResourcePlugin />
+            <DeleteResourcePlugin
+                redirectTo={handleFormatHref({
+                    pathname: '/search/'
+                }).replace('#', '')}
+            />
+            <SaveAsPlugin closeOnSave labelId="gnviewer.clone"/>
         </>
     );
 }
@@ -200,7 +207,7 @@ const ConnectedDetail = connect(
         state => state?.gnresource?.data || null,
         state => state?.controls?.gnFiltersPanel?.enabled || null,
         getParsedGeoNodeConfiguration,
-        state => state?.gnsearch?.total || 0,
+        getTotalResources,
         state => state?.gnsettings?.siteName || "Geonode"
     ], (params, user, resource, isFiltersPanelEnabled, config, totalResources, siteName) => ({
         params,

@@ -39,6 +39,10 @@ export const gnMonitorAsyncProcesses = (action$, store) => {
             return Observable
                 .interval(ProcessInterval[action?.payload?.processType] || 1000)
                 .switchMap(() => {
+                    // avoid request after completion
+                    if (isProcessCompleted(store.getState(), action.payload)) {
+                        return Observable.empty();
+                    }
                     return Observable.defer(() =>
                         axios.get(statusUrl)
                             .then(({ data }) => data)
@@ -57,12 +61,13 @@ export const gnMonitorAsyncProcesses = (action$, store) => {
 
 const processAPI = {
     [ProcessTypes.DELETE_RESOURCE]: deleteResource,
-    [ProcessTypes.CLONE_RESOURCE]: copyResource
+    [ProcessTypes.COPY_RESOURCE]: copyResource
 };
 
 export const gnProcessResources = (action$) =>
     action$.ofType(PROCESS_RESOURCES)
-        .switchMap((action) => {
+        // all the processes must be listened for this reason we should use flatMap instead of switchMap
+        .flatMap((action) => {
             return Observable.defer(() => axios.all(
                 action.resources.map(resource =>
                     processAPI[action.processType](resource)
