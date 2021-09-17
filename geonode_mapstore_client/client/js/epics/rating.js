@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import {
     resourceError,
     updateResourceProperties,
+    // eslint-disable-next-line no-unused-vars
     SET_RATING_RESOURCES
 } from '@js/actions/gnresource';
 
