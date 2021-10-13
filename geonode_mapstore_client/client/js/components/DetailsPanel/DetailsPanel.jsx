@@ -132,7 +132,8 @@ function DetailsPanel({
     closePanel,
     favorite,
     onFavorite,
-    enableFavorite
+    enableFavorite,
+    buttonSaveThumbnailMap
 }) {
     const detailsContainerNode = useRef();
     const isMounted = useRef();
@@ -175,34 +176,51 @@ function DetailsPanel({
     const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
     const attributeSet = resource?.attribute_set;
     const metadataDetailUrl = resource?.pk && getMetadataDetailUrl(resource);
+
+    const validateDataType = (data) => {
+
+        let dataType;
+        switch (true) {
+        case data === 'None':
+        case data?.length === 0:
+            dataType = undefined;
+            break;
+        default:
+            dataType = data;
+        }
+
+
+        return dataType;
+    };
+
     const infoField = [
         {
             "label": "Title",
-            "value": resource?.title
+            "value": validateDataType(resource?.title)
         },
         {
             "label": "Abstract",
-            "value": resource?.raw_abstract
+            "value": validateDataType(resource?.raw_abstract)
         },
         {
             "label": "Owner",
-            "value": <a href={`/people/profile/${resource?.owner?.username}/`}> {resource?.owner?.username} </a>
+            "value": validateDataType(resource?.owner?.username) && <a href={`/people/profile/${resource?.owner?.username}/`}> {(resource?.owner?.first_name !== "" && resource?.owner?.last_name !== "" ) ? (resource?.owner?.first_name + " " + resource?.owner?.last_name) : resource?.owner?.username} </a>
         },
         {
             "label": "Created",
-            "value": moment(resource?.created).format('MMMM Do YYYY')
+            "value": validateDataType(resource?.created) && moment(resource?.created).format('MMMM Do YYYY')
         },
         {
             "label": "Published",
-            "value": moment(resource?.date).format('MMMM Do YYYY')
+            "value": validateDataType(resource?.date) && moment(resource?.date).format('MMMM Do YYYY')
         },
         {
             "label": "Last Modified",
-            "value": moment(resource?.last_updated).format('MMMM Do YYYY')
+            "value": validateDataType(resource?.last_updated) && moment(resource?.last_updated).format('MMMM Do YYYY')
         },
         {
             "label": "Resource Type",
-            "value": <a href={formatHref({
+            "value": validateDataType(resource?.resource_type) && <a href={formatHref({
                 pathname: '/search/filter/',
                 query: {
                     'f': resource?.resource_type
@@ -211,7 +229,7 @@ function DetailsPanel({
         },
         {
             "label": "Category",
-            "value": <a href={formatHref({
+            "value": validateDataType(resource.category?.identifier) && <a href={formatHref({
                 pathname: '/search/filter/',
                 query: {
                     'filter{category.identifier.in}': resource.category?.identifier
@@ -220,7 +238,7 @@ function DetailsPanel({
         },
         {
             "label": "Keywords",
-            "value": resource?.keywords?.map((map) => {
+            "value": validateDataType(resource?.keywords) && resource?.keywords?.map((map) => {
                 return (<a href={formatHref({
                     pathname: '/search/filter/',
                     query: {
@@ -231,7 +249,7 @@ function DetailsPanel({
         },
         {
             "label": "Regions",
-            "value": resource?.regions?.map((map) => {
+            "value": validateDataType(resource?.regions) && resource?.regions?.map((map) => {
                 return (<a href={formatHref({
                     pathname: '/search/filter/',
                     query: {
@@ -242,42 +260,43 @@ function DetailsPanel({
         }
     ];
 
+
     const extraItemsList = [
         {
             "label": "Point of Contact",
-            "value": <a href={`/messages/create/${resource?.owner?.pk}/`}> {(resource?.poc?.first_name + resource?.poc?.last_name || resource?.poc?.username)} </a>
+            "value": <a href={`/messages/create/${resource?.poc?.pk}/`}> {(resource?.poc?.first_name !== "" && resource?.poc?.last_name !== "" ) ? (resource?.poc?.first_name + " " + resource?.poc?.last_name) : resource?.poc?.username} </a>
         },
         {
             "label": "License",
-            "value": resource?.license?.name_long
+            "value": validateDataType(resource?.license?.name_long)
         },
         {
             "label": "Attribution",
-            "value": resource?.attribution
+            "value": validateDataType(resource?.attribution)
         },
         {
             "label": "Restriction",
-            "value": resource?.restriction_code_type?.identifier
+            "value": validateDataType(resource?.restriction_code_type?.identifier)
         },
         {
             "label": "Edition",
-            "value": resource?.edition
+            "value": validateDataType(resource?.edition)
         },
         {
             "label": "Maintenance Frequency",
-            "value": resource?.maintenance_frequency
+            "value": validateDataType(resource?.maintenance_frequency)
         },
         {
             "label": "Language",
-            "value": resource?.language
+            "value": validateDataType(resource?.language)
         },
         {
             "label": "Purpose",
-            "value": resource?.raw_purpose
+            "value": validateDataType(resource?.raw_purpose)
         },
         {
             "label": "Data Quality",
-            "value": resource?.raw_data_quality_statement
+            "value": validateDataType(resource?.raw_data_quality_statement)
         },
         {
             "label": "Temporal extent",
@@ -285,11 +304,11 @@ function DetailsPanel({
         },
         {
             "label": "Spatial Representation Type",
-            "value": resource?.spatial_representation_type?.identifier
+            "value": validateDataType(resource?.spatial_representation_type?.identifier)
         },
         {
             "label": "Supplemental Information",
-            "value": resource?.raw_supplemental_information
+            "value": validateDataType(resource?.raw_supplemental_information)
         }
     ];
 
@@ -394,7 +413,13 @@ function DetailsPanel({
                 <div className="gn-details-panel-content">
                     {editThumbnail && <div className="gn-details-panel-content-img">
                         {!activeEditMode && <ThumbnailPreview src={resource?.thumbnail_url} />}
-                        {activeEditMode && <div className="gn-details-panel-preview inediting"> <EditThumbnail onEdit={editThumbnail} image={resource?.thumbnail_url} /> </div>}
+                        {activeEditMode && <div className="gn-details-panel-preview inediting">
+                            <EditThumbnail
+                                onEdit={editThumbnail}
+                                image={resource?.thumbnail_url}
+                            />
+                            { buttonSaveThumbnailMap }
+                        </div>}
                     </div>
                     }
 
