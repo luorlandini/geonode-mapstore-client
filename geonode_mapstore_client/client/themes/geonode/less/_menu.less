@@ -18,7 +18,7 @@
             .background-color-var(@theme-vars[main-variant-bg]);
             .btn-default {
                 background: transparent;
-                border-color: transparent;
+                .border-color-var( @theme-vars[@button-default][button-border-color]);
                 &:hover {
                     .color-var(@theme-vars[main-hover-color]);
                     .background-color-var(@theme-vars[main-hover-bg]);
@@ -81,15 +81,6 @@
     }
 }
 
-#ms-container{
-    .gn-menu{
-        .gn-menu-content-side{
-            .btn-default{
-                text-decoration: underline;
-            }
-        }
-    }
-}
 .gn-menu {
     display: flex;
     width: 100%;
