@@ -98,7 +98,7 @@ const ResourceCard = forwardRef(({
                     </p>
                 </div>
                 <div className="gn-card-actions" >
-                    {!readOnly  && detailUrl &&
+                    {!readOnly  && (detailUrl || metadataDetailUrl) &&
                 <div className="gn-card-view-editor">
                     <Button
                         variant="default"
