@@ -13,7 +13,7 @@ import Dropdown from '@js/components/Dropdown';
 import Button from '@js/components/Button';
 import Spinner from '@js/components/Spinner';
 import { getUserName } from '@js/utils/SearchUtils';
-import { getResourceTypesInfo } from '@js/utils/ResourceUtils';
+import { getResourceTypesInfo, getMetadataDetailUrl } from '@js/utils/ResourceUtils';
 import ResourceStatus from '@js/components/ResourceStatus';
 
 function ALink({ href, readOnly, children }) {
@@ -38,9 +38,12 @@ const ResourceCard = forwardRef(({
     const types = getTypesInfo();
     const { icon } = types[res.subtype] || types[res.resource_type] || {};
     const {
-        formatDetailUrl = resource => resource?.detail_url
+        formatDetailUrl = resource => resource?.detail_url,
+        canPreviewed
     } = res && (types[res.subtype] || types[res.resource_type]) || {};
     const detailUrl = res?.pk && formatDetailUrl(res);
+    const resourceCanPreviewed = res?.pk && canPreviewed && canPreviewed(res);
+    const metadataDetailUrl = res?.pk && getMetadataDetailUrl(res);
     return (
         <div
             ref={ref}
@@ -94,11 +97,12 @@ const ResourceCard = forwardRef(({
                         })}>{getUserName(res.owner)}</ALink>
                     </p>
                 </div>
-                {(!readOnly && options && options.length === 0) && detailUrl &&
+                <div className="gn-card-actions" >
+                {!readOnly  && detailUrl &&
                 <div className="gn-card-view-editor">
                     <Button
                         variant="default"
-                        href={detailUrl}
+                        href={(resourceCanPreviewed) ? detailUrl : metadataDetailUrl}
                         rel="noopener noreferrer"><FaIcon name={'edit'} />
                         <Message msgId={`gnhome.view`} />
 
@@ -144,6 +148,7 @@ const ResourceCard = forwardRef(({
                 </Dropdown>
 
                 }
+                </div>
             </div>
         </div>
     );
