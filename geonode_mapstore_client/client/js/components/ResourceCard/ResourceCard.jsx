@@ -99,7 +99,7 @@ const ResourceCard = forwardRef(({
                 </div>
                 <div className="gn-card-actions" >
                     {!readOnly  && (detailUrl || metadataDetailUrl) &&
-                <div className="gn-card-view-editor">
+                <div className={`${(options && options.length === 0) ? 'gn-card-view-editor-right' :  'gn-card-view-editor' }`}>
                     <Button
                         variant="default"
                         href={(resourceCanPreviewed) ? detailUrl : metadataDetailUrl}
