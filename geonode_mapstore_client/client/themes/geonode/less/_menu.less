@@ -18,7 +18,7 @@
             .background-color-var(@theme-vars[main-variant-bg]);
             .btn-default {
                 background: transparent;
-                .border-color-var( @theme-vars[@button-default][button-border-color]);
+                border-color: transparent;
                 &:hover {
                     .color-var(@theme-vars[main-hover-color]);
                     .background-color-var(@theme-vars[main-hover-bg]);
@@ -33,6 +33,20 @@
             }
         }
     }
+    #page-dataset-viewer{
+        .gn-menu{
+            &.gn-default{
+                .gn-menu-content-side {
+                    &.gn-menu-content-left {
+                        .btn-default {
+                            .border-color-var(@theme-vars[@button-default][button-action-border-color]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 // **************
