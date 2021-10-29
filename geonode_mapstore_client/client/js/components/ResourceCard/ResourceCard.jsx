@@ -98,7 +98,7 @@ const ResourceCard = forwardRef(({
                     </p>
                 </div>
                 <div className="gn-card-actions" >
-                {!readOnly  && detailUrl &&
+                    {!readOnly  && detailUrl &&
                 <div className="gn-card-view-editor">
                     <Button
                         variant="default"
@@ -108,46 +108,46 @@ const ResourceCard = forwardRef(({
 
                     </Button>
                 </div>
-                }
-                {(!readOnly && options && options.length > 0) && <Dropdown
-                    className="gn-card-options"
-                    pullRight
-                >
-                    <Dropdown.Toggle
-                        id={`gn-card-options-${res.pk}`}
-                        variant="default"
-                        size="sm"
-                        noCaret
+                    }
+                    {(!readOnly && options && options.length > 0) && <Dropdown
+                        className="gn-card-options"
+                        pullRight
                     >
-                        <FaIcon name="ellipsis-h" />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu  className={`gn-card-dropdown`}  >
-                        {options
-                            .map((opt) => {
-                                if (opt.type === 'button' && actions[opt.action]) {
+                        <Dropdown.Toggle
+                            id={`gn-card-options-${res.pk}`}
+                            variant="default"
+                            size="sm"
+                            noCaret
+                        >
+                            <FaIcon name="ellipsis-h" />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu  className={`gn-card-dropdown`}  >
+                            {options
+                                .map((opt) => {
+                                    if (opt.type === 'button' && actions[opt.action]) {
+                                        return (
+                                            <Dropdown.Item
+                                                key={opt.action}
+                                                onClick={() => onAction(actions[opt.action], [res])}
+                                            >
+                                                <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
+                                            </Dropdown.Item>
+                                        );
+                                    }
+
                                     return (
                                         <Dropdown.Item
-                                            key={opt.action}
-                                            onClick={() => onAction(actions[opt.action], [res])}
+                                            key={opt.href}
+                                            href={buildHrefByTemplate(res, opt.href)}
                                         >
                                             <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
                                         </Dropdown.Item>
                                     );
-                                }
+                                })}
+                        </Dropdown.Menu>
+                    </Dropdown>
 
-                                return (
-                                    <Dropdown.Item
-                                        key={opt.href}
-                                        href={buildHrefByTemplate(res, opt.href)}
-                                    >
-                                        <FaIcon name={opt.icon} /> <Message msgId={opt.labelId}/>
-                                    </Dropdown.Item>
-                                );
-                            })}
-                    </Dropdown.Menu>
-                </Dropdown>
-
-                }
+                    }
                 </div>
             </div>
         </div>
