@@ -121,7 +121,7 @@
             "uploadDataset": "Télécharger l'ensemble de données",
             "createDataset": "Créer un ensemble de données",
             "search": "Chercher...",
-            "permissionsMissing": "Vous n'êtes pas autorisé à afficher la ressource"
+            "permissionsMissing": "Vous n'êtes pas autorisé à afficher ou télécharger la ressource"
         },
         "viewer": {
             "document": {
