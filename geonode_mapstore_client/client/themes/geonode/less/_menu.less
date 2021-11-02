@@ -40,7 +40,12 @@
                     &.gn-menu-content-left {
                         .btn-default {
                             .border-color-var(@theme-vars[@button-default][button-action-border-color]);
+                            .background-color-var(@theme-vars[main-bg]);
+                            &:hover {
+                                .background-color-var(@theme-vars[main-hover-bg]);
+                            }
                         }
+
                     }
                 }
             }
