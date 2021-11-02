@@ -356,6 +356,16 @@ function DetailsPanel({
                     </Button>
                 </div>
                 }
+
+                {
+                    !resourceCanPreviewed &&  <div className="gn-details-panel-content">
+                        <h4 className="gn-resource-permissions-missing" >
+                            <FaIcon name="warning" /> {' '}
+                            <Message msgId="gnhome.permissionsMissing"/>
+                        </h4>
+                    </div>
+                }
+
                 {resourceCanPreviewed && !activeEditMode && !editThumbnail && <div className="gn-details-panel-preview">
                     <div
                         className="gn-loader-placeholder"
