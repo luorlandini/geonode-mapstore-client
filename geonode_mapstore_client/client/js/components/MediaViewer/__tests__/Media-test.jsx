@@ -23,7 +23,7 @@ describe('Test Media', () => {
 
     it('should render video player if resource extension is video', () => {
         ReactDOM.render( <Media resource={{href: "http://example.com", resource_type: "document", extension: "mp4", "abstract": "test", pk: 1, perms: [
-            "download_resourcebase",
+            "download_resourcebase"
         ] }}/>, document.getElementById("container"));
         const mediaViewer = document.querySelector('.ms-video');
         expect(mediaViewer).toExist();
@@ -31,7 +31,7 @@ describe('Test Media', () => {
 
     it('should render pdf viewer if resource extension is pdf', () => {
         ReactDOM.render( <Media resource={{href: "http://example.com", resource_type: "document", extension: "pdf", "abstract": "test", pk: 1, perms: [
-            "download_resourcebase",
+            "download_resourcebase"
         ] }}/>, document.getElementById("container"));
         const mediaViewer = document.querySelector('.gn-pdf-viewer');
         expect(mediaViewer).toExist();
@@ -39,7 +39,7 @@ describe('Test Media', () => {
 
     it('should render caption viewer if resource extension is unSupported', () => {
         ReactDOM.render( <Media resource={{href: "http://example.com", resource_type: "document", extension: "docx", "abstract": "test", pk: 1, perms: [
-            "download_resourcebase",
+            "download_resourcebase"
         ] }}/>, document.getElementById("container"));
         const mediaViewer = document.querySelector('.ms-media'); // unSupported Media is shown in ImageViewer
         expect(mediaViewer).toExist();
