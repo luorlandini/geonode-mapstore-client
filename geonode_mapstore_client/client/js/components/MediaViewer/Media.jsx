@@ -13,7 +13,7 @@ import PdfViewer from '@js/components/MediaViewer/PdfViewer';
 import { determineResourceType } from '@js/utils/FileUtils';
 import Loader from '@mapstore/framework/components/misc/Loader';
 import MainErrorView from '@js/components/MainErrorView';
-import { getResourceTypesInfo, getMetadataDetailUrl } from '@js/utils/ResourceUtils';
+import { getResourceTypesInfo } from '@js/utils/ResourceUtils';
 
 const mediaMap = {
     image: MediaComponent,
@@ -64,9 +64,9 @@ const Media = ({resource}) => {
                 src={mediaType === 'unsupported' ? resource.thumbnail_url : resource.href}
             />
         </>);
-    } else {
-        return (<MainErrorView msgId={'gnhome.permissionsMissing'}/>)
     }
+    return (<MainErrorView msgId={'gnhome.permissionsMissing'}/>);
+
 
 };
 
