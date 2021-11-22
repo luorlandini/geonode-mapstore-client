@@ -30,7 +30,6 @@ function SaveModal({
     onClose,
     onSave,
     onClear,
-    hideThumbnail,
     hideDescription,
     thumbnailOptions
 }) {
@@ -103,30 +102,6 @@ function SaveModal({
                     <div><Message msgId="saveDialog.saveSuccessMessage" /></div>
                 </Alert>}
                 <Form>
-                    {!hideThumbnail && <FormGroup
-                        validationState={thumbnailError ? 'error' : undefined}
-                    >
-                        <ControlLabel>
-                            <Message msgId="map.thumbnail"/>
-                        </ControlLabel>
-                        <Thumbnail
-                            thumbnail={thumbnail}
-                            thumbnailOptions={thumbnailOptions}
-                            message={<Message msgId="map.message"/>}
-                            onUpdate={(data) => {
-                                setThumbnail(data);
-                                setThumbnailError(false);
-                            }}
-                            onError={(newThumbnailError) => {
-                                setThumbnailError(newThumbnailError);
-                            }}
-                        />
-                        {thumbnailError && <div>
-                            <div><Message msgId="map.error"/></div>
-                            <div>{thumbnailError.indexOf && thumbnailError.indexOf('FORMAT') !== -1 && <small><Message msgId="map.errorFormat" /></small>}</div>
-                            <div>{thumbnailError.indexOf && thumbnailError.indexOf('SIZE') !== -1 && <small><Message msgId="map.errorSize" /></small>}</div>
-                        </div>}
-                    </FormGroup>}
                     <FormGroup
                         validationState={nameValidation}
                     >
