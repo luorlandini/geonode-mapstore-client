@@ -65,7 +65,7 @@ const FiltersMenu = forwardRef(({
                                 </span>
 
                             }
-                           {loading && <Spinner spinnerName="circle" style={{"float": "right", "paddingLeft": "0.7em"}}noFadeIn/> }
+                            {loading && <Spinner spinnerName="circle" style={{"float": "right", "paddingLeft": "0.7em"}}noFadeIn/> }
                         </Badge>
                     </div>
                     <Menu
