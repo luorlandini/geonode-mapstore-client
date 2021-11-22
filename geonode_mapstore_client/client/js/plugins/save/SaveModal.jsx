@@ -9,7 +9,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ResizableModal from '@mapstore/framework/components/misc/ResizableModal';
-import Thumbnail from '@mapstore/framework/components/misc/Thumbnail';
 import Message from '@mapstore/framework/components/I18N/Message';
 import { Form, FormGroup, ControlLabel, FormControl as FormControlRB, Alert } from 'react-bootstrap';
 import localizedProps from '@mapstore/framework/components/misc/enhancers/localizedProps';
@@ -30,12 +29,10 @@ function SaveModal({
     onClose,
     onSave,
     onClear,
-    hideDescription,
-    thumbnailOptions
+    hideDescription
 }) {
 
     const [thumbnail, setThumbnail] =  useState();
-    const [thumbnailError, setThumbnailError] =  useState();
     const [name, setName] =  useState('');
     const [description, setDescription] =  useState('');
     const [nameValidation, setNameValidation] =  useState(false);
@@ -56,7 +53,6 @@ function SaveModal({
             setThumbnail(res.thumbnail_url);
             setName(res.title);
             setDescription(res.abstract);
-            setThumbnailError(false);
             setNameValidation(!res.title
                 ? 'error'
                 : undefined);
