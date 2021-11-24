@@ -23,7 +23,19 @@ import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
 import ResourceStatus from '@js/components/ResourceStatus/';
+import turfBbox from '@turf/bbox';
+import BaseMap from '@mapstore/framework/components/map/BaseMap';
+import mapTypeHOC from '@mapstore/framework/components/map/enhancers/mapType';
+import { reprojectBbox } from '@mapstore/framework/utils/CoordinatesUtils';
+import {
+    boundsToExtentString,
+    getFeatureFromExtent
+} from '@js/utils/CoordinatesUtils';
 
+const Map = mapTypeHOC(BaseMap);
+Map.displayName = 'Map';
+
+const MapThumbnailButtonToolTip = tooltip(Button);
 const CopyToClipboard = tooltip(CopyToClipboardCmp);
 
 const EditTitle = ({ title, onEdit, tagName, disabled }) => {
@@ -118,6 +130,71 @@ const DefinitionListMoreItem = ({itemslist, extraItemsList}) => {
     );
 };
 
+function getExtent({
+    features,
+    layers
+}) {
+    if (features && features.length > 0) {
+        return turfBbox({ type: 'FeatureCollection', features });
+    }
+    const { bbox } = layers.find(({ isDataset }) => isDataset) || {};
+    const { bounds, crs } = bbox || {};
+    if (bounds && crs === 'EPSG:4326') {
+        const { minx, miny, maxx, maxy } = bounds;
+        return [ minx, miny, maxx, maxy ];
+    }
+    return null;
+}
+
+const MapThumbnailView = ({layers, featuresProp = []}) => {
+
+    const [extent] = useState(getExtent({ layers, features: featuresProp }));
+
+    console.log('extent');
+    console.log(extent);
+
+    return (<Map
+                    id="gn-filter-by-extent-map"
+                    mapType="openlayers"
+                    map={{
+                        registerHooks: false,
+                        projection: 'EPSG:3857' // da usare paramentro projection
+                    }}
+                    styleMap={{
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%'
+                    }}
+                    eventHandlers={{
+                        // onMapViewChanges: handleOnMapViewChanges
+                        onMapViewChanges: () => console.log('eventHandlers')
+                    }}
+                    layers={[
+                        ...(layers ? layers : []),
+                        ...(extent
+                            ? [{
+                                id: 'highlight',
+                                type: 'vector',
+                                //features: [getFeatureFromExtent(extent)],
+                                features: [],
+                                style: {
+                                        color: '#397AAB',
+                                        opacity: 0.8,
+                                        fillColor: '#397AAB',
+                                        fillOpacity: 0.4,
+                                        weight: 0.001
+                                    }
+                            }]
+                            : []
+                        )
+                    ]}
+                >
+                </Map>)
+
+}
+
+
+
 function DetailsPanel({
     resource,
     formatHref,
@@ -133,7 +210,8 @@ function DetailsPanel({
     favorite,
     onFavorite,
     enableFavorite,
-    buttonSaveThumbnailMap
+    buttonSaveThumbnailMap,
+    layers = []
 }) {
     const detailsContainerNode = useRef();
     const isMounted = useRef();
@@ -176,6 +254,16 @@ function DetailsPanel({
     const documentDownloadUrl = (resource?.href && resource?.href.includes('download')) ? resource?.href : undefined;
     const attributeSet = resource?.attribute_set;
     const metadataDetailUrl = resource?.pk && getMetadataDetailUrl(resource);
+
+    const [enableMapViewer, setEnableMapViewer] = useState(false);
+
+
+    const handleMapViewer = () => {
+        console.log('handleMapViewer')
+
+        setEnableMapViewer(!enableMapViewer)
+        console.log(enableMapViewer)
+    }
 
     const validateDataType = (data) => {
 
@@ -414,11 +502,24 @@ function DetailsPanel({
                     {editThumbnail && <div className="gn-details-panel-content-img">
                         {!activeEditMode && <ThumbnailPreview src={resource?.thumbnail_url} />}
                         {activeEditMode && <div className="gn-details-panel-preview inediting">
-                            <EditThumbnail
+                         {!enableMapViewer ? <> <EditThumbnail
                                 onEdit={editThumbnail}
                                 image={resource?.thumbnail_url}
                             />
-                            { buttonSaveThumbnailMap }
+
+                                 <MapThumbnailButtonToolTip
+                                    variant="default"
+                                    onClick={handleMapViewer}
+                                    className={"map-thumbnail"}
+                                    tooltip={<Message msgId="gnviewer.saveMapThumbnail" />}
+                                    tooltipPosition={"top"}
+
+                                >
+                                    <FaIcon name="map" />
+
+                                </MapThumbnailButtonToolTip></>
+                                : <MapThumbnailView layers={layers} />}
+
                         </div>}
                     </div>
                     }

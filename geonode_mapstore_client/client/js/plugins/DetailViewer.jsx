@@ -36,6 +36,7 @@ import { withRouter } from 'react-router';
 import {
     hashLocationToHref
 } from '@js/utils/SearchUtils';
+import { layersSelector } from '@mapstore/framework/selectors/layers';
 
 const ConnectedDetailsPanel = connect(
     createSelector([
@@ -172,8 +173,10 @@ const DetailViewerPlugin = connect(
         canEditResource,
         isNewResource,
         getResourceId,
-        userSelector
-    ], (enabled, canEdit, isNew, resourcePk, user) => ({
+        userSelector,
+        layersSelector,
+    ], (enabled, canEdit, isNew, resourcePk, user, layers) => ({
+        layers,
         enabled,
         canEdit,
         hide: isNew || !resourcePk,

@@ -79,8 +79,10 @@ const ConnectedMapThumbnailButton = connect(
         isNewResource,
         canEditResource,
         mapInfoSelector,
-        (loggedIn, isNew, canEdit, mapInfo) => ({
-            enabled: loggedIn && !isNew && (canEdit || mapInfo?.canEdit)
+        layersSelector,
+        (loggedIn, isNew, canEdit, mapInfo, layers) => ({
+            enabled: loggedIn && !isNew && (canEdit || mapInfo?.canEdit),
+            layers: layers
         })
     ),
     {
