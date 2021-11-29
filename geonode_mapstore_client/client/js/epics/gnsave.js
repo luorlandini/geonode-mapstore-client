@@ -8,7 +8,7 @@
 
 import axios from '@mapstore/framework/libs/ajax';
 import { Observable } from 'rxjs';
-import { mapInfoSelector, mapSelector } from '@mapstore/framework/selectors/map';
+import { mapInfoSelector } from '@mapstore/framework/selectors/map';
 import { userSelector } from '@mapstore/framework/selectors/security';
 import {
     error as errorNotification,
@@ -161,18 +161,19 @@ export const gnSaveContent = (action$, store) =>
         });
 export const gnSetMapThumbnail = (action$, store) =>
     action$.ofType(SET_MAP_THUMBNAIL)
-        .switchMap(() => {
+        .switchMap((action) => {
+
             const state = store.getState();
             const contentType = state.gnresource?.data?.resource_type || 'map';
             const resourceIDThumbnail = state?.gnresource?.id;
             const currentResource = state.gnresource?.data || {};
-            const map =  mapSelector(state) || {};
+
             const body = {
-                srid: map.bbox.crs,
-                bbox: [ Object.values(map.bbox.bounds)[2],
-                    Object.values(map.bbox.bounds)[0],
-                    Object.values(map.bbox.bounds)[3],
-                    Object.values(map.bbox.bounds)[1]
+                srid: action.bbox.crs,
+                bbox: [ Object.values(action.bbox.bounds)[2],
+                    Object.values(action.bbox.bounds)[0],
+                    Object.values(action.bbox.bounds)[3],
+                    Object.values(action.bbox.bounds)[1]
                 ]
             };
             return Observable.defer(() => setMapThumbnail(resourceIDThumbnail, body, contentType))

@@ -26,11 +26,7 @@ import ResourceStatus from '@js/components/ResourceStatus/';
 import turfBbox from '@turf/bbox';
 import BaseMap from '@mapstore/framework/components/map/BaseMap';
 import mapTypeHOC from '@mapstore/framework/components/map/enhancers/mapType';
-import { reprojectBbox } from '@mapstore/framework/utils/CoordinatesUtils';
-import {
-    boundsToExtentString,
-    getFeatureFromExtent
-} from '@js/utils/CoordinatesUtils';
+import { boundsToExtentString } from '@js/utils/CoordinatesUtils';
 
 const Map = mapTypeHOC(BaseMap);
 Map.displayName = 'Map';
@@ -146,14 +142,29 @@ function getExtent({
     return null;
 }
 
-const MapThumbnailView = ({layers, featuresProp = []}) => {
+const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose } ) => {
+
+    const [currentExtent, setCurrentExtent] = useState();
+    const [currentBbox, setCurrentBbox] = useState();
+
+    function handleOnMapViewChanges(center, zoom, bbox) {
+        const { bounds, crs } = bbox;
+        const newExtent = boundsToExtentString(bounds, crs);
+        // map triggers two move end event on mount
+        setCurrentBbox(bbox);
+        setCurrentExtent(newExtent);
+    }
 
     const [extent] = useState(getExtent({ layers, features: featuresProp }));
 
-    console.log('extent');
-    console.log(extent);
+    const featureFromExtent = currentExtent ? currentExtent : extent.join();
 
-    return (<Map
+    return (
+        <div>
+            <div
+                className="gn-detail-extent"
+            >
+                <Map
                     id="gn-filter-by-extent-map"
                     mapType="openlayers"
                     map={{
@@ -166,33 +177,39 @@ const MapThumbnailView = ({layers, featuresProp = []}) => {
                         height: '100%'
                     }}
                     eventHandlers={{
-                        // onMapViewChanges: handleOnMapViewChanges
-                        onMapViewChanges: () => console.log('eventHandlers')
+                    // onMapViewChanges: handleOnMapViewChanges
+                        onMapViewChanges: handleOnMapViewChanges
                     }}
                     layers={[
                         ...(layers ? layers : []),
-                        ...(extent
+                        ...(featureFromExtent
                             ? [{
                                 id: 'highlight',
                                 type: 'vector',
-                                //features: [getFeatureFromExtent(extent)],
+                                // features: [getFeatureFromExtent(featureFromExtent)],
                                 features: [],
                                 style: {
-                                        color: '#397AAB',
-                                        opacity: 0.8,
-                                        fillColor: '#397AAB',
-                                        fillOpacity: 0.4,
-                                        weight: 0.001
-                                    }
+                                    color: '#397AAB',
+                                    opacity: 0.8,
+                                    fillColor: '#397AAB',
+                                    fillOpacity: 0.4,
+                                    weight: 0.001
+                                }
                             }]
                             : []
                         )
                     ]}
                 >
-                </Map>)
+                </Map>
 
-}
 
+            </div>
+            <div className="gn-detail-extent-action" >
+                <Button onClick={() => onMapThumbnail(currentBbox)} >Save</Button><Button onClick={() => onClose() }>Close</Button></div>
+        </div>
+    );
+
+};
 
 
 function DetailsPanel({
@@ -210,8 +227,8 @@ function DetailsPanel({
     favorite,
     onFavorite,
     enableFavorite,
-    buttonSaveThumbnailMap,
-    layers = []
+    onMapThumbnail,
+    layers
 }) {
     const detailsContainerNode = useRef();
     const isMounted = useRef();
@@ -257,13 +274,13 @@ function DetailsPanel({
 
     const [enableMapViewer, setEnableMapViewer] = useState(false);
 
+    const handleEnableMapViewer = () => {
+        setEnableMapViewer(false);
+    };
 
     const handleMapViewer = () => {
-        console.log('handleMapViewer')
-
-        setEnableMapViewer(!enableMapViewer)
-        console.log(enableMapViewer)
-    }
+        setEnableMapViewer(!enableMapViewer);
+    };
 
     const validateDataType = (data) => {
 
@@ -502,23 +519,25 @@ function DetailsPanel({
                     {editThumbnail && <div className="gn-details-panel-content-img">
                         {!activeEditMode && <ThumbnailPreview src={resource?.thumbnail_url} />}
                         {activeEditMode && <div className="gn-details-panel-preview inediting">
-                         {!enableMapViewer ? <> <EditThumbnail
+                            {!enableMapViewer ? <> <EditThumbnail
                                 onEdit={editThumbnail}
                                 image={resource?.thumbnail_url}
                             />
 
-                                 <MapThumbnailButtonToolTip
-                                    variant="default"
-                                    onClick={handleMapViewer}
-                                    className={"map-thumbnail"}
-                                    tooltip={<Message msgId="gnviewer.saveMapThumbnail" />}
-                                    tooltipPosition={"top"}
+                            <MapThumbnailButtonToolTip
+                                variant="default"
+                                onClick={handleMapViewer}
+                                className={"map-thumbnail"}
+                                tooltip={<Message msgId="gnviewer.saveMapThumbnail" />}
+                                tooltipPosition={"top"}
 
-                                >
-                                    <FaIcon name="map" />
+                            >
+                                <FaIcon name="map" />
 
-                                </MapThumbnailButtonToolTip></>
-                                : <MapThumbnailView layers={layers} />}
+                            </MapThumbnailButtonToolTip></>
+                                : <MapThumbnailView layers={layers} onMapThumbnail={onMapThumbnail} onClose={handleEnableMapViewer} />
+
+                            }
 
                         </div>}
                     </div>

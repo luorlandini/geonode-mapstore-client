@@ -12,12 +12,12 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import DetailsPanel from '@js/components/DetailsPanel';
 import { userSelector } from '@mapstore/framework/selectors/security';
-import usePluginItems from '@js/hooks/usePluginItems';
 import {
     editTitleResource,
     editAbstractResource,
     editThumbnailResource,
-    setFavoriteResource
+    setFavoriteResource,
+    setMapThumbnail
 } from '@js/actions/gnresource';
 import controls from '@mapstore/framework/reducers/controls';
 import { setControlProperty } from '@mapstore/framework/actions/controls';
@@ -42,15 +42,18 @@ const ConnectedDetailsPanel = connect(
     createSelector([
         state => state?.gnresource?.data || null,
         state => state?.gnresource?.loading || false,
-        state => state?.gnresource?.data?.favorite || false
-    ], (resource, loading, favorite) => ({
+        state => state?.gnresource?.data?.favorite || false,
+        layersSelector
+    ], (resource, loading, favorite, layers) => ({
+        layers: layers,
         resource,
         loading,
         favorite
     })),
     {
         closePanel: setControlProperty.bind(null, 'rightOverlay', 'enabled', false),
-        onFavorite: setFavoriteResource
+        onFavorite: setFavoriteResource,
+        onMapThumbnail: setMapThumbnail
     }
 )(DetailsPanel);
 
@@ -91,7 +94,6 @@ const ConnectedButton = connect(
 
 
 function DetailViewer({
-    items,
     location,
     enabled,
     onEditResource,
@@ -102,12 +104,8 @@ function DetailViewer({
     hide,
     user,
     onClose
-}, context) {
+}) {
 
-    const { loadedPlugins } = context;
-    const configuredItems = usePluginItems({ items, loadedPlugins });
-    const buttonSaveThumbnailMap = configuredItems.filter(({ name }) => name === "MapThumbnail")
-        .map(({ Component, name }) => <Component key={name} />);
 
     const handleTitleValue = (val) => {
         onEditResource(val);
@@ -151,7 +149,6 @@ function DetailViewer({
                 editAbstract={handleAbstractValue}
                 editThumbnail={handleEditThumbnail}
                 activeEditMode={enabled && canEdit}
-                buttonSaveThumbnailMap={buttonSaveThumbnailMap}
                 enableFavorite={!!user}
                 formatHref={handleFormatHref}
             />
@@ -173,10 +170,8 @@ const DetailViewerPlugin = connect(
         canEditResource,
         isNewResource,
         getResourceId,
-        userSelector,
-        layersSelector,
-    ], (enabled, canEdit, isNew, resourcePk, user, layers) => ({
-        layers,
+        userSelector
+    ], (enabled, canEdit, isNew, resourcePk, user) => ({
         enabled,
         canEdit,
         hide: isNew || !resourcePk,
