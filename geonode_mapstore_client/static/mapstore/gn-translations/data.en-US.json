@@ -81,6 +81,7 @@
             "clearFilters": "Clear filters",
             "categoriesPlaceholder": "Select categories",
             "resourceTypes": "Resource types",
+            "reasourceType": "Resource type",
             "resourceTypesPlaceholder": "Select resource types",
             "keywords": "Keywords",
             "keywordsPlaceholder": "Select keywords",
@@ -121,7 +122,8 @@
             "featuredList": "Featured",
             "uploadDataset": "Upload dataset",
             "createDataset": "Create dataset",
-            "search": "Search..."
+            "search": "Search...",
+            "permissionsMissing": "You don't have permission to view or download the resource"
         },
         "viewer": {
             "document": {
@@ -158,12 +160,12 @@
             "addPermissionsEntry": "Add Users / Groups",
             "groups": "Groups",
             "users": "Users",
-            "permissionNone": "None",
-            "permissionView": "View",
-            "permissionDownload": "Download",
-            "permissionEdit": "Edit",
-            "permissionManage": "Manage",
-            "permissionOwner": "Owner",
+            "nonePermission": "None",
+            "viewPermission": "View",
+            "downloadPermission": "Download",
+            "editPermission": "Edit",
+            "managePermission": "Manage",
+            "ownerPermission": "Owner",
             "filterByNameOrPermissions": "Filter by name or permissions",
             "permissionsName": "Name",
             "permissions": "Permissions",
@@ -192,7 +194,11 @@
             "warningGeoLimitsSaveMessage": "It was not possible to update the new geo limits",
             "saveMapThumbnail": "Click to set the map as an image",
             "templates": "Templates",
-            "createMap": "Create Map"
+            "createMap": "Create Map",
+            "addLayer": "Add layer",
+            "datasetsCatalogTitle": "Layers catalog",
+            "datasetsCatalogFilterPlaceholder": "Filter datasets by title or abstract...",
+            "datasetsCatalogEntriesNoResults": "No results match your search"
         }
     }
 }

@@ -376,8 +376,15 @@ export const plugins = {
     VisualStyleEditorPlugin: toLazyPlugin(
         'VisualStyleEditor',
         () => import(/* webpackChunkName: 'plugins/visual-style-editor-plugin' */ '@js/plugins/VisualStyleEditor')
+    ),
+    LegendPlugin: toLazyPlugin(
+        'Legend',
+        () => import(/* webpackChunkName: 'plugins/legend-plugin' */ '@js/plugins/Legend')
+    ),
+    DatasetsCatalogPlugin: toLazyPlugin(
+        'DatasetsCatalog',
+        () => import(/* webpackChunkName: 'plugins/dataset-catalog' */ '@js/plugins/DatasetsCatalog')
     )
-
 };
 
 const pluginsDefinition = {

@@ -32,7 +32,7 @@ import {
 } from '@js/utils/SearchUtils';
 import { withResizeDetector } from 'react-resize-detector';
 
-import { getResourceTypes, getCategories, getRegions, getOwners, getKeywords } from '@js/api/geonode/v2';
+import { getCategories, getRegions, getOwners, getKeywords } from '@js/api/geonode/v2';
 import MetaTags from "@js/components/MetaTags";
 
 import {
@@ -46,10 +46,6 @@ const { DeleteResourcePlugin } = DeleteResource;
 const { SaveAsPlugin } = SaveAs;
 
 const suggestionsRequestTypes = {
-    resourceTypes: {
-        filterKey: 'filter{resource_type.in}',
-        loadOptions: params => getResourceTypes(params, 'filter{resource_type.in}')
-    },
     categories: {
         filterKey: 'filter{category.identifier.in}',
         loadOptions: params => getCategories(params, 'filter{category.identifier.in}')
@@ -81,9 +77,9 @@ function Search({
     width,
     totalResources,
     resource,
-    siteName
+    siteName,
+    loading
 }) {
-
     const {
         filterMenuItemsAllowed,
         cardOptionsItemsAllowed,
@@ -221,6 +217,7 @@ function Search({
                             totalResources={totalResources}
                             totalFilters={queryFilters.length}
                             filtersActive={!!(queryFilters.length > 0)}
+                            loading={loading}
                         />
                     </ConnectedCardGrid>
                 </div>
@@ -262,15 +259,17 @@ const ConnectedSearch = connect(
         state => state?.controls?.gnFiltersPanel?.enabled || null,
         getParsedGeoNodeConfiguration,
         getTotalResources,
-        state => state?.gnsettings?.siteName || "Geonode"
-    ], (params, user, resource, isFiltersPanelEnabled, config, totalResources, siteName) => ({
+        state => state?.gnsettings?.siteName || "Geonode",
+        state => state?.gnsearch.loading || false
+    ], (params, user, resource, isFiltersPanelEnabled, config, totalResources, siteName, loading) => ({
         params,
         user,
         resource,
         isFiltersPanelEnabled,
         config,
         totalResources,
-        siteName
+        siteName,
+        loading
     })),
     {
         onSearch: searchResources,

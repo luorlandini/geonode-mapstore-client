@@ -45,6 +45,11 @@ export const getResourceThumbnail = (state) => {
     return state?.gnresource?.data?.thumbnail_url || false;
 };
 
+export const getViewedResourceType = (state) => {
+    const viewedResourceType = state?.gnresource?.type || false;
+    return viewedResourceType;
+};
+
 export const canEditResource = (state) => {
     const canEdit = state?.gnresource?.permissions?.canEdit;
     const perms = state?.gnresource?.data?.perms || [];
@@ -142,8 +147,8 @@ function isResourceDataEqual(state, initialData = {}, currentData = {}) {
     switch (resourceType) {
     case ResourceTypes.MAP: {
         return isMapCenterEqual(initialData?.map?.center, currentData?.map?.center) && compareMapChanges(
-            removeProperty(initialData, ['extraParams', 'getFeatureInfo', 'store', 'capability']),
-            removeProperty(currentData, ['extraParams', 'getFeatureInfo', 'store', 'capability'])
+            removeProperty(initialData, ['extraParams', 'getFeatureInfo', 'store', 'capability', 'extendedParams']),
+            removeProperty(currentData, ['extraParams', 'getFeatureInfo', 'store', 'capability', 'extendedParams'])
         );
     }
     case ResourceTypes.GEOSTORY: {

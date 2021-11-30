@@ -17,16 +17,19 @@ import Spinner from '@js/components/Spinner';
 import Message from '@mapstore/framework/components/I18N/Message';
 import tooltip from '@mapstore/framework/components/misc/enhancers/tooltip';
 import moment from 'moment';
-import { getUserName } from '@js/utils/SearchUtils';
 import { getResourceTypesInfo, getMetadataDetailUrl } from '@js/utils/ResourceUtils';
 import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
 import ResourceStatus from '@js/components/ResourceStatus/';
+<<<<<<< HEAD
 import turfBbox from '@turf/bbox';
 import BaseMap from '@mapstore/framework/components/map/BaseMap';
 import mapTypeHOC from '@mapstore/framework/components/map/enhancers/mapType';
 import { boundsToExtentString } from '@js/utils/CoordinatesUtils';
+=======
+import AuthorInfo from '@js/components/AuthorInfo/AuthorInfo';
+>>>>>>> upstream/master
 
 const Map = mapTypeHOC(BaseMap);
 Map.displayName = 'Map';
@@ -126,6 +129,7 @@ const DefinitionListMoreItem = ({itemslist, extraItemsList}) => {
     );
 };
 
+<<<<<<< HEAD
 function getExtent({
     features,
     layers
@@ -212,6 +216,16 @@ const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose }
 };
 
 
+=======
+const extractResourceString = (res) => {
+    const resourceFirstLetter = res?.charAt(0).toUpperCase();
+    const restOfResourceLetters = res?.slice(1);
+    const resourceTypeString = resourceFirstLetter + restOfResourceLetters;
+    return resourceTypeString;
+
+};
+
+>>>>>>> upstream/master
 function DetailsPanel({
     resource,
     formatHref,
@@ -461,6 +475,7 @@ function DetailsPanel({
                     </Button>
                 </div>
                 }
+
                 {resourceCanPreviewed && !activeEditMode && !editThumbnail && <div className="gn-details-panel-preview">
                     <div
                         className="gn-loader-placeholder"
@@ -583,7 +598,7 @@ function DetailsPanel({
                                     </CopyToClipboard>
                                     }
                                     {detailUrl && !editThumbnail && <Button
-                                        variant="default"
+                                        variant="primary"
                                         href={(resourceCanPreviewed) ? detailUrl : metadataDetailUrl}
                                         rel="noopener noreferrer">
                                         <Message msgId={`gnhome.view${((resourceCanPreviewed) ? name : 'Metadata')}`} />
@@ -594,19 +609,20 @@ function DetailsPanel({
 
                         </div>
                         <ResourceStatus resource={resource} />
-                        {<p>
-                            {resource?.owner && <><a href={formatHref({
-                                pathname: editTitle && '/search/filter/',
-                                query: {
-                                    'filter{owner.username.in}': resource.owner.username
-                                }
-                            })}>{getUserName(resource.owner)}</a></>}
+                        {<p className="gn-details-panel-meta-text">
+                            {resource?.owner &&  <AuthorInfo resource={resource} formatHref={formatHref} style={{margin: 0}} />}
                             {(resource?.date_type && resource?.date)
-                            && <>{' '}/{' '}{moment(resource.date).format('MMMM Do YYYY')}</>}
+                            && <div className="gn-details-panel-meta-date">{' '}/{' '}{moment(resource.date).format('MMMM Do YYYY')}</div>}
                         </p>
                         }
 
-                        <EditAbstract disabled={!activeEditMode} tagName="span"  abstract={resource?.abstract} onEdit={editAbstract} />
+                        <EditAbstract disabled={!activeEditMode} tagName="span" abstract={resource?.abstract} onEdit={editAbstract} />
+                        <p className="gn-details-panel-type"><Message msgId="gnhome.reasourceType" />: <a href={formatHref({
+                            query: {
+                                'filter{resource_type.in}': resource.resource_type
+                            }
+                        })} title="Search all similar resources">{extractResourceString(resource.resource_type)}</a>
+                        </p>
                         <p>
                             {resource?.category?.identifier && <div>
                                 <Message msgId="gnhome.category" />:{' '}
@@ -615,7 +631,7 @@ function DetailsPanel({
                                     query: {
                                         'filter{category.identifier.in}': resource.category.identifier
                                     }
-                                })}>{resource.category.identifier}</a>
+                                })}>{extractResourceString(resource.category.identifier)}</a>
                             </div>}
                         </p>
                     </div>

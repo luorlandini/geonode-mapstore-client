@@ -21,7 +21,7 @@ import castArray from 'lodash/castArray';
 import get from 'lodash/get';
 import { getUserInfo } from '@js/api/geonode/user';
 import { setFilterById } from '@js/utils/SearchUtils';
-import { ResourceTypes } from '@js/utils/ResourceUtils';
+import { ResourceTypes, availableResourceTypes, setAvailableResourceTypes } from '@js/utils/ResourceUtils';
 
 /**
  * Actions for GeoNode save workflow
@@ -207,6 +207,41 @@ export const getMaps = ({
                 totalCount: data.total,
                 isNextPageAvailable: !!data.links.next,
                 resources: (data.maps || [])
+                    .map((resource) => {
+                        return resource;
+                    })
+            };
+        }));
+};
+
+export const getDatasets = ({
+    q,
+    pageSize = 20,
+    page = 1,
+    sort,
+    ...params
+}) => {
+    return requestOptions(DATASETS, () => axios
+        .get(
+            parseDevHostname(
+                addQueryString(endpoints[DATASETS], q && {
+                    search: q,
+                    search_fields: ['title', 'abstract']
+                })
+            ), {
+                // axios will format query params array to `key[]=value1&key[]=value2`
+                params: {
+                    ...params,
+                    ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
+                    page,
+                    page_size: pageSize
+                }
+            })
+        .then(({ data }) => {
+            return {
+                totalCount: data.total,
+                isNextPageAvailable: !!data.links.next,
+                resources: (data.datasets || [])
                     .map((resource) => {
                         return resource;
                     })
@@ -432,35 +467,13 @@ export const getConfiguration = (configUrl = '/static/mapstore/configs/localConf
         });
 };
 
-
-let availableResourceTypes;
-export const getResourceTypes = ({}, filterKey = 'resource-types') => {
+export const getResourceTypes = () => {
     if (availableResourceTypes) {
         return new Promise(resolve => resolve(availableResourceTypes));
     }
     return axios.get(parseDevHostname(endpoints[RESOURCE_TYPES]))
         .then(({ data }) => {
-            availableResourceTypes = (data?.resource_types || [])
-                .map((type) => {
-                    // replace the string with object
-                    // as soon the backend support object results
-                    // currently it's supporting only string response
-                    const selectOption = isObject(type)
-                        ? {
-                            value: type.name,
-                            label: `${type.name} (${type.count || 0})`
-                        }
-                        : {
-                            value: type,
-                            label: type
-                        };
-                    const resourceType = {
-                        value: selectOption.value,
-                        selectOption
-                    };
-                    setFilterById(filterKey + selectOption.value, resourceType);
-                    return resourceType;
-                });
+            setAvailableResourceTypes(data?.resource_types || []);
             return [...availableResourceTypes];
         });
 };
@@ -741,5 +754,6 @@ export default {
     getCompactPermissionsByPk,
     updateCompactPermissionsByPk,
     deleteResource,
-    copyResource
+    copyResource,
+    getDatasets
 };

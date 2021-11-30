@@ -311,6 +311,7 @@
                     "labelId": "gnhome.createNew",
                     "authenticated": true,
                     "type": "dropdown",
+                    "variant": "primary",
                     "perms": [
                         {
                             "type": "user",
@@ -332,10 +333,10 @@
                             ]
                         },
                         {
-                            "labelId": "gnhome.createDataset",
-                            "value": "layer",
+                            "labelId": "gnhome.uploadDocument",
+                            "value": "document",
                             "type": "link",
-                            "href": "/createlayer/",
+                            "href": "/documents/upload",
                             "authenticated": true,
                             "perms": [
                                 {
@@ -345,10 +346,10 @@
                             ]
                         },
                         {
-                            "labelId": "gnhome.uploadDocument",
-                            "value": "document",
+                            "labelId": "gnhome.createDataset",
+                            "value": "layer",
                             "type": "link",
-                            "href": "/documents/upload",
+                            "href": "/createlayer/",
                             "authenticated": true,
                             "perms": [
                                 {
@@ -818,7 +819,7 @@
                             "type": "link",
                             "href": "{'#/map/new?gn-dataset=' + (state('gnResourceData') || {}).pk}",
                             "labelId": "gnviewer.createMap",
-                            "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase')}"
+                            "disableIf": "{!(state('user') && state('user').perms && state('user').perms.includes('add_resource'))}"
                         },
                         {
                             "type": "divider",
@@ -1160,6 +1161,12 @@
             },
             {
                 "name": "FitBounds"
+            },
+            {
+                "name": "Legend",
+                "cfg": {
+                    "hideLayerTitle": true
+                }
             }
         ],
         "dataset_edit_data_viewer": [
@@ -1488,7 +1495,7 @@
                         },
                         {
                             "type": "plugin",
-                            "name": "Catalog"
+                            "name": "DatasetsCatalog"
                         },
                         {
                             "type": "plugin",
@@ -1764,12 +1771,6 @@
                 }
             },
             {
-                "name": "MetadataExplorer",
-                "cfg": {
-                    "wrap": true
-                }
-            },
-            {
                 "name": "MousePosition",
                 "cfg": {
                     "editCRS": true,
@@ -1846,31 +1847,6 @@
                 "name": "AddGroup"
             },
             {
-                "name": "StyleEditor",
-                "cfg": {
-                    "styleService": {
-                        "baseUrl": "{state('settings') && state('settings').geonodeUrl && state('settings').geonodeUrl + 'gs/' || '/gs/'}",
-                        "formats": [
-                            "css",
-                            "sld"
-                        ],
-                        "availableUrls": [
-                            "{state('settings') && state('settings').geoserverUrl || '/geoserver/'}",
-                            "{state('settings') && state('settings').geonodeUrl && state('settings').geonodeUrl + 'gs/' || '/gs/'}"
-                        ],
-                        "fonts": [
-                            "Arial",
-                            "Courier New",
-                            "Monospaced",
-                            "SansSerif",
-                            "Serif",
-                            "Times New Roman"
-                        ]
-                    },
-                    "editingAllowedRoles": null
-                }
-            },
-            {
                 "name": "Annotations",
                 "cfg": {
                     "measurementAnnotationEdit": false,
@@ -1879,6 +1855,9 @@
             },
             {
                 "name": "FitBounds"
+            },
+            {
+                "name": "DatasetsCatalog"
             }
         ],
         "geostory_viewer": [

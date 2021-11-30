@@ -82,6 +82,7 @@
             "clearFilters": "Cancella filtri",
             "categoriesPlaceholder": "Seleziona categorie",
             "resourceTypes": "Tipi di risorse",
+            "resourceType": "Tipo di risorsa",
             "resourceTypesPlaceholder": "Seleziona tipi di risorse",
             "keywords": "Parole chiave",
             "keywordsPlaceholder": "Seleziona parole chiave",
@@ -122,7 +123,8 @@
             "featuredList": "In primo piano",
             "uploadDataset": "Carica dataset",
             "createDataset": "Crea dataset",
-            "search": "Cerca..."
+            "search": "Cerca...",
+            "permissionsMissing": "Non hai i permessi per visualizzare o scaricare la risorsa"
         },
         "viewer": {
             "document": {
@@ -159,12 +161,12 @@
             "addPermissionsEntry": "Aggiungi utenti/gruppi",
             "groups": "Gruppi",
             "users": "Utenti",
-            "permissionNone": "Nessuno",
-            "permissionView": "Visualizza",
-            "permissionDownload": "Scarica",
-            "permissionEdit": "Modifica",
-            "permissionManage": "Gestisci",
-            "permissionOwner": "Proprietario",
+            "nonePermission": "Nessuno",
+            "viewPermission": "Visualizza",
+            "downloadPermission": "Scarica",
+            "editPermission": "Modifica",
+            "managePermission": "Gestisci",
+            "ownerPermission": "Proprietario",
             "filterByNameOrPermissions": "Filtra per nome o permessi",
             "permissionsName": "Nome",
             "permissions": "Permessi",
@@ -193,7 +195,11 @@
             "warningGeoLimitsSaveMessage": "Non è stato possibile aggiornare i nuovi limiti geografici",
             "saveMapThumbnail": "Clicca per impostare la mappa come immagine",
             "templates": "Modelli",
-            "createMap": "Crea Mappa"
+            "createMap": "Crea Mappa",
+            "addLayer": "Aggiungi layer",
+            "datasetsCatalogTitle": "Catalogo layers",
+            "datasetsCatalogFilterPlaceholder": "Filtra set di dati per titolo o descrizione...",
+            "datasetsCatalogEntriesNoResults": "Nessun risultato corrisponde alla tua ricerca"
         }
     }
 }

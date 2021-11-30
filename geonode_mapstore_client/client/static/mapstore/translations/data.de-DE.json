@@ -80,6 +80,7 @@
             "clearFilters": "Filter löschen",
             "categoriesPlaceholder": "Wählen sie kategorien aus",
             "resourceTypes": "Ressourcentypen",
+            "reasourceType": "Hulpbron type",
             "resourceTypesPlaceholder": "Ressourcentypen auswählen",
             "keywords": "Schlüsselwörter",
             "keywordsPlaceholder": "Schlüsselwörter auswählen",
@@ -120,7 +121,8 @@
             "featuredList": "Vorgestellt",
             "uploadDataset": "Datensatz hochladen",
             "createDataset": "Dataset erstellen",
-            "search": "Suchen..."
+            "search": "Suchen...",
+            "permissionsMissing": "Sie sind nicht berechtigt, die Ressource anzuzeigen"
         },
         "viewer": {
             "document": {
@@ -157,12 +159,12 @@
             "addPermissionsEntry": "Benutzer / Gruppen hinzufügen",
             "groups": "Gruppen",
             "users": "Benutzer",
-            "permissionNone": "Keiner",
-            "permissionView": "Ansicht",
-            "permissionDownload": "Herunterladen",
-            "permissionEdit": "Bearbeiten",
-            "permissionManage": "Verwalten",
-            "permissionOwner": "Eigentümer",
+            "nonePermission": "Keiner",
+            "viewPermission": "Ansicht",
+            "downloadPermission": "Herunterladen",
+            "editPermission": "Bearbeiten",
+            "managePermission": "Verwalten",
+            "ownerPermission": "Eigentümer",
             "filterByNameOrPermissions": "Nach Namen oder Berechtigungen filtern",
             "permissionsName": "Name",
             "permissions": "Berechtigungen",
@@ -191,7 +193,11 @@
             "warningGeoLimitsSaveMessage": "Es war nicht möglich die neuen Geolimits zu aktualisieren",
             "saveMapThumbnail": "Klicken Sie hier, um die Karte als Bild festzulegen",
             "templates": "Vorlagen",
-            "createMap": "Karte Erstellen"
+            "createMap": "Karte Erstellen",
+            "addLayer": "Ebene hinzufügen",
+            "datasetsCatalogTitle": "Ebenenkatalog",
+            "datasetsCatalogFilterPlaceholder": "Datensätze nach Titel oder Zusammenfassung filtern...",
+            "datasetsCatalogEntriesNoResults": "Keine Ergebnisse entsprechen Ihrer Suche"
         }
     }
 }

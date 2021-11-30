@@ -80,6 +80,7 @@
             "clearFilters": "Effacer les filtres",
             "categoriesPlaceholder": "Sélectionner des catégories",
             "resourceTypes": "Types de ressources",
+            "resourceType": "Type de ressource",
             "resourceTypesPlaceholder": "Sélectionnez les types de ressources",
             "keywords": "Mots clés",
             "keywordsPlaceholder": "Sélectionnez des mots clés",
@@ -120,7 +121,8 @@
             "featuredList": "Mis en exergue",
             "uploadDataset": "Télécharger l'ensemble de données",
             "createDataset": "Créer un ensemble de données",
-            "search": "Chercher..."
+            "search": "Chercher...",
+            "permissionsMissing": "Vous n'êtes pas autorisé à afficher ou télécharger la ressource"
         },
         "viewer": {
             "document": {
@@ -157,12 +159,12 @@
             "addPermissionsEntry": "Ajouter des utilisateurs/groupes",
             "groups": "Groupes",
             "users": "Utilisateurs",
-            "permissionNone": "Rien",
-            "permissionView": "View",
-            "permissionDownload": "Télécharger",
-            "permissionEdit": "Edit",
-            "permissionManage": "Gérer",
-            "permissionOwner": "Propriétaire",
+            "nonePermission": "Rien",
+            "viewPermission": "View",
+            "downloadPermission": "Télécharger",
+            "editPermission": "Edit",
+            "managePermission": "Gérer",
+            "ownerPermission": "Propriétaire",
             "filterByNameOrPermissions": "Filtrer par nom ou autorisations",
             "permissionsName": "Nom",
             "permissions": "Autorisations",
@@ -191,7 +193,11 @@
             "warningGeoLimitsSaveMessage": "Il n'a pas été possible de mettre à jour les nouvelles limites géographiques",
             "saveMapThumbnail": "Cliquez pour définir la carte comme une image",
             "templates": "Modèles",
-            "createMap": "Créer une Carte"
+            "createMap": "Créer une Carte",
+            "addLayer": "Ajouter un calque",
+            "datasetsCatalogTitle": "Catalogue de couches",
+            "datasetsCatalogFilterPlaceholder": "Filtrer les jeux de données par titre ou résumé...",
+            "datasetsCatalogEntriesNoResults": "Aucun résultat ne correspond à votre recherche"
         }
     }
 }
