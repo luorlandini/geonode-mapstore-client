@@ -145,9 +145,6 @@ function getExtent({
 
 const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose, savingThumbnailMap } ) => {
 
-    console.log('savingThumbnailMap')
-    console.log(savingThumbnailMap)
-
     const [currentExtent, setCurrentExtent] = useState();
     const [currentBbox, setCurrentBbox] = useState();
 
@@ -563,7 +560,7 @@ function DetailsPanel({
                                     onMapThumbnail={onMapThumbnail}
                                     onClose={handleEnableMapViewer}
                                     savingThumbnailMap={savingThumbnailMap}
-                                    />
+                                />
 
                             }
 

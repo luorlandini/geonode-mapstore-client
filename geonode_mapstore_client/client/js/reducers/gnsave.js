@@ -34,11 +34,11 @@ function gnsave(state = defaultState, action) {
             success: undefined
         };
     }
-    case SET_MAP_THUMBNAIL:{
-            return {
-                savingThumbnailMap: true,
-            };
-        }
+    case SET_MAP_THUMBNAIL: {
+        return {
+            savingThumbnailMap: true
+        };
+    }
     case SAVE_SUCCESS: {
         return {
             success: action.success,
