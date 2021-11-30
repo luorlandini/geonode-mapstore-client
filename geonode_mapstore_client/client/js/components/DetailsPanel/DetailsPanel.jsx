@@ -22,14 +22,11 @@ import debounce from 'lodash/debounce';
 import CopyToClipboardCmp from 'react-copy-to-clipboard';
 import { TextEditable, ThumbnailEditable } from '@js/components/ContentsEditable/';
 import ResourceStatus from '@js/components/ResourceStatus/';
-<<<<<<< HEAD
 import turfBbox from '@turf/bbox';
 import BaseMap from '@mapstore/framework/components/map/BaseMap';
 import mapTypeHOC from '@mapstore/framework/components/map/enhancers/mapType';
 import { boundsToExtentString } from '@js/utils/CoordinatesUtils';
-=======
 import AuthorInfo from '@js/components/AuthorInfo/AuthorInfo';
->>>>>>> upstream/master
 
 const Map = mapTypeHOC(BaseMap);
 Map.displayName = 'Map';
@@ -129,7 +126,6 @@ const DefinitionListMoreItem = ({itemslist, extraItemsList}) => {
     );
 };
 
-<<<<<<< HEAD
 function getExtent({
     features,
     layers
@@ -216,7 +212,6 @@ const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose }
 };
 
 
-=======
 const extractResourceString = (res) => {
     const resourceFirstLetter = res?.charAt(0).toUpperCase();
     const restOfResourceLetters = res?.slice(1);
@@ -225,7 +220,6 @@ const extractResourceString = (res) => {
 
 };
 
->>>>>>> upstream/master
 function DetailsPanel({
     resource,
     formatHref,
