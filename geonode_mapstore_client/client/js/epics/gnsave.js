@@ -199,7 +199,7 @@ export const gnSetMapThumbnail = (action$, store) =>
                         errorNotification({title: "gnviewer.thumbnailnotsaved", message: "gnviewer.thumbnailnotsaved"})
                     );
                 })
-                .startWith(savingResource());
+                .startWith();
         });
 export const gnSaveDirectContent = (action$, store) =>
     action$.ofType(SAVE_DIRECT_CONTENT)

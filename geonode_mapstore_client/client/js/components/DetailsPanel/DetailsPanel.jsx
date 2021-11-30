@@ -27,6 +27,7 @@ import BaseMap from '@mapstore/framework/components/map/BaseMap';
 import mapTypeHOC from '@mapstore/framework/components/map/enhancers/mapType';
 import { boundsToExtentString } from '@js/utils/CoordinatesUtils';
 import AuthorInfo from '@js/components/AuthorInfo/AuthorInfo';
+import Loader from '@mapstore/framework/components/misc/Loader';
 
 const Map = mapTypeHOC(BaseMap);
 Map.displayName = 'Map';
@@ -142,7 +143,10 @@ function getExtent({
     return null;
 }
 
-const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose } ) => {
+const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose, savingThumbnailMap } ) => {
+
+    console.log('savingThumbnailMap')
+    console.log(savingThumbnailMap)
 
     const [currentExtent, setCurrentExtent] = useState();
     const [currentBbox, setCurrentBbox] = useState();
@@ -201,8 +205,17 @@ const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose }
                     ]}
                 >
                 </Map>
+                {savingThumbnailMap && <div
+                    style={{
+                        position: 'absolute', width: '100%',
+                        height: '100%', backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                        top: '0px', zIndex: 2000, display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', right: '0px'
+                    }}>
 
-
+                    <Loader size={150} />
+                </div>
+                }
             </div>
             <div className="gn-detail-extent-action" >
                 <Button onClick={() => onMapThumbnail(currentBbox)} >Save</Button><Button onClick={() => onClose() }>Close</Button></div>
@@ -236,6 +249,7 @@ function DetailsPanel({
     onFavorite,
     enableFavorite,
     onMapThumbnail,
+    savingThumbnailMap,
     layers
 }) {
     const detailsContainerNode = useRef();
@@ -544,7 +558,12 @@ function DetailsPanel({
                                 <FaIcon name="map" />
 
                             </MapThumbnailButtonToolTip></>
-                                : <MapThumbnailView layers={layers} onMapThumbnail={onMapThumbnail} onClose={handleEnableMapViewer} />
+                                : <MapThumbnailView
+                                    layers={layers}
+                                    onMapThumbnail={onMapThumbnail}
+                                    onClose={handleEnableMapViewer}
+                                    savingThumbnailMap={savingThumbnailMap}
+                                    />
 
                             }
 

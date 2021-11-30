@@ -43,11 +43,13 @@ const ConnectedDetailsPanel = connect(
         state => state?.gnresource?.data || null,
         state => state?.gnresource?.loading || false,
         state => state?.gnresource?.data?.favorite || false,
+        state => state?.gnsave?.savingThumbnailMap || false,
         layersSelector
-    ], (resource, loading, favorite, layers) => ({
+    ], (resource, loading, favorite, savingThumbnailMap, layers) => ({
         layers: layers,
         resource,
         loading,
+        savingThumbnailMap,
         favorite
     })),
     {
