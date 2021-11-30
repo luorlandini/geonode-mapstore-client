@@ -215,7 +215,7 @@ const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose, 
                 }
             </div>
             <div className="gn-detail-extent-action" >
-                <Button onClick={() => onMapThumbnail(currentBbox)} >Save</Button><Button onClick={() => onClose() }>Close</Button></div>
+                <Button onClick={() => onMapThumbnail(currentBbox)} ><Message msgId={"gnviewer.save"} /></Button><Button onClick={() => onClose() }><Message msgId={"gnviewer.close"} /></Button></div>
         </div>
     );
 
