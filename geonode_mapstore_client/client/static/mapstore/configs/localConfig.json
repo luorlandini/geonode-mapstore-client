@@ -140,6 +140,15 @@
                             "authenticated": true
                         },
                         {
+                            "id": "unpublished",
+                            "labelId": "gnhome.unpublished",
+                            "type": "filter",
+                            "query": {
+                                "filter{unpublished}": false
+                            },
+                            "authenticated": true
+                        },
+                        {
                             "id": "dataset",
                             "labelId": "gnhome.datasets",
                             "type": "filter",
