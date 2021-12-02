@@ -22,7 +22,6 @@ import {
 import controls from '@mapstore/framework/reducers/controls';
 import { setControlProperty } from '@mapstore/framework/actions/controls';
 import gnresource from '@js/reducers/gnresource';
-import Message from '@mapstore/framework/components/I18N/Message';
 import {
     canEditResource,
     isNewResource,
@@ -59,39 +58,35 @@ const ConnectedDetailsPanel = connect(
     }
 )(DetailsPanel);
 
-const ButtonViewer = ({
-    onClick,
-    hide,
-    variant,
-    size
-}) => {
-
+const ButtonViewer = ({ onClick, hide, variant, size }) => {
     const handleClickButton = () => {
         onClick();
     };
 
-    return !hide
-        ? (<Button
+    return !hide ? (
+        <Button
             variant={variant}
             size={size}
             onClick={handleClickButton}
-        > <Message msgId="gnviewer.info"/>
-        </Button>)
-        : null
-    ;
+        >
+            <FaIcon name="info-circle" />
+        </Button>
+    ) : null;
 };
 
 const ConnectedButton = connect(
-    createSelector([
-        isNewResource,
-        getResourceId
-    ],
-    (isNew, resourcePk) => ({
+    createSelector([isNewResource, getResourceId], (isNew, resourcePk) => ({
         hide: isNew || !resourcePk
     })),
     {
-        onClick: setControlProperty.bind(null, 'rightOverlay', 'enabled', 'DetailViewer')
+        onClick: setControlProperty.bind(
+            null,
+            'rightOverlay',
+            'enabled',
+            'DetailViewer'
+        )
     }
+<<<<<<< HEAD
 )((ButtonViewer));
 
 
@@ -108,6 +103,31 @@ function DetailViewer({
     onClose
 }) {
 
+=======
+)(ButtonViewer);
+
+function DetailViewer(
+    {
+        items,
+        location,
+        enabled,
+        onEditResource,
+        onEditAbstractResource,
+        onEditThumbnail,
+        canEdit,
+        width,
+        hide,
+        user,
+        onClose
+    },
+    context
+) {
+    const { loadedPlugins } = context;
+    const configuredItems = usePluginItems({ items, loadedPlugins });
+    const buttonSaveThumbnailMap = configuredItems
+        .filter(({ name }) => name === 'MapThumbnail')
+        .map(({ Component, name }) => <Component key={name} />);
+>>>>>>> upstream/master
 
     const handleTitleValue = (val) => {
         onEditResource(val);
@@ -167,18 +187,22 @@ DetailViewer.defaultProps = {
 };
 
 const DetailViewerPlugin = connect(
-    createSelector([
-        state => state?.controls?.rightOverlay?.enabled === 'DetailViewer',
-        canEditResource,
-        isNewResource,
-        getResourceId,
-        userSelector
-    ], (enabled, canEdit, isNew, resourcePk, user) => ({
-        enabled,
-        canEdit,
-        hide: isNew || !resourcePk,
-        user
-    })),
+    createSelector(
+        [
+            (state) =>
+                state?.controls?.rightOverlay?.enabled === 'DetailViewer',
+            canEditResource,
+            isNewResource,
+            getResourceId,
+            userSelector
+        ],
+        (enabled, canEdit, isNew, resourcePk, user) => ({
+            enabled,
+            canEdit,
+            hide: isNew || !resourcePk,
+            user
+        })
+    ),
     {
         onEditResource: editTitleResource,
         onEditAbstractResource: editAbstractResource,
@@ -186,7 +210,6 @@ const DetailViewerPlugin = connect(
         onClose: setControlProperty.bind(null, 'rightOverlay', 'enabled', false)
     }
 )(withRouter(DetailViewer));
-
 
 export default createPlugin('DetailViewer', {
     component: DetailViewerPlugin,
