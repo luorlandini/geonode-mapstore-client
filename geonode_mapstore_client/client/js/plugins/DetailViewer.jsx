@@ -19,6 +19,7 @@ import {
     setFavoriteResource,
     setMapThumbnail
 } from '@js/actions/gnresource';
+import FaIcon from '@js/components/FaIcon/FaIcon';
 import controls from '@mapstore/framework/reducers/controls';
 import { setControlProperty } from '@mapstore/framework/actions/controls';
 import gnresource from '@js/reducers/gnresource';
