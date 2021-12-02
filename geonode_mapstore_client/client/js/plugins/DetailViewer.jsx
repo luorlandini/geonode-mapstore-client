@@ -86,7 +86,6 @@ const ConnectedButton = connect(
             'DetailViewer'
         )
     }
-<<<<<<< HEAD
 )((ButtonViewer));
 
 
@@ -103,31 +102,6 @@ function DetailViewer({
     onClose
 }) {
 
-=======
-)(ButtonViewer);
-
-function DetailViewer(
-    {
-        items,
-        location,
-        enabled,
-        onEditResource,
-        onEditAbstractResource,
-        onEditThumbnail,
-        canEdit,
-        width,
-        hide,
-        user,
-        onClose
-    },
-    context
-) {
-    const { loadedPlugins } = context;
-    const configuredItems = usePluginItems({ items, loadedPlugins });
-    const buttonSaveThumbnailMap = configuredItems
-        .filter(({ name }) => name === 'MapThumbnail')
-        .map(({ Component, name }) => <Component key={name} />);
->>>>>>> upstream/master
 
     const handleTitleValue = (val) => {
         onEditResource(val);
