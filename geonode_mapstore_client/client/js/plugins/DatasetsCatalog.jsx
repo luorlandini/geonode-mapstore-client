@@ -46,7 +46,6 @@ function DatasetsCatalog({
 }) {
 
     const scrollContainer = useRef();
-    const itemInCatalog = useRef();
     const [entries, setEntries] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
@@ -147,7 +146,7 @@ function DatasetsCatalog({
             <ul className="gn-datasets-catalog-list" >
                 {entries.map((entry) => {
                     return (
-                        <li ref={itemInCatalog} key={entry.pk}>
+                        <li key={entry.pk}>
                             <ResourceCard
                                 data={entry}
                                 readOnly
