@@ -25,7 +25,7 @@ import ResourceStatus from '@js/components/ResourceStatus/';
 import turfBbox from '@turf/bbox';
 import BaseMap from '@mapstore/framework/components/map/BaseMap';
 import mapTypeHOC from '@mapstore/framework/components/map/enhancers/mapType';
-import { boundsToExtentString } from '@js/utils/CoordinatesUtils';
+import { boundsToExtentString, getFeatureFromExtent } from '@js/utils/CoordinatesUtils';
 import AuthorInfo from '@js/components/AuthorInfo/AuthorInfo';
 import Loader from '@mapstore/framework/components/misc/Loader';
 
@@ -151,14 +151,13 @@ const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose, 
     function handleOnMapViewChanges(center, zoom, bbox) {
         const { bounds, crs } = bbox;
         const newExtent = boundsToExtentString(bounds, crs);
-        // map triggers two move end event on mount
         setCurrentBbox(bbox);
         setCurrentExtent(newExtent);
     }
 
     const [extent] = useState(getExtent({ layers, features: featuresProp }));
 
-    const featureFromExtent = currentExtent ? currentExtent : extent.join();
+    const featureFromExtent = currentExtent ? currentExtent : extent?.join();
 
     return (
         <div>
@@ -178,7 +177,6 @@ const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose, 
                         height: '100%'
                     }}
                     eventHandlers={{
-                    // onMapViewChanges: handleOnMapViewChanges
                         onMapViewChanges: handleOnMapViewChanges
                     }}
                     layers={[
@@ -187,8 +185,7 @@ const MapThumbnailView = ({ layers, featuresProp = [], onMapThumbnail, onClose, 
                             ? [{
                                 id: 'highlight',
                                 type: 'vector',
-                                // features: [getFeatureFromExtent(featureFromExtent)],
-                                features: [],
+                                features: [getFeatureFromExtent(featureFromExtent)],
                                 style: {
                                     color: '#397AAB',
                                     opacity: 0.8,
