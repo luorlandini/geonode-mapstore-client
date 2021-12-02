@@ -64,8 +64,8 @@ function DatasetsCatalog({
     const updateRequest = useRef();
     updateRequest.current = (options) => {
         if (!loading && request) {
-            if (scrollContainer.current) {
-                scrollContainer.current.scrollTop += itemInCatalog?.current?.offsetHeight / 2;
+            if (scrollContainer.current && options.reset) {
+                scrollContainer.current.scrollTop = 0;
             }
 
             setLoading(true);
