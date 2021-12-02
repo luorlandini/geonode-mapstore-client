@@ -30,7 +30,7 @@ import localizedProps from '@mapstore/framework/components/misc/enhancers/locali
 const FormControl = localizedProps('placeholder')(FormControlRB);
 
 function InputControl({ onChange, value, ...props }) {
-    return <FormControl {...props} value={value} onChange={event => onChange(event.target.value)}/>;
+    return <FormControl {...props} value={value} onChange={event => onChange(event.target.value)} />;
 }
 
 const InputControlWithDebounce = withDebounceOnCallback('onChange', 'value')(InputControl);
@@ -61,13 +61,11 @@ function DatasetsCatalog({
             setPage(page + 1);
         }
     });
-
     const updateRequest = useRef();
     updateRequest.current = (options) => {
         if (!loading && request) {
-
             if (scrollContainer.current) {
-                scrollContainer.current.scrollTop += itemInCatalog?.current?.offsetHeight/2;
+                scrollContainer.current.scrollTop += itemInCatalog?.current?.offsetHeight / 2;
             }
 
             setLoading(true);
@@ -116,7 +114,7 @@ function DatasetsCatalog({
         const layer = resourceToLayerConfig(entry);
         onAdd(layer);
         const { minx, miny, maxx, maxy } = layer?.bbox?.bounds || {};
-        const extent = layer?.bbox?.bounds && [ minx, miny, maxx, maxy ];
+        const extent = layer?.bbox?.bounds && [minx, miny, maxx, maxy];
         if (extent) {
             onZoomTo(extent, layer?.bbox?.crs);
         }
@@ -127,9 +125,9 @@ function DatasetsCatalog({
         style={style}
     >
         <div className="gn-datasets-catalog-head">
-            <div className="gn-datasets-catalog-title"><Message msgId="gnviewer.datasetsCatalogTitle"/></div>
+            <div className="gn-datasets-catalog-title"><Message msgId="gnviewer.datasetsCatalogTitle" /></div>
             <Button className="square-button" onClick={() => onClose()}>
-                <Glyphicon glyph="1-close"/>
+                <Glyphicon glyph="1-close" />
             </Button>
         </div>
         <div className="gn-datasets-catalog-filter">
@@ -140,7 +138,7 @@ function DatasetsCatalog({
                 onChange={(value) => setQ(value)}
             />
             {(q && !loading) && <Button onClick={() => setQ('')}>
-                <FaIcon name="times"/>
+                <FaIcon name="times" />
             </Button>}
             {loading && <Spinner />}
         </div>
@@ -181,7 +179,7 @@ function DatasetsCatalog({
                     justifyContent: 'center'
                 }}
             >
-                <Loader size={70}/>
+                <Loader size={70} />
             </div>}
         </div>
     </div>);
@@ -201,13 +199,13 @@ DatasetsCatalog.defaultProps = {
     request: getDatasets,
     responseToEntries: res => res.resources,
     pageSize: 10,
-    onAdd: () => {},
+    onAdd: () => { },
     placeholderId: 'gnviewer.datasetsCatalogFilterPlaceholder',
-    onZoomTo: () => {},
-    onClose: () => {}
+    onZoomTo: () => { },
+    onClose: () => { }
 };
 
-function DatasetsCatalogPlugin({ enabled, ...props}) {
+function DatasetsCatalogPlugin({ enabled, ...props }) {
     return enabled ? <DatasetsCatalog {...props} /> : null;
 }
 
@@ -239,7 +237,7 @@ const DatasetsCatalogButton = ({
             size={size}
             onClick={handleClickButton}
         >
-            <Message msgId="gnviewer.addLayer"/>
+            <Message msgId="gnviewer.addLayer" />
         </Button>
     );
 };
