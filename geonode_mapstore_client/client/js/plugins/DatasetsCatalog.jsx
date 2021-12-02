@@ -69,7 +69,6 @@ function DatasetsCatalog({
             }
 
             setLoading(true);
-            scrollContainer.current.style.overflowY = 'hidden';
             request({
                 q,
                 page: options.page,
@@ -81,7 +80,6 @@ function DatasetsCatalog({
                         setIsNextPageAvailable(response.isNextPageAvailable);
                         setEntries(options.page === 1 ? newEntries : [...entries, ...newEntries]);
                         setLoading(false);
-                        scrollContainer.current.style.overflowY = 'scroll';
                     }
                 })
                 .catch(() => {
@@ -165,23 +163,25 @@ function DatasetsCatalog({
                     </div>
                 }
             </ul>
-            {loading && <div
-                style={{
-                    position: 'absolute',
-                    top: scrollContainer.current.scrollTop,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    zIndex: 2,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}
-            >
-                <Loader size={70} />
-            </div>}
+
         </div>
+        {loading && <div
+        style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            zIndex: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }}
+    >
+        <Loader size={70} />
+    </div>}
+
     </div>);
 }
 
