@@ -46,6 +46,7 @@ function DatasetsCatalog({
 }) {
 
     const scrollContainer = useRef();
+    const itemInCatalog = useRef();
     const [entries, setEntries] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
@@ -64,10 +65,13 @@ function DatasetsCatalog({
     const updateRequest = useRef();
     updateRequest.current = (options) => {
         if (!loading && request) {
+
             if (scrollContainer.current) {
-                scrollContainer.current.scrollTop = 0;
+                scrollContainer.current.scrollTop += itemInCatalog?.current?.offsetHeight/2;
             }
+
             setLoading(true);
+            scrollContainer.current.style.overflowY = 'hidden';
             request({
                 q,
                 page: options.page,
@@ -79,6 +83,7 @@ function DatasetsCatalog({
                         setIsNextPageAvailable(response.isNextPageAvailable);
                         setEntries(options.page === 1 ? newEntries : [...entries, ...newEntries]);
                         setLoading(false);
+                        scrollContainer.current.style.overflowY = 'scroll';
                     }
                 })
                 .catch(() => {
@@ -146,7 +151,7 @@ function DatasetsCatalog({
             <ul className="gn-datasets-catalog-list" >
                 {entries.map((entry) => {
                     return (
-                        <li key={entry.pk}>
+                        <li ref={itemInCatalog} key={entry.pk}>
                             <ResourceCard
                                 data={entry}
                                 readOnly
@@ -165,7 +170,7 @@ function DatasetsCatalog({
             {loading && <div
                 style={{
                     position: 'absolute',
-                    top: 0,
+                    top: scrollContainer.current.scrollTop,
                     left: 0,
                     width: '100%',
                     height: '100%',
